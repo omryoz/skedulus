@@ -1,0 +1,56 @@
+<?php
+/* Manage Home Controller */
+class Home extends CI_Controller {
+	function __construct(){
+		parent::__construct();
+		$this->load->helper('form');
+		$this->load->library('parser');
+		$this->load->library('email');
+		$this->load->model('home_model');
+		$this->data['bodyclass']='index';
+    }
+	
+	public function index() {
+	$this->parser->parse('include/header',$this->data);
+	$this->parser->parse('general/home',$this->data);
+	$this->parser->parse('include/footer',$this->data);
+	}
+	
+	public function signup(){
+		if(isset($_GET['success'])){
+		$this->home_model->insertinfo();
+		//$this->account_activation();
+		}
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->load->view('general/signup');
+		
+	}
+	
+	public function account_activation(){
+	    $config['protocol']    = 'smtp';
+        $config['smtp_host']    = 'ssl://smtp.googlemail.com';
+        $config['smtp_port']    = '465';
+        $config['smtp_user']    = '';
+        $config['smtp_pass']    = '';
+        $config['charset']    = 'utf-8';
+        $config['newline']    = "\r\n";
+        $config['mailtype'] = 'text'; // or html
+        $this->email->initialize($config);
+        $this->email->from('swathinreddy22@gmail.com', 'myname');
+        $this->email->to('swathi.n@eulogik.com'); 
+
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');  
+
+        $this->email->send();
+
+        echo $this->email->print_debugger();
+
+        //$this->load->view('email_view');
+		
+	}
+	
+	
+}
+
+?>

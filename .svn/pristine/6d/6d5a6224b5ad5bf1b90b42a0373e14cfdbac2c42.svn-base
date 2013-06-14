@@ -1,0 +1,38 @@
+<?php
+/* Manage Business registration Controller */
+class Staffs extends CI_Controller {
+	function __construct(){
+		parent::__construct();
+		$this->load->helper('form');
+		$this->load->library('parser');
+		$this->load->model('bprofile_model');
+		$this->load->model('common_model');
+		$this->load->library('form_validation');
+		$this->data['bodyclass']='index';
+    }
+	
+	public function list_staffs(){
+	 $this->parser->parse('include/header_login',$this->data);
+	 $this->data['tableList']=$this->bprofile_model->getStaffs();
+	 $this->parser->parse('staffs',$this->data);
+	 $this->parser->parse('include/footer',$this->data);
+	
+	}
+	
+	public function manage_staffs(){
+		if(isset($_GET['insert'])){ 
+			$id=$this->bprofile_model->insertStaffs();
+			redirect('staffs/list_staffs');
+		 }
+		 if(isset($_GET['id'])){
+			$val= $this->bprofile_model->getStaffdetails();
+			echo($val);
+		 }
+		 if(isset($_GET['delete'])){
+		 $val= $this->common_model->deleteRow("users",$_GET['id']);
+		 echo $val;
+		 }
+	}	
+}
+
+?>

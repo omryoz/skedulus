@@ -1,0 +1,43 @@
+<?php
+/* Manage Business registration Controller */
+class Business_registration extends CI_Controller {
+	function __construct(){
+		parent::__construct();
+		$this->load->helper('form');
+		$this->load->library('parser');
+		$this->load->model('businessregistration_model');
+		$this->load->model('common_model');
+		$this->data['bodyclass']='index';
+		
+    }
+	
+	public function index() {
+		$this->parser->parse('include/header_login',$this->data);
+		$this->parser->parse('business_registration',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
+	
+	public function basicinfo(){
+		$Category=$this->common_model->getDDArray('category','id','name');
+		$Category['-1']=" Select Category";
+		$this->data['getCategory']=$Category;
+		if(isset($_GET['success'])){
+		$id=$this->businessregistration_model->insertBasicInfo();
+		$this->services($id);
+		}else{
+		$this->parser->parse('include/header',$this->data);
+		$this->parser->parse('basicinfo',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+		}
+	}
+	
+	// public function services(id){
+		// $this->parser->parse('include/header',$this->data);
+		// $this->viewContent['serviceList']=$this->businessregistration_model->getservicelist(id);
+		// $this->parser->parse('services',$this->data);
+		// $this->parser->parse('include/footer',$this->data);
+	// }
+	
+}
+
+?>

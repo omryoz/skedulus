@@ -1,0 +1,49 @@
+<?php
+/* Manage Business registration Controller */
+class Basicinfo extends CI_Controller {
+	function __construct(){
+		parent::__construct();
+		$this->load->helper('form');
+		$this->load->library('parser');
+		$this->load->model('basicinfo_model');
+		$this->load->model('common_model');
+		$this->load->library('form_validation');
+		$this->data['bodyclass']='index';
+    }
+	
+	
+	public function index(){
+		$Category=$this->common_model->getDDArray('category','id','name');
+		$Category['-1']=" Select Category";
+		$this->data['getCategory']=$Category;
+		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+		
+		if(isset($_GET['checkinfo'])){
+		 $validation = array(
+                    array('field' => 'category','class'=>'required' , 'label' => 'Category', 'rules' => 'required'),
+					array('field' => 'name', 'label' => 'Business name', 'rules' => 'required'),
+					array('field' => 'description', 'label' => 'Description', 'rules' => 'required'),
+					array('field' => 'address', 'label' => 'Address', 'rules' => 'required'),
+					array('field' => 'mobile', 'label' => 'Mobile', 'rules' => 'required|max_length[15]|numeric'),
+					array('field' => 'calendar', 'label' => 'calendar', 'rules' => 'required'),
+                );
+		 $this->form_validation->set_rules($validation);
+		 if ($this->form_validation->run() == TRUE) {
+		    $this->data['reset'] = TRUE;  
+			$id=$this->basicinfo_model->insertBasicInfo();
+		    //$this->services();
+			redirect('services/list_services/?register');
+		 }else{
+		 $invalid="invalid";
+		 }
+		}
+		$this->data['reset'] = FALSE;
+		$this->parser->parse('include/header',$this->data);
+		$this->parser->parse('include/registration_navbar',$this->data);
+		$this->parser->parse('basicinfo',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
+	
+}
+
+?>
