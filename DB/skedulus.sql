@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 05, 2013 at 07:22 AM
+-- Generation Time: Jun 14, 2013 at 12:49 PM
 -- Server version: 5.5.27
 -- PHP Version: 5.4.7
 
@@ -50,14 +50,6 @@ CREATE TABLE IF NOT EXISTS `business_employees` (
   KEY `user_business_details_id` (`user_business_details_id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=24 ;
-
---
--- Dumping data for table `business_employees`
---
-
-INSERT INTO `business_employees` (`id`, `user_business_details_id`, `users_id`, `employee_type`) VALUES
-(22, 30, 130, 'employee'),
-(23, 30, 131, 'employee');
 
 -- --------------------------------------------------------
 
@@ -204,13 +196,6 @@ CREATE TABLE IF NOT EXISTS `client_service_appointments` (
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Dumping data for table `client_service_appointments`
---
-
-INSERT INTO `client_service_appointments` (`id`, `users_id`, `start_time`, `end_time`, `services_id`, `employee_id`, `note`, `status`) VALUES
-(1, 69, '2013-05-25 08:30:00', '2013-05-25 12:00:00', '79', 0, 'here', 'booked');
 
 -- --------------------------------------------------------
 
@@ -451,53 +436,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `user_role`, `email`, `password`, `first_name`, `last_name`, `phone_number`, `gender`, `date_of_birth`, `about_me`, `image`, `status`, `activationkey`, `createdOn`) VALUES
-(69, 'manager', 'aa@gmail.com', '4124bc0a9335c27f086f24ba207a4912', 'aa', 'aa', 0, 'male', '1971-09-14', '', '', 'active', '68bdd623694ef981495ed163a72e70e4', '0000-00-00 00:00:00'),
-(113, 'employee', 'asdas@gmail.com', '', 'sdsad', 'sdas', 0, 'male', '0000-00-00', '', '', 'inactive', '7d3e8009292c14c348c4beefb06794f8', '0000-00-00 00:00:00'),
-(114, 'employee', 'sdfds@gmail.com', '', 'sssstupdateednow', 's', 0, 'male', '0000-00-00', '', '', 'inactive', '6596724e4bb415d5d95e379e424f6946', '0000-00-00 00:00:00'),
-(115, 'employee', 'aa@gmail.com', '', 'aa', 'aa', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '716c34457c2bb8e197546904b7ef2b0e', '0000-00-00 00:00:00'),
-(116, 'employee', 'staff@gmail.com', '', 'staff1 updated', 'sadsa', 4242423, 'male', '0000-00-00', '', '', 'inactive', 'ed2a636782ca2262cec78a5c4593bd39', '0000-00-00 00:00:00'),
-(117, 'employee', '', '', '', '', 0, 'male', '0000-00-00', '', '', 'inactive', 'b4ad1bf0e411cb7166d8304f6eb1e99f', '0000-00-00 00:00:00'),
-(119, 'employee', 'cc@gmail.com', '', 'timie', 'timie', 2147483647, 'male', '0000-00-00', '', '', 'inactive', 'f38269dbb83ae54220cf6df7192ec8f9', '0000-00-00 00:00:00'),
-(121, 'employee', 'sad@gmail.com', '', 'satr', 'day', 435543, 'male', '0000-00-00', '', '', 'inactive', '73128657a6c089a31c56e4fa79bad4d3', '0000-00-00 00:00:00'),
-(122, 'employee', 'sdfsd@gmail.como', '', 'fsdfsd', 'dsfsf', 45354354, 'male', '0000-00-00', '', '', 'inactive', 'cc062fbee6546d12b748c6cb3faddbd6', '0000-00-00 00:00:00'),
-(123, 'employee', 'dfds@gmail.com', '', 'dfsf', 'sdfsdf', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '4c23d444fd210c98a0645167eb1f04cd', '0000-00-00 00:00:00'),
 (126, 'employee', 'swathinreddy@yahoo.co.insds', '', 'fsfsdfsdf--- enjoy', 'dsfsdfd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '4ea333f2ecb2357c5274bfc050e04378', '0000-00-00 00:00:00'),
-(127, 'employee', 'gfdgdgdg', '', 'ggdfgdfgdfg', '', 0, 'male', '0000-00-00', '', '', 'inactive', '7938369d98f30b88f80d15f617e29f11', '0000-00-00 00:00:00'),
-(128, 'employee', 'aa@gmail.comjhkkhjk', '', 'hfgh', 'ghfgh', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '96245bad571d18ec7b6d3fac4cff15d6', '0000-00-00 00:00:00'),
-(129, 'manager', 'ff@gmail.com', '21b8adf19ee3ef88e8d01eca8f74de64', 'ffffffffffff', 'ffffffff', 0, 'female', '1970-01-01', '', '', 'active', '533d7d9a5341068c4729f0312016c176', '0000-00-00 00:00:00'),
-(130, 'employee', 'aa@gmail.comddasdad', '', 'fghfghfghqqqqqq', 'hgfhfghdfsfs', 2147483647, 'male', '0000-00-00', '', '', 'inactive', 'c35338527208730505f1e5e22c83165b', '0000-00-00 00:00:00'),
-(131, 'employee', 'aa@gmail.csadsadasdads', '', 'sdsadsa', 'sdasdasd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '939a863073db839b19e2066677457ee8', '0000-00-00 00:00:00'),
-(134, 'client', 'qqqqqqq@gmial.omc', '', 'qqqqqqqq', 'qqqq', 2147483647, 'male', '0000-00-00', '', '', 'active', '', '0000-00-00 00:00:00'),
 (136, 'client', 'client@gmail.com', '62608e08adc29a8d6dbc9754e659f125', 'clinet', 'uuuuu', 2147483647, 'male', '0000-00-00', '', '', 'active', '', '0000-00-00 00:00:00'),
-(137, 'manager', 'businessmen@gmail.com', 'e6072e821b6854ced4d8fd40319c4846', 'businessmen', 'businessmen', 0, 'male', '1980-01-18', '', '', 'inactive', '8f2e695699b44b8e86d3106f6fd276d3', '0000-00-00 00:00:00'),
-(138, 'manager', 'businessmen@gmail.com', 'e6072e821b6854ced4d8fd40319c4846', 'businessmen', 'businessmen', 0, 'male', '1980-01-18', '', '', 'active', '93618191e3cd411c0bf988edaac25aa9', '0000-00-00 00:00:00'),
-(139, 'client', 'client1@gmail.com', '62608e08adc29a8d6dbc9754e659f125', 'client1', 'client1', 0, 'male', '1979-02-18', '', '', 'active', '0', '0000-00-00 00:00:00'),
-(140, 'client', 'client2@gmail.com', '2c66045d4e4a90814ce9280272e510ec', 'client2', 'client2', 0, 'female', '2064-02-03', '', '', 'active', '0', '2013-05-23 08:45:21'),
-(141, 'employee', 'staffhfghfghgfhfg@gmail.com', '', 'staff1', 'staff2', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '939f03461700b15025bb308e78f24816', '0000-00-00 00:00:00'),
-(142, 'employee', 'ddd@gmail.com', '', 'dddddddddd', 'ddd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '58b64851025f33df8b408fa5a69d114e', '0000-00-00 00:00:00'),
-(143, 'employee', 'ddd@gmail.comfgdfgdfg', '', 'dddddddddd', 'ddd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', 'b3976bf5b826437b339f40a663e82e1f', '0000-00-00 00:00:00'),
-(144, 'employee', 'ddd@gmail.comfgdfgdfg', '', 'dddddddddd', 'ddd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', '6c4c4b95cb9e7f1e2e63a0f7bdc191d3', '0000-00-00 00:00:00'),
-(145, 'employee', 'swathinreddy@yahoo.co.in', '', 'asdasd', 'sdasd', 2147483647, 'male', '0000-00-00', '', '', 'inactive', 'd06d5f023562b40bd74450cd096289a5', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users_details`
---
-
-CREATE TABLE IF NOT EXISTS `users_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(50) NOT NULL,
-  `first_name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `last_name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `phone_number` int(15) NOT NULL,
-  `gender` enum('male','female') CHARACTER SET latin1 NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `about_me` varchar(512) CHARACTER SET latin1 NOT NULL,
-  `image` varchar(100) CHARACTER SET latin1 NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `users_id` (`users_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+(138, 'manager', 'businessmen@gmail.com', 'e6072e821b6854ced4d8fd40319c4846', 'businessmen', 'businessmen', 0, 'male', '1980-01-18', '', '', 'active', '93618191e3cd411c0bf988edaac25aa9', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -518,22 +459,6 @@ CREATE TABLE IF NOT EXISTS `user_business_availability` (
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=278 ;
-
---
--- Dumping data for table `user_business_availability`
---
-
-INSERT INTO `user_business_availability` (`id`, `user_business_details_id`, `users_id`, `type`, `weekid`, `start_time`, `end_time`, `lunch_start_time`, `lunch_end_time`) VALUES
-(252, 30, 0, 'employee', 1, '15:00:00', '15:00:00', '00:00:00', '00:00:00'),
-(253, 30, 0, 'employee', 3, '15:00:00', '15:00:00', '00:00:00', '00:00:00'),
-(254, 30, 0, 'employee', 5, '15:00:00', '15:00:00', '00:00:00', '00:00:00'),
-(255, 30, 0, 'employee', 7, '15:00:00', '15:00:00', '00:00:00', '00:00:00'),
-(264, 30, 130, 'employee', 1, '15:15:00', '15:15:00', '00:00:00', '00:00:00'),
-(265, 30, 130, 'employee', 5, '15:15:00', '15:15:00', '00:00:00', '00:00:00'),
-(274, 30, 131, 'employee', 1, '07:15:00', '15:15:00', '15:15:00', '15:15:00'),
-(275, 30, 131, 'employee', 2, '06:15:00', '15:15:00', '15:15:00', '15:15:00'),
-(276, 30, 131, 'employee', 3, '15:15:00', '15:15:00', '15:15:00', '15:15:00'),
-(277, 30, 131, 'employee', 4, '15:15:00', '15:15:00', '15:15:00', '15:15:00');
 
 -- --------------------------------------------------------
 
@@ -579,13 +504,6 @@ CREATE TABLE IF NOT EXISTS `user_business_details` (
   KEY `category_id` (`category_id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
-
---
--- Dumping data for table `user_business_details`
---
-
-INSERT INTO `user_business_details` (`id`, `category_id`, `users_id`, `name`, `image`, `description`, `mobile_number`, `address`, `business_type`, `map_latitude`, `map_longitude`, `calendar_type`) VALUES
-(30, 1, 129, 'asasasa', '', 'ddddddddddd', '234234234234234', '', 'service', '31.046051', '34.85161199999993', 1);
 
 -- --------------------------------------------------------
 
@@ -648,15 +566,6 @@ CREATE TABLE IF NOT EXISTS `user_business_services` (
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=75 ;
 
---
--- Dumping data for table `user_business_services`
---
-
-INSERT INTO `user_business_services` (`id`, `user_business_details_id`, `name`, `price_type`, `price`, `timelength`, `time_type`, `padding_time`, `padding_time_type`, `details`) VALUES
-(71, 30, 'service12', 'fixed', 3232, 12, 'hours', 23, '', 'dcvdcvxcvxcvxc'),
-(73, 30, 'hhhfgfghfgh', 'fixed', 6464, 56, 'minutes', 0, '', 'vcvbcvbcv'),
-(74, 30, 'rrrrrrrraaaaa', 'fixed', 3423, 33, 'minutes', 0, '', 'sdfsdsfs');
-
 -- --------------------------------------------------------
 
 --
@@ -682,13 +591,6 @@ CREATE TABLE IF NOT EXISTS `user_business_subscription` (
 --
 
 INSERT INTO `user_business_subscription` (`id`, `version_type`, `subscription_id`, `users_id`, `start_date`, `status`, `balance_amount`, `end_date`) VALUES
-(2, 'free', 3, 69, '2013-05-13', 'active', '', '2013-06-13'),
-(3, 'free', 1, 69, '2013-05-13', 'active', '', '2013-06-13'),
-(4, 'free', 1, 69, '2013-05-13', 'active', '', '2013-06-13'),
-(5, 'free', 1, 69, '2013-05-13', 'active', '', '2013-06-13'),
-(6, 'free', 2, 69, '2013-05-14', 'active', '', '2013-06-14'),
-(7, 'free', 2, 69, '2013-05-14', 'active', '', '2013-06-14'),
-(12, 'free', 3, 129, '2013-05-16', 'active', '', '2013-06-16'),
 (13, 'free', 1, 138, '2013-05-31', 'active', '', '2013-07-01');
 
 -- --------------------------------------------------------
@@ -929,12 +831,6 @@ ALTER TABLE `photo_likes_comments`
 --
 ALTER TABLE `subscription_features`
   ADD CONSTRAINT `subscription_features_ibfk_1` FOREIGN KEY (`subscription_id`) REFERENCES `subscription` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `users_details`
---
-ALTER TABLE `users_details`
-  ADD CONSTRAINT `users_details_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `user_business_availability`
