@@ -20,13 +20,14 @@ class deleteevent
 	{
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		  
-		 $eventId=$this->queryVars['eventId']; 
+		$eventId=$this->queryVars['eventId']; 
 		$input=array();
 		
-		$input['name']=$name; 
+		//$input['name']=$name; 
 		$input['eventId']=$eventId; 
-		$db->query("delete from events  where event_id=".$eventId);
-		 
+		$db->query("delete from client_service_appointments  where id=".$this->queryVars['eventId']);
+		//print_r($this->queryVars);
+		//echo "delete from client_service_appointments  where id=".$this->queryVars['eventId'];
 		return $input;
 	}
 	function is_authorized()

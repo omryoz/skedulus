@@ -20,6 +20,24 @@ function getProfileDetails(){
 			return $values;
 		}
 	}
+	
+
+function getProfileDetailsByfilter($filter=false,$limit=false,$offset=false,$orderBy=false){
+		if($limit){	
+			$this->db->limit($limit,$offset);
+		}
+		if($filter){
+			$query = $this->db->get_where('user_business_details',$filter);
+		}
+		else{
+			$query = $this->db->get('user_business_details');
+		}
+		if($this->db->affected_rows()){
+			return $query->result();
+		}else{
+			return false;
+		}	
+}	
  
 	
 	

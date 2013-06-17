@@ -33,7 +33,7 @@ class getevents
 		//return count($res);
 		//
 		$count=0;
-		foreach ($res as &$value) {
+		foreach ($res as $value) {
 			
 			$count=$count+1;
 			$calendar='';
@@ -44,31 +44,31 @@ class getevents
 			//Get Events for the calendar... 
 			$condition=array();
 			$condition['calendar_id']=$calendarId;
-			$resEvents = $db->get_results("select * from client_service_appointments where services_id=".$calendarId);   
+			$resEvents = $db->get_results("select * from view_client_buisness_services_appointments where services_id=".$calendarId);   
 			$eventsarray=array(); 
 			$evCount=0;
 			  
     		if(count($resEvents)>0)
 			{ 
-				foreach($resEvents as &$evVal)	
+				foreach($resEvents as $evVal)	
 				{
 						$evCount=$evCount+1;
 						$event='';
-						$event["eventId"]=$evVal->event_id;
-					  
-						$event['eventName']=$evVal->event_name;
-						$event['eventDesc']=$evVal->event_description;
+						$event["eventId"]=$evVal->id;
+						$event['eventName']=$evVal->note;
+						$event['role']=$evVal->user_role;
+						//$event['eventDesc']=$evVal->event_description;
 						$event['startTime']=$evVal->start_time;
 						$event['endTime']=$evVal->end_time;
-						$event['group']['groupId']=$evVal->calendar_id;
-						$allDayIndicator= $evVal->all_day;
+						$event['group']['groupId']=$evVal->services_id;
+						/*$allDayIndicator= $evVal->all_day;
 						if($allDayIndicator==0)
 						{
 							$event['allDay']=false;
 						}else
 						{
 							$event['allDay']=true;
-						}
+						}*/
 						$eventsarray[$evCount]=$event; 
 					
 				}
@@ -80,6 +80,7 @@ class getevents
 			$ax[$count]=$calendar;
 			
 		}
+		//print_r($ax);
 		return $ax; 
 	}
 	function is_authorized()

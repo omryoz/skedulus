@@ -41,7 +41,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
                   		</a>
-				 		<a class="brand" href="index.php"><h1>Skedulus</h1>
+				 		<a class="brand" href="<?php echo base_url();?>index.php"><h1>Skedulus</h1>
 						</a>
 						<!--<img src="images/share.png"  class="brand_img">-->
 						
@@ -59,8 +59,8 @@
 						<?php }else{?>
                  	 	<div class="nav-collapse collapse">
 							<ul class="nav pull-right" id="main-menu">
-								<li><a href="index.php">Home</a></li>
-								<li><a href="home/clientSignUp">Sign Up</a></li>
+								<li><a href="<?php echo base_url();?>index.php">Home</a></li>
+								<li><a href="<?php echo base_url();?>home/clientSignUp">Sign Up</a></li>
 								<li><a href="<?php echo base_url();?>home/clientlogin">Log In</a></li>
 								<li><div class="language_flag"><a href="#" title="English" ><img src="<?php echo base_url(); ?>images/bri12.png"></a>
 			  <a href="#" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>

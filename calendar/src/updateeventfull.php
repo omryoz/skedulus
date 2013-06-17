@@ -20,12 +20,12 @@ class updateeventfull
 	{
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		 
-		$allday=$this->queryVars['allDay'];
+		//$allday=$this->queryVars['allDay'];
 		$sTime=$this->queryVars['st'];
 		$eTime=$this->queryVars['et'];
 		$evName=$this->queryVars['eventName'];
-		$desc=$this->queryVars['desc'];
-		$allDayIndicator=$this->queryVars['allDay'];
+		//$desc=$this->queryVars['desc'];
+		//$allDayIndicator=$this->queryVars['allDay'];
 		$eventId=$this->queryVars['eventId'];
 		$groupId=$this->queryVars['groupId'];
 		$input=array();
@@ -33,14 +33,14 @@ class updateeventfull
 		$input['eventId']=$eventId;
 		$input['startTime']=$sTime;
 		$input['endTime']=$eTime;   	
-		$input['allDay']=($allday==1)?true:false; 
+		//$input['allDay']=($allday==1)?true:false; 
 		$input['group']['groupId']=$groupId;
-		$input['eventId'] = $eventId;
+		//$input['eventId'] = $eventId;
 		//echo ($sTime."===".$eTime."update  events set start_time='".$sTime."',  end_time='".$eTime."', event_name='".$evName."',event_description='".$desc."', calendar_id='".$groupId."', all_day='".$allDayIndicator."'  where event_id=".$eventId);
-		$db->query("update events set start_time='".$sTime."',  end_time='".$eTime."', event_name='".$evName."',event_description='".$desc."', calendar_id='".$groupId."', all_day='".$allDayIndicator."'  where event_id=".$eventId);
+		$db->query("update client_service_appointments set start_time='".$sTime."',  end_time='".$eTime."', note='".$evName."', services_id='".$groupId."' where id=".$eventId);
 		  
 		$input['eventName']=$evName;
-		$input['eventDesc']=$desc;
+		//$input['eventDesc']=$desc;
 			
 		return $input;
 	}

@@ -12,6 +12,7 @@ class BusinessProfile extends CI_Controller {
     }
 	
 	public function index(){
+	
 	$this->parser->parse('include/header',$this->data);
 	 if(isset($this->session->userdata['business_id'])){
 		$this->parser->parse('include/dash_navbar',$this->data);
@@ -22,9 +23,9 @@ class BusinessProfile extends CI_Controller {
 		$this->parser->parse('include/navbar',$this->data);
 	}
 	 if(isset($_GET['id'])){
-	  $id=$_GET['id'];
+		$id=$_GET['id'];
 	 }else{
-	 $id=$this->session->userdata['business_id'];
+		$id=$this->session->userdata['business_id'];
 	 }
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
 	 $this->parser->parse('business_profile',$this->data);

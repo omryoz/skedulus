@@ -1,17 +1,17 @@
 <div class="navbar  navbar-inverse">
 		  <div class="navbar-inner">
-			<a class="btn btn-navbar " data-toggle="collapse" data-target=".menu">
+			<a class="btn btn-navbar " data-toggle="collapse" data-target=".menu1">
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<div class="nav-collapse collapse menu">			
+			<div class="nav-collapse collapse menu1">			
 				<ul class="nav client-navbar">
 					<li class="">
 						<a href="business_home.php"><center><i class="icon-home"></i><p>Home</p></center></a>
 					</li>
 					<li class="">
-						<a href="my_appointments.php"><center><i class="icon-calendar"></i><p> My Appointments</p>
+						<a href="<?php echo base_url();?>bcalendar/mycalender"><center><i class="icon-calendar"></i><p> My Appointments</p>
 						</center></a>
 					</li>
 					<li class="">
@@ -31,3 +31,5 @@
 			</div>
 		  </div>
 		</div>
+
+

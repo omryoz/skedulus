@@ -60,7 +60,7 @@
 			var startDate=newEventContainer.find("#eventStartDate").val();
 			var endDate=newEventContainer.find("#eventEndDate").val();
 			var description=newEventContainer.find("#eventDescription").val();
-				
+			//alert(strtTime);	
 			
 			if(name=="")
 			{
@@ -145,7 +145,9 @@
 				return _html;
 			} 
 			var createDefaultPreview = function()
-			{
+			{	
+				var role = document.getElementById("role").innerHTML;
+				//alert(role);
 				var _html='<div id="previewTemplate"  class="calendarTemplate fullPreviewTemplate " style="display:none">'
 						+'		<div class="aPointer p-left" style="display: block; z-index: 2; "></div>'
 						+'		<div id="ds-right" class="dshadow ds-right"></div>'
@@ -174,12 +176,15 @@
 						+'					</div>'
 						+'				</td>'
 						+'			</tr> '
-						+'		</table>'
-						+'		<ul class="actions">'
-						+'			<li> <a href="javascript:rzEditEvent(\'${eventId}\');" name="edit" class="websbutton"> Edit event </a> </li>'
-						+'			<li> <a href="javascript:rzDeleteEvent(\'${eventId}\');" name="delete" class="websbutton"> Delete event </a> </li> '
-						+'		</ul>' 
-						+'</div>';
+						+'		</table>';
+						//var role = ${role};
+						
+							if(role=="manager"){
+							_html =_html+'<ul class="actions"><li><a href="javascript:rzEditEvent(\'${eventId}\');" name="edit" class="websbutton"> Edit event </a> </li><li><a href="javascript:rzDeleteEvent(\'${eventId}\');" name="delete" class="websbutton"> Delete event </a> </li></ul>';
+							}
+							
+						
+						_html =_html +'</div>';
 					return _html;
 			}
 			var createMonthAllDayTemplate=function()
@@ -208,7 +213,7 @@
 							+'			Services	'
 							+'		</div>	'
 							+'		<div class="selectGroup">	'
-							+'			<select name="eventGroup"   id="eventGroup" class="input-small"></select>	'
+							+'			<select name="eventGroup"   id="eventGroup" class="input-small" multiple></select>	'
 							+'		</div>			'
 							+'	</div>	'
 

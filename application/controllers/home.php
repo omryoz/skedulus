@@ -19,10 +19,10 @@ class Home extends CI_Controller {
 		$this->parser->parse('include/header',$this->data);
 		$this->data['contentList']=$this->home_model->getBusiness();
 		if(isset($this->session->userdata['business_id'])){
-		$this->parser->parse('include/dash_navbar',$this->data);
+			$this->parser->parse('include/dash_navbar',$this->data);
 		}
 		if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
-		$this->parser->parse('include/navbar',$this->data);
+			$this->parser->parse('include/navbar',$this->data);
 		}
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
@@ -59,6 +59,7 @@ class Home extends CI_Controller {
 			 'username'=>$values->first_name,
 			 'email'=>$values->email
 		 );
+		 
 		 $this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("view_business_employees","users_id",$this->session->userdata['id']);
 		 if($status){
@@ -87,15 +88,16 @@ class Home extends CI_Controller {
 		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
 		 
 		 if($values==""){
-		 $this->data['failure']="Failure";
-		 $this->parser->parse('include/meta_tags',$this->data);
-		 $this->parser->parse('general/login',$this->data);
+			 $this->data['failure']="Failure";
+			 $this->parser->parse('include/meta_tags',$this->data);
+			 $this->parser->parse('general/login',$this->data);
 		 }else{
 		
 		 $sessionVal=array(
 			 'id'=>$values->id,
 			 'username'=>$values->first_name,
-			 'email'=>$values->email
+			 'email'=>$values->email,
+			 'role'=>$values->user_role
 		 );
 		 $this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
@@ -128,7 +130,8 @@ class Home extends CI_Controller {
 		  $sessionVal=array(
 			 'id'=>$values->id,
 			 'username'=>$values->first_name,
-			 'email'=>$values->email
+			 'email'=>$values->email,
+			 'role'=>$values->user_role
 		 );
 		 $this->session->set_userdata($sessionVal);
 		 redirect('cprofile');

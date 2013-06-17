@@ -4,27 +4,27 @@
         <script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script> 
         <script src="<?php echo base_url() ?>calendar/js/Web2Cal-Basic-2.0-min.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
-        <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.js">  </script> 
+        <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.myappointment.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
 		
 <!---End--------------->
 <?php 
-	
-    $INC_PATH='calendar/src/'; 
+	 //print_r($buisness_details);
+    
 ?>
 <?php if(isset($this->session->userdata['profile_id'])){
 		  $id=$this->session->userdata('profile_id');
 		}else if(isset($this->session->userdata['business_id'])){
 		  $id=$this->session->userdata('business_id');
 		}
-@session_start();
-$_SESSION['profileid'] = $id;
-
+session_start();
+//$_SESSION['profileid'] = $id;
+//print_r($_SESSION);
 ?>
-<h3>Buisness Profile Appointments(<?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?>)</h3>		
+<h3>My Appointments</h3>		
 <div id="calendarContainer"></div>
 <p class="hide" id="login_id"><?php print_r($user_id); ?></p>
-<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
+<p class="role hide"><?=(!empty($role))?$role:''?></p>
 	
 </div>
 </div>
@@ -38,13 +38,23 @@ $_SESSION['profileid'] = $id;
     { 
         ical = new Web2Cal('calendarContainer', {
             loadEvents: loadCalendarEvents,
+			//closeAddEvent : closeAddEvent,
             onUpdateEvent: updateEvent,
             onNewEvent: onNewEvent,  
 			onPreview: onPreview, 
-            views: "day, month, week, agenda"
+            views: "day, month, week, agenda",
+			'readOnly':true
         });
-        ical.build();
+
+		/*blockEvents = new BlockEvents(ical, { 
+							//allowInRange: false,
+							highlightRange: true
+		}); */
+		ical.build();
     }
+	function closeAddEvent(){
+		alert("Hello");
+	}
  	var activeEvent;
     function onPreview(evt, dataObj, html)
 	{
@@ -98,7 +108,10 @@ $_SESSION['profileid'] = $id;
      */
     function loadCalendarEvents(startTime, endTime)
     {   
-		ajaxObj.call("action=getevents", function(list){ical.render(list);});
+		var str="?1=1";
+		str=str+"&id="+<?=$user_id?>;
+		
+		ajaxObj.call("action=getMyevents"+str, function(list){ical.render(list);});
     }  
     
     /*
@@ -183,7 +196,7 @@ $_SESSION['profileid'] = $id;
      */ 
 	var ajaxObj; 
 	function startAjax() {
-		ajaxObj = new XMLHTTP("<?php echo $INC_PATH;?>"+"mybic_server.php"); 
+		ajaxObj = new XMLHTTP("<?php echo $base_url;?>/calendar/src/"+"mybic_server.php"); 
 		// lets turn on debugging so we can see what we're sending and receiving
 		ajaxObj.debug=0;  
 	}   
