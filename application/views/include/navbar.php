@@ -1,4 +1,4 @@
-<div class="navbar  navbar-inverse">
+<div class="navbar  navbar-inverse container">
 		  <div class="navbar-inner">
 			<a class="btn btn-navbar " data-toggle="collapse" data-target=".menu1">
 				<span class="icon-bar"></span>

@@ -1,5 +1,7 @@
 
 <?php error_reporting(0); ?>
+	<div class="content container">
+	<div class="row-fluid business_profile bus_prof">
 		<div class="row-fluid">
 			<div class="span12 global-div profile-div">
 				<div class="row-fluid">
@@ -9,7 +11,7 @@
 						</div>
 					</div>
 					<div class="span9">
-					<h3><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
+					<h3 class="nice"><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
 						
@@ -46,6 +48,7 @@
 								<li><a href="javascript:;"><i class="icon-time icon-large" title="open now"></i></a></li>
 								
 							</ul>
+							
 							</div>
 						</div>		
 		            </div>
@@ -181,10 +184,11 @@
 				  <dd>08:30 - 19:00  </dd>
 				</dl>
 				
-				<img src="img/map.png">
+				<img src="../img/map.png">
 			</div>
 		</div>
-		
+	</div>
+	</div>
 <!----------book popup start------------>
 
 
@@ -602,4 +606,4 @@
 </div>
 
 
-<script src="js/jquery.raty.js" type="text/javascript"></script>
+<script src="../js/jquery.raty.js" type="text/javascript"></script>
