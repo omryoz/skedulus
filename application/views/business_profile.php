@@ -1,4 +1,4 @@
-
+<link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>less/skins/tn3/tn3.css"/>
 <?php error_reporting(0); ?>
 	<div class="content container">
 	<div class="row-fluid business_profile bus_prof">
@@ -11,7 +11,7 @@
 						</div>
 					</div>
 					<div class="span9">
-					<h3 class="nice"><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
+					<h3 ><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
 						
@@ -37,8 +37,8 @@
 						<div class="row-fluid">
 							<div class="span6">
 								<div class="btn-group pull-left">
-								<a href="<?php echo base_url(); ?>bcalendar" class="btn btn-success left " role="button"  data-toggle="modal">Book me </a>
-								<a href="#book" class="btn btn-success right " role="button"  
+								<a href="#book"  class="btn btn-success left " role="button"  data-toggle="modal">Book me </a>
+								<a  href="<?php echo base_url(); ?>bcalendar" class="btn btn-success right " role="button"  
 									data-toggle="modal">View schedule</a>
 							</div>
 							</div>
@@ -106,17 +106,17 @@
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<th><img src="img/ID1.png"></th>
+									<th><img src="../img/ID1.png"></th>
 									<td ><h5>Laural</h5></td>
 									<td><a href="#" class="btn btn-success">View schedule</a></td>
 								</tr>
 								<tr>
-									<th><img src="img/ID1.png"></th>
+									<th><img src="../img/ID1.png"></th>
 									<td ><h5>Mathew</h5></td>
 									<td><a href="#" class="btn btn-success">View schedule</a></td>
 								</tr>
 								<tr>
-									<th><img src="img/ID1.png"></th>
+									<th><img src="../img/ID1.png"></th>
 									<td > <h5>Amma</h5></td>
 									<td><a href="#" class="btn btn-success">View schedule</a></td>
 								</tr>
@@ -187,14 +187,13 @@
 				<img src="../img/map.png">
 			</div>
 		</div>
-	</div>
-	</div>
+	
 <!----------book popup start------------>
 
 
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Book an appointment</h3>
   </div>
   <div class="modal-body">
@@ -212,7 +211,7 @@
 			<label class="control-label" >Time</label>
 			<div class="controls">
 						<input type="text" class="span6" readonly="" placeholder="Time">
-					<a href="#view_schedule"   role="button"  data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
+					<a href="<?php echo base_url(); ?>bcalendar"   role="button"  data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
 			</div>
 		  </div>
 		  <div class="control-group">
@@ -242,353 +241,22 @@
 </div>
 <!--------book popup end------------->
 
-<!--------view_schedule start------------->
-<div id="view_schedule" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<link href="less/booking_slot.css" rel="stylesheet"/>
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Booking schedule</h3>
-  </div>
-  <div class="modal-body">
-		   
-		   <div class="row-fluid">
-		   		<div class="span8">
-				<div class="action hours" id="showtimeslots">
-           
-                    <div class="grid">
-				<ul class="appoint_time unstyled inline">	
-				<li></li>						  
-                                    <li>9</li>							  
-                                    <li>10</li>							  
-                                    <li>11</li>							  
-                                    <li>12</li>							  
-                                    <li>1</li>					  
-                                    <li>2</li>					  
-                                    <li>3</li>				  
-                                    <li>4</li>				  
-                                    <li>5</li>				  
-                                    <li>6</li>								
-                  </ul>
-				  <div class="appoint">                 
-                                <ul lang="1" class="gridRow data unstyled inline" id="staffID" value="1">
-                                   <li class="staff_timing">
-								   <span class="staff_style"><span class="label">staff1</span></span>
-								   </li>
-								   								
-                                       <li class="t00 available selectable" value="9:00AM" title="9:00AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="9:15AM" title="9:15AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="9:30AM" title="9:30AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="9:45AM" title="9:45AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="10:00AM" title="10:00AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="10:15AM" title="10:15AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="10:30AM" title="10:30AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="10:45AM" title="10:45AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="11:00AM" title="11:00AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="11:15AM" title="11:15AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="11:30AM" title="11:30AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="11:45AM" title="11:45AM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="12:00PM" title="12:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="12:15PM" title="12:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="12:30PM" title="12:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="12:45PM" title="12:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="1:00PM" title="1:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="1:15PM" title="1:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="1:30PM" title="1:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="1:45PM" title="1:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="2:00PM" title="2:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="2:15PM" title="2:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="2:30PM" title="2:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="2:45PM" title="2:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="3:00PM" title="3:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="3:15PM" title="3:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="3:30PM" title="3:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="3:45PM" title="3:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="4:00PM" title="4:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="4:15PM" title="4:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="4:30PM" title="4:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="4:45PM" title="4:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="5:00PM" title="5:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="5:15PM" title="5:15PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="5:30PM" title="5:30PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="5:45PM" title="5:45PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="6:00PM" title="6:00PM" id="1" onclick="showdiv(this)">&nbsp;</li>
-									   
-									                                    
-                                </ul><br/>    
-                                <ul lang="1" class="gridRow data unstyled inline" id="staffID" value="2">
-                                   <li class="staff_timing">
-								   <span class="staff_style"><span class="label">staff2</span></span>
-								   </li>
-								   								
-                                       <li class="t00 available selectable" value="9:00AM" title="9:00AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="9:15AM" title="9:15AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="9:30AM" title="9:30AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="9:45AM" title="9:45AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="10:00AM" title="10:00AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="10:15AM" title="10:15AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="10:30AM" title="10:30AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="10:45AM" title="10:45AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="11:00AM" title="11:00AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="11:15AM" title="11:15AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="11:30AM" title="11:30AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="11:45AM" title="11:45AM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="12:00PM" title="12:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="12:15PM" title="12:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="12:30PM" title="12:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="12:45PM" title="12:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="1:00PM" title="1:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="1:15PM" title="1:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="1:30PM" title="1:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="1:45PM" title="1:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="2:00PM" title="2:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="2:15PM" title="2:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="2:30PM" title="2:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="2:45PM" title="2:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="3:00PM" title="3:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="3:15PM" title="3:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="3:30PM" title="3:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="3:45PM" title="3:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="4:00PM" title="4:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="4:15PM" title="4:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="4:30PM" title="4:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="4:45PM" title="4:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="5:00PM" title="5:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t15 available selectable" value="5:15PM" title="5:15PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t30 available selectable" value="5:30PM" title="5:30PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t45 available selectable" value="5:45PM" title="5:45PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									 								
-                                       <li class="t00 available selectable" value="6:00PM" title="6:00PM" id="2" onclick="showdiv(this)">&nbsp;</li>
-									   
-									                                    
-                                </ul>     
-                     </div>
-					 <br/>
-<center><span class=" label  ">Info</span>
-</center>
-				</div>
-				</div>
-				</div>
-				<div class="span4 services span_right test1">
-	<div>
-	
-		<div class="nav_right ">
-				<table class="table_time">
-					<thead>
-						<tr>
-						<th colspan="1"></th>
-						<th>Service Name</th>
-						<th>Time Lengh</th>
-						<th>Price</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox" class="service" name="service" value="1"></td>
-							<td>service1</td>
-							<td>00:30:00</td>
-							<td>$30</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="service" name="service" value="1"></td>
-							<td>service2</td>
-							<td>00:45:00</td>
-							<td>$50</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="service" name="service" value="1"></td>
-							<td>service3</td>
-							<td>01:00:00</td>
-							<td>$60</td>
-						</tr>
-						<tr>
-							<td><input type="checkbox" class="service" name="service" value="1"></td>
-							<td>service4</td>
-							<td>01:20:00</td>
-							<td>$80</td>
-						</tr>
-						
-						
-					</tbody>
-				</table>
-		
-		
-		
-					
-		</div>
-
-
-<br/>
-<center><span class=" label  ">Info</span>
-</center>	
- </div>	
-	</div>
-				
-				
-		   </div>
-		   
-  </div>
-  
-</div>
-<!---------view_schedule end-------------->
 <!-----Theater view modal start------>
 <div id="theater_view" class="modal hide fade th3-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-  <center><b>Share this photo</b> <a href="javascript:;"> <img src="images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="images/tw.png" title="twitter"></a>
-    <a href="javascript:;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</a> </center>
+  <center><b>Share this photo</b> <a href="javascript:;"> <img src="../images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="../images/tw.png" title="twitter"></a>
+    <a href="javascript:;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</a> </center>
    
   </div>
   <div class="modal-body th3-modal-body">
-   <?php include('example.php')?>
+   <?php  include('example.php')?>
   </div>
   <div class="modal-footer">
   <br/>
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
-		<img src="img/ID1.png">
+		<img src="../img/ID1.png">
 	</div>
 	<div class="span11">
 		 <textarea placeholder="Write your comment here" class="span12" rows="2"></textarea>
@@ -607,3 +275,51 @@
 
 
 <script src="../js/jquery.raty.js" type="text/javascript"></script>
+<script>
+$('.star-rate').raty({ precision: true });
+$('.star-rate').raty({
+
+  half     : true,
+  size     : 24,
+  starHalf : '../img/star-half-big.png',
+  starOff  : '../img/star-off-big.png',
+  starOn   : '../img/star-on-big.png'
+});
+
+</script>
+<script src="../js/jquery.tn3lite.min.js" type="text/javascript"></script>
+
+<script>
+$(".image_popup").click(function(){		
+							   
+		var tn1 = $('.mygallery').tn3({
+						skinDir:"skins",
+						imageClick:"fullscreen",
+						image:{
+						maxZoom:1.5,
+						crop:true,
+						clickEvent:"dblclick",
+						transitions:[{
+						type:"blinds"
+						},{
+						type:"grid"
+						},{
+						type:"grid",
+						duration:460,
+						easing:"easeInQuad",
+						gridX:1,
+						gridY:8,
+						// flat, diagonal, circle, random
+						sort:"random",
+						sortReverse:false,
+						diagonalStart:"bl",
+						// fade, scale
+						method:"scale",
+						partDuration:360,
+						partEasing:"easeOutSine",
+						partDirection:"left"
+						}]
+						}
+				});
+			});
+</script>

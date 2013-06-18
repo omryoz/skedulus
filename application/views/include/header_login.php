@@ -9,7 +9,7 @@
 <link rel="stylesheet/less" href="<?php echo base_url(); ?>less/style.less" />
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>css/slider.css" />
-<link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>less/skins/tn3/tn3.css">
+
 
 <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>css/pygments.css"/>

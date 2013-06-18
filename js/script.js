@@ -73,38 +73,7 @@ $(document).ready(function(){
 // JavaScript Document
 $(document).ready(function() {
 		//Thumbnailer.config.shaderOpacity = 1;
-$(".image_popup").click(function(){		
-							   
-		var tn1 = $('.mygallery').tn3({
-						skinDir:"skins",
-						imageClick:"fullscreen",
-						image:{
-						maxZoom:1.5,
-						crop:true,
-						clickEvent:"dblclick",
-						transitions:[{
-						type:"blinds"
-						},{
-						type:"grid"
-						},{
-						type:"grid",
-						duration:460,
-						easing:"easeInQuad",
-						gridX:1,
-						gridY:8,
-						// flat, diagonal, circle, random
-						sort:"random",
-						sortReverse:false,
-						diagonalStart:"bl",
-						// fade, scale
-						method:"scale",
-						partDuration:360,
-						partEasing:"easeOutSine",
-						partDirection:"left"
-						}]
-						}
-				});
-			});
+
 		});
 
 <!--------------------------------------->
@@ -131,15 +100,15 @@ $(".accordion-toggle").click(function(){
 		$(this).children().find('i.icon-chevron-up').removeClass("icon-chevron-up").addClass("icon-chevron-down");
 	}
 });
-$('.star-rate').raty({ precision: true });
-$('.star-rate').raty({
-
-  half     : true,
-  size     : 24,
-  starHalf : 'img/star-half-big.png',
-  starOff  : 'img/star-off-big.png',
-  starOn   : 'img/star-on-big.png'
-});
+//$('.star-rate').raty({ precision: true });
+//$('.star-rate').raty({
+//
+//  half     : true,
+//  size     : 24,
+//  starHalf : 'img/star-half-big.png',
+//  starOff  : 'img/star-off-big.png',
+//  starOn   : 'img/star-on-big.png'
+//});
 });
 <!-----functtion for business profile end---->
 

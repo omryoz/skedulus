@@ -21,12 +21,14 @@ session_start();
 //$_SESSION['profileid'] = $id;
 //print_r($_SESSION);
 ?>
-<h3>My Appointments</h3>		
-<div id="calendarContainer"></div>
-<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
-<p class="role hide"><?=(!empty($role))?$role:''?></p>
+<div class="content container">
+		<div class="row-fluid business_profile">
+			<h3>My Appointments</h3>		
+			<div id="calendarContainer"></div>
+			<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
+			<p class="role hide"><?=(!empty($role))?$role:''?></p>
 	
-</div>
+		</div>
 </div>
    
 <script>
