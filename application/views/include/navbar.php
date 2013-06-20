@@ -8,7 +8,7 @@
 			<div class="nav-collapse collapse menu1">			
 				<ul class="nav client-navbar">
 					<li class="">
-						<a href="<?php echo base_url();?>"><center><i class="icon-home"></i><p>Home</p></center></a>
+						<a href="<?php echo base_url();?>cprofile"><center><i class="icon-home"></i><p>Home</p></center></a>
 					</li>
 					<li class="">
 						<a href="<?php echo base_url();?>bcalendar/mycalender"><center><i class="icon-calendar"></i><p> My Appointments</p>

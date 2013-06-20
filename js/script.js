@@ -114,6 +114,39 @@ $(".accordion-toggle").click(function(){
 
 
 
+/*Add Active class to the navigation header top left start*/
+$(function(){
+var url = window.location.pathname;  
+var activePage = url.substring(url.lastIndexOf('/')+1);
+$('.client-navbar li a').each(function(){  
+var currentPage = this.href.substring(this.href.lastIndexOf('/')+1);
+if (activePage == currentPage) {
+$(this).parent().addClass('active'); 
+} 
+});
+})
 
+$(function(){
+var url = window.location.pathname;  
+var activePage = url.substring(url.lastIndexOf('/')+1);
+$('.business-navbar li a').each(function(){  
+var currentPage = this.href.substring(this.href.lastIndexOf('/')+1);
+if (activePage == currentPage) {
+$(this).addClass('active'); 
+} 
+});
+})
+
+$(function(){
+var url = window.location.pathname;  
+var activePage = url.substring(url.lastIndexOf('/')+1);
+$('.admin-navbar li a').each(function(){  
+var currentPage = this.href.substring(this.href.lastIndexOf('/')+1);
+if (activePage == currentPage) {
+$(this).addClass('active'); 
+} 
+});
+})
+/*Add Active class to the navigation header top left end*/
 
 
