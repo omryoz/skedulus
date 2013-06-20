@@ -235,8 +235,8 @@ for($i=1;$i<=7;$i++) {
 <script>
 function getChecked(status,id){
 	if(status.checked==true){
-	$("#divO"+id).attr("class","span6 input-time starttime");
-	$("#divO"+id).timepicker({                                  
+	//$("#divO"+id).attr("class","span6 input-time starttime");
+	$('#divO6').timepicker({                                  
                                showMeridian: false,
                                minuteStep: 15,
                                showInputs: false,        
@@ -246,8 +246,8 @@ function getChecked(status,id){
                        });         
 	$("#divC"+id).attr("class","span6 input-time endtime");
 	}else if(status.checked==false){
-	$("#divC"+id).attr("class","span6 disabletime");
-	$("#divO"+id).attr("class","span6 disabletime");
+	$("#divC"+id).attr("class","span6 disabletime valid");
+	$("#divO"+id).attr("class","span6 disabletime valid");
 	}
 }
 

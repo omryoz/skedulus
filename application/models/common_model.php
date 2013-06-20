@@ -83,8 +83,8 @@ class common_model extends CI_Model{
 			return true;
 		}
 		
-/* function to upload a file */		
 	function uploadFile($foldername){
+	
 			$config['upload_path'] = './uploads/'.$foldername.'/'; 
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '100';
@@ -102,9 +102,11 @@ class common_model extends CI_Model{
 				return $data;
 			}
 		}
-
+		
+		
 /* function to send email */
-	public function mail($emailTo,$subject,$message){
+
+public function mail($emailTo,$subject,$message){
 	    $this->load->library( 'email' );
 		$config['mailtype'] = 'html';
 		$config['protocol'] = 'sendmail';
@@ -116,14 +118,15 @@ class common_model extends CI_Model{
 		//Get email 
 		$this->email->initialize($config);
 		$this->email->from('swathi.n@eulogik.com', 'admin');
-		$this->email->to($email); 
+		$this->email->to($emailTo); 
 		$this->email->subject($subject);
         $this->email->message($message);  		
 		$this->email->send();
 		$this->email->print_debugger();
-	}		
-		
-/* to generate random password */
+	}
+	
+	
+	/* to generate random password */
 	function random_password( $length = 8 ) {
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
 		$password = substr( str_shuffle( $chars ), 0, $length );

@@ -27,7 +27,8 @@ class Bcalendar extends CI_Controller {
 		  $this->data['user_id'] = $this->session->userdata['id'];
 		  @session_start();
 		  //print_r($_SESSION);	
-		  $filter=array('id'=>$_SESSION['profileid']);
+		   $filter=array('id'=>$this->session->userdata['id']);
+		  //$filter=array('id'=>$_SESSION['profileid']);
 		  //print_r($filter);
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		  @session_start();
