@@ -60,7 +60,7 @@
 					</div>
 					<div class="span2">						
 						 <a  href="global_search.php" class="btn span12 pull-right btn-success"> 
-						 	<i class="icon-search"></i> Search
+						 	<i class="icon-search"></i> <span class="hidden-tablet">Search</span>
 						  </a>
 					</div>
 					</form>

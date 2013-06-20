@@ -49,5 +49,27 @@ class Clients extends CI_Controller {
 			echo "true";
 			}
 	}
+	
+	function favourite(){
+		$this->load->view('include/header',$this->data);
+		$this->load->view('include/navbar',$this->data);
+		$this->load->view('favourite',$this->data);
+		$this->load->view('include/footer',$this->data);
+	}
+	
+	function settings(){
+		$this->load->view('include/header',$this->data);
+		$this->load->view('include/navbar',$this->data);
+		$this->load->view('settings',$this->data);
+		$this->load->view('include/footer',$this->data);
+	}
+	
+	function offers(){
+		$this->load->view('include/header',$this->data);
+		$this->load->view('include/navbar',$this->data);
+		$this->load->view('offer',$this->data);
+		$this->load->view('include/footer',$this->data);
+	}
+	
 }
 ?>

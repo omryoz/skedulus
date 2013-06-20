@@ -21,14 +21,17 @@
 $_SESSION['profileid'] = $id;
 
 ?>
+<div class="content container">
+		<div class="row-fluid business_profile">
 <h3>Buisness Profile Appointments(<?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?>)</h3>		
-<div id="calendarContainer"></div>
+<div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
 	
 </div>
 </div>
-   
+  </div>
+</div>
 <script>
     var ical; 
     /*

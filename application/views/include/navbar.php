@@ -8,22 +8,22 @@
 			<div class="nav-collapse collapse menu1">			
 				<ul class="nav client-navbar">
 					<li class="">
-						<a href="business_home.php"><center><i class="icon-home"></i><p>Home</p></center></a>
+						<a href="<?php echo base_url();?>"><center><i class="icon-home"></i><p>Home</p></center></a>
 					</li>
 					<li class="">
 						<a href="<?php echo base_url();?>bcalendar/mycalender"><center><i class="icon-calendar"></i><p> My Appointments</p>
 						</center></a>
 					</li>
 					<li class="">
-						<a href="favourite.php"><center><i class="icon-star"></i><p> Favourite Businesses
+						<a href="<?php echo base_url();?>clients/favourite"><center><i class="icon-star"></i><p> Favourite Businesses
 						</p></center>
 						</a>
 					</li>
-					<li class=""><a href="offer.php"><center><i class="icon-thumbs-up"></i><p>Special Offers
+					<li class=""><a href="<?php echo base_url();?>clients/offers"><center><i class="icon-thumbs-up"></i><p>Special Offers
 					</p></center>
 						</a>
 					</li>
-					<li class="borderless"><a href="settings.php"><center><i class="icon-wrench"></i><p>Settings</p>
+					<li class="borderless"><a href="<?php echo base_url();?>clients/settings"><center><i class="icon-wrench"></i><p>Settings</p>
 						</center></a>
 					</li>
 					

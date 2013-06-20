@@ -44,7 +44,7 @@
 		 
 		  <div class="row-fluid">
 		  <div class="span2">
-		   <label class="inline span11 "><h5>Birthday :</h5></label>
+		   <label class="inline span12 "><h5>Birthday :</h5></label>
 		   </div>
 		    <div class="span2">
 			<?php 

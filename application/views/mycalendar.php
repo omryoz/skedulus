@@ -24,7 +24,7 @@ session_start();
 <div class="content container">
 		<div class="row-fluid business_profile">
 			<h3>My Appointments</h3>		
-			<div id="calendarContainer"></div>
+			<div id="calendarContainer" class="calendar_aap"></div>
 			<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
 			<p class="role hide"><?=(!empty($role))?$role:''?></p>
 	

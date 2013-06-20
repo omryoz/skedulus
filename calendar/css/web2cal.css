@@ -43,7 +43,7 @@ td.datepickerNotInMonth a, div.datepicker a, .agendaDateEvents, td.datepickerDis
 }
 
 .datepickerDays a:hover, .datepickerDays a:hover span, .miniCalNavBody a:hover span, .miniCalNavBody a:hover {
-    background-color: #CC0000;
+    background-color: #333;
     color: #FFFFFF;
 }
 
@@ -585,7 +585,7 @@ div.hrule {
 
 .minicalContainer {
     clear: both;
-    padding: 2px 0px 2px 2px;
+    padding: 2px 2px 2px 2px;
     height: auto;
     margin: 10px 0px;
 	-moz-border-radius-topleft: 4px; 
@@ -722,7 +722,7 @@ div.hrule {
 }
 
 .dayviewAlldayEvent {
-    font-size: 11px;
+    /* font-size: 11px; */
     overflow: hidden;
     margin-bottom: 1px;
     z-index: 4;
@@ -798,7 +798,7 @@ div.hrule {
 
 .vertResizerIcon {
     cursor: col-resize;
-    background-position: -107px -199px;
+    background-position: -84px -199px;
     background-repeat: no-repeat;
     width: 4px;
     position: absolute;
@@ -868,9 +868,12 @@ div.hrule {
 }
 
 .dayEvent .body {
-    font-size: 10px;
+    font-size: 11px;
     overflow: hidden;
     padding: 0px;
+	color:#333;
+	margin-top: -4px;
+	text-align:center;
 }
 
 div.highlightEvent {
@@ -906,16 +909,20 @@ div.highlightEvent {
 .grayTemplate .header {
     background-color: #4E5D6C;
     color: #ffffff;
+	line-height:10px;
 }
 
 .tealTemplate {
-    background-color: #eee;
+    border:2px solid #999;
     color: #ffffff;
+	line-height:10px;
+	 font-size: 11px;
 }
 
 .tealTemplate .header {
-    background-color: #29527A;
-    color: #ffffff;
+    /* background-color: #29527A; */
+    color: #333;
+	font-size: 11px;
 }
 
 .brownTemplate {
@@ -1064,7 +1071,10 @@ div.highlightEvent {
 .fleft {
     float: left;
 }
-
+.datePickerIcon{
+	background-color:#eee;
+	border-radius:4px;
+}
 .fright {
     float: right;
 }
@@ -1330,7 +1340,7 @@ div.datepicker tbody th { text-align: center; }
 	background-repeat: no-repeat;
 }
 
-.calNavGoNext:hover {
+/* .calNavGoNext:hover {
 	background-position: -20px -217px;
 	background-repeat: no-repeat;
 }
@@ -1338,7 +1348,7 @@ div.datepicker tbody th { text-align: center; }
 .calNavGoPrev:hover {
 	background-position: -4px -217px;
 	background-repeat: no-repeat;
-}
+} */
 
 .datepickerGoPrev a {
 	padding:0px;
@@ -1487,7 +1497,7 @@ a.websbutton:hover {
 	height: auto;
 	padding: 0px;
 	position: absolute;
-	width: 300px;
+	width: 200px;
 	z-index: 750;
 }
 
@@ -1626,7 +1636,7 @@ ul.actions li {
 	width:600px;
 }
 
-.agendaEventsForDate td { font-size:10px; }
+.agendaEventsForDate td { font-size:12px; }
 .centermsg {
 	color:#000000;
 }
@@ -1652,3 +1662,5 @@ div#searchEvent input:focus { background-color:transparent; border:none;}
 .prevRow label{display:block;	width:77px;	text-align:right;	padding:0px 4px;float:left;}
 .prevRow{padding:5px 0px;clear:both;position:relative;}
 .allDayContainer , .calcredits{display:none !important;}
+.fleft .cals{ background: #ccc; border-radius: 4px;}
+.monthEvent  {background: #eee; color:#eee; line-height:22px;border: 1px solid #bdbdbd; }
