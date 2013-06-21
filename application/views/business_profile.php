@@ -198,6 +198,18 @@
   </div>
   <div class="modal-body">
 		   <form class="form-horizontal">
+		   <div class="control-group">
+			<label class="control-label" >Service</label>
+			<div class="controls">
+			  <input type="text" class="span6" readonly="" placeholder="Service">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Staff</label>
+			<div class="controls">
+			  <input type="text" class="span6" readonly="" placeholder="Staff">
+			</div>
+		  </div>
 		  <div class="control-group">
 			<label class="control-label" >Date</label>
 			<div class="controls">
@@ -214,18 +226,8 @@
 					<a href="<?php echo base_url(); ?>bcalendar"   role="button"  data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
 			</div>
 		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Service</label>
-			<div class="controls">
-			  <input type="text" class="span6" readonly="" placeholder="Service">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Staff</label>
-			<div class="controls">
-			  <input type="text" class="span6" readonly="" placeholder="Staff">
-			</div>
-		  </div>
+		  
+		  
 		  <div class="control-group">
 			<label class="control-label" >Message</label>
 			<div class="controls">

@@ -12,7 +12,11 @@
 		Web2Cal.defaultPlugins.onNewEvent=function(obj, groups, allday)
 		{	 
 			var st=new UTC(obj.startTime);
-			var ed = new UTC(obj.endTime); 
+			//alert(st.toStandardFormat());
+			var ed = new UTC(obj.endTime);
+			//alert(ed.toStandardFormat());
+			//alert("Start Time" + st.toNiceTime() );	
+			//alert("End Time" + ed.toNiceTime() );
 			var newevt=jQuery("#defaultNewEventTemplate"); 
 			//Clear out and reset form
 			newevt.find("#eventDesc").val("").end()
@@ -20,7 +24,9 @@
 				.find("#eventStartDate").val( st.toStandardFormat() ).end() 
 			 	.find("#eventEndDate").val( ed.toStandardFormat() ).end() 
 				.find("#updateEventBtn").hide().end() 
-				.find("#addEventBtn").show().end() ;
+				.find("#addEventBtn").show().end()
+				.find("#eventStartTime").val( st.toNiceTime() ).end()
+				.find("#eventEndTime").val( ed.toNiceTime() );
 		 	// if(allday) 
 				// newevt.find("#allDayEvent").attr("checked", true).end()				
 					  // .find("#eventStartTime").val("").end()

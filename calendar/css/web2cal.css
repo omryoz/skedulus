@@ -560,6 +560,7 @@ div.hrule {
 
 .gridYContainerTD {
     width: 40px;
+	vertical-align:top !important;
 }
 
 /**

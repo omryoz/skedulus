@@ -12,12 +12,12 @@ class Business_registration extends CI_Controller {
     }
 	
 	public function index() {
-	if(isset($_GET['subscription'])){
-	$this->basicinfo_model->insertsubscription();
-		redirect(basicinfo);
-	}
+	// if(isset($_GET['subscription'])){
+	// $this->basicinfo_model->insertsubscription();
+		// redirect(basicinfo);
+	// }
 		$this->parser->parse('include/header',$this->data);
-		$this->parser->parse('include/registration_navbar',$this->data);
+		//$this->parser->parse('include/registration_navbar',$this->data);
 		$this->parser->parse('business_registration',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}

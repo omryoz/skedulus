@@ -26,10 +26,10 @@
 								<i class="icon-question-sign icon-white icon-large"></i></center><span>Help</span></a>
 							</li>
 							<li>
-								<a href="#"><center>
-								<i class="icon-flag icon-white icon-large"></i></center><span>Features</span></a>
+								<a href="<?php echo base_url(); ?>business_registration"><center>
+								<i class="icon-flag icon-white icon-large"></i></center><span>Features & pricing</span></a>
 							</li>
-							<li>
+							<?php /*?><li>
 							<?php if(isset($this->session->userdata['business_id'])) {?>
 								<a href="<?php echo base_url(); ?>overview">
 								<center><i class="icon-user icon-white icon-large"></i></center>
@@ -39,7 +39,7 @@
 								<center><i class="icon-user icon-white icon-large"></i></center>
 								<span>Business Owner</span></a>
 								<?php } ?>
-							</li>
+							</li><?php */?>
 							
 							<!--<li>
 								<a href="#"><center>

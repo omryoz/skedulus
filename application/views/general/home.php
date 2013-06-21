@@ -1,4 +1,7 @@
 	<div class="content ">
+	<?php if(isset($success)){ ?>
+	<p class="alert">Please check your mail and click on the verification link we sent you to continue with your business registration.</p>
+	<?php } ?>
 		<div class="container">
 			<div class="row-fluid ">
 				<div class="span12">
@@ -23,11 +26,13 @@
 							<ul class="sp-slider clearfix">
 								<!--<li><img src="images/banner_left.png" alt="image01" class="banner_l" /> <img src="images/banner_right.png" alt="image02" class="banner_l" /></li>
 								<li><img src="images/second_layer.png" alt="image03" /></li>-->
-								<li><img src="img/text1.png"><img src="<?php echo base_url(); ?>img/calendar1.png"></li>
-								<li><img src="img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png"></li>
-								<li><img src="img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"></li>
-								<li><img src="img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png"></li>
-								<li><img src="img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png"></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text1.png"><img src="<?php echo base_url(); ?>img/calendar1.png">
+									<a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a>
+								</li>
+								<li><img src="<?php echo base_url(); ?>img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png"></li>
+								<li><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"></li>
+								<li><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png"></li>
+								<li><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png"></li>
 							</ul>
 						</div><!-- sp-content -->
 					</div><!-- sp-slideshow -->
@@ -164,6 +169,145 @@
 			</div><!--row  fluid ends here-->
 		</div>	
 	</div><!--code for content  end  here-->
+ 
+<!-- Modal -->
+<div id="create-user-modal" class="modal hide fade modal-bigger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<h3 id="myModalLabel">Create Account</h3>
+</div>
+<div class="modal-body">
+  <form class="form-horizontal" action="<?php echo base_url(); ?>home/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
+	<div class="control-group">
+    <label class="control-label" for="inputEmail">First Name</label>
+    <div class="controls">
+    <input type="text"  placeholder="First Name" name="firstname" value="" maxlength="15">
+    </div>
+    </div>
+	<div class="control-group">
+    <label class="control-label" for="inputEmail">Last Name</label>
+    <div class="controls">
+    <input type="text"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label" for="inputEmail">Email</label>
+    <div class="controls">
+    <input type="text" placeholder="Email" name="email" value="" id="email">
+    </div>
+    </div>
+    <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+    <input type="password" name="password" id="inputPassword" placeholder="Password" maxlength="20">
+    </div>
+    </div>
+    <div class="control-group">
+    <div class="controls">
+    <input type="hidden" name="usertype" value="businessSignUp" /> 
+    <button type="submit" class="btn btn-success">Sign up</button>
+    </div>
+    </div>
+    </form>
+</div>
+<script>
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            $("#sign_up").validate({
+                rules: {
+                    firstname: "required",
+					lastname: "required",
+					gender: "required",
+                    email: {
+                        required: true,
+                        email: true,
+						remote: {
+						  url: baseUrl+'home/checkEmail',
+						  type: "post",
+						  data: {
+							email: function(){ return $("#email").val(); }
+						  }
+                     }
+					},
+					phone: {
+						digits:true
+					},	
+					password:{ 
+					required: true,
+					minlength: "6",
+					}
+                    
+                },
+                messages: {
+                    firstname: "Please Fill in your first name",
+					lastname: "Please Fill in your last name",
+					gender: "Please Fill in your gender",
+                    email: {
+					required: "Please Fill in your email",
+					email: "Please enter a valid email address",
+					remote: "Email already exist"
+					},	
+					phone:{
+					digits: "Only numbers allowed",
+					},	
+					password: {
+					required:"Please Fill in your password",	
+					minlength:"Minimum 6 characters is required"
+					}				
+                },
+				
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+				 error.css('padding-left', '10px');
+				},
 
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
 
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+
+function passwordStrength(password)
+{
+	var desc = new Array();
+	desc[0] = "Very Weak";
+	desc[1] = "Weak";
+	desc[2] = "Good";
+	desc[3] = "Strong";
+	
+	if (password.length > 0 && password.length<=6) {
+	var score=0;
+	}
+	if (password.length > 6 && password.length<=8) {
+	var score=1;
+	}
+	if (password.length > 8 && password.length<=12) {
+	var score=2;
+	}
+	if (password.length > 12 && password.length<=20) {
+	var score=3;
+	}
+	if(password.length==0){
+	var score=0;
+	}
+	
+	 document.getElementById("passwordDescription").innerHTML = desc[score];
+	 document.getElementById("passwordStrength").className = "strength" + score;
+}
+</script>
+</div>
 	

@@ -1,4 +1,5 @@
-            <div id="myTabContent" class="tab-content tabcontentbg">
+            <div class="content container">
+			<div id="myTabContent" class="tab-content tabcontentbg">
               <div class="tab-pane fade active in " id="home">
 					<div class="row-fluid">
 						<h4 > Subscriptions:</h4> <br>
@@ -30,7 +31,7 @@
 											<th>basic</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased separately"><td colspan="6"><center>Promotional Notification </center></td></tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased  separately"><td colspan="6" ><span class="pull-right"><b>0</b><a href="#"><small> Can buy separately</small></a></span></td></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased  separately"><td colspan="6" ><span class="pull-right"><b>0</b><!--<a href="#">--><small> Can buy separately</small><!--</a>--></span></td></tr>
 									</tbody>
 								</table>
 							</div>
@@ -39,8 +40,9 @@
 								<p>
 									<span>$15/month</span>
 								</p>
-								<span class="label label-important add">Try it for free - 90days  </span>
-								<a href="<?php echo base_url();?>business_registration/?subscription=1" class="btn btn-success"> Subscribe Now !!</a>								
+								<!--<span class="label label-important add">Try it for free - 90days  </span>-->
+								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>	
+								
 								</div>
 								<div class="span3 freebox">								
 									<h3>Silver</h3>
@@ -75,11 +77,11 @@
 							</div>
 									
 										
-						<span class="label label-important add">Try it for free - 90days  </span>
+						<!--<span class="label label-important add">Try it for free - 90days  </span>-->
 						<p>
 						<span>$25/month</span>
 						</p>
-						<a href="<?php echo base_url(); ?>business_registration/?subscription=2" class="btn btn-success"> Subscribe Now !!</a>
+						<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
 					</div>
 			
 					<div class="span3 freebox">
@@ -117,11 +119,11 @@
 											 
 											
 											
-											 <span class="label label-important add">Try it for free - 90days  </span>
+											 <!--<span class="label label-important add">Try it for free - 90days  </span>-->
 			<p>
 			<span >$40/month</span>
 			</p>
-			<a href="<?php echo base_url(); ?>business_registration/?subscription=3" class="btn btn-success"> Subscribe Now !!</a>
+			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
 			</div>
 			
 			<div class="span3 freebox">
@@ -160,14 +162,16 @@
 			<p>
 			<span ><a href="#">Contact us</a></span>
 			</p>
-			<a href="<?php echo base_url(); ?>business_registration/?subscription=4" class="btn btn-success"> Subscribe Now !!</a>
+			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
 			</div>
 			</center>
 			</div>
               </div>
-			  
+			  <br/><br/>
+			  <div class="row-fluid">
+			  <a  href="#create-user-modal" role="button"  data-toggle="modal" class="btn btn-success span3" ><i class="icon-ok icon-white"></i>Start your free Trial </a>
 			  <!-- basic info start -->
-			  
+			  </div>
       
               
               

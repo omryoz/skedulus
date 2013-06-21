@@ -235,15 +235,15 @@ for($i=1;$i<=7;$i++) {
 <script>
 function getChecked(status,id){
 	if(status.checked==true){
-	//$("#divO"+id).attr("class","span6 input-time starttime");
-	$('#divO6').timepicker({                                  
-                               showMeridian: false,
-                               minuteStep: 15,
-                               showInputs: false,        
-                               disableFocus: true,
-                               template: false,
-                               defaultTime:'11:45' 
-                       });         
+	$("#divO"+id).attr("class","span6 input-time starttime");
+	// $('#divO6').timepicker({                                  
+                               // showMeridian: false,
+                               // minuteStep: 15,
+                               // showInputs: false,        
+                               // disableFocus: true,
+                               // template: false,
+                               // defaultTime:'11:45' 
+                       // });         
 	$("#divC"+id).attr("class","span6 input-time endtime");
 	}else if(status.checked==false){
 	$("#divC"+id).attr("class","span6 disabletime valid");

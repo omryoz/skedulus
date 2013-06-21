@@ -116,7 +116,7 @@ class Home extends CI_Controller {
 	}
 	
 	public function clientlogin(){
-	   $this->data['userRole']="clientlogin";
+	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
 		$password= MD5($_POST['password']);
@@ -127,6 +127,7 @@ class Home extends CI_Controller {
 		 $this->parser->parse('include/meta_tags',$this->data);
 		 $this->parser->parse('general/login',$this->data);
 		 }else{
+		 //print_r($values->user_role); exit;
 		  $sessionVal=array(
 			 'id'=>$values->id,
 			 'username'=>$values->first_name,
@@ -159,8 +160,18 @@ class Home extends CI_Controller {
    			// $this->account_activation($id);
 			 $this->data['success']="successfull";
 	}
-	  $this->parser->parse('include/meta_tags',$this->data);
-	  $this->load->view('general/signup',$this->data);
+	   $this->parser->parse('include/header',$this->data);
+		$this->data['contentList']=$this->home_model->getBusiness();
+		if(isset($this->session->userdata['business_id'])){
+			$this->parser->parse('include/dash_navbar',$this->data);
+		}
+		if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
+			$this->parser->parse('include/navbar',$this->data);
+		}
+		$this->parser->parse('general/home',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	  //$this->parser->parse('include/meta_tags',$this->data);
+	  //$this->load->view('general/signup',$this->data);
 }
 
 
