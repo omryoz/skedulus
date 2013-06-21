@@ -72,33 +72,33 @@ class Home extends CI_Controller {
    }	
 	
 	public function businesslogin(){
-	$this->data['userRole']="businesslogin";
-	$this->data['signUp']="businessSignUp";
+	//$this->data['userRole']="businesslogin";
+	//$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
 	  $val= $this->home_model->updateUser();
 	  if($val=="newUser"){
-	  redirect('business_registration');
+	  redirect('basicinfo');
 	  }else if($val=="alreadyUser"){
 	    $this->data['alreadyUser']="alreadyUser";
 	  }
 	}
-	if(isset($_GET['checkinfo'])){
-		$password= MD5($_POST['password']);
-		 $where=" And password='".$password."' AND user_role='manager' and status='active'";
-		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
+	//if(isset($_GET['checkinfo'])){
+		// $password= MD5($_POST['password']);
+		 // $where=" And password='".$password."' AND user_role='manager' and status='active'";
+		 // $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
 		 
-		 if($values==""){
-			 $this->data['failure']="Failure";
-			 $this->parser->parse('include/meta_tags',$this->data);
-			 $this->parser->parse('general/login',$this->data);
-		 }else{
+		 // if($values==""){
+			 // $this->data['failure']="Failure";
+			 // $this->parser->parse('include/meta_tags',$this->data);
+			 // $this->parser->parse('general/login',$this->data);
+		 // }else{
 		
-		 $sessionVal=array(
-			 'id'=>$values->id,
-			 'username'=>$values->first_name,
-			 'email'=>$values->email,
-			 'role'=>$values->user_role
-		 );
+		 // $sessionVal=array(
+			 // 'id'=>$values->id,
+			 // 'username'=>$values->first_name,
+			 // 'email'=>$values->email,
+			 // 'role'=>$values->user_role
+		 // );
 		 $this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 if($status){
@@ -106,28 +106,29 @@ class Home extends CI_Controller {
 			  $this->session->set_userdata($sessionVal);
 			 redirect('overview'); 
 			 }else{
-			 redirect('business_registration');
+			 redirect('basicinfo');
 			 }
 		 }
-		}else{
-		$this->parser->parse('include/meta_tags',$this->data);
-		$this->parser->parse('general/login',$this->data);
-		}
-	}
+		//}
+		// else{
+		// $this->parser->parse('include/meta_tags',$this->data);
+		// $this->parser->parse('general/login',$this->data);
+		// }
+	//}
 	
 	public function clientlogin(){
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
 		$password= MD5($_POST['password']);
-		 $where=" And password='".$password."' AND user_role='client' and status='active'";
+		 $where=" And password='".$password."' AND status='active'";
 		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
 		 if($values==""){
 		 $this->data['failure']="Failure";
 		 $this->parser->parse('include/meta_tags',$this->data);
 		 $this->parser->parse('general/login',$this->data);
 		 }else{
-		 //print_r($values->user_role); exit;
+		  //print_r($values->user_role); exit;
 		  $sessionVal=array(
 			 'id'=>$values->id,
 			 'username'=>$values->first_name,
@@ -135,7 +136,11 @@ class Home extends CI_Controller {
 			 'role'=>$values->user_role
 		 );
 		 $this->session->set_userdata($sessionVal);
-		 redirect('cprofile');
+			if($values->user_role=='manager'){
+			$this->businesslogin();
+			}else{
+			redirect('cprofile');
+			}
 		 }
 		}else{
 		$this->parser->parse('include/meta_tags',$this->data);

@@ -10,14 +10,14 @@
      <h3 >Business Registration </h3>
             <ul id="myTab" class="nav nav-tabs">
 			<?php 
-			 if($results[1]=="business_registration")
-			{
-			$class="active";
-			}else{
-			$class="";
-			}
+			 // if($results[1]=="business_registration")
+			// {
+			// $class="active";
+			// }else{
+			// $class="";
+			// }
 			 ?>
-              <li class="<?php echo $class ?>" id="li_1">
+              <!---<li class="<?php // echo $class ?>" id="li_1">
 				<a href="#">
 					<div class="row-fluid">
 					 <div class="span6">
@@ -28,7 +28,7 @@
 					</div>
 					</div>
 				</a>
-			  </li>
+			  </li>--->
 			  <?php 
 				 if($results[1]=="basicinfo")
 				{

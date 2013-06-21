@@ -25,10 +25,19 @@
 								<a href="#"><center>
 								<i class="icon-question-sign icon-white icon-large"></i></center><span>Help</span></a>
 							</li>
-							<li>
+							<?php if($this->session->userdata('role')=="manager") { ?>
+							 <li>
+								
+							</li> 
+							<?php }else{
+							  ?>
+							  <li> 
 								<a href="<?php echo base_url(); ?>business_registration"><center>
 								<i class="icon-flag icon-white icon-large"></i></center><span>Features & pricing</span></a>
-							</li>
+							</li> 
+							  <?php 
+							} ?>
+							
 							<?php /*?><li>
 							<?php if(isset($this->session->userdata['business_id'])) {?>
 								<a href="<?php echo base_url(); ?>overview">

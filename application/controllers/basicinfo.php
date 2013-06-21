@@ -62,9 +62,7 @@ class Basicinfo extends CI_Controller {
 	
 	
 	public function insertData(){
-	// print_r($_POST); exit;
 	 $this->basicinfo_model->insertBasicInfo();
-	//print_r($_POST); exit;
 	}
 }
 

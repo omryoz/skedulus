@@ -150,3 +150,15 @@ $(this).addClass('active');
 /*Add Active class to the navigation header top left end*/
 
 
+function resize() {
+    if ($(window).width() < 980) {
+     $('#create-user-modal').removeClass('modal-bigger');
+    }
+
+}
+
+$(document).ready( function() {
+    $(window).resize(resize);
+    resize();
+});
+

@@ -29,10 +29,11 @@
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text1.png"><img src="<?php echo base_url(); ?>img/calendar1.png">
 									<a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a>
 								</li>
-								<li><img src="<?php echo base_url(); ?>img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png"></li>
-								<li><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"></li>
-								<li><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png"></li>
-								<li><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png"></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png">
+								<a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" >Start your free Trial</a></li>
 							</ul>
 						</div><!-- sp-content -->
 					</div><!-- sp-slideshow -->
@@ -178,37 +179,56 @@
 </div>
 <div class="modal-body">
   <form class="form-horizontal" action="<?php echo base_url(); ?>home/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
-	<div class="control-group">
-    <label class="control-label" for="inputEmail">First Name</label>
-    <div class="controls">
-    <input type="text"  placeholder="First Name" name="firstname" value="" maxlength="15">
-    </div>
-    </div>
-	<div class="control-group">
-    <label class="control-label" for="inputEmail">Last Name</label>
-    <div class="controls">
-    <input type="text"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
-    </div>
-    </div>
-    <div class="control-group">
-    <label class="control-label" for="inputEmail">Email</label>
-    <div class="controls">
-    <input type="text" placeholder="Email" name="email" value="" id="email">
-    </div>
-    </div>
-    <div class="control-group">
-    <label class="control-label" for="inputPassword">Password</label>
-    <div class="controls">
-    <input type="password" name="password" id="inputPassword" placeholder="Password" maxlength="20">
-    </div>
-    </div>
-    <div class="control-group">
-    <div class="controls">
-    <input type="hidden" name="usertype" value="businessSignUp" /> 
-    <button type="submit" class="btn btn-success">Sign up</button>
-    </div>
-    </div>
+ 	   <div class="rule_connect">
+        <strong >Connect with</strong>
+      </div>
+  
+ 	  <div class="social_buttons hidden-phone" >
+        <div class="inset">
+            <a class="fb login_button" href="#">
+                <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
+                <span>Signup with Facebook</span>
+            </a>
+        </div>
+        <div class="inset">
+            <a class="tw login_button" href="#">
+                <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
+                <span>Signup with Twitter</span>
+            </a>
+        </div>
+</div>
+	  <div class="social_buttons visible-phone">
+			<ul class="unstyled inline ">
+			<li class="inset"> <a href="javascript:;"><i class="icon-facebook icon-3x" title="Signup with Facebook"></i></a></li>
+			<li class="inset"> <a href="javascript:;"><i class="icon-twitter icon-3x" title="Signup with Twitter"></i></a></li>
+			</ul>
+	   </div>
+	   <br/>
+	  <div class="row-fluid">
+    <input type="text" class="offset3 span6"  placeholder="First Name" name="firstname" value="" maxlength="15">
+	</div>
+  	 <br />
+		<div class="row-fluid">
+		<input type="text" class="offset3 span6"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
+		</div> 
+		 <br />
+		<div class="row-fluid">
+		<input type="text" class="offset3 span6" placeholder="Email" name="email" value="" id="email">
+		</div> 
+		 <br />
+		<div class="row-fluid">
+		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder="Password" maxlength="20">
+		</div> 
+		  <br />
+		<div class="row-fluid">
+		<input type="hidden" class="offset3 span6" name="usertype" value="businessSignUp" /> 
+		</div>
+		<div class="row-fluid">
+    <button type="submit" class="btn btn-success offset3 span6">Sign up</button>
+   </div>
+  
     </form>
+	</div>
 </div>
 <script>
 (function($,W,D)

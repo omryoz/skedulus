@@ -10,7 +10,7 @@
 							<img src="<?php  echo base_url();?>uploads/business_logo/<?php echo $content->image; ?>">
 						</div>
 					</div>
-					<div class="span9">
+					<div class="span9 rating-block">
 					<h3 ><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
@@ -34,7 +34,7 @@
 						<br clear="left"/>
 						<a href="#">view more..</a>
 						</span>
-						<div class="row-fluid">
+						<div class="row-fluid rating-div">
 							<div class="span6">
 								<div class="btn-group pull-left">
 								<a href="#book"  class="btn btn-success left " role="button"  data-toggle="modal">Book me </a>
@@ -184,7 +184,7 @@
 				  <dd>08:30 - 19:00  </dd>
 				</dl>
 				
-				<img src="../img/map.png">
+				<!--<img src="../img/map.png">-->
 			</div>
 		</div>
 	

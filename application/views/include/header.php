@@ -41,8 +41,8 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
                   		</a>
-				 		<a class="brand" href="<?php echo base_url();?>index.php"><h1>Skedulus</h1>
-						</a>
+						
+				 		<a class="brand" href="#"><h1>Skedulus</h1></a>
 						<!--<img src="images/share.png"  class="brand_img">-->
 						
 						<?php if(isset($this->session->userdata['id'])) { ?>
