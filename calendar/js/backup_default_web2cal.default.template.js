@@ -12,11 +12,7 @@
 		Web2Cal.defaultPlugins.onNewEvent=function(obj, groups, allday)
 		{	 
 			var st=new UTC(obj.startTime);
-			//alert(st.toStandardFormat());
-			var ed = new UTC(obj.endTime);
-			//alert(ed.toStandardFormat());
-			//alert("Start Time" + st.toNiceTime() );	
-			//alert("End Time" + ed.toNiceTime() );
+			var ed = new UTC(obj.endTime); 
 			var newevt=jQuery("#defaultNewEventTemplate"); 
 			//Clear out and reset form
 			newevt.find("#eventDesc").val("").end()
@@ -24,9 +20,7 @@
 				.find("#eventStartDate").val( st.toStandardFormat() ).end() 
 			 	.find("#eventEndDate").val( ed.toStandardFormat() ).end() 
 				.find("#updateEventBtn").hide().end() 
-				.find("#addEventBtn").show().end()
-				.find("#eventStartTime").val( st.toNiceTime() ).end()
-				.find("#eventEndTime").val( ed.toNiceTime() );
+				.find("#addEventBtn").show().end() ;
 		 	// if(allday) 
 				// newevt.find("#allDayEvent").attr("checked", true).end()				
 					  // .find("#eventStartTime").val("").end()
@@ -37,33 +31,17 @@
 					// .find("#eventEndTime").val( ed.toNiceTime() ); 
 
 			//display a list of groups to select from.
-			//var groupDD=newevt.find("#eventGroup").get(0);
-			//console.log(groupDD);
-			//removeAllOptions(groupDD);
-			var string = '';
-			var str = '';
+			var groupDD=newevt.find("#eventGroup").get(0);
+			removeAllOptions(groupDD);
 			for(var g in groups)
 			{	
-				
 				if(!groups.hasOwnProperty(g))continue;
 				var gId = groups[g].groupId;
-				var name = groups[g].groupName;
-				//console.log();
-				if(typeof name != 'undefined'){
-					var str = '<br/><span>'+name+'</span> &nbsp; &nbsp;<input type="checkbox" name="eventGroup" class="eventGroup" value="'+groups[g].groupId+'" /><br/>';
-					string = string + str;
-					}
-				
-				
-				//addOption(groupDD, groups[g].groupName,groups[g].groupId,false);
+				addOption(groupDD, groups[g].groupName,groups[g].groupId,false);
 			} 
+			if(obj.group && obj.group.groupId)	
+				newevt.find("#eventGroup").val(obj.group.groupId); 
 			
-			if(obj.group && obj.group.groupId){	
-				//console.log(obj.group.groupId);
-				newevt.find("#eventGroup").val(str); 
-				}
-			//alert(string);
-			$("#checkbox").html(string);
 		}
 		/**
 		 * Utility Function. Reads user's input into New Event form.
@@ -75,18 +53,7 @@
 		{
 			var newEventContainer = jQuery("#defaultNewEventTemplate"); 
 			var name=newEventContainer.find( "#eventName").val();
-			var grp=newEventContainer.find(".eventGroup:checked").val();
-			//alert(grp.length);
-			//var id = "";
-			var id = [];
-			$(".eventGroup:checked").each(function() {
-				var checked = $(this).val();
-				//id = id + checked +"," ;  
-				id.push($(this).val());
-			});
-			var s = id.join(', ');
-			//alert(s);
-			var grp = s;
+			var grp=newEventContainer.find("#eventGroup").val();
 			var grpName=newEventContainer.find("#eventGroup  option:selected").text(); 
 			var strtTime=newEventContainer.find("#eventStartTime").val();
 			var endTime=newEventContainer.find("#eventEndTime").val();
@@ -245,7 +212,8 @@
 							+'		<div class=" labels" >	'
 							+'			Services	'
 							+'		</div>	'
-							+'		<div class="selectGroup"><p id="checkbox"><p>'
+							+'		<div class="selectGroup">	'
+							+'			<select name="eventGroup"   id="eventGroup" class="input-small" multiple></select>	'
 							+'		</div>			'
 							+'	</div>	'
 
@@ -267,36 +235,36 @@
 							+'			</td>	'
 							+'			<td  valign="top">	'
 							+'			<div>	'
-							+'				<div class="labels hide">	'
+							+'				<div class="labels ">	'
 							+'					Start Date:'
 							+'				</div>	'
 							+'				<div class="startDate">	'
-							+'					<input type="hidden" name="eventStartDate" style="width:6em; border:1px solid #C3D9FF;" id="eventStartDate"/>	'
+							+'					<input type="Text" name="eventStartDate" style="width:6em; border:1px solid #C3D9FF;" id="eventStartDate"/>	'
 							+'				</div>			'
 							+'			</div>	'
 							+'			<div>	'
-							+'				<div class="labels hide" >	'
+							+'				<div class="labels " >	'
 							+'					Start Time:'
 							+'				</div>	'
 							+'				<div class="startTime">	'
-							+'					<input type="hidden" name="eventStartTime" style="width:5em; border:1px solid #C3D9FF;" id="eventStartTime"/>	' 
+							+'					<input type="Text" name="eventStartTime" style="width:5em; border:1px solid #C3D9FF;" id="eventStartTime"/>	' 
 							+'				</div>	 	'
 							+'			</div> 	'
 							+'			<div>	'
-							+'				<div class="labels hide">	'
+							+'				<div class="labels ">	'
 							+'					End Date:'
 							+'				</div>	'
 							+'				<div class="endDate">	'
-							+'					<input type="hidden" name="eventEndDate" style="width:6em; border:1px solid #C3D9FF;" id="eventEndDate"/>	'
+							+'					<input type="Text" name="eventEndDate" style="width:6em; border:1px solid #C3D9FF;" id="eventEndDate"/>	'
 							+'				</div>			'
 							+'			</div>	  	'
 							
 							+'			<div>	'
-							+'				<div class="labels hide" >	'
+							+'				<div class="labels" >	'
 							+'					End Time: '
 							+'				</div>	'
 							+'				<div class="endTime">	'
-							+'					<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	'
+							+'					<input type="Text" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	'
 							+'				</div>		 	'
 							+'			</div>	'
 							+'			</td>	'
@@ -393,8 +361,7 @@
 			  load();
 		}
  
-function removeAllOptions(from){
-if(!hasOptions(from)){return;}for(var i=(from.options.length-1);i>=0;i--){from.options[i] = null;}from.selectedIndex = -1;}
+function removeAllOptions(from){if(!hasOptions(from)){return;}for(var i=(from.options.length-1);i>=0;i--){from.options[i] = null;}from.selectedIndex = -1;}
 function addOption(obj,text,value,selected){if(obj!=null && obj.options!=null){obj.options[obj.options.length] = new Option(text, value, false, selected);}}
 function hasOptions(obj){if(obj!=null && obj.options!=null){return true;}return false;}
 		

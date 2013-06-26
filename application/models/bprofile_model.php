@@ -24,15 +24,16 @@ class bprofile_model extends CI_Model {
 		$id=mysql_insert_id();
 		}
 		if(isset($_POST['staffs']))
-		$assignStaff=array();
-		$i=0;
+			$assignStaff=array();
+			$i=0;
+		if(!empty($_POST['staffs'])){
 		foreach($_POST['staffs'] as $val){
 			$assignStaff['users_id']=$val;
 			$assignStaff['business_id']=$this->session->userdata['business_id'];
 			$assignStaff['service_id']=$id;
 			$this->db->insert("employee_services",$assignStaff);
 			$i++;
-		}
+		}}
 		return true;
 	}
 	

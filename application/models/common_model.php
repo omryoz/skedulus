@@ -131,7 +131,69 @@ public function mail($emailTo,$subject,$message){
 		$chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
 		$password = substr( str_shuffle( $chars ), 0, $length );
 		return $password;
-	}	
+	}
+
+	/*Get Service Time*/	
+	
+	function getserviceTime($info=false){
+		if($info){
+			$query = $this->db->get_where("user_business_services",$info);
+			if($query->num_rows()>0){
+				return $query->result();
+			}else{
+				return false;
+			}
+			
+		}else{
+			return false;
+		}
+	}
+	
+	/*Get Business Services by filter*/
+	
+	function getserviceByfilter($filter=false){
+		if($filter){
+			$this->db->where($filter);
+		}
+		$query = $this->db->get("view_employee_services");
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
+	
+	function getworkingday($info=false){
+		if($info){
+			$query = $this->db->get_where("view_service_availablity",$info);
+			if($query->num_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	function getAllslots($info=false){
+		if($info){
+			$query = $this->db->get_where("view_service_availablity",$info);
+			if($query->num_rows()>0){
+				$results = $query->result();
+				return $results[0];
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+
+	}
+	
+	
+	
 	
 }
 

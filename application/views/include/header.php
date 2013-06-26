@@ -21,7 +21,9 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>functions/script.js"></script>
 <!---End----------------->
 
-
+<script>
+	
+</script>
 
 
   </head>

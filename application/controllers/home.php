@@ -99,7 +99,7 @@ class Home extends CI_Controller {
 			 // 'email'=>$values->email,
 			 // 'role'=>$values->user_role
 		 // );
-		 $this->session->set_userdata($sessionVal);
+		 //$this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 if($status){
 			 $sessionVal=array('business_id'=>$status->id);

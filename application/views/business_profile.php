@@ -37,7 +37,7 @@
 						<div class="row-fluid rating-div">
 							<div class="span6">
 								<div class="btn-group pull-left">
-								<a href="#book"  class="btn btn-success left " role="button"  data-toggle="modal">Book me </a>
+								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
 								<a  href="<?php echo base_url(); ?>bcalendar" class="btn btn-success right " role="button"  
 									data-toggle="modal">View schedule</a>
 							</div>
@@ -61,6 +61,7 @@
 			<?php include('filmstrip.php')?>
 		</div>
 		<hr >
+		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
 		<div class="row-fluid">
 			<div class="span9">
 				
@@ -197,24 +198,32 @@
     <h3 id="myModalLabel">Book an appointment</h3>
   </div>
   <div class="modal-body">
-		   <form class="form-horizontal">
+		   <p class="message"></p>	
+		   <form class="form-horizontal" name="book_appointment" action="<?=$base_url?>bcalender">
 		   <div class="control-group">
 			<label class="control-label" >Service</label>
 			<div class="controls">
-			  <input type="text" class="span6" readonly="" placeholder="Service">
+			  <!--<input type="text" class="span6" readonly="" placeholder="Service">-->
+			  <!--<p id="service hide">Services</p>-->
+			  <select class="services" name="services">
+				<option>Select Services</option>
+			  </select>
 			</div>
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" >Staff</label>
 			<div class="controls">
-			  <input type="text" class="span6" readonly="" placeholder="Staff">
+			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
+			  <select name="staff" class="staff"> 
+				<option>Select Staff</option>
+			  </select>
 			</div>
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" >Date</label>
 			<div class="controls">
 				<div class="input-append date date_pick span6" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-					<input class="span10" size="16" type="text" value="12-02-2012" >
+					<input class="span10 st_date" size="16" type="text" value="12-02-2012" >
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				  </div>
 			</div>
@@ -222,7 +231,10 @@
 		  <div class="control-group">
 			<label class="control-label" >Time</label>
 			<div class="controls">
-						<input type="text" class="span6" readonly="" placeholder="Time">
+					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
+					<select name="time" class="time" >
+						
+					</select>
 					<a href="<?php echo base_url(); ?>bcalendar"   role="button"  data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
 			</div>
 		  </div>

@@ -1,14 +1,121 @@
-/* Author:
-
+/* 
+	Author:Eulogik 
+	Programmer :  Swathi,Rakesh
+	Designer :  Pankaj
 */
 
 	
+//Global variable 
 
-    $('.tool').tooltip('hide')
+var base_url = "http://localhost/skedulus_svn/";
+	
+$('.tool').tooltip('hide')
 
 
 
 $(document).ready(function(){
+
+$(".book_me").live("click",function(){
+	var business_id = $("#business_id").html();
+	$(".services").html("");
+	getservices(business_id);
+});
+
+function getservices(business_id){
+	var url = base_url+"Bcalendar/getserviceBybusinessfilter";
+	$.post(url,{business_id:business_id}, function(data){
+		
+		$.each(eval(data), function( key, value ) {
+			var append = "<option id="+key+" value="+value.service_id+">"+value.name+"</option>";
+			$(".services").append(append);
+		});
+	});
+}
+
+/*Get staff name*/
+
+$(".services").live("change",function(){
+	var url = base_url+"Bcalendar/getstaffnameByfilter";
+	$.post(url,{service_id:$(this).val()}, function(data){
+		$(".staff").html("");
+		$.each(eval(data), function( key, value ) {
+			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
+			$(".staff").append(append_option);
+		});
+	});
+});
+/*
+$(".st_date").live("click",function(){
+	alert((this).val());	
+});*/
+
+$(".st_date").live("click",function(){ 
+	
+	var business_id = $("#business_id").html();
+	//alert(business_id);
+	//alert($(".st_date").val()); 
+	var url = base_url+"Bcalendar/getfreeslotsbydate";
+	$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
+		//alert(info);
+		if(info==0){
+			//$(".btn-success").attr("href","javascript:;");
+			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
+			
+		}
+		else{
+			$(".time").html(""); 
+			$(".time").append(info);
+		}
+	});
+	
+});
+
+
+
+
+/*Time Calculation*/
+$(".eventGroup").live("click",function(){ 
+	var checked = '';
+	$('input:checkbox[name=eventGroup]').each(function() 
+	{   
+		if($(this).is(':checked')){
+			checked = checked  + $(this).val() +',';	
+		}	
+	});	
+		var starttime = $("#eventStartTime").val();
+		//alert(starttime);	
+		var myUrl = base_url+"Bcalendar/getendtime";
+		$.ajax({
+			type: "POST",
+			url: myUrl,
+			data: { checked : checked,starttime:starttime },
+			success: function(data) {
+				//alert(checked);
+				//alert('it worked');
+				//alert(data);
+				$("#eventEndTime").val(data);
+			},
+			error: function() {
+				//alert('it broke');
+			},
+			complete: function() {
+				//alert('it completed');
+			}
+		});
+ });
+ 
+
+
+/*var countChecked = function() {
+  var n = $( "input:checked" ).length;
+  //$( "div" ).text( n + (n === 1 ? " is" : " are") + " checked!" );
+};
+countChecked();*/
+
+/*$("input[type=checkbox] #eventGroup").on("click",function(){
+	alert("hello");
+});*/
+
 _page = window.location.pathname.split('/')[2];
        $('a[href="'+_page+'"]').parent().addClass('active');
 
