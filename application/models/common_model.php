@@ -189,8 +189,33 @@ public function mail($emailTo,$subject,$message){
 		}else{
 			return false;
 		}
-
 	}
+	
+	function createAppointment($info){
+		if($info){
+			$query = $this->db->insert("client_service_appointments",$info);
+			if($this->db->affected_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	function getBookedslotsByDate($date=false){
+		if($date){
+			$query = $this->db->query("SELECT *,TIME(start_time) as start_time,TIME(end_time) as end_time,DATE(start_time) as start_date FROM `client_service_appointments`  HAVING start_date = '".$date."'");
+			//echo $this->db->last_query();
+			//exit;	
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
+	
 	
 	
 	

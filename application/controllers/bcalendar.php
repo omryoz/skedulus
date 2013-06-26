@@ -90,12 +90,6 @@ class Bcalendar extends CI_Controller {
 		$time = explode(":",$this->addTime($t_time,$t));
 		$return = $time[0].':'.$time[1];
 		echo $return;
-		//echo $time/60;
-		//echo strtotime($t_time)+strtotime($this->input->post('starttime'));
-		//
-		//echo  date("H:m",$time);
-		//echo $time;
-		
 	}
 	
 	function convertToHoursMins($time, $format = '%d:%d') {
@@ -170,6 +164,9 @@ function getfreeslotsbydate(){
 			 $day = $this->checkweekendDayName($this->input->post('date'));
 			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day); 
 			 $this->data['slots'] = $this->common_model->getAllslots($filter);
+			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))));
+			 //print_r($this->data['booked_slots']);
+			 //exit;	
 			 //print_r($this->data['slots']);
 			 $this->load->view("options",$this->data);
 			 
@@ -202,6 +199,51 @@ function checkweekendDayName($date=false){
 		$date3 = strtolower($date2);
 		return $date3;
 }
+
+function createappointment(){
+	if($this->input->post('submit')){
+		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
+		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
+		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked");
+		//print_r(date("Y-m-d",strtotime($this->input->post('date'))));exit;
+		if($this->common_model->createAppointment($input)){
+			redirect("bcalendar/mycalender");
+		}else{
+			redirect("");
+		}
+	}
+}
+
+/*Get End Time by Selected Services*/
+
+	function getendtimeByservie(){
+		//print_r($this->input->post());
+		$time = "";
+		$conversion = "";
+		//foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
+			$info = array("id"=>$this->input->post('service_id'));	
+			$times = $this->common_model->getserviceTime($info);
+			//print_r();
+			
+			if($times[0]->time_type=="minutes"){
+				$conversion = 1;
+					
+			}else if($times[0]->time_type=="hours"){
+				$conversion = 60;
+			}
+			$total = $times[0]->timelength * $conversion + $times[0]->padding_time;
+			$time = $time + $total;
+			
+		//}
+		$t_time = $this->convertToHoursMins($time,'%d:%d');
+		$t_time = $t_time.':0';
+		$start_time = $this->input->post('starttime');
+		$t = $start_time.':0';
+		
+		$time = explode(":",$this->addTime($t_time,$t));
+		$return = $time[0].':'.$time[1];
+		echo $return;
+	}
 
 	
 	

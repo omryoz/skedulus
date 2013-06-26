@@ -27,6 +27,7 @@ class BusinessProfile extends CI_Controller {
 	 }else{
 		$id=$this->session->userdata['business_id'];
 	 }
+	 $this->data['user_id'] = $this->session->userdata['id'];
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
 	 $this->parser->parse('business_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);

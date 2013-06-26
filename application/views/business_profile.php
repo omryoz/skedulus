@@ -193,13 +193,14 @@
 
 
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>Bcalendar/createappointment" method="post">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Book an appointment</h3>
   </div>
   <div class="modal-body">
 		   <p class="message"></p>	
-		   <form class="form-horizontal" name="book_appointment" action="<?=$base_url?>bcalender">
+		  
 		   <div class="control-group">
 			<label class="control-label" >Service</label>
 			<div class="controls">
@@ -222,10 +223,14 @@
 		  <div class="control-group">
 			<label class="control-label" >Date</label>
 			<div class="controls">
-				<div class="input-append date date_pick span6" id="dp5" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-					<input class="span10 st_date" size="16" type="text" value="12-02-2012" >
+				<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
+					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" >
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				  </div>
+				  <!--<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
+                                       <input class="span10 st_date" size="16" type="text" value="<?=date("d-m-Y")?>" >
+                                       <span class="add-on"><i class="icon-calendar"></i></span>
+                                 </div>-->
 			</div>
 		  </div>
 		  <div class="control-group">
@@ -235,7 +240,7 @@
 					<select name="time" class="time" >
 						
 					</select>
-					<a href="<?php echo base_url(); ?>bcalendar"   role="button"  data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
+					<a href="<?php echo base_url();?>bcalendar" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
 			</div>
 		  </div>
 		  
@@ -243,16 +248,21 @@
 		  <div class="control-group">
 			<label class="control-label" >Message</label>
 			<div class="controls">
-			  <textarea type="text" class="span6" id="inputText" placeholder="Message"></textarea>
+			  <textarea type="text" class="span6" name="note" id="note" placeholder="Message"></textarea>
 			</div>
 		  </div>
 		  
-		</form>
+	
   </div>
   <div class="modal-footer">
-    <a href="#" class="btn btn-success span3 offset5" >Book</a>
+    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
+	<input type="submit" name="submit" value="Book" class="btn btn-success span3 offset5"/>
+	<input type="hidden" name="user_id" value="<?=$user_id?>" />
+	<input type="hidden" name="end_time" id="end_time" value="" />
   </div>
+  </form>
 </div>
+	
 <!--------book popup end------------->
 
 <!-----Theater view modal start------>

@@ -4,6 +4,36 @@
 	Designer :  Pankaj
 */
 
+
+/*
+$(function(){
+       
+       var nowTemp = new Date();
+   var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+
+       var checkin = $('#start_date').datepicker({
+         onRender: function(date) {
+           return date.valueOf() < now.valueOf() ? 'disabled' : '';
+         }
+       }).on('changeDate', function(ev) {
+         if (ev.date.valueOf() > checkout.date.valueOf()) {
+           var newDate = new Date(ev.date)
+           newDate.setDate(newDate.getDate() + 1);
+           checkout.setValue(newDate);
+         }
+         checkin.hide();
+         $('#end_date')[0].focus();
+       }).data('datepicker');
+       var checkout = $('#end_date').datepicker({
+         onRender: function(date) {
+           return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+         }
+       }).on('changeDate', function(ev) {
+         checkout.hide();
+       }).data('datepicker');
+});*/
+
+	
 	
 //Global variable 
 
@@ -43,12 +73,39 @@ $(".services").live("change",function(){
 			$(".staff").append(append_option);
 		});
 	});
+	
+});
+
+$(".time").live("change",function(){
+		//alert("Hey");
+	
+		var starttime = $(this).val();
+		var service_ = $(".services").val();
+		//alert(starttime);	
+		//alert(service_);
+		var myUrl = base_url+"Bcalendar/getendtimeByservie";
+		$.ajax({
+			type: "POST",
+			url: myUrl,
+			data: { service_id : service_,starttime:starttime },
+			success: function(data) {
+				$("#end_time").val(data);
+			},
+			error: function() {
+				//alert('it broke');
+			},
+			complete: function() {
+				//alert('it completed');
+			}
+		});
+	
 });
 /*
 $(".st_date").live("click",function(){
 	alert((this).val());	
 });*/
 
+/*
 $(".st_date").live("click",function(){ 
 	
 	var business_id = $("#business_id").html();
@@ -68,7 +125,7 @@ $(".st_date").live("click",function(){
 		}
 	});
 	
-});
+});*/
 
 
 
@@ -120,8 +177,39 @@ _page = window.location.pathname.split('/')[2];
        $('a[href="'+_page+'"]').parent().addClass('active');
 
 });
+			
+			var nowTemp = new Date();
+			var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+			/*$('.date_pick').datepicker({
+					onRender: function(date) {
+						return date.valueOf() < now.valueOf() ? 'disabled' : '';
+					}
+			})*/
+			$('.date_pick').datepicker({
+					onRender: function(date) {
+						return date.valueOf() < now.valueOf() ? 'disabled' : '';
+					}
+			})
+			.on('changeDate', function(ev){
+				//alert("hello")
+				var business_id = $("#business_id").html();
+				//alert(business_id);
+				//alert($(".st_date").val()); 
+				var url = base_url+"Bcalendar/getfreeslotsbydate";
+				$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
+				//alert(info);
+				if(info==0){
+				//$(".btn-success").attr("href","javascript:;");
+				$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
 
-
+				}
+				else{
+				$(".time").html(""); 
+				$(".time").append(info);
+				}
+				});
+			});
+			//$('.date_pick').datepicker();
             $('.endtime').timepicker({
 			showInputs: false,						  
 			showMeridian: false,
@@ -148,7 +236,7 @@ _page = window.location.pathname.split('/')[2];
                        });         
 			
 			 
-     $('.date_pick').datepicker('hide')
+    /* $('.date_pick').datepicker('hide')*/
 
 		$('.offer_block').click('live',function(){
 window.location.href='offer.php'; 
