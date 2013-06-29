@@ -193,7 +193,7 @@
 
 
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>Bcalendar/createappointment" method="post">	
+   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>Bcalendar/createappointment" method="post" id="book_appointment">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Book an appointment</h3>
@@ -206,7 +206,7 @@
 			<div class="controls">
 			  <!--<input type="text" class="span6" readonly="" placeholder="Service">-->
 			  <!--<p id="service hide">Services</p>-->
-			  <select class="services" name="services">
+			  <select class="services" name="services" required>
 				<option>Select Services</option>
 			  </select>
 			</div>
@@ -224,7 +224,7 @@
 			<label class="control-label" >Date</label>
 			<div class="controls">
 				<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" >
+					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" required>
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				  </div>
 				  <!--<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
@@ -237,7 +237,7 @@
 			<label class="control-label" >Time</label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" >
+					<select name="time" class="time" required>
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
@@ -256,7 +256,7 @@
   </div>
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="submit" name="submit" value="Book" class="btn btn-success span3 offset5"/>
+	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5"/>
 	<input type="hidden" name="user_id" value="<?=$user_id?>" />
 	<input type="hidden" name="end_time" id="end_time" value="" />
   </div>

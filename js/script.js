@@ -37,7 +37,7 @@ $(function(){
 	
 //Global variable 
 
-var base_url = "http://localhost/skedulus_svn/";
+var base_url = "http://dev.eulogik.com/skedulus/";
 	
 $('.tool').tooltip('hide')
 
@@ -52,7 +52,7 @@ $(".book_me").live("click",function(){
 });
 
 function getservices(business_id){
-	var url = base_url+"Bcalendar/getserviceBybusinessfilter";
+	var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	$.post(url,{business_id:business_id}, function(data){
 		
 		$.each(eval(data), function( key, value ) {
@@ -65,7 +65,7 @@ function getservices(business_id){
 /*Get staff name*/
 
 $(".services").live("change",function(){
-	var url = base_url+"Bcalendar/getstaffnameByfilter";
+	var url = base_url+"bcalendar/getstaffnameByfilter";
 	$.post(url,{service_id:$(this).val()}, function(data){
 		$(".staff").html("");
 		$.each(eval(data), function( key, value ) {
@@ -81,15 +81,24 @@ $(".time").live("change",function(){
 	
 		var starttime = $(this).val();
 		var service_ = $(".services").val();
+		var date = $(".st_date").val();
+		var business_id = $("#business_id").html();
+		//alert(date);
 		//alert(starttime);	
 		//alert(service_);
-		var myUrl = base_url+"Bcalendar/getendtimeByservie";
+		var myUrl = base_url+"bcalendar/getendtimeByservie";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
-			data: { service_id : service_,starttime:starttime },
+			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id },
 			success: function(data) {
-				$("#end_time").val(data);
+				//alert(data);
+				if(data==0){
+					alert("Time Slots Not Available Which you are trying with services")		;
+				}else{
+					console.log(data);
+					$("#end_time").val(data);
+				}
 			},
 			error: function() {
 				//alert('it broke');
@@ -111,7 +120,7 @@ $(".st_date").live("click",function(){
 	var business_id = $("#business_id").html();
 	//alert(business_id);
 	//alert($(".st_date").val()); 
-	var url = base_url+"Bcalendar/getfreeslotsbydate";
+	var url = base_url+"bcalendar/getfreeslotsbydate";
 	$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
 		//alert(info);
 		if(info==0){
@@ -141,7 +150,7 @@ $(".eventGroup").live("click",function(){
 	});	
 		var starttime = $("#eventStartTime").val();
 		//alert(starttime);	
-		var myUrl = base_url+"Bcalendar/getendtime";
+		var myUrl = base_url+"bcalendar/getendtime";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
@@ -195,17 +204,22 @@ _page = window.location.pathname.split('/')[2];
 				var business_id = $("#business_id").html();
 				//alert(business_id);
 				//alert($(".st_date").val()); 
-				var url = base_url+"Bcalendar/getfreeslotsbydate";
+				var url = base_url+"bcalendar/getfreeslotsbydate";
 				$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
 				//alert(info);
 				if(info==0){
-				//$(".btn-success").attr("href","javascript:;");
+				//$("#book").attr("href","javascript:;");
+				
+				$("#book_appointment").attr("onsubmit","return false");
+				
 				$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
 
 				}
 				else{
+				$("#book_appointment").attr("onsubmit","return true");	
 				$(".time").html(""); 
 				$(".time").append(info);
+				$(".message").removeClass("alert").html("");
 				}
 				});
 			});

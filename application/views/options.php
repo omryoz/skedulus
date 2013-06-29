@@ -6,11 +6,13 @@
 		foreach($booked_slots as $key =>$booked){	
 			$start_booked = strtotime($booked->start_time);
 			$end_booked = strtotime($booked->end_time);
-			for( $i = $start_booked; $i <= $end_booked; $i += (60*15)){
+			for( $i = $start_booked; $i < $end_booked; $i += (60*15)){
 				//$booked_container = date('g:iA', $i).",";
 				$booked_container[] = date('g:iA', $i);
 			}
+			//$end_booked[] = strtotime($booked->end_time);
 		}
+		
 	
 		
 		$total_slotlist = array();
@@ -21,18 +23,21 @@
 		}
 	
 		$option = "";
+		$last_slots = "";
 		foreach($total_slotlist as $single_total){
 			
-			/*echo "Single Slots".$single_total."<br/>";
-			print_r($booked_container)."Total Slots";*/
+			//echo "Single Slots".$single_total."<br/>";
+			//print_r($booked_container)."Booked Slots";
 			
 			if(in_array($single_total,$booked_container)){
 				echo "Not Availble Slots".$single_total;
-				
+					
 			}else{
 				$option .= "<option id=".$i." value=".$single_total.">".$single_total."</option>"; 
 			}
+			$last_slots = $single_total; 
 		}
+		 
 		echo $option;
 		exit;
 		

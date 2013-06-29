@@ -242,7 +242,77 @@ function createappointment(){
 		
 		$time = explode(":",$this->addTime($t_time,$t));
 		$return = $time[0].':'.$time[1];
-		echo $return;
+		//echo $return;
+		//exit;
+		$day = $this->checkweekendDayName($this->input->post('date'));
+		$filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day); 
+		$slots = $this->common_model->getAllslots($filter);
+		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))));
+		//print_r($this->data['booked_slots']);
+		/*Get all empty slots*/
+		
+		$booked_container = array();
+		//$slots = array();
+		foreach($booked_slots as $key =>$booked){	
+			$start_booked = strtotime($booked->start_time);
+			$end_booked = strtotime($booked->end_time);
+			for( $i = $start_booked; $i < $end_booked; $i += (60*15)){
+				//$booked_container = date('g:iA', $i).",";
+				$booked_container[] = date('g:iA', $i);
+			}
+		}
+	
+		
+		$total_slotlist = array();
+		$start = strtotime($slots->start_time);
+		$end = strtotime($slots->end_time);
+		for( $i = $start; $i <= $end; $i += (60*15)){
+			$total_slotlist[] = date('g:iA', $i);
+		}
+	
+		$option = array();
+		foreach($total_slotlist as $single_total){
+			if(in_array($single_total,$booked_container)){
+				//echo "Not Availble Slots".$single_total;
+			}else{
+				$option[] = $single_total;
+			}
+		}
+		
+		
+		
+		
+		$time_needed = array();
+		$start = strtotime($this->input->post('starttime'));
+		$end = strtotime($return);
+		for( $i = $start; $i <= $end; $i += (60*15)){
+			$time_needed[] = date('g:iA', $i);
+		}
+		//print_r($time_needed);
+		$returned = true;
+		$total = count($time_needed); 
+		$i=0;
+		foreach($time_needed as $single_slots){	
+			//echo $single_slots."Single Slots";
+			//print_r($time_needed);
+			$i++;
+			if($total==$i){
+				
+			}else{
+				if(in_array($single_slots,$booked_container)){
+					//echo "Break";
+					$returned = false;
+					break;
+				}
+			}	
+		}
+		
+		if($returned){
+			echo $return;
+		}else{
+			echo 0;
+		}
+		
 	}
 
 	
