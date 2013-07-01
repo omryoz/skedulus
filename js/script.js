@@ -37,7 +37,7 @@ $(function(){
 	
 //Global variable 
 
-var base_url = "http://dev.eulogik.com/skedulus/";
+var base_url = "http://localhost/skedulus_svn/";
 	
 $('.tool').tooltip('hide')
 
@@ -183,7 +183,7 @@ countChecked();*/
 });*/
 
 _page = window.location.pathname.split('/')[2];
-       $('a[href="'+_page+'"]').parent().addClass('active');
+       $('a[href="'+_page+'"],a[href="'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
 
 });
 			

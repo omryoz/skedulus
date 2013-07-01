@@ -29,7 +29,7 @@
 					}
 					?> 
 					<li <?php echo $class; ?>>
-						<a href="<?php echo base_url() ?>bcalendar"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
+						<a href="<?php echo base_url() ?>bcalendar/calendar_business"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
 					</li>
 					<?php if($results[1]=='businessProfile'){ 
 					$class=" class='active'";
@@ -86,7 +86,17 @@
 					$class="";
 					}
 					?> 
-					<li <?php echo $class; ?>><a href="<?php echo base_url() ?>services/list_services"><center><i class="icon-cogs"></i><p>Services</p>
+					<?php 
+					if($this->session->userdata['business_type']=="class"){
+							$link = "list_classes";
+							$text= "Classes";
+						}else{	
+							$link = 'list_services';
+							$text = "Services";		
+						}
+					?>
+					
+					<li <?php echo $class; ?>><a href="<?php echo base_url() ?>services/<?=$link?>"><center><i class="icon-cogs"></i><p><?=$text?></p>
 					</center></a>
 					</li>
 					<?php if($results[1]=='offers'){ 

@@ -31,11 +31,9 @@ class createevent
 		
 	
 
-		//print_r($_REQUEST);
 		
-		//echo "insert into client_service_appointments(users_id,note,employee_id, start_time,end_time) VALUES ('".$_SESSION['profileid']."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."')"; exit;
        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked')");
-		//$db->query("insert into events(event_name,event_description, calendar_id, all_day, start_time, end_time) VALUES ('".$desc."', '".$desc."', '".$groupId."', ".$allDayIndicator.",  '".$sTimeStr."', '".$eTimeStr."')");
+		
 		 
 		$input=array(); 
 		$input['eventName']=$evName;

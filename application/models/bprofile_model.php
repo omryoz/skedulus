@@ -323,6 +323,69 @@ class bprofile_model extends CI_Model {
 		 return $value;
 	
 	}
+	
+	function getClasses(){
+		$sql="Select * from user_business_classes where user_business_details_id =".$this->session->userdata['business_id'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+				$values[$i]['id'] =$dataP->id;
+				$values[$i]['name']= $dataP->name;
+				$i++;
+			}
+			return $values;
+		}
+	}
+	
+	function insertClasses(){
+	//print_r($_POST); exit;
+		$insertArray=array();
+		$insertArray['user_business_details_id']= $this->session->userdata['business_id']; 
+		if(isset($_POST['classname']))$insertArray['name']= $_POST['classname'];
+		if(isset($_POST['price_type']))$insertArray['price_type']= $_POST['price_type'];
+		if(isset($_POST['price']))$insertArray['price']= $_POST['price'];
+		if(isset($_POST['length']))$insertArray['timelength']= $_POST['length'];
+		if(isset($_POST['description']))$insertArray['details']= $_POST['description']; 
+		if(isset($_POST['type']))$insertArray['time_type']= $_POST['type'];
+		if(isset($_POST['padding_time']))$insertArray['padding_time']= $_POST['padding_time']; 
+		if(isset($_POST['padding_time_type']))$insertArray['padding_time_type']= $_POST['padding_time_type'];
+		if(isset($_POST['class_size']))$insertArray['class_size']= $_POST['class_size'];
+		
+		
+		
+		if(isset($_POST['id']) && $_POST['id']!=""){
+		$this->db->update('user_business_classes',$insertArray,array('id' => $_POST['id']));
+		mysql_query("delete from employee_services where service_id=".$_POST['id']);
+		$id = $_POST['id'];
+		}else{
+		$this->db->insert('user_business_classes',$insertArray);
+		$id=mysql_insert_id();
+		}
+		if(isset($_POST['staffs']))
+			$assignStaff=array();
+			$i=0;
+		if(!empty($_POST['staffs'])){
+		foreach($_POST['staffs'] as $val){
+			$assignStaff['users_id']=$val;
+			$assignStaff['business_id']=$this->session->userdata['business_id'];
+			$assignStaff['service_id']=$id;
+			$this->db->insert("employee_services",$assignStaff);
+			$i++;
+		}}
+		return true;
+	}
+	
+	function getClassesdetails(){
+		 $val= $this->common_model->getRow("user_business_classes",'id',$_GET['id']);
+		 $value ='[{"name": "'.$val->name.'","id": "'.$val->id.'","type": "'.$val->price_type.'","price": "'.$val->price.'","timelength": "'.$val->timelength.'","time_type": "'.$val->time_type.'","details": "'.$val->details.'","padding_time": "'.$val->padding_time.'","padding_time_type": "'.$val->padding_time_type.'","class_size": "'.$val->class_size.'"}]';			
+		return $value;
+	}
+	
 	//END
+	
+	
+	
 }
 ?>

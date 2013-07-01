@@ -82,6 +82,77 @@ function deleteService(id){
 	})
 	}
 }
+
+
+
+
+//Services
+
+/*Classes Related function */
+
+function deleteClasses(id){
+	var deleteService= confirm("Are you sure you want to delete?");
+	var url=baseUrl+'services/manage_classes';
+	if(deleteService){
+	$.ajax({
+		data:{'id':id,'delete':"delete"},
+		url: url,
+		type:'GET',
+		success:function(data){
+		  location.reload(true);
+		}
+	})
+	}
+}
+function editclasses(id){
+	var url=baseUrl+'services/manage_classes';
+	$.ajax({
+		data: {'id': id},
+		url: url,
+		type:'GET',
+		dataType:'json',
+		success:function(data){
+		var content = eval(data);
+		$.each(content,function(i,v){
+			$("#id").val(v.id);
+			$("#classname").val(v.name);
+			$("#type").val(v.time_type);
+			$("#length").val(v.timelength);
+			$("#price_type").val(v.type);
+			$("#price").val(v.price);
+			$("#description").val(v.details);
+			$("#class_size").val(v.class_size);
+			if(v.padding_time!=0){
+			$("#paddingtime").show();
+			   $("#paddingTime").val(v.padding_time);
+			   $("#padding_time_type").val(v.padding_time_type);
+			   
+			   $("#padding_time").hide();
+			}
+			$("#update").show();
+			$("#insert").hide();
+			$("#edit").show();
+			$("#add").hide();
+			$(".close").hide();
+		})
+		}
+	})
+	$.ajax({
+		data: {'serviceid': id,'getStaffs':'getStaffs'},
+		url: url,
+		type:'GET',
+		dataType:'json',
+		success:function(data){
+		var content = eval(data);
+		$.each(content,function(i,v){
+		$("#"+v.users_id).attr('checked','checked');
+		})
+		}
+	})
+}
+
+/*Classes function end*/
+
 //END
 
 //Staff

@@ -314,6 +314,37 @@ function createappointment(){
 		}
 		
 	}
+	
+	function calendar_business(){
+		 $this->load->model("bprofile_model"); 
+		 $this->data['classes'] = $this->bprofile_model->getClasses();
+		 $this->data['staffs'] = $this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
+		 //print_r($this->data['tableList']);
+		 $this->parser->parse('include/header',$this->data);
+		 if(isset($this->session->userdata['business_id'])){
+		  $this->parser->parse('include/dash_navbar',$this->data);
+		  $this->data['user_id'] = $this->session->userdata['id'];
+		  @session_start();
+		  $this->data['role'] = $this->session->userdata['role'];	
+		  
+		}
+		else if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
+		  $this->parser->parse('include/navbar',$this->data);
+		  $this->data['user_id'] = $this->session->userdata['id'];
+		  @session_start();
+		  //print_r($_SESSION);	
+		  // $filter=array('id'=>$this->session->userdata['id']);
+		  $filter=array('id'=>$_SESSION['profileid']);
+		  //print_r($filter);
+		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		  @session_start();
+		  $this->data['role'] = $this->session->userdata['role'];	
+		}else{
+		  redirect('home/clientlogin');
+		}
+		 $this->load->view("calendar_classes");
+		 $this->parser->parse('include/footer',$this->data);
+	}
 
 	
 	

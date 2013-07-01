@@ -6,7 +6,7 @@
     {
         setupFormValidation: function()
         {
-            $("#addservices").validate({
+            $("#addclasses").validate({
                 rules: {
                     servicename: "required",
 					padding_time:{
@@ -67,7 +67,7 @@ function show(){
               <div class="tab-pane fade active in" id="service">
                 <div class="row-fluid">
 					<div class="">
-						<h3 >Services List 
+						<h3>Classes List 
 						   <a href="#myModal1" class="btn pull-right btn-success" data-toggle="modal">+add</a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
@@ -75,26 +75,27 @@ function show(){
 						  <thead>
 							<tr >
 							  <th><h4>#</h4></th>
-							  <th><h4>Service Name</h4></th>
+							  <th><h4>Class Name</h4></th>
 							  <th><h4>Action</h4></th>
 							</tr>
 						  </thead>
-						 <?php $i=1; 
+						 <?php 
+						 $i=1; 
 						 foreach($tableList as $content){
 						 ?>
 						 <tr>
 							  <td><?php echo $i; ?></td>
 							  <td><?php echo $content['name']; ?></td>
 							  <td>
-							  <a href="#myModal1" data-toggle="modal"  onclick= editService(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-							  <a href="javascript:void(0);"  data-toggle="tooltip" class="tool" onclick= deleteService(<?php echo $content['id'] ?>); data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+							  <a href="#myModal1" data-toggle="modal"  onclick= editclasses(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="javascript:void(0);"  data-toggle="tooltip" class="tool" onclick= deleteClasses(<?php echo $content['id'] ?>); data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 							  </td>
 							  
 						</tr>
 						 <?php $i++;} ?>
 						</table>
 						<?php }else{?>
-						 <p class="alert">No services added yet</p>
+						 <p class="alert">No Classes added yet</p>
 						 <?php } ?>
 						 <?php if(isset($_GET['register'])) { ?>
 						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left">Back</a>
@@ -113,14 +114,14 @@ function show(){
 </div><!--row-fluid-->
 </div><!--end of content-->
 
-<!--model for add service-->
+<!--model for add Classes-->
 
 <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">
-	<h4 class="staff1" id="edit" style="display:none">Edit Service</h4>
-	<h4 class="staff1" id="add">Add Service</h4>
+	<h4 class="staff1" id="edit" style="display:none">Edit Classes</h4>
+	<h4 class="staff1" id="add">Add Classes</h4>
 	</h3>
   </div>
   <div class="modal-body">
@@ -131,11 +132,11 @@ function show(){
             </ul>
             <div id="serviceTabContent" class="tab-content">
               <div class="tab-pane fade in active" id="general">
-                <form class="form-horizontal" action="<?php echo base_url() ?>services/manage_services/?insert" id="addservices" method="POST">
+                <form class="form-horizontal" action="<?php echo base_url() ?>services/manage_classes/?insert" id="addclasses" method="POST">
 					  <div class="control-group">
-						<label class="control-label" for="Service Name">Service Name </label>
+						<label class="control-label" for="Service Name">Class Name </label>
 						<div class="controls">
-						  <input type="text"  id="servicename"  name="servicename" placeholder="">						 
+						  <input type="text"  id="classname"  name="classname" placeholder="">						 
 						</div>
 					
 					  </div>
@@ -147,7 +148,7 @@ function show(){
 						  <option>minutes</option>
 						  <option>hours</option>
 						  </select>
-						   <a href="javascript:void(0)" onclick="show();" id="padding_time">Add padding Time</a>
+						   <a href="javascript:void(0)" onclick="show();" id="padding_time">Add padding time</a>
 						</div>
 					  </div>
 					  <div id="paddingtime" style="display:none">
@@ -181,6 +182,14 @@ function show(){
 						  <textarea rows="3" name="description" id="description"></textarea>
 						</div>
 					  </div>
+					  
+					  <div class="control-group">
+						<label class="control-label" for="Lenth">Class Size</label>
+						<div class="controls" >
+						  <input name="class_size" id="class_size" class="input-mini valid" />
+						</div>
+					  </div>
+					  
 					  <input type="hidden" name="insert" value="insert" />
 					   <div class="modal-footer" id="insert">
 					   <input type="submit" name="save" class="btn btn-success" value="Save" />
@@ -196,7 +205,7 @@ function show(){
              
               </div>
               <div class="tab-pane fade" id="staff1">
-                <h5 class="staff">Assign Staff to this Service</h5>
+                <h5 class="staff">Assign Staff to this class</h5>
 				<?php if(isset($staffs) && $staffs!=""){ ?>
 				<div class="span6 offset1">
 				<?php foreach($staffs as $staffname){  ?>
