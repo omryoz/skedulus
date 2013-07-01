@@ -27,12 +27,14 @@
 					</h3>
 					
 						<strong><?php echo $content->category_name; ?></strong><br clear="left"/>
-						<span>Phone no. <?php echo $content->mobile_number; ?> | Can Fransisco A-12</span><br clear="left"/>
+						<span>Phone no. <?php echo $content->mobile_number; ?></span><br clear="left"/>
 						<span><?php echo  $content->address; ?></span><br clear="left"/>							
-						
-						<span><?php echo $content->business_description; ?>
+						<span id="fullContent" style="display:none"> <?php echo $content->business_description;?></span>
+						<span id="smallContent"><?php 
+						$des =  $content->business_description;
+						echo substr($des,0,50)."....";?>
 						<br clear="left"/>
-						<a href="#">view more..</a>
+						<a href="javascript:void(0);" onclick="showFullContent()">view more..</a>
 						</span>
 						<div class="row-fluid rating-div">
 							<div class="span6">
@@ -58,7 +60,18 @@
 		</div>
 		<hr >
 		<div class="row-fluid">
-			<?php include('filmstrip.php')?>
+			<div class="filmstrip">
+	<ul class="thumbnails scroller image_popup">
+		<?php //for($i=1;$i<=$countPhoto;$i++){
+		foreach($photoGallery as $gallery){
+		?>
+			<li class="">
+				<a href="#" ><i class="icon-heart heart"></i></a><a href="#" ><i class="icon-comment comment "></i></a><a href="#" onClick="showPhoto(<?php echo $gallery->photo; ?>)" role="button"  data-toggle="modal"><img src="<?php  echo base_url();?>uploads/gallery/<?php echo $gallery->photo; ?>" alt="" ></a>
+			</li>
+		<?php } ?>
+	</ul>
+
+</div>
 		</div>
 		<hr >
 		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
@@ -75,13 +88,26 @@
 					<div id="collapseOne" class="accordion-body collapse ">
 					  <div class="accordion-inner">
 						<table class="table table-striped">
-							<tbody>
+							<tbody><?php //print_r($services); ?>
+							<?php foreach($services as $service){ ?>
 								<tr>
-									<th> Hair Cut</th>
-									<td> $60 and up</td>
-									<td> 1 hour</td>
+									<th> <?php echo $service->name; ?></th>
+									<?php if($service->time_type=='minutes'){
+									   $conversion=1;
+									}elseif($service->time_type=='hours'){
+									   $conversion=60;
+									} 
+									
+									$total= $service->timelength * $conversion + $service->padding_time;
+									?>
+									<td><?php  echo "$".$service->price ?></td>
+									<td><?php $totaltime = minutesToHours($total) ;
+									 echo $totaltime." hour";
+									?></td>
 								</tr>
-								<tr>
+							<?php } ?>
+								
+								<!--<tr>
 									<th> Hair Color</th>
 									<td> $120 and up</td>
 									<td> 2 hour</td>
@@ -90,7 +116,7 @@
 									<th> Spa</th>
 									<td> $160 and up</td>
 									<td> 3 hour</td>
-								</tr>
+								</tr>-->
 							</tbody>
 						</table>
 					  </div>
@@ -106,12 +132,15 @@
 					  <div class="accordion-inner">
 						<table class="table table-striped">
 							<tbody>
-								<tr>
-									<th><img src="../img/ID1.png"></th>
-									<td ><h5>Laural</h5></td>
-									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>
-								<tr>
+							<?php foreach($staffs as $staff) { ?>
+							 <tr>
+								<th><img src="<?php  echo base_url();?>uploads/photo/<?php echo $staff->image; ?>"></th>
+								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
+								<td><a href="<?php echo base_url(); ?>bcalendar" class="btn btn-success">View schedule</a></td>
+							</tr>
+							<?php } ?>
+								
+								<!---<tr>
 									<th><img src="../img/ID1.png"></th>
 									<td ><h5>Mathew</h5></td>
 									<td><a href="#" class="btn btn-success">View schedule</a></td>
@@ -120,7 +149,7 @@
 									<th><img src="../img/ID1.png"></th>
 									<td > <h5>Amma</h5></td>
 									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>
+								</tr>--->
 							</tbody>
 						</table>
 					  </div>
@@ -167,9 +196,13 @@
 			</div>
 			<div class="span3">
 				<h3>Working Hours</h3>
-				
 				<dl class="dl-horizontal days_dl">
-				  <dt>Sunday</dt>
+				<?php foreach($availability as $available) { ?>
+				<dt><?php echo $available->name ?></dt>
+				<dd><?php echo date('h:i',strtotime($available->start_time)) ?> - <?php echo date('h:i',strtotime($available->end_time)) ?>  </dd>
+				<?php } ?>
+				
+				  <!---<dt>Sunday</dt>
 				  <dd>08:30 - 19:00  </dd>
 				  <dt>Monday</dt>
 				  <dd>08:30 - 15:00 </dd>
@@ -182,13 +215,16 @@
 				  <dt>Friday</dt>
 				  <dd>08:30 - 16:00  </dd>
 				  <dt>Saturday</dt>
-				  <dd>08:30 - 19:00  </dd>
+				  <dd>08:30 - 19:00  </dd>--->
 				</dl>
 				
 				<!--<img src="../img/map.png">-->
 			</div>
 		</div>
-	
+	</div>
+</div>
+</div>
+</div>
 <!----------book popup start------------>
 
 
@@ -268,7 +304,7 @@
 <!-----Theater view modal start------>
 <div id="theater_view" class="modal hide fade th3-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-  <center><b>Share this photo</b> <a href="javascript:;"> <img src="../images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="../images/tw.png" title="twitter"></a>
+  <center><b>Share this photo</b> <a href="javascript:;"> <img src="<?php echo base_url(); ?>images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="<?php echo base_url(); ?>images/tw.png" title="twitter"></a>
     <a href="javascript:;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</a> </center>
    
   </div>
@@ -280,7 +316,7 @@
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
-		<img src="../img/ID1.png">
+		<img src="<?php echo base_url();?>images/default.jpg">
 	</div>
 	<div class="span11">
 		 <textarea placeholder="Write your comment here" class="span12" rows="2"></textarea>
@@ -294,8 +330,7 @@
 </div>
 <!-----Theater view modal end------>
 
- 	</div>
-</div>
+ 	
 
 
 <script src="../js/jquery.raty.js" type="text/javascript"></script>
@@ -346,4 +381,27 @@ $(".image_popup").click(function(){
 						}
 				});
 			});
+		
+		
+function showPhoto(photo){
+	alert(photo);
+}
+
+function showFullContent(){
+ $("#smallContent").hide();
+ $("#fullContent").show();
+}
+
 </script>
+<?php
+function minutesToHours($minutes)
+{
+	$hours          = floor($minutes / 60);
+	$decimalMinutes = $minutes - floor($minutes/60) * 60;
+
+	# Put it together.
+	$hoursMinutes = sprintf("%d:%02.0f", $hours, $decimalMinutes);
+	return $hoursMinutes;
+}
+
+?>

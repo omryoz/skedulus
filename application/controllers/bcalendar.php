@@ -352,6 +352,14 @@ function createappointment(){
 		$this->data['tableList']=$this->bprofile_model->getStaffs();
 		print_r(json_encode($this->data['tableList']));
 	}
+	
+	function getAllclasses(){
+		$this->load->model("bprofile_model"); 
+		$this->data['tableList'] = $this->bprofile_model->getClasses();
+		print_r(json_encode($this->data['tableList']));
+	}
+	
+	
 
 	
 	

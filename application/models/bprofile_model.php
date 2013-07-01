@@ -69,6 +69,7 @@ class bprofile_model extends CI_Model {
 //Staffs Module	
 	function insertStaffs(){
 	  $insertArray=array();
+	    $insertArray['image']= 'default.jpg';
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
@@ -248,7 +249,7 @@ class bprofile_model extends CI_Model {
 		if(isset($data))$insertArray['photo']= $data['upload_data']['file_name'];
 		if(isset($_POST['name']))$insertArray['title']= $_POST['name'];
 		if(isset($_POST['description']))$insertArray['description']= $_POST['description'];
-		if(isset($_POST['order']))$insertArray['order']= $_POST['order'];
+		if(isset($_POST['order']))$insertArray['orderNum']= $_POST['order'];
 		
 		if(isset($_POST['id']) && $_POST['id']!=""){
 		$this->db->update('user_business_photogallery',$insertArray,array('id' => $_POST['id']));

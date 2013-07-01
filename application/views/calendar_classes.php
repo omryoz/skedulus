@@ -1,20 +1,15 @@
 <!---For calendar----->
-<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/optionalStyling.css"> 
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/optionalStyling.css"> 
         <link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/web2cal.css"> 
         <script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script> 
         <script src="<?php echo base_url() ?>calendar/js/Web2Cal-Basic-2.0-min.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template_classes.js">  </script> 
-		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
+		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script>
 		<link type="text/css" rel="stylesheet" href="http://localhost/web2cal/ext/css/ui-lightness/jquery-ui-1.8.1.custom.css"> 
-		
-        <script src="http://localhost/web2cal/ext/jquery-ui-1.8.1.custom.min.js"> </script> 
-        
-        
-		
+		<script src="http://localhost/web2cal/ext/jquery-ui-1.8.1.custom.min.js"></script> 
 <!---End--------------->
 <?php 
-	
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php if(isset($this->session->userdata['profile_id'])){
@@ -30,13 +25,16 @@ $_SESSION['profileid'] = $id;
 <div class="row-fluid business_profile">
 <h3>Buisness Profile Calendar(<?=$this->session->userdata['business_type']?>)</h3>		
 <div id="calendarContainer" ></div>
-<!--<p class="hide" id="login_id"><?php print_r($user_id); ?></p>-->
+<p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
 	
 </div>
 </div>
   </div>
 </div>
+
+<!--<p id="Demo">Demosas<p>-->
+
 
 <!-- New Event Template -->
 
@@ -202,31 +200,31 @@ $_SESSION['profileid'] = $id;
 	
 	function setupNewEvt(newevt)
     {
-        newevt.find("#startDate").datepicker();        
-        newevt.find("#endDate").datepicker();
-		 newevt.find("#endDateenrollment").datepicker(); 	
+        newevt.find("#eventStartDate").datepicker();        
+        newevt.find("#eventEndDate").datepicker();
+		newevt.find("#enroll_last").datepicker(); 	
         newevt.find("#recurrenceRuleEndTimeDate").datepicker();
 		
-        var alldaybox = newevt.find("#allDayEvent").get(0);
+        /*var alldaybox = newevt.find("#allDayEvent").get(0);
         if (alldaybox) 
         {
             alldaybox.onclick = function()
             {
                 if (this.checked) 
                 {
-                    newevt.find("#startTime").attr("disabled", true).val("");
-                    newevt.find("#endTime").attr("disabled", true).val("");
+                    newevt.find("#eventStartTime").attr("disabled", true).val("");
+                    newevt.find("#eventEndTime").attr("disabled", true).val("");
                 }
                 else 
                 {
-                    newevt.find("#startTime").attr("disabled", false).val("12:00 am");
-                    newevt.find("#endTime").attr("disabled", false).val("12:00 am");
+                    newevt.find("#eventStartTime").attr("disabled", false).val("12:00 am");
+                    newevt.find("#eventEndTime").attr("disabled", false).val("12:00 am");
                     
                 };
              };
-        }
-        new Web2Cal.TimeControl(newevt.find("#startTime").get(0));
-        new Web2Cal.TimeControl(newevt.find("#endTime").get(0), newevt.find("#startTime").get(0));
+        }*/
+        new Web2Cal.TimeControl(newevt.find("#eventStartTime").get(0));
+        new Web2Cal.TimeControl(newevt.find("#eventEndTime").get(0), newevt.find("#eventStartTime").get(0));
         
     }
 	
@@ -294,10 +292,11 @@ $_SESSION['profileid'] = $id;
      Click on Edit Button in preview window
      */
     function rzEditEvent(evId)
-    {
+    {	
+		//$(".header").html("Edit Class");
         var evObj=ical.getEventById(evId); 
-		//alert(evObj.groupId);
-		jQuery("#defaultNewEventTemplate").find("#eventName").val(evObj.eventName).end()
+		
+		/*jQuery("#defaultNewEventTemplate").find("#eventName").val(evObj.eventName).end()
 							.find("#eventGroup").val(evObj.groupId).end()
 							.find("#eventStartTime").val(evObj._startTime.toNiceTime()).end()
 							.find("#eventEndTime").val(evObj._endTime.toNiceTime()).end()
@@ -305,9 +304,31 @@ $_SESSION['profileid'] = $id;
 							.find("#eventEndDate").val(evObj._endTime.toStandardFormat()).end()
 							.find("#addEventBtn").hide().end()
 							.find("#updateEventBtn").show().end()
-							.find("#eventDescription").val(evObj.eventDesc).end()  ;
+							//.find("#eventDescription").val(evObj.eventDesc).end()  ;*/
 								
-		  
+		
+		
+	var url = base_url+"bcalendar/getAllclasses";
+	
+	var business_id = $("#login_id").val();
+	
+	$.post(url,{business_id:business_id}, function(data){
+		$("#eventGroup").html("");
+		$.each(eval(data), function( key, value ) {
+			var append_option = "<option id="+key+" value="+value.id+">"+value.name+"</option>";
+			$("#eventGroup").append(append_option);
+		});
+	});
+		
+		jQuery("#defaultNewEventTemplate").find("#eventName").val(evObj.eventName).end()
+							.find("#eventGroup").val(evObj.groupId).end()
+							.find("#eventStartTime").val(evObj._startTime.toNiceTime()).end()
+							.find("#eventEndTime").val(evObj._endTime.toNiceTime()).end()
+							.find("#eventStartDate").val(evObj._startTime.toStandardFormat()).end()
+							.find("#eventEndDate").val(evObj._endTime.toStandardFormat()).end()
+							.find("#addEventBtn").hide().end()
+							.find("#updateEventBtn").show().end();
+		$(".event_id").html(evId); 
 		ical.showEditEventTemplate(jQuery("#defaultNewEventTemplate"), evObj.eventId);
 		ical.hidePreview();
     }
@@ -315,19 +336,24 @@ $_SESSION['profileid'] = $id;
     function rzUpdateEvent()
 	{ 
 		var updEv = Web2Cal.defaultPlugins.getNewEventObject();
- 
 		var _sT=new UTC(updEv.startTime);
 		var _eT=new UTC(updEv.endTime); 
-		var stStr=_sT.toDateString() +" "+_sT.toTimeString();
-		var edStr=_eT.toDateString() +" "+_eT.toTimeString(); 
-		
 		var str="?1=1";
-		str=str+"&eventName="+updEv.name;
-		str=str+"&st="+stStr;
-		str=str+"&et="+edStr;
-		str=str+"&groupId="+updEv.group.groupId;
-		str=str+"&eventId="+activeEvent.eventId;
-		ajaxObj.call("action=updateeventfull"+str, function(eventobject){ jQuery("#defaultNewEventTemplate").hide(); ical.updateEvent(eventobject);});
+		var trainer = $(".demo").val();
+		str=str+"&class="+updEv.group.groupId;
+		str=str+"&sd="+_sT.toDateString();
+		str=str+"&ed="+_eT.toDateString();
+		str=str+"&st="+_sT.toTimeString();
+		str=str+"&et="+_eT.toTimeString();
+		str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&repeat_type="+$("#repeat_type").val();
+		str=str+"&tr_id="+trainer;
+		var event_id = $(".event_id").html(); 
+		str=str+"&event_id="+event_id;
+		ajaxObj.call("action=updateclassesfull"+str, function(eventobject){ 
+			jQuery("#defaultNewEventTemplate").hide(); 
+			ical.updateEvent(eventobject);
+		});
 	}
     /**
      Clicking delete in Preview window
@@ -336,7 +362,7 @@ $_SESSION['profileid'] = $id;
 		var str="?";
 		//str=str+"eventName="+activeEvent.name; 
 		str=str+"&eventId="+event_id;
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
+		ajaxObj.call("action=deleteclass"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
     } 
     
     /**
@@ -350,16 +376,21 @@ $_SESSION['profileid'] = $id;
 		var _eT=new UTC(newev.endTime); 
 		var stStr=_sT.toDateString() +" "+_sT.toTimeString();
 		var edStr=_eT.toDateString() +" "+_eT.toTimeString();  
-		
 		var str="?1=1";
-		str=str+"&eventName="+newev.name;
-		str=str+"&st="+stStr;
-		str=str+"&et="+edStr;
-		alert(newev.group.groupId);
-		str=str+"&groupId="+newev.group.groupId;
-		str=str+"&user_id="+$("#login_id").html();
-		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
+		var trainer = $(".demo").val();
+		str=str+"&class="+newev.group.groupId;
+		str=str+"&sd="+_sT.toDateString();
+		str=str+"&ed="+_eT.toDateString();
+		str=str+"&st="+_sT.toTimeString();
+		str=str+"&et="+_eT.toTimeString();
+		str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&repeat_type="+$("#repeat_type").val();
+		str=str+"&tr_id="+trainer;
+		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
     } 
+	
+
+	
     /**
      * Onclick of Close in AddEvent Box.
      */
@@ -382,15 +413,15 @@ $_SESSION['profileid'] = $id;
 	 	startAjax();
 		drawCalendar(); 
 	 	
-		setupNewEvt(jQuery("#calendarNewEvent"));
+		setupNewEvt(jQuery("#defaultNewEventTemplate"));
 		
-		/*new Web2Cal.TimeControl(jQuery("#eventStartTime").get(0));
+		new Web2Cal.TimeControl(jQuery("#eventStartTime").get(0));
         new Web2Cal.TimeControl(jQuery("#eventEndTime").get(0), jQuery("#eventStartTime").get(0), {
             onTimeSelect: updateDateForTime,
             dateField: "eventEndDate"
-        });*/
-	/*$(".data").css("display","block");	
-	$(".data").css("color","black");*/	
+        });
+	$(".data").css("display","block");	
+	$(".data").css("color","black");	
 	
     });
 	

@@ -1,7 +1,4 @@
 <div class="filmstrip">
-
-	
-	
 	<ul class="thumbnails scroller image_popup">
 		<?php for($i=1;$i<10;$i++){?>
 			<li class="" >

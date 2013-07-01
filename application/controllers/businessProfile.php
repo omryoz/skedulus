@@ -29,6 +29,12 @@ class BusinessProfile extends CI_Controller {
 	 }
 	 $this->data['user_id'] = $this->session->userdata['id'];
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
+	 $where=" AND type='business'";
+	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
+	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
+	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
+	 $where1=" order by  orderNum ASC";
+	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);
 	 $this->parser->parse('business_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}

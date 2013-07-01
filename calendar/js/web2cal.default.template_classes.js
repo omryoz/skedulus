@@ -72,18 +72,18 @@
 				name="No Title";
 			}
 			
-			var alldaybox=jQuery("#allDayEvent", newEventContainer).get(0);
-			var allday=alldaybox.checked;
+			//var alldaybox=jQuery("#allDayEvent", newEventContainer).get(0);
+			//var allday=alldaybox.checked;
 			var start	=	getDateFromStrings(startDate, strtTime);
 			var end		=	getDateFromStrings(endDate, endTime);		
 			 
-			if(allday)
+			/*if(allday)
 			{
 				start.setHours(0,0,0);
 				end.setHours(0,0,0);
-			} 
+			} */
 			var newev={name:name,  startTime:start, endTime:end
-						, allDay:allday
+						/*, allDay:allday*/
 						, group:{groupId:grp, name: grpName}  
 						, eventId: Math.ceil(999*Math.random()) 
 						, description: description
@@ -215,22 +215,38 @@
 							+'					<select name="eventGroup" style="width:10em; border:1px solid #C3D9FF;"  id="eventGroup"></select> '
 							+'				</div>	'
 							+'			</div> 	'
-
+					
 
 							+'	<div>	'
 							+'		<div class=" label" >	'
 							+'			Trainer	'
 							+'		</div>	'
 							+'		<div class="selectGroup">	'
-							+'			<select name="trainer" style="width:10em; border:1px solid #C3D9FF;"  id="trainer"></select>	'
+							+'			<select name="trainer" style="width:10em; border:1px solid #C3D9FF;"  id="trainer" class="demo"></select> <p class="hide event_id"></p>	'
 							+'		</div>			'
 							+'	</div>	'
-
-							+'			<div>	'
-							+'				<div class="label">All day? '
-							+'					<input type="checkbox" class="inputbox" id="allDayEvent"/>'
-							+'				</div>	'
-							+'			</div> 	'
+							
+							+'	<div>	'
+							+'		<div class=" label" >	'
+							+'			Enrollment Last Date	'
+							+'		</div>	'
+							+'		<div class="selectGroup">	'
+							+'			<input type="Text" name="enroll_last" style="width:6em; border:1px solid #C3D9FF;" id="enroll_last"/>	'
+							+'		</div>			'
+							+'	</div>	'
+							
+							+'	<div>	'
+							+'		<div class=" label" >	'
+							+'			Repeat Type	'
+							+'		</div>	'
+							+'		<div class="Repeat">	'
+							+'			<select name="repeat_type" id="repeat_type"><option id="daily" value="daily">Daily</option><option id="weekly" value="weekly">Weekly</option><option id="monthly" value="monthly">Monthly</option></select>	'
+							+'		</div>			'
+							+'	</div>	'
+							
+							
+							
+							
 							+'			</td>	'
 							+'			<td  valign="top">	'
 							+'			<div>	'

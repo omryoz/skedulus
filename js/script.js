@@ -50,19 +50,23 @@ $("#eventGroup").live("change",function(){
 	var url = base_url+"bcalendar/getAllstaff";
 	//alert(url);
 	var class_name = $(this).val();
-	alert(class_name);
-	
+	//alert(class_name);
+	$(".demo").html("");
 	$.post(url,{class_name:class_name}, function(data){
 		//$(".staff").html("");
 		//alert(data);
+		
 		$.each(eval(data), function( key, value ) {
-			var append_option = "<option id="+key+" value="+value.id+">"+value.name+""+value.name+"</option>";
-			console.log(append_option);
-			$("#trainer").append(append_option);
+			var append_option = "<option id="+key+" value="+value.id+">"+value.name+"</option>";
+			//console.log(append_option);
+			//$("#trainer").append(append_option);
+			//$("#Demo").append(append_option);
+			$(".calendarTemplate .demo").append(append_option);
 		});
 	});
 	
 });
+
 
 
 $(".book_me").live("click",function(){

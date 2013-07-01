@@ -115,7 +115,7 @@ class getclasses
 						$evCount=$evCount+1;
 						$event='';
 						$event["eventId"]=$evVal->id;
-						$event['eventName']=$evVal->note;
+						$event['eventName']=$evVal->name;
 						//$event['role']=$evVal->user_role;
 						//$event['eventDesc']=$evVal->event_description;
 						$event['startTime']=$evVal->start_date.' '.$evVal->start_time;
