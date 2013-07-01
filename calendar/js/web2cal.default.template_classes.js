@@ -11,6 +11,7 @@
 		 */
 		Web2Cal.defaultPlugins.onNewEvent=function(obj, groups, allday)
 		{	  
+			//console.log(groups);
 			var st=new UTC(obj.startTime);
 			var ed = new UTC(obj.endTime); 
 			var newevt=jQuery("#defaultNewEventTemplate"); 
@@ -32,15 +33,20 @@
 
 			//display a list of groups to select from.
 			var groupDD=newevt.find("#eventGroup").get(0);
+			//alert(groupDD);
+			//console.log(groupDD);
 			removeAllOptions(groupDD);
+			//alert(groups);
+			
 			for(var g in groups)
 			{	
 				if(!groups.hasOwnProperty(g))continue;
 				var gId = groups[g].groupId;
+				console.log(gId);
 				addOption(groupDD, groups[g].groupName,groups[g].groupId,false);
 			} 
 			if(obj.group && obj.group.groupId)	
-				newevt.find("#eventGroup").val(obj.group.groupId); 
+				newevt.find("#eventGroup").val(obj.group.groupId);
 			
 		}
 		/**
@@ -82,6 +88,7 @@
 						, eventId: Math.ceil(999*Math.random()) 
 						, description: description
 						};
+						//console.log(newev);
 			return newev; 
 		} 
 		/**
@@ -196,26 +203,26 @@
 							+'	<div class="aPointer p-left " style="display: block; z-index: 2; " ></div> 	'
 							+'	<div class="acalclosebtn topright closeNewEvent"></div>	'
 							+'	<div class="header" >	'
-							+'		Create New Event	'
+							+'		Post New Classes	'
 							+'	</div>	'
 							+'	<div style="padding:1px;height:80%;margin-bottom:30px;overflow:auto;">	'
 							+'	<table cellpadding="0"  width="100%">		'
 							+'		<tr>	'
 							+'			<td valign="top">			'
 							+'			<div>	'
-							+'				<div class="label">Event Name</div>	'
+							+'				<div class="label">Class Name</div>	'
 							+'				<div class="value">	'
-							+'					<textarea  class="inputbox" rows="4" cols="20" name="eventName" id="eventName"></textarea>'
+							+'					<select name="eventGroup" style="width:10em; border:1px solid #C3D9FF;"  id="eventGroup"></select> '
 							+'				</div>	'
 							+'			</div> 	'
 
 
 							+'	<div>	'
 							+'		<div class=" label" >	'
-							+'			Group	'
+							+'			Trainer	'
 							+'		</div>	'
 							+'		<div class="selectGroup">	'
-							+'			<select name="eventGroup" style="width:10em; border:1px solid #C3D9FF;"  id="eventGroup"></select>	'
+							+'			<select name="trainer" style="width:10em; border:1px solid #C3D9FF;"  id="trainer"></select>	'
 							+'		</div>			'
 							+'	</div>	'
 

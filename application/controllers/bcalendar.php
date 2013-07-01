@@ -345,6 +345,13 @@ function createappointment(){
 		 $this->load->view("calendar_classes");
 		 $this->parser->parse('include/footer',$this->data);
 	}
+	
+	function getAllstaff(){
+		//echo "Demo";
+		$this->load->model("bprofile_model"); 
+		$this->data['tableList']=$this->bprofile_model->getStaffs();
+		print_r(json_encode($this->data['tableList']));
+	}
 
 	
 	

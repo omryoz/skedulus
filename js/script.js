@@ -45,6 +45,26 @@ $('.tool').tooltip('hide')
 
 $(document).ready(function(){
 
+
+$("#eventGroup").live("change",function(){
+	var url = base_url+"bcalendar/getAllstaff";
+	//alert(url);
+	var class_name = $(this).val();
+	alert(class_name);
+	
+	$.post(url,{class_name:class_name}, function(data){
+		//$(".staff").html("");
+		//alert(data);
+		$.each(eval(data), function( key, value ) {
+			var append_option = "<option id="+key+" value="+value.id+">"+value.name+""+value.name+"</option>";
+			console.log(append_option);
+			$("#trainer").append(append_option);
+		});
+	});
+	
+});
+
+
 $(".book_me").live("click",function(){
 	var business_id = $("#business_id").html();
 	$(".services").html("");
