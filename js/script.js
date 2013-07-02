@@ -37,7 +37,7 @@ $(function(){
 	
 //Global variable 
 
-var base_url = "http://localhost/skedulus_svn/";
+var base_url = "http://localhost/skedulus/";
 	
 $('.tool').tooltip('hide')
 

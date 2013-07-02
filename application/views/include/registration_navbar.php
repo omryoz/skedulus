@@ -62,7 +62,7 @@
 						 <div class="span6">
 							<i class="icon-wrench icon-3x"></i>
 						 </div>		 
-						 <div class="span6 registration_tabs">		
+						 <div class="span6 registration_tabs" id="business_type">		
 							<strong>Services <br><br></strong>
 						 </div>
 					</div>

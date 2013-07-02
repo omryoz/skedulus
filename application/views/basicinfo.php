@@ -65,13 +65,13 @@
 			  <div class="row-fluid">
 			  		<div class="span5">
 						<label class="radio">
-							<input type="radio" name="business_type" id="optionsRadios1" value="service" checked>
+							<input type="radio" name="business_type" id="optionsRadios1" value="service" checked onclick="getChecked('Services')">
 							Services</label>
 						<p><small class="muted">Service providing businesses like stylist,salon,spa etc.</small></p>
 					</div>
 					<div class="span5">		
 					 	<label class="radio">
-					 		<input type="radio" name="business_type" id="optionsRadios1" value="class" >
+					 		<input type="radio" name="business_type" id="optionsRadios1" value="class" onclick="getChecked('Classes')" >
 					 	 Classes</label>	
 						<p><small class="muted">Conducting classes like yoga,meditation etc.</small></p>
 			 		 </div>
@@ -209,6 +209,7 @@ for($i=1;$i<=7;$i++) {
 	 
 	 </div>
 	 <div class="pull-right">
+	 <input type="hidden" name="businessType" value="services/list_services/?register" id="businessType" >
 	 <input type="submit" name="save" value="Save & Continue" class="btn btn-success">
 	 <!---<a href="business_registration/services"  class="btn btn-primary" >Save & Continue</a>-->
 	 </div>   
@@ -270,5 +271,15 @@ window.onload= function getavailability(){
 	
 }
 
+
+function getChecked(type){
+if(type=='Classes'){
+$("#businessType").val('services/list_classes/?register');
+}else if(type=='Services'){
+$("#businessType").val('services/list_services/?register');
+}
+ var selectedMenu='<strong>'+type+'<br><br></strong>';
+ $("#business_type").html(selectedMenu);
+}
 </script>
 

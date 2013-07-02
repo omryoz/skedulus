@@ -13,6 +13,9 @@ class Overview extends CI_Controller {
 	
 	public function index(){
 	 $this->parser->parse('include/header',$this->data);
+	 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+	 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type);
+	 $this->session->set_userdata($sessionVal);
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	 $this->parser->parse('overview',$this->data);
 	 $this->parser->parse('include/footer',$this->data);

@@ -20,7 +20,11 @@ class Staffs extends CI_Controller {
 	  $this->parser->parse('include/dash_navbar',$this->data);
 	 }
 	 $this->data['tableList']=$this->bprofile_model->getStaffs();
+	 if($this->session->userdata['business_type']=='class'){
+	 $this->data['services']=$this->common_model->getAllRows("user_business_classes","user_business_details_id",$this->session->userdata['business_id']);
+	 }else{
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$this->session->userdata['business_id']);
+	 }
 	 $this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 	 $this->parser->parse('staffs',$this->data);
 	 $this->parser->parse('include/footer',$this->data);

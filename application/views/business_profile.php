@@ -58,6 +58,7 @@
 					</div>
 			</div>
 		</div>
+		<?php if(isset($gallery)) { ?>
 		<hr >
 		<div class="row-fluid">
 			<div class="filmstrip">
@@ -73,7 +74,9 @@
 
 </div>
 		</div>
+		
 		<hr >
+		<?php } ?>
 		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
 		<div class="row-fluid">
 			<div class="span9">
@@ -82,7 +85,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading"  >
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-							<h3>  My Services <i class="icon-chevron-down pull-right"></i></h3>
+							<h3>  <?php echo $type; ?> <i class="icon-chevron-down pull-right"></i></h3>
 						 </a>
 					</div>
 					<div id="collapseOne" class="accordion-body collapse ">

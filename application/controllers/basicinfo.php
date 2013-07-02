@@ -45,8 +45,10 @@ class Basicinfo extends CI_Controller {
 		}
 		
 		if(isset($_GET['checkinfo'])){
+		//print_r($_POST['businessType']); exit;
 		$id=$this->basicinfo_model->insertBasicInfo();
-		redirect('services/list_services/?register');
+		
+		redirect($_POST['businessType']);
 		}
 		$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/registration_navbar',$this->data);

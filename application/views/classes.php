@@ -99,7 +99,7 @@ function show(){
 						 <?php } ?>
 						 <?php if(isset($_GET['register'])) { ?>
 						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left">Back</a>
-						  <?php $isExist =$this->common_model->getRow("user_business_services","user_business_details_id",$this->session->userdata("business_id"));
+						  <?php $isExist =$this->common_model->getRow("user_business_classes","user_business_details_id",$this->session->userdata("business_id"));
 						if(isset($isExist) && $isExist!=""){
 						  ?>
 				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register"  class="btn btn-success ">Save & Continue</a></div>
