@@ -50,7 +50,7 @@
 							?>
 								<li class="thumbnail span3 trans">
 									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'9.jpg'); ?>">
+										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>">
 										<div class="caption">
 											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
 											<small> <?php echo $content['category_name']; ?> </small>

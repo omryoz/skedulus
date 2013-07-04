@@ -7,7 +7,7 @@
 				<div class="row-fluid">
 					<div class="span3 ">
 						<div class="thumbnail business_icon">
-							<img src="<?php  echo base_url();?>uploads/business_logo/<?php echo $content->image; ?>">
+							<img src="<?php  echo base_url();?>uploads/business_logo/<?=(!empty($content->image)?$content->image:'default.png'); ?>">
 						</div>
 					</div>
 					<div class="span9 rating-block">
@@ -39,7 +39,11 @@
 						<div class="row-fluid rating-div">
 							<div class="span6">
 								<div class="btn-group pull-left">
+								<?php if(isset($this->session->userdata['id'])) { ?>
 								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
+								<?php }else{?>
+								<a href="<?php echo base_url(); ?>home/clientlogin"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
+								<?php } ?>
 								<a  href="<?php echo base_url(); ?>bcalendar" class="btn btn-success right " role="button"  
 									data-toggle="modal">View schedule</a>
 							</div>
@@ -137,7 +141,7 @@
 							<tbody>
 							<?php foreach($staffs as $staff) { ?>
 							 <tr>
-								<th><img src="<?php  echo base_url();?>uploads/photo/<?php echo $staff->image; ?>"></th>
+								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
 								<td><a href="<?php echo base_url(); ?>bcalendar" class="btn btn-success">View schedule</a></td>
 							</tr>
@@ -394,7 +398,9 @@ function showFullContent(){
  $("#smallContent").hide();
  $("#fullContent").show();
 }
-
+function showBlock(){
+alert("here");
+}
 </script>
 <?php
 function minutesToHours($minutes)
