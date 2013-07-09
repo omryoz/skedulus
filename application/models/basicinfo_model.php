@@ -21,14 +21,16 @@ class basicinfo_model extends CI_Model {
 		$isExist=$this->common_model->getRow("user_business_details",'users_id',$this->session->userdata['id']);
 		if(isset($isExist) && $isExist!=""){
 		$id=$isExist->id;
+		$business_type=$isExist->business_type;
 		$this->db->update('user_business_details',$insertArray,array('users_id' => $this->session->userdata['id']));
 		$sql=mysql_query("delete from user_business_availability where user_business_details_id= '".$id."' ");
 		
 		}else{
 		$this->db->insert('user_business_details',$insertArray);
 		$id=mysql_insert_id();
+		$business_type=$_POST['business_type'];
 		}
-			$sessionVal=array('business_id' => $id);
+			$sessionVal=array('business_id' => $id,'business_type' => $business_type);
 			$this->session->set_userdata($sessionVal);
 			for($i=1;$i<=7;$i++){
 				if(isset($_POST[$i])) {
@@ -81,7 +83,7 @@ class basicinfo_model extends CI_Model {
 	}
 	
 	function getAvailibility(){
-		 $value= $this->common_model->getAllRows("user_business_availability",'user_business_details_id',$this->session->userdata['business_id']);
+		$value= $this->common_model->getAllRows("user_business_availability",'user_business_details_id',$this->session->userdata['business_id']);
          if($value){
 		 return $value;
 		 }else{

@@ -37,7 +37,14 @@ function editService(id){
 			$("#type").val(v.time_type);
 			$("#length").val(v.timelength);
 			$("#price_type").val(v.type);
-			$("#price").val(v.price);
+			if(v.type=='free'){
+			$("#price").attr('disabled','disabled');
+			$("#price").val();
+			}else{
+			 $("#price").removeAttr('disabled');
+			 $("#price").val(v.price);
+			}
+			
 			$("#description").val(v.details);
 			if(v.padding_time!=0){
 			$("#paddingtime").show();
@@ -157,6 +164,7 @@ function editclasses(id){
 
 //Staff
 function editStaff(id){
+$("#userid").val(id);
 	var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
 		data: {'id': id},

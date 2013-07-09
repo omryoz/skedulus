@@ -41,6 +41,10 @@
 					digits: "Only numbers are allowed",
 					}
                 },
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+				 error.css('padding-left', '10px');
+				},
                 submitHandler: function(form) {
                 form.submit();
                 }
@@ -55,6 +59,24 @@
     });
 
 })(jQuery, window, document);
+
+
+function staffInsert(form){
+var url=baseUrl+'staffs/manage_staffs/?insert';
+  $.ajax({  
+		  type: 'POST',
+		  data: $("#"+form).serialize()+'&userid='+$("#userid").val(), 
+		  url:url,
+		  success: function(data){
+		  $("#userid").val(data);
+		   var success="Inserted successfully";
+		   $("#success"+form).html(success);
+		   $("#success"+form).show();
+		  // $('#'+form)[0].reset();
+		  }
+	});
+}
+
 </script>
 <?php if(isset($success)){ ?>
 	<p class="alert">Mail has been sent to the added staff member</p>
@@ -115,15 +137,15 @@
 		<h3 ><h4 id="add"> Add Staff</h4></h3>
 	  </div>
 	  <div class="modal-body">
-	  <div>
+	  <div> <input type="hidden" name="userid" id="userid" value="" />
             <ul id="serviceTab" class="nav nav-tabs">
               <li class="active"><a href="#add_staff" data-toggle="tab"><b>Staff</b></a></li>
               <li><a href="#add_service" data-toggle="tab"><b>Services</b></a></li>
 			  <li><a href="#add_availability" data-toggle="tab"><b>Availability</b></a></li>
             </ul>
 	  		<div id="serviceTabContent" class="tab-content">
-				  <div class="tab-pane fade in active" id="add_staff">
-					<form class="form-horizontal" action="<?php echo base_url() ?>staffs/manage_staffs/?insert" id="addstaffs" method="POST">
+				  <div class="tab-pane fade in active" id="add_staff"><p class="alert" id="successaddstaffs" style="display:none"></p>
+					<form class="form-horizontal"  id="addstaffs" method="POST">
 							<div class="control-group">
 							  <label class="control-label" for="firstname">First Name :</label>
 							  <div class="controls">
@@ -145,32 +167,31 @@
 							  <div class="control-group">
 								<label class="control-label" for="inputPassword">Mobile Number :</label>
 								<div class="controls">
-								  <input class="input-large radi" type="text" id="phone_number" name="phonenumber" placeholder="+91" maxlength="15">
+								  <input class="input-large radi" type="text" id="phone_number" name="phonenumber" placeholder="" maxlength="15">
 								
 								</div>
 							  </div> 
 						 							  
 				  
 				  
-				  
-				  <input type="hidden" name="insert" value="insert" />
+				    <input type="hidden" name="addstaffs" value="addstaffs" />
+				     <input type="hidden" name="insert" value="insert" />
 					   <div class="modal-footer" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="Save" />
-					 </div> 
+					   <input type="button" onClick="staffInsert('addstaffs')" name="save" class="btn btn-success" value="Save" />
+
+					   </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
 					 <div class="modal-footer" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success" value="Update" />
+					  <input type="button" onClick="staffInsert('addstaffs')" name="save" class="btn btn-success" value="Update" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
 					 </div> 
-				 
-				  
-				  
-				  
+				  </form>
 				  </div>
-				 <div class="tab-pane fade" id="add_service">
+				 <div class="tab-pane fade" id="add_service"><p class="alert" id="successassignstaffs" style="display:none"></p>
+				 <form class="form-horizontal"  id="assignstaffs" method="POST">
 					 <div class="row-fluid">
 					  <h5>Assign services to staff</h5>
 					 <?php if(isset($services) && $services!=""){ ?>
@@ -181,11 +202,26 @@
 							<?php  echo $servicename->name;?>
 							</label>
 					<?php } ?>		
-						 </div>
+			     </div>
 				<?php }else{?>
                 <p class="alert">No services added yet</p>
 				<?php } ?>
+				<div class="modal-footer" id="insert">
+					   <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Save" />
+					 </div> 
+					  <?php if(isset($_GET['register'])){ ?>
+					 <input type="hidden" name="register" value="register">
+					 <?php } ?>
+					 <div class="modal-footer" style="display:none" id="update">
+					  <input type="hidden" name="id" id="id" value="" />
+					  <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Update" />
+					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
 					 </div>
+					 </div>
+					 <input type="hidden" name="insert" value="insert" />
+					 <input type="hidden" name="assignstaffs" value="assignstaffs" />
+					 
+					 </form>
 				 </div>
 				 
 				 
@@ -247,13 +283,18 @@
 									</div>
 								</div>--->
 						</div>
-
 					<?php } ?>
+					<div class="modal-footer" id="insert">
+					   <input type="submit" name="save" class="btn btn-success" value="Save" />
+					 </div> 
+					  <?php if(isset($_GET['register'])){ ?>
+					 <input type="hidden" name="register" value="register">
+					 <?php } ?>
 				</div>
 					 </div>
 				 </div>
 				 
-				 </form> 
+				 <!---</form> ---->
 			</div> 
 			  
 	  </div>

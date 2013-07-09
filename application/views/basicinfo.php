@@ -144,6 +144,16 @@
 	 
 	  
 <?php //foreach( $isExistAvailability as $content){ 
+$start = strtotime('7:00');
+$end = strtotime('24:00');
+			for( $i = $start; $i <= $end; $i += (60*15)) 
+			{
+			    $value=date('H:i', $i);
+				$slotlist[$value] = date('H:i', $i); 
+				
+			}
+			//$selected ="Select Time";
+			
 for($i=1;$i<=7;$i++) { 
 	if($i%2==0){
 	$class="row-fluid no-background";
@@ -151,13 +161,15 @@ for($i=1;$i<=7;$i++) {
 	$class="row-fluid background";
 	}
 		if($i==7){
-		$classS = "span6 disabletime";
-		$classE = "span6 disabletime";
+		$disabled="disabled=disabled";
 		$checked="";
+		$Sselected='08:00';
+		$Eselected='15:00';
 		}else{
-		$classS="span6 input-time starttime";
-		$classE="span6 input-time endtime";
+		$disabled="";
 		$checked="checked";
+		$Sselected='08:00';
+		$Eselected='19:00';
 		}
 ?>       
 <?php 
@@ -173,23 +185,36 @@ for($i=1;$i<=7;$i++) {
  ?>
 		  <div class="<?php echo $class; ?>">
 			<div class="span1">
-			<input type="checkbox" <?php  echo $checked; ?> name="<?php echo $i; ?>" onclick="getChecked(this,<?php echo $i ?>);" id="<?php echo $i; ?>"></div>
+			<input type="checkbox" <?php  echo $checked; ?> name="<?php echo $i; ?>" onClick="getchecked(this,<?php echo $i ?>);" id="<?php echo $i; ?>"></div>
 			<div class="span2"><?php echo $weekdays[$i] ?></div>
 			<div class="span2">
 			<div class="input-append bootstrap-timepicker span12" placeholder="open">
-            	<input type="text" class="<?php echo $classS; ?>" name="<?php echo $i ?>from"  readonly="readonly" id="divO<?php echo $i; ?>" >
+			<?php 
+			$starttime=$i.'from';
+			$id='divO'.$i;
+			echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span7"'.$disabled) 
+			
+			?>
+			 
+            	<!--<input type="text" class="<?php //echo $classS; ?>" name="<?php //echo $i ?>from"  readonly="readonly" id="divO<?php //echo $i; ?>" >---->
             	<span class="add-on"><i class="icon-time"></i></span>
         	</div>
 			</div>
-			<div class="span2"><div class="input-append bootstrap-timepicker span12" placeholder="close">
-            	<input type="text" class="<?php echo $classE; ?>"  name="<?php echo $i ?>to"   readonly="readonly" id="divC<?php echo $i; ?>">
+			<div class="span2">
+			<div class="input-append bootstrap-timepicker span12" placeholder="close">
+			<?php 
+			$endtime=$i.'to';
+			$id='divC'.$i;
+			echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span7"'.$disabled) 
+			?>
+            	<!---<input type="text" class="<?php //echo $classE; ?>"  name="<?php// echo $i ?>to"   readonly="readonly" id="divC<?php// echo $i; ?>">---->
             	<span class="add-on"><i class="icon-time"></i></span>
         	</div>
 			</div>
 					
 	    </div>
 
-<?php  } //} ?>
+<?php  }  ?>
 	 </div>
 	 <h5><span class="badge btn-primary">7</span> &nbsp;&nbsp;&nbsp;Select Calender</h5>
 	 <div>
@@ -234,9 +259,19 @@ for($i=1;$i<=7;$i++) {
 </div>
 
 <script>
-function getChecked(status,id){
-	if(status.checked==true){
-	$("#divO"+id).attr("class","span6 input-time starttime");
+
+function getchecked(status,id){
+  if(status.checked==true){
+   $("#divO"+id).removeAttr("disabled");
+   $("#divC"+id).removeAttr("disabled");
+   }else if(status.checked==false){
+   $("#divO"+id).attr('disabled',"disabled");
+   $("#divC"+id).attr('disabled',"disabled");
+   }
+}
+// function getChecked(status,id){
+	// if(status.checked==true){
+	// $("#divO"+id).attr("class","span6 input-time starttime");
 	// $('#divO6').timepicker({                                  
                                // showMeridian: false,
                                // minuteStep: 15,
@@ -245,12 +280,12 @@ function getChecked(status,id){
                                // template: false,
                                // defaultTime:'11:45' 
                        // });         
-	$("#divC"+id).attr("class","span6 input-time endtime");
-	}else if(status.checked==false){
-	$("#divC"+id).attr("class","span6 disabletime valid");
-	$("#divO"+id).attr("class","span6 disabletime valid");
-	}
-}
+	// $("#divC"+id).attr("class","span6 input-time endtime");
+	// }else if(status.checked==false){
+	// $("#divC"+id).attr("class","span6 disabletime valid");
+	// $("#divO"+id).attr("class","span6 disabletime valid");
+	// }
+// }
 
 window.onload= function getavailability(){
     var url=baseUrl+'basicinfo/availability';

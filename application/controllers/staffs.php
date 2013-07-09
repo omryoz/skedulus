@@ -31,22 +31,54 @@ class Staffs extends CI_Controller {
 	
 	}
 	
+	// public function manage_staffs(){
+		// if(isset($_POST['insert'])){ 
+			// if(isset($_POST['register'])){
+			// $id=$this->bprofile_model->insertStaffs();
+			// $this->send_email($id);
+			//$this->data['success']="successfull";
+			// redirect('staffs/list_staffs/?register');
+			
+			// }else{
+			// $id=$this->bprofile_model->insertStaffs();
+			// $this->send_email($id);
+			// redirect('staffs/list_staffs/success');
+			
+			// }
+		 // }
+		 // if(isset($_GET['id'])){
+			// $val= $this->bprofile_model->getStaffdetails();
+			// echo($val);
+		 // }
+		 // if(isset($_GET['getServices'])){
+			// $val= $this->bprofile_model->getAssignedServices();
+			// echo json_encode($val);
+		 // }
+		 
+		 // if(isset($_GET['getavailability'])){
+			// $val= $this->bprofile_model->getAvailibility();
+			// echo json_encode($val);
+		 // }
+		 
+		 // if(isset($_GET['delete'])){
+		 // $val= $this->common_model->deleteRow("users",$_GET['id']);
+		 // echo $val;
+		 // }
+	// }	
+	
 	public function manage_staffs(){
 		if(isset($_POST['insert'])){ 
-			if(isset($_POST['register'])){
+			if(isset($_POST['addstaffs'])){
 			$id=$this->bprofile_model->insertStaffs();
-			$this->send_email($id);
-			//$this->data['success']="successfull";
-			redirect('staffs/list_staffs/?register');
-			
-			}else{
-			$id=$this->bprofile_model->insertStaffs();
-			$this->send_email($id);
-			redirect('staffs/list_staffs/success');
-			
+			//$this->send_email($id);
+			echo($id);
+			}
+			if(isset($_POST['assignstaffs'])){
+			$id=$this->bprofile_model->assignStaffs();
+			echo($id);
 			}
 		 }
-		 if(isset($_GET['id'])){
+		 if(isset($_GET['id']) && $_GET['id']!=""){
 			$val= $this->bprofile_model->getStaffdetails();
 			echo($val);
 		 }

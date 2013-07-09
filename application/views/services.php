@@ -39,7 +39,7 @@
 				
 				errorPlacement: function(error, element) {
 				 error.insertAfter( element ); 
-
+				 error.css('padding-left', '8px');
 				},
 
                 submitHandler: function(form) {
@@ -60,6 +60,15 @@
 function show(){
 	$("#paddingtime").show();
 	$("#padding_time").hide();
+}
+function showSelected(){
+ var valu=$('#price_type').val();
+ if(valu=='free'){
+ $("#price").attr('disabled','disabled');
+ $("#price").val(" ");
+ }else{
+ $("#price").removeAttr('disabled');
+ }
 }
 </script>
             <div id="myTabContent" class="tab-content tabcontentbg">	  
@@ -167,12 +176,12 @@ function show(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth">Price</label>
 						<div class="controls">
-						  <select class="input-small" name="price_type" id="price_type">
-						  <option>Fixed</option>
-						  <option>Variable</option>
-						  <option>Free</option>
+						  <select class="input-small" name="price_type" id="price_type" onChange="showSelected()";>
+						  <option value="fixed">Fixed</option>
+						  <option value="variable">Variable</option>
+						  <option value="free">Free</option>
 						  </select> <b>$</b>
-						  <input class="input-mini" type="text" name="price" id="price"  maxlength="4" placeholder="">
+						  <input class="input-mini" type="text" value="" name="price" id="price"  maxlength="4" placeholder="">
 						</div>
 					  </div>
 					  <div class="control-group">
