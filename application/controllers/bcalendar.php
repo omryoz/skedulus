@@ -137,8 +137,8 @@ function addTime($a, $b)
 
 function getserviceBybusinessfilter(){
 	if($this->input->post('business_id')){
-		$filter = array('business_id'=>$this->input->post('business_id'));
-		$resuls = $this->common_model->getserviceByfilter($filter);	
+		$filter = array('user_business_details_id'=>$this->input->post('business_id'));
+		$resuls = $this->common_model->getservices($filter);	
 		print_r(json_encode($resuls));
 		
 	}else{

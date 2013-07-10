@@ -144,6 +144,29 @@ class bprofile_model extends CI_Model {
 		return $_POST['userid'];
 	}
 	
+	function staffAvail(){
+	   mysql_query("delete from user_business_availability where users_id=".$_POST['userid']);
+	   for($i=1;$i<=7;$i++){
+				if(isset($_POST[$i])) {
+				$available['user_business_details_id']= $this->session->userdata['business_id'];
+				$available['users_id']=$_POST['userid'];
+				$available['type']='employee';
+				$available['weekid']= $i;
+				$available['start_time']= $_POST[$i."from"];
+				$available['end_time']= $_POST[$i."to"];
+				if(isset($_POST['L'.$i])){
+				$available['lunch_start_time']= $_POST[$i."Lfrom"];
+				$available['lunch_end_time']= $_POST[$i."Lto"];
+				}else{
+				$available['lunch_start_time']= "0";
+				$available['lunch_end_time']="0";
+				}
+				$this->db->insert('user_business_availability',$available);
+				}
+			}
+		return $_POST['userid'];
+	}
+	
 	function getStaffs(){
 		$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
 		$query=$this->db->query($sql);
@@ -169,6 +192,29 @@ class bprofile_model extends CI_Model {
 		 $value= $this->common_model->getAllRows("employee_services",'users_id',$_GET['staffid']);
          return $value;
 	}
+	
+	
+	// function getAvailibility(){
+		// $sql="Select * from user_business_availability where users_id =".$_GET['staffsid'];
+		// $query=$this->db->query($sql);
+		// $data= $query->result();
+		// $i=0;
+		// $week_id="";
+		// if($data){
+			// foreach($data as $dataP){
+				// $values[$dataP->weekid]['weekid'] =$dataP->weekid;
+				// $values[$dataP->weekid]['start_time']= date('H:i',strtotime($dataP->start_time));
+				// $values[$dataP->weekid]['end_time']= date('H:i',strtotime($dataP->end_time));
+				// $i++;
+				// $week_id[] =$dataP->weekid;
+			// }
+			//$week_id
+			// $result['weekids']=$week_id;
+			// $result['values']=$values;
+			//print_r($result); exit;
+			// return $result;
+		// }
+	// }
 	
 	function getAvailibility(){
 		 $value= $this->common_model->getAllRows("user_business_availability",'users_id',$_GET['staffsid']);

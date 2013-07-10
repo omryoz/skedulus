@@ -46,25 +46,54 @@ class basicinfo_model extends CI_Model {
 		return $id;
 	}
 	
-	// function getAvailability(){
-		// $sql="Select * from user_business_availability where user_business_details_id =".$this->session->userdata['business_id'];
-		// $query=$this->db->query($sql);
-		// $data= $query->result();
-		// $i=0;
-		// if($data){
-			// foreach($data as $dataP){
-				// $values[$i]['weekid'] =$dataP->weekid;
-				// $values[$i]['start_time']= $dataP->start_time;
-				// $values[$i]['end_time']= $dataP->end_time;
-				// $i++;
-			// }
-			// return $values;
-		// }
-	// }
+	function getAvailability(){
+		$sql="Select * from user_business_availability where user_business_details_id =".$this->session->userdata['business_id'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$week_id="";
+		if($data){
+			foreach($data as $dataP){
+				$values[$dataP->weekid]['weekid'] =$dataP->weekid;
+				$values[$dataP->weekid]['start_time']= date('H:i',strtotime($dataP->start_time));
+				$values[$dataP->weekid]['end_time']= date('H:i',strtotime($dataP->end_time));
+				$i++;
+				$week_id[] =$dataP->weekid;
+			}
+			//$week_id
+			$result['weekids']=$week_id;
+			$result['values']=$values;
+			//print_r($values);
+			return $result;
+		}
+	}
+	
+	function getStaffAvailability(){
+		$sql="Select * from user_business_availability where users_id =".$_GET['staffsid'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$week_id="";
+		if($data){
+			foreach($data as $dataP){
+				$values[$dataP->weekid]['weekid'] =$dataP->weekid;
+				$values[$dataP->weekid]['start_time']= date('H:i',strtotime($dataP->start_time));
+				$values[$dataP->weekid]['end_time']= date('H:i',strtotime($dataP->end_time));
+				$i++;
+				$week_id[] =$dataP->weekid;
+			}
+			//$week_id
+			$result['weekids']=$week_id;
+			$result['values']=$values;
+			//print_r($result); exit;
+			return $result;
+		}
+	}
 	
 	function insertsubscription(){
 	$insertSub=array();
-	if(isset($_GET['subscription'])) $insertSub['subscription_id']=$_GET['subscription'];
+	//if(isset($_GET['subscription'])) $insertSub['subscription_id']=$_GET['subscription'];
+	$insertSub['subscription_id']='2';
 	$start_date= date("Y-m-d");
 	//to get end date
 	$end = strtotime(date('Y-m-d',strtotime($start_date)). "+1 month");

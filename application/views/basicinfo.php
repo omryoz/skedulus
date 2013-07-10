@@ -144,6 +144,8 @@
 	 
 	  
 <?php //foreach( $isExistAvailability as $content){ 
+
+
 $start = strtotime('7:00');
 $end = strtotime('24:00');
 			for( $i = $start; $i <= $end; $i += (60*15)) 
@@ -160,6 +162,19 @@ for($i=1;$i<=7;$i++) {
 	}else{
 	$class="row-fluid background";
 	}
+	if(isset($isExistAvailability) && $isExistAvailability!=""){
+	if(in_array($i,$isExistAvailability['weekids'])){
+			 $checked="checked";
+			 $Sselected=$isExistAvailability['values'][$i]['start_time'];
+			 $Eselected=$isExistAvailability['values'][$i]['end_time'];
+			  $disabled="";
+		}else{
+			  $checked="";
+			  $Sselected='08:00';
+			  $Eselected='15:00';
+			  $disabled="disabled=disabled";
+		}
+	}else{
 		if($i==7){
 		$disabled="disabled=disabled";
 		$checked="";
@@ -171,6 +186,7 @@ for($i=1;$i<=7;$i++) {
 		$Sselected='08:00';
 		$Eselected='19:00';
 		}
+	}
 ?>       
 <?php 
  
@@ -287,24 +303,24 @@ function getchecked(status,id){
 	// }
 // }
 
-window.onload= function getavailability(){
-    var url=baseUrl+'basicinfo/availability';
-	$.ajax({
-		data: {'id': 'getAvailability'},
-		url: url,
-		type:'GET',
-		dataType:'json',
-		success:function(data){
-		var content = eval(data);
-		$.each(content,function(i,v){
-		$("#"+v.weekid).attr('checked','checked');
-		$("#divO"+v.weekid).val(v.start_time);
-		$("#divC"+v.weekid).val(v.end_time);
-		})
-		}
-	})
+// window.onload= function getavailability(){
+    // var url=baseUrl+'basicinfo/availability';
+	// $.ajax({
+		// data: {'id': 'getAvailability'},
+		// url: url,
+		// type:'GET',
+		// dataType:'json',
+		// success:function(data){
+		// var content = eval(data);
+		// $.each(content,function(i,v){
+		// $("#"+v.weekid).attr('checked','checked');
+		// $("#divO"+v.weekid).val(v.start_time);
+		// $("#divC"+v.weekid).val(v.end_time);
+		// })
+		// }
+	// })
 	
-}
+// }
 
 
 function getChecked(type){

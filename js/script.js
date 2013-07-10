@@ -75,12 +75,11 @@ $(".book_me").live("click",function(){
 	getservices(business_id);
 });
 
-function getservices(business_id){
+function getservices(business_id){ alert(business_id);
 	var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	$.post(url,{business_id:business_id}, function(data){
-		
 		$.each(eval(data), function( key, value ) {
-			var append = "<option id="+key+" value="+value.service_id+">"+value.name+"</option>";
+			var append = "<option id="+key+" value="+value.id+">"+value.name+"</option>";
 			$(".services").append(append);
 		});
 	});

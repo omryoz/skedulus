@@ -6,6 +6,7 @@ class Staffs extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->model('bprofile_model');
+		$this->load->model('basicinfo_model');
 		$this->load->model('common_model');
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
@@ -25,6 +26,8 @@ class Staffs extends CI_Controller {
 	 }else{
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$this->session->userdata['business_id']);
 	 }
+	
+		 $this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 	 $this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 	 $this->parser->parse('staffs',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
@@ -76,6 +79,10 @@ class Staffs extends CI_Controller {
 			if(isset($_POST['assignstaffs'])){
 			$id=$this->bprofile_model->assignStaffs();
 			echo($id);
+			}  
+			if(isset($_POST['staffavail'])){
+			$id=$this->bprofile_model->staffAvail();
+			echo($id);
 			}
 		 }
 		 if(isset($_GET['id']) && $_GET['id']!=""){
@@ -87,10 +94,13 @@ class Staffs extends CI_Controller {
 			echo json_encode($val);
 		 }
 		 
-		 if(isset($_GET['getavailability'])){
-			$val= $this->bprofile_model->getAvailibility();
-			echo json_encode($val);
-		 }
+		if(isset($_GET['getavailability'])){	
+			$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+			$this->data['isExistAvailability']=$this->basicinfo_model->getStaffAvailability();
+			$val=$this->parser->parse('staff_availability',$this->data);
+			//echo($val); 
+		}
+		 
 		 
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);

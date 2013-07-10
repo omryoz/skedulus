@@ -29,7 +29,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['category']=$isExist->category_id;
 		$this->data['map_latitude']=$isExist->map_latitude;
 		$this->data['map_longitude']=$isExist->map_longitude;
-	//	$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
+		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		// echo "<pre>";print_r($this->data['isExistAvailability']); exit;
 		}else{
 		$this->data['isExistAvailability']="";
@@ -46,8 +46,8 @@ class Basicinfo extends CI_Controller {
 		
 		if(isset($_GET['checkinfo'])){
 		//print_r($_POST['businessType']); exit;
+		$this->basicinfo_model->insertsubscription();
 		$id=$this->basicinfo_model->insertBasicInfo();
-		
 		redirect($_POST['businessType']);
 		}
 		$this->parser->parse('include/header',$this->data);

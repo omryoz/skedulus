@@ -1,4 +1,5 @@
 <script>
+
 (function($,W,D)
 {
     var JQUERY4U = {};
@@ -46,7 +47,20 @@
 				 error.css('padding-left', '10px');
 				},
                 submitHandler: function(form) {
-                form.submit();
+				var url=baseUrl+'staffs/manage_staffs/?insert';
+				  $.ajax({  
+						  type: 'POST',
+						  data: $("#addstaffs").serialize()+'&userid='+$("#userid").val(), 
+						  url:url,
+						  success: function(data){
+						  $("#userid").val(data);
+						   var success="Inserted successfully";
+						   $("#successaddstaffs").html(success);
+						   $("#successaddstaffs").show();
+						   $("#assignstaffsbtn").show();
+                           $("#staffavailbtn").show();
+						  }
+					});
                 }
             });
         }
@@ -61,6 +75,8 @@
 })(jQuery, window, document);
 
 
+
+
 function staffInsert(form){
 var url=baseUrl+'staffs/manage_staffs/?insert';
   $.ajax({  
@@ -72,7 +88,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 		   var success="Inserted successfully";
 		   $("#success"+form).html(success);
 		   $("#success"+form).show();
-		  // $('#'+form)[0].reset();
+		 $('#'+form)[0].reset();
 		  }
 	});
 }
@@ -177,15 +193,14 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 				    <input type="hidden" name="addstaffs" value="addstaffs" />
 				     <input type="hidden" name="insert" value="insert" />
 					   <div class="modal-footer" id="insert">
-					   <input type="button" onClick="staffInsert('addstaffs')" name="save" class="btn btn-success" value="Save" />
-
+					   <input type="submit" name="save" class="btn btn-success" value="Save" />
 					   </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
 					 <div class="modal-footer" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="button" onClick="staffInsert('addstaffs')" name="save" class="btn btn-success" value="Update" />
+					  <input type="submit" name="save" class="btn btn-success" value="Update" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
 					 </div> 
 				  </form>
@@ -207,26 +222,27 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
                 <p class="alert">No services added yet</p>
 				<?php } ?>
 				<div class="modal-footer" id="insert">
-					   <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Save" />
+					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Save" />
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
-					 <div class="modal-footer" style="display:none" id="update">
+					 <!---<div class="modal-footer" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
 					  <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Update" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
-					 </div>
+					 </div>--->
 					 </div>
 					 <input type="hidden" name="insert" value="insert" />
 					 <input type="hidden" name="assignstaffs" value="assignstaffs" />
 					 
 					 </form>
 				 </div>
+				  
 				 
-				 
-				  <div class="tab-pane fade" id="add_availability">
-					 <div class="row-fluid">
+				  <div class="tab-pane fade" id="add_availability"><p class="alert" id="successstaffavail" style="display:none"></p>
+					 <form class="form-horizontal"  id="staffavail" method="POST">
+					 <div class="row-fluid" id="showedited">
 					  
 						 <h5> Add Staff Availability </h5>
 						  <!--- <div class="row-fluid">
@@ -238,31 +254,81 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 							  </div>
 
 						  </div>--->
+						  <?php
 						  
+						  //$isExistAvailability=array(1=>array(5),2,3,4,5,6);
+						  // print_r($isExistAvailability);
+							// if(in_array('1',$isExistAvailability['weekids'])){
+							   // print_r($isExistAvailability['values']['1']['start_time']);
+								// print_r("here");
+							// }else{
+							  // print_r("there");
+							// }
+							// exit;
+						  ?>
 						  <?php 
+							 $start = strtotime('7:00');
+						     $end = strtotime('24:00');
+							for( $i = $start; $i <= $end; $i += (60*15)) 
+							{
+								$value=date('H:i', $i);
+								$slotlist[$value] = date('H:i', $i); 
+								
+							}
 							for($i=1;$i<=7;$i++) { 
-							//$class="row-fluid ";
-								if($i%2==0){
-								$class="row-fluid no-background";
-								}else{
-								$class="row-fluid background";
-								}
-								$checked="";
-								$classT="span6 inputime";
+							if($i%2==0){
+							$class="row-fluid no-background";
+							}else{
+							$class="row-fluid background";
+							}
+						
+						    if(in_array($i,$isExistAvailability['weekids'])){
+							     $checked="checked";
+							     $Sselected=$isExistAvailability['values'][$i]['start_time'];
+								 $Eselected=$isExistAvailability['values'][$i]['end_time'];
+								  $disabled="";
+							}else{
+							      $checked="";
+							      $Sselected='08:00';
+								  $Eselected='15:00';
+								  $disabled="disabled=disabled";
+							}
+						
+								// if($i==7){
+								// $disabled="disabled=disabled";
+								// $checked="";
+								// $Sselected='08:00';
+								// $Eselected='15:00';
+								// }else{
+								// $disabled="";
+								// $checked="checked";
+								// $Sselected='08:00';
+								// $Eselected='19:00';
+								// }
 						  ?>
 							<div class="<?php echo $class; ?>">
 								<div class="span3"> <label class="checkbox">
-								<input type="checkbox" id="<?php echo $i; ?>" onclick="getChecked(this,<?php echo $i ?>);"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
+								<input type="checkbox" <?php echo $checked;?> id="<?php echo $i; ?>" onclick="getchecked(this,<?php echo $i ?>);"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
 							
 								<div class="span3">
 									<div class="input-append bootstrap-timepicker span12" placeholder="open">
-									<input type="text" class="<?php echo $classT; ?>"  name="<?php echo $i ?>from" id="<?php echo $i ?>from" readonly="readonly">
+									<?php 
+										$starttime=$i.'from';
+										$id='divO'.$i;
+										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span7"'.$disabled) 
+										
+									?>
+									
 									<span class="add-on"><i class="icon-time"></i></span>
 									</div>
 								</div>
 								<div class="span3">
 									<div class="input-append bootstrap-timepicker span12" placeholder="close">
-									<input type="text" class="<?php echo $classT; ?>"  name="<?php echo $i ?>to" id="<?php echo $i ?>to" readonly="readonly">
+									<?php 
+									$endtime=$i.'to';
+									$id='divC'.$i;
+									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span7"'.$disabled) 
+									?>
 									<span class="add-on"><i class="icon-time"></i></span>
 									</div>
 								</div>
@@ -285,16 +351,18 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 						</div>
 					<?php } ?>
 					<div class="modal-footer" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="Save" />
+					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success" value="Save" />
+					   
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
 				</div>
-					 </div>
+			        <input type="hidden" name="insert" value="insert" />
+					<input type="hidden" name="staffavail" value="staffavail" />
+				</form>
 				 </div>
-				 
-				 <!---</form> ---->
+				 </div>
 			</div> 
 			  
 	  </div>
@@ -311,35 +379,36 @@ color: #FB3A3A;
 </style>
 <script>
 
-function getChecked(status,id){
-	if(status.checked==true){
-	$("#"+id+"from").attr("class","span6 inputime input-time");
-	$("#"+id+"to").attr("class","span6 inputime input-time");
-	}else if(status.checked==false){
-	$("#"+id+"to").attr("class","span6 inputime");
-	$("#"+id+"from").attr("class","span6 inputime");
-	}
+function getchecked(status,id){
+  if(status.checked==true){
+   $("#divO"+id).removeAttr("disabled");
+   $("#divC"+id).removeAttr("disabled");
+   }else if(status.checked==false){
+   $("#divO"+id).attr('disabled',"disabled");
+   $("#divC"+id).attr('disabled',"disabled");
+   }
 }
 
 
-window.onload= function getavailability(){
-    var url=baseUrl+'basicinfo/availability';
-	$.ajax({
-		data: {'id': 'getAvailability'},
-		url: url,
-		type:'GET',
-		dataType:'json',
-		success:function(data){
-		var content = eval(data);
-		$.each(content,function(i,v){ 
-		$("#"+v.weekid).attr('checked','checked');
-		$("#"+v.weekid+"from").val(v.start_time);
-		$("#"+v.weekid+"to").val(v.end_time);
-		$("#"+v.weekid+"from").attr('class','span6 inputime input-time');
-		$("#"+v.weekid+"to").attr('class','span6 inputime input-time');
-		})
-		}
-	})
+// window.onload= function getavailability(){
+    // var url=baseUrl+'basicinfo/availability';
+	// $.ajax({
+		// data: {'id': 'getAvailability'},
+		// url: url,
+		// type:'GET',
+		// dataType:'json',
+		// success:function(data){
+		// var content = eval(data);
+		// $.each(content,function(i,v){ 
+		//alert(v.start_time);
+		// $("#"+v.weekid).attr('checked','checked');
+		// $("#"+v.weekid+"from").text(v.start_time);
+		// $("#"+v.weekid+"to").text(v.end_time);
+		// $("#"+v.weekid+"from").attr('class','span6 inputime input-time');
+		// $("#"+v.weekid+"to").attr('class','span6 inputime input-time');
+		// })
+		// }
+	// })
 	
-}
+// }
 </script>

@@ -81,7 +81,11 @@
 		
 		<hr >
 		<?php } ?>
+		<?php  if(isset($this->session->userdata['business_id'])) { ?>
+		<p id="business_id" class="hide"><?=$this->session->userdata('business_id')?></p>
+		<?php } else{ ?>
 		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
+		<?php }?>
 		<div class="row-fluid">
 			<div class="span9">
 				

@@ -150,12 +150,25 @@ public function mail($emailTo,$subject,$message){
 	}
 	
 	/*Get Business Services by filter*/
-	
 	function getserviceByfilter($filter=false){
 		if($filter){
 			$this->db->where($filter);
 		}
 		$query = $this->db->get("view_employee_services");
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
+	
+	//Get business services
+	function getservices($filter=false){
+		if($filter){
+			$this->db->where($filter);
+		}
+		$query = $this->db->get("user_business_services");
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{

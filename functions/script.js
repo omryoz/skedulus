@@ -164,6 +164,8 @@ function editclasses(id){
 
 //Staff
 function editStaff(id){
+ $("#assignstaffsbtn").show();
+ $("#staffavailbtn").show();
 $("#userid").val(id);
 	var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
@@ -204,23 +206,43 @@ $("#userid").val(id);
 		data: {'staffsid': id,'getavailability':'getavailability'},
 		url: url,
 		type:'GET',
-		dataType:'json',
 		success:function(data){
-		var content = eval(data);
-		//alert(data);
-		$.each(content,function(i,v){
-		$("#"+v.weekid).attr('checked','checked');
-		$("#"+v.weekid+"from").val(v.start_time);
-		$("#"+v.weekid+"to").val(v.end_time);
+		$("#showedited").html(data);
+		// var content = eval(data);
+		// var count=1;
+		 // while(count<=7){
+		     // $.each(content,function(i,v){
+			 // alert(v.weekid);alert("forloop"+count);
+			 
+			   /* if(v.weekid==count){
+				$("#"+v.weekid).attr('checked','checked');
+				$("#"+v.weekid+"from").val(v.start_time);
+				$("#"+v.weekid+"to").val(v.end_time);
+				  //alert(v.weekid+"here");
+				}else{
+				$("#"+v.weekid).removeAttr('checked');
+				//$("#"+v.weekid+"from").val(v.start_time);
+				//$("#"+v.weekid+"to").val(v.end_time);
+				 //alert(v.weekid+"there");
+				}*/
+				// })
+				// count++;
+			 // }
+		 }
+		// $.each(content,function(i,v){
+		// alert(v.weekids);
+		// $("#"+v.weekid).attr('checked','checked');
+		// $("#"+v.weekid+"from").val(v.start_time);
+		// $("#"+v.weekid+"to").val(v.end_time);
 		
-		if(v.lunch_start_time!='00:00:00'){
-		$("#L"+v.weekid).attr('checked','checked');
-		$("#"+v.weekid+"Lfrom").val(v.lunch_start_time);
-		$("#"+v.weekid+"Lto").val(v.lunch_end_time);
-		}
+		// if(v.lunch_start_time!='00:00:00'){
+		// $("#L"+v.weekid).attr('checked','checked');
+		// $("#"+v.weekid+"Lfrom").val(v.lunch_start_time);
+		// $("#"+v.weekid+"Lto").val(v.lunch_end_time);
+		// }
 		
-		})
-		}
+		// })
+		// }
 	})
 }
 
