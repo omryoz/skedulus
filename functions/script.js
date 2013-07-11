@@ -14,11 +14,18 @@ var url=baseUrl+'basicinfo/insertData';
 
 
 
-function resetForm(name){
-//alert(name);
-	$("#"+name)[0].reset();
-//$('#addservices')[0].reset();
- // $('#addOffers')[0].reset();
+function resetForm(){
+    $("#action").val('add');
+    $("#userid").val(" ");
+	$("#addstaffs")[0].reset();
+	//$("#showadd").show();
+	//$("#showedited").hide();
+	$("#assignstaffs").find('input:checkbox').removeAttr('checked');
+	$("#edit").hide();
+	$("#add").show();
+	$("#update").hide();
+	$("#insert").show();
+	$(".alert").hide();
 }
 
 //Services
@@ -164,6 +171,8 @@ function editclasses(id){
 
 //Staff
 function editStaff(id){
+$(".alert").hide();
+ $("#action").val('edit');
  $("#assignstaffsbtn").show();
  $("#staffavailbtn").show();
 $("#userid").val(id);
@@ -207,7 +216,9 @@ $("#userid").val(id);
 		url: url,
 		type:'GET',
 		success:function(data){
+		//$("#showadd").hide();
 		$("#showedited").html(data);
+		//$("#showedited").show();
 		// var content = eval(data);
 		// var count=1;
 		 // while(count<=7){
@@ -412,4 +423,5 @@ function deletePhoto(id){
 	}
 }
 //END
+
 

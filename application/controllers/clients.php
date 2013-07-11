@@ -53,8 +53,14 @@ class Clients extends CI_Controller {
 	function favourite(){
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
+		$this->data['contentList']=$this->common_model->getAllRows("view_business_clients","users_id",$this->session->userdata("id"));
 		$this->load->view('favourite',$this->data);
 		$this->load->view('include/footer',$this->data);
+	}
+	
+	function deleteFav(){
+	 $val= $this->common_model->deleteRow("business_clients_list",$_GET['id']);
+		 echo $val;
 	}
 	
 	function settings(){

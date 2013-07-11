@@ -18,17 +18,24 @@
 						</li>
 						<li>
 						<small class="pull-right">
+						<?php if(isset($this->session->userdata['business_id'])){ ?>
+						 <a href="<?php echo base_url(); ?>basicinfo/editinfo"><i class="icon-edit icon-large"></i></a>
+						<?php }else{ ?>
 						<a href="#">
 						<i class="icon-star-empty icon-2x  tool" 
 						data-toggle="tooltip"  data-original-title="add to Favourite ">
-						</i></a></small>
-						</li></ul>
+						</i>
+						</a><?php } ?>
+						</small>
+						</li>
+					</ul>
 						
 					</h3>
 					
 						<strong><?php echo $content->category_name; ?></strong><br clear="left"/>
-						<span>Phone no. <?php echo $content->mobile_number; ?></span><br clear="left"/>
+						<span>Phone no. <?php echo $content->mobile_number; ?> </span><br clear="left"/>
 						<span><?php echo  $content->address; ?></span><br clear="left"/>							
+						
 						<span id="fullContent" style="display:none"> <?php echo $content->business_description;?></span>
 						<span id="smallContent"><?php 
 						$des =  $content->business_description;
@@ -39,7 +46,7 @@
 						<div class="row-fluid rating-div">
 							<div class="span6">
 								<div class="btn-group pull-left">
-								<?php if(isset($this->session->userdata['id'])) { ?>
+							    <?php if(isset($this->session->userdata['id'])) { ?>
 								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
 								<?php }else{?>
 								<a href="<?php echo base_url(); ?>home/clientlogin"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
@@ -93,7 +100,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading"  >
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-							<h3>  <?php echo $type; ?> <i class="icon-chevron-down pull-right"></i></h3>
+							<h3>  <?php echo $type; ?>  <i class="icon-chevron-down pull-right"></i></h3>
 						 </a>
 					</div>
 					<div id="collapseOne" class="accordion-body collapse ">
@@ -232,15 +239,14 @@
 				<!--<img src="../img/map.png">-->
 			</div>
 		</div>
-	</div>
-</div>
-</div>
-</div>
+		</div>
+
+	
 <!----------book popup start------------>
 
 
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>Bcalendar/createappointment" method="post" id="book_appointment">	
+   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Book an appointment</h3>
@@ -296,6 +302,7 @@
 			<label class="control-label" >Message</label>
 			<div class="controls">
 			  <textarea type="text" class="span6" name="note" id="note" placeholder="Message"></textarea>
+			  <input type="hidden" name="businessid" value="<?php echo $_GET['id'] ?>">
 			</div>
 		  </div>
 		  
@@ -305,7 +312,7 @@
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5"/>
 	<input type="hidden" name="user_id" value="<?=$user_id?>" />
-	<input type="hidden" name="end_time" id="end_time" value="" />
+	<input type="hidden" name="end_time" id="end_time" value="" required/>
   </div>
   </form>
 </div>
@@ -315,7 +322,7 @@
 <!-----Theater view modal start------>
 <div id="theater_view" class="modal hide fade th3-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-  <center><b>Share this photo</b> <a href="javascript:;"> <img src="<?php echo base_url(); ?>images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="<?php echo base_url(); ?>images/tw.png" title="twitter"></a>
+  <center><b>Share this photo</b> <a href="javascript:;"> <img src="../images/fb.png" title="facebook"></a> <a href="javascript:;"> <img src="../images/tw.png" title="twitter"></a>
     <a href="javascript:;" type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">&times;</a> </center>
    
   </div>
@@ -327,7 +334,7 @@
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
-		<img src="<?php echo base_url();?>images/default.jpg">
+		<img src="../img/ID1.png">
 	</div>
 	<div class="span11">
 		 <textarea placeholder="Write your comment here" class="span12" rows="2"></textarea>
@@ -341,9 +348,11 @@
 </div>
 <!-----Theater view modal end------>
 
- 	
+ 	</div>
+</div>
 
-
+</div>
+</div>
 <script src="../js/jquery.raty.js" type="text/javascript"></script>
 <script>
 $('.star-rate').raty({ precision: true });
@@ -392,18 +401,10 @@ $(".image_popup").click(function(){
 						}
 				});
 			});
-		
-		
-function showPhoto(photo){
-	alert(photo);
-}
 
 function showFullContent(){
  $("#smallContent").hide();
  $("#fullContent").show();
-}
-function showBlock(){
-alert("here");
 }
 </script>
 <?php

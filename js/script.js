@@ -75,7 +75,7 @@ $(".book_me").live("click",function(){
 	getservices(business_id);
 });
 
-function getservices(business_id){ alert(business_id);
+function getservices(business_id){
 	var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	$.post(url,{business_id:business_id}, function(data){
 		$.each(eval(data), function( key, value ) {

@@ -78,6 +78,10 @@ body {
 						background:@grayDarker;
 						margin-bottom:0;
 						overflow: hidden;
+						img{
+							width:100%;
+							height:150px;
+						}
 						.caption{
 									padding:3px;
 									color:@grayLight;
@@ -1172,6 +1176,17 @@ position:relative;
 .modal-bigger{
 width:700px;
 left:43%;
+}
+ .fav-blocks{
+       position:relative;
+       .trash{
+       display:none;
+       }
+       &:hover .trash{
+       position:absolute;
+       right:4px;
+       display:block;
+       }
 }
 /* .rating-block{
 	position:relative;

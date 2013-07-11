@@ -1,4 +1,4 @@
-
+<?php error_reporting(0); ?>
 					  
 						 <h5> Edit Staff Availability </h5>
 						  <?php 

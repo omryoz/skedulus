@@ -28,11 +28,11 @@ class createevent
 		$evName=$this->queryVars['eventName'];
 		$groupId=$this->queryVars['groupId'];
 		$user_id=$this->queryVars['user_id'];
-		
-	
-
-		
-       $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked')");
+		$check=$db->query("select * from business_clients_list where user_business_details_id = '".$_SESSION['profileid']."'");
+		if(empty($check)){
+		$db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$user_id."','".$_SESSION['profileid']."' )");
+		}
+        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked')");
 		
 		 
 		$input=array(); 

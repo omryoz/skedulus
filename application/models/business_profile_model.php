@@ -39,6 +39,14 @@ function getProfileDetailsByfilter($filter=false,$limit=false,$offset=false,$ord
 		}	
 }	
  
+ function insertFav($fav){
+	if($fav){
+	   $this->db->insert("business_clients_list",$fav);
+	   return true;
+	  }else{
+		return false;
+	}
+ } 
 	
 	
 	

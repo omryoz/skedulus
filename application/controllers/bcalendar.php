@@ -205,7 +205,11 @@ function createappointment(){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
 		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked");
-		//print_r(date("Y-m-d",strtotime($this->input->post('date'))));exit;
+		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
+		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'));
+		if(empty($checkfav)){
+		$this->business_profile_model->insertFav($fav);
+		}
 		if($this->common_model->createAppointment($input)){
 			redirect("bcalendar/mycalender");
 		}else{

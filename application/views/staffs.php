@@ -54,11 +54,14 @@
 						  url:url,
 						  success: function(data){
 						  $("#userid").val(data);
+						  if($("#action").val()=="add"){
 						   var success="Inserted successfully";
+						   }else{
+							var success="Updated successfully";
+						   }
 						   $("#successaddstaffs").html(success);
 						   $("#successaddstaffs").show();
-						   $("#assignstaffsbtn").show();
-                           $("#staffavailbtn").show();
+						   
 						  }
 					});
                 }
@@ -84,11 +87,18 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 		  data: $("#"+form).serialize()+'&userid='+$("#userid").val(), 
 		  url:url,
 		  success: function(data){
+		  //alert(data);
+		  if(data!=""){
 		  $("#userid").val(data);
+		  if($("#action").val()=="add"){
 		   var success="Inserted successfully";
+		   }else{
+		    var success="Updated successfully";
+		   }
 		   $("#success"+form).html(success);
 		   $("#success"+form).show();
-		 $('#'+form)[0].reset();
+		   $('#'+form)[0].reset();
+		 }
 		  }
 	});
 }
@@ -103,7 +113,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 							  <div class="row-fluid">
 								<div class="">
 									<h3>Staff List
-										<a href="#myModal"  class="btn pull-right btn-success" data-toggle="modal">+add</a>
+										<a href="#myModal" onclick="resetForm();"  class="btn pull-right btn-success" data-toggle="modal">+add</a>
 									</h3>
 									<?php if(isset($tableList)) { ?>
 									<table class="table  table-staff table-hover  table-striped" >
@@ -152,8 +162,9 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 		<h4 class="staff1" id="edit" style="display:none">Edit Staff</h4>
 		<h3 ><h4 id="add"> Add Staff</h4></h3>
 	  </div>
+	 
 	  <div class="modal-body">
-	  <div> <input type="hidden" name="userid" id="userid" value="" />
+	  <div> <input type="hidden" name="userid" id="userid" value="" /> <input type="hidden" name="action" id="action">
             <ul id="serviceTab" class="nav nav-tabs">
               <li class="active"><a href="#add_staff" data-toggle="tab"><b>Staff</b></a></li>
               <li><a href="#add_service" data-toggle="tab"><b>Services</b></a></li>
@@ -242,30 +253,9 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 				 
 				  <div class="tab-pane fade" id="add_availability"><p class="alert" id="successstaffavail" style="display:none"></p>
 					 <form class="form-horizontal"  id="staffavail" method="POST">
+					  <!---<div class="row-fluid" id="showedited" style="display:none;"></div>--->
 					 <div class="row-fluid" id="showedited">
-					  
-						 <h5> Add Staff Availability </h5>
-						  <!--- <div class="row-fluid">
-							 <div class="span6">
-							  <center><b>Availability</b></center>
-							  </div>
-							   <div class="span6">
-							   <center><b>Lunch Time</b></center>
-							  </div>
-
-						  </div>--->
-						  <?php
-						  
-						  //$isExistAvailability=array(1=>array(5),2,3,4,5,6);
-						  // print_r($isExistAvailability);
-							// if(in_array('1',$isExistAvailability['weekids'])){
-							   // print_r($isExistAvailability['values']['1']['start_time']);
-								// print_r("here");
-							// }else{
-							  // print_r("there");
-							// }
-							// exit;
-						  ?>
+						<h5> Add Staff Availability </h5>
 						  <?php 
 							 $start = strtotime('7:00');
 						     $end = strtotime('24:00');
@@ -294,17 +284,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 								  $disabled="disabled=disabled";
 							}
 						
-								// if($i==7){
-								// $disabled="disabled=disabled";
-								// $checked="";
-								// $Sselected='08:00';
-								// $Eselected='15:00';
-								// }else{
-								// $disabled="";
-								// $checked="checked";
-								// $Sselected='08:00';
-								// $Eselected='19:00';
-								// }
+								
 						  ?>
 							<div class="<?php echo $class; ?>">
 								<div class="span3"> <label class="checkbox">
@@ -332,22 +312,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 									<span class="add-on"><i class="icon-time"></i></span>
 									</div>
 								</div>
-								<!---<div class="span1"> 
-									<label class="checkbox pull-right"><input type="checkbox" id="L<?php //echo $i ?>" name="L<?php// echo $i ?>" class=""></label>
-								 </div>
-							
-								<div class="span2">
-									<div class="input-append bootstrap-timepicker span12" placeholder="open">
-									<input type="text" class=" inputime span9" id="<?php //echo $i ?>Lfrom" name="<?php// echo $i ?>Lfrom" >
-									<span class="add-on"><i class="icon-time"></i></span>
-									</div>
-								</div>
-								<div class="span2">
-									<div class="input-append bootstrap-timepicker span12" placeholder="close">
-									<input type="text" class=" inputime span9"  id="<?php //echo $i ?>Lto" name="<?php //echo $i ?>Lto" >
-									<span class="add-on"><i class="icon-time"></i></span>
-									</div>
-								</div>--->
+								
 						</div>
 					<?php } ?>
 					<div class="modal-footer" id="insert">

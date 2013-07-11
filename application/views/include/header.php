@@ -50,7 +50,7 @@
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse">
 							<ul class="nav pull-right" id="main-menu">
-								<li><a href="btn btn-success">	</li>
+								<!---<li><a href="btn btn-success">	</li>--->
 								<li><div class="language_flag " ><a href="#" class="setting-icon"><i class="icon-cog icon-white" title="settings"></i> </a></div></li>
 								<li><div class="language_flag" >Hello <a href="#"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>home/logout">Log Out</a></li>

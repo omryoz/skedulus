@@ -1,3 +1,5 @@
+<div class="content container">
+<div class="row-fluid ">
 <div class="navbar  navbar-inverse container">
 		  <div class="navbar-inner">
 			<a class="btn btn-navbar " data-toggle="collapse" data-target=".menu1">

@@ -27,7 +27,7 @@ class Staffs extends CI_Controller {
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$this->session->userdata['business_id']);
 	 }
 	
-		 $this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
+	 $this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 	 $this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 	 $this->parser->parse('staffs',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
@@ -76,11 +76,11 @@ class Staffs extends CI_Controller {
 			//$this->send_email($id);
 			echo($id);
 			}
-			if(isset($_POST['assignstaffs'])){
+			if(isset($_POST['assignstaffs']) && $_POST['userid']!=" "){
 			$id=$this->bprofile_model->assignStaffs();
 			echo($id);
 			}  
-			if(isset($_POST['staffavail'])){
+			if(isset($_POST['staffavail']) && $_POST['userid']!=" "){
 			$id=$this->bprofile_model->staffAvail();
 			echo($id);
 			}

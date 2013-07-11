@@ -17,7 +17,8 @@ class Basicinfo extends CI_Controller {
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
-		
+		$this->data['action']="add";
+		$this->data['disabled']="";
 		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
@@ -52,6 +53,36 @@ class Basicinfo extends CI_Controller {
 		}
 		$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/registration_navbar',$this->data);
+		$this->parser->parse('basicinfo',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
+	
+	public function editinfo(){
+		$Category=$this->common_model->getDDArray('category','id','name');
+		$Category[""]=" Select Category";
+		$this->data['getCategory']=$Category;
+		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+		
+		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		$this->data['action']="edit";
+		$this->data['disabled']="disabled";
+		$this->data['name']=$isExist->name;
+		$this->data['description']=$isExist->description;
+		$this->data['address']=$isExist->address;
+		$this->data['mobile']=$isExist->mobile_number;
+		$this->data['calendar']=$isExist->calendar_type;
+		$this->data['business_type']=$isExist->business_type;
+		$this->data['category']=$isExist->category_id;
+		$this->data['map_latitude']=$isExist->map_latitude;
+		$this->data['map_longitude']=$isExist->map_longitude;
+		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
+		
+		if(isset($_GET['checkinfo'])){
+		$id=$this->basicinfo_model->insertBasicInfo();
+		redirect(businessProfile);
+		}
+		$this->parser->parse('include/header',$this->data);
+		$this->parser->parse('include/dash_navbar',$this->data);
 		$this->parser->parse('basicinfo',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
