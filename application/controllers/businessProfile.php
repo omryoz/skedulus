@@ -13,6 +13,14 @@ class BusinessProfile extends CI_Controller {
 	
 	public function index(){
 	
+	// $this->parser->parse('include/header',$this->data);
+	 // if($this->session->userdata['role']=="manager"){
+		// $this->parser->parse('include/dash_navbar',$this->data);
+	// }
+	 // if($this->session->userdata['role']=="client"){
+		// $this->parser->parse('include/navbar',$this->data);
+	// }
+	
 	$this->parser->parse('include/header',$this->data);
 	 if(isset($this->session->userdata['business_id'])){
 		$this->parser->parse('include/dash_navbar',$this->data);
@@ -21,7 +29,14 @@ class BusinessProfile extends CI_Controller {
 		$sessionVal=array('profile_id'=>$_GET['id']);
 	    $this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
+		$where=" and users_id=".$this->session->userdata['id'];
+		$checkFav=$this->common_model->getRow("view_business_clients","user_business_details_id",$_GET['id'],$where);
+		
+		if(isset($checkFav) && $checkFav!="")
+		$this->data['isFav']= $checkFav->user_business_details_id;
+		
 	}
+	
 	 if(isset($_GET['id'])){
 		$id=$_GET['id'];
 	 }else{
@@ -34,10 +49,10 @@ class BusinessProfile extends CI_Controller {
 	 $where=" AND type='business'";
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
-	 $this->data['type']="My Classes";
-	 $this->data['services']=$this->common_model->getAllRows("user_business_classes","user_business_details_id",$id); 
+	 $this->data['type']="Classes";
+	 $this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
 	 }else if($this->data['content']->business_type=='service'){
-     $this->data['type']="My Services";	 
+     $this->data['type']="Services";	 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
 	 }
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);

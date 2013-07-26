@@ -140,8 +140,14 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 									<?php }else{ ?>
 									 <p class="alert">No staffs added yet</p>
 									<?php } ?>
-								 <?php if(isset($_GET['register'])) { ?>	
-								  <a href="<?php echo base_url(); ?>services/list_services/?register" class="btn btn-success pull-left">Back</a>
+								 <?php if(isset($_GET['register'])) {
+									if($_GET['register']=='Class'){
+									$url="services/list_classes/?register";
+									}else{
+									$url="services/list_services/?register";
+									}
+								 ?>	
+								  <a href="<?php echo base_url(); ?><?php echo $url; ?>" class="btn btn-success pull-left">Back</a>
 							  <div class="pull-right"><a href="<?php echo base_url(); ?>overview"  class="btn btn-success " >Save & Continue</a>
 								<?php } ?>	
 							 </div>

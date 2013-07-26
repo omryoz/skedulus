@@ -6,24 +6,29 @@
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template_classes.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script>
-		<link type="text/css" rel="stylesheet" href="http://localhost/web2cal/ext/css/ui-lightness/jquery-ui-1.8.1.custom.css"> 
-		<script src="http://localhost/web2cal/ext/jquery-ui-1.8.1.custom.min.js"></script> 
+		<link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/ext/css/ui-lightness/jquery-ui-1.8.1.custom.css"> 
+		<script src="<?php echo base_url() ?>calendar/ext/jquery-ui-1.8.1.custom.min.js"></script> 
 <!---End--------------->
 <?php 
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
-<?php if(isset($this->session->userdata['profile_id'])){
-		  $id=$this->session->userdata('profile_id');
-		}else if(isset($this->session->userdata['business_id'])){
-		  $id=$this->session->userdata('business_id');
-		}
+<?php 
+// if(isset($this->session->userdata['profile_id'])){
+		  // $id=$this->session->userdata('profile_id');
+		// }else if(isset($this->session->userdata['business_id'])){
+		  // $id=$this->session->userdata('business_id');
+		// }
 @session_start();
-$_SESSION['profileid'] = $id;
+$_SESSION['profileid'] = $buisness_details[0]->id;
+if(!isset($this->session->userdata['id'])){
+ redirect('home/clientlogin');
+}
 
 ?>
 <div class="content container">
 <div class="row-fluid business_profile">
-<h3>Buisness Profile Calendar(<?=$this->session->userdata['business_type']?>)</h3>		
+<h3>Buisness Profile Classes(<?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?>)</h3>		
+	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
@@ -117,6 +122,8 @@ $_SESSION['profileid'] = $id;
 							<option value="monthly">Monthly</option>
 						  </select>
 					  </td>
+					</tr>
+					
 					
             </tbody>
         </table>
@@ -136,6 +143,25 @@ $_SESSION['profileid'] = $id;
 <!-- END CALENDAR TEMPLATES -->
 
 <script>
+
+ $("#repeat_type").live("change",function(){
+   //alert($(this).val());
+   if($(this).val()=='weekly'){
+   $("#weeks").css("display",'block');
+   $("#months").css("display",'none');
+   }
+   if($(this).val()=='monthly'){
+   $("#months").css("display",'block');
+    $("#weeks").css("display",'none');
+	}
+   if($(this).val()=='daily'){
+   $("#months").css("display",'none');
+   $("#weeks").css("display",'none');
+   }
+   
+ })
+ 
+
     var ical; 
     /*
      Create the Calendar.
@@ -169,7 +195,10 @@ $_SESSION['profileid'] = $id;
         var startDate = newEventContainer.find("#startDate").val();
         var endDate = newEventContainer.find("#endDate").val(); 
         var endenrolldate = newEventContainer.find("#endDateenrollment").val(); 
-		var repeat = newEventContainer.find("#repeat").val();  	
+		var repeat = newEventContainer.find("#repeat").val();  
+		str=str+"&repeat_type="+$("#repeat_type").val();
+		str=str+"&checked="+myVar;
+		str=str+"&tr_id="+trainer;
 		
 		if (name == "") 
         {
@@ -194,6 +223,7 @@ $_SESSION['profileid'] = $id;
 		str=str+"&capacity="+capacity;
 		str=str+"&last_date="+endenrolldate;
 		str=str+"&repeat="+repeat;
+		alert(str);
 		ajaxObj.call("action=postclass"+str, function(ev){ console.log(ev); ical.addEvent(ev); });
         return false;
 	}
@@ -285,7 +315,15 @@ $_SESSION['profileid'] = $id;
      */
     function loadCalendarEvents(startTime, endTime)
     {   
-		ajaxObj.call("action=getclasses", function(list){ical.render(list);});
+	    var _sT=new UTC(startTime);
+		var _eT=new UTC(endTime); 
+		var stStr=_sT.toDateString();
+		var edStr=_eT.toDateString(); 
+	    var str="?1=1"; 
+	    str=str+"&st="+stStr;
+		str=str+"&et="+edStr;
+		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
+		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  
     
     /*
@@ -370,14 +408,34 @@ $_SESSION['profileid'] = $id;
      */
     function rzAddEvent()
     {
-        var newev = Web2Cal.defaultPlugins.getNewEventObject();
-
+	  // if(_sT.toDateString()>_eT.toDateString()){
+	  // return false; 
+	  // }else if($("#enroll_last").val()>_sT.toDateString()){
+	  // return false; 
+	  // }
+	   window.location.href=base_url+'bcalendar/calendar_business';
+       var newev = Web2Cal.defaultPlugins.getNewEventObject();
+	   var myVar='';
+	   if($("#repeat_type").val()=="weekly"){
+	   $('.weekly:checkbox:checked').each(function(){
+			myVar+=$(this).val()+",";;
+	   });
+	   }
+	   if($("#repeat_type").val()=="monthly"){
+	   $('.monthly:checkbox:checked').each(function(){
+			myVar+=$(this).val()+",";;
+	   });
+	   }
+	   
+	  // alert(myVar);
 		var _sT=new UTC(newev.startTime);
 		var _eT=new UTC(newev.endTime); 
 		var stStr=_sT.toDateString() +" "+_sT.toTimeString();
 		var edStr=_eT.toDateString() +" "+_eT.toTimeString();  
 		var str="?1=1";
 		var trainer = $(".demo").val();
+		var class_size=$("#class_size").val();
+		str=str+"&class_size="+class_size; 
 		str=str+"&class="+newev.group.groupId;
 		str=str+"&sd="+_sT.toDateString();
 		str=str+"&ed="+_eT.toDateString();
@@ -385,7 +443,8 @@ $_SESSION['profileid'] = $id;
 		str=str+"&et="+_eT.toTimeString();
 		str=str+"&eden="+$("#enroll_last").val();
 		str=str+"&repeat_type="+$("#repeat_type").val();
-		str=str+"&tr_id="+trainer;
+		str=str+"&checked="+myVar;
+		str=str+"&tr_id="+trainer;  alert(str);
 		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
     } 
 	

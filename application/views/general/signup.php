@@ -87,7 +87,7 @@
 		 
 		 <input  type="text" class="span8"  placeholder="Email" name="email" value="" id="email" /> 
 		 
-		 <input  type="text" class="span8"  placeholder="Phone number" name="phone" value="" id="phone" maxlength="15" /> 
+		 <input  type="text" class="span8"  placeholder="Phone number" name="phone_number" value="" id="phone_number" maxlength="15" /> 
 		
 		 <input  type="password" class="span8" placeholder="Password" name="password" id="password" onkeyup="passwordStrength(this.value)" maxlength="20" />
 		
@@ -129,7 +129,7 @@
 						  }
                      }
 					},
-					phone: {
+					phone_number: {
 						digits:true
 					},	
 					password:{ 
@@ -147,7 +147,7 @@
 					email: "Please enter a valid email address",
 					remote: "Email already exist"
 					},	
-					phone:{
+					phone_number:{
 					digits: "Only numbers allowed",
 					},	
 					password: {

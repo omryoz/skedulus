@@ -1,4 +1,5 @@
 <?php 
+error_reporting(0);
 class bprofile_model extends CI_Model {
  
  //Services Module
@@ -79,7 +80,9 @@ class bprofile_model extends CI_Model {
 		$insertArray['status']= 'inactive';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
 		}
-		if(isset($_POST['userid']) && $_POST['userid']!=""){
+		//echo "here";
+		//print_r($_POST['userid']); exit;
+		if($_POST['userid']!=" "){
 		$this->db->update('users',$insertArray,array('id' => $_POST['userid']));
 		//mysql_query("delete from employee_services where users_id=".$_POST['id']);
 		//mysql_query("delete from user_business_availability where users_id=".$_POST['id']);
@@ -413,6 +416,7 @@ class bprofile_model extends CI_Model {
 		if(isset($_POST['padding_time']))$insertArray['padding_time']= $_POST['padding_time']; 
 		if(isset($_POST['padding_time_type']))$insertArray['padding_time_type']= $_POST['padding_time_type'];
 		if(isset($_POST['class_size']))$insertArray['class_size']= $_POST['class_size'];
+		if(isset($_POST['class_size']))$insertArray['availability']= $_POST['class_size'];
 		
 		
 		
@@ -446,6 +450,74 @@ class bprofile_model extends CI_Model {
 	
 	//END
 	
+	function getClassDetails(){
+		$sql="Select * from view_classes_posted_business where id =".$_POST['classid'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+				$values['start_date'] =$dataP->start_date;
+				$values['end_date']= $dataP->end_date;
+				$values['start_time'] =$dataP->start_time;
+				$values['end_time']= $dataP->end_time;
+				$values['repeat_type'] =$dataP->repeat_type;
+				$values['price'] =$dataP->price;
+				
+				if($dataP->repeat_type=="monthly"){
+				$month=rtrim($dataP->repeat_months,',');
+				$months = explode(",",$month);
+				
+				foreach($months as $mon){
+				$timestamp = mktime(0, 0, 0, $mon);
+				$monthNames[] = date("F", $timestamp); 
+				}
+				$names= implode(",",$monthNames);
+				$values['repeat_months']= $names;
+				}
+				$timestamp = strtotime('next Monday');
+				$days = array();
+				for ($i = 1; $i <= 7; $i++) {
+				 $days[$i] = strftime('%A', $timestamp);
+				 $timestamp = strtotime('+1 day', $timestamp);
+				}
+				if($dataP->repeat_type=="weekly"){
+				 $week1= rtrim($dataP->repeat_week_days,',');
+				 $weekdays= explode(",",$week1);
+				 foreach($weekdays as $day){
+				 $week[] = $days[$day]; 
+				 }
+				 $weeknames= implode(",",$week);
+				 $values['repeat_week_days'] =$weeknames;
+				}
+				
+				$values['instructor_lastname']= $dataP->instructor_lastname;
+				$values['instructor_firstname'] =$dataP->instructor_firstname;
+				$values['lastdate_enroll']= $dataP->lastdate_enroll;
+				$values['class_size'] =$dataP->class_size;
+				$values['availability']= $dataP->availability;
+				$i++;
+			}
+			return $values;
+		}
+	}
+	
+	function bookappointment($input){ 
+	  if($input){
+	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+	   $new_avail=($val->availability-1);
+	   $updateArray['availability']=$new_avail;
+	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
+	   $this->db->insert("client_class_booking",$input);
+	   if($this->db->affected_rows()>0){	   
+				echo $new_avail;
+			}else{
+				return false;
+			}
+	   }else{
+	   return false;
+	   }
+	}
 	
 	
 }

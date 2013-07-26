@@ -18,7 +18,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['getCategory']=$Category;
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 		$this->data['action']="add";
-		$this->data['disabled']="";
+		
 		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
@@ -31,8 +31,10 @@ class Basicinfo extends CI_Controller {
 		$this->data['map_latitude']=$isExist->map_latitude;
 		$this->data['map_longitude']=$isExist->map_longitude;
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
+		$this->data['disabled']="disabled";
 		// echo "<pre>";print_r($this->data['isExistAvailability']); exit;
 		}else{
+		$this->data['disabled']="";
 		$this->data['isExistAvailability']="";
 		$this->data['name']="";
 		$this->data['description']="";

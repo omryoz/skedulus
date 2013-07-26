@@ -110,7 +110,7 @@ function showSelected(){
 						  <?php $isExist =$this->common_model->getRow("user_business_services","user_business_details_id",$this->session->userdata("business_id"));
 						if(isset($isExist) && $isExist!=""){
 						  ?>
-				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register"  class="btn btn-success ">Save & Continue</a></div>
+				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register=Service"  class="btn btn-success ">Save & Continue</a></div>
 						 <?php } 
 						 } ?>
 				  </div>

@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="<?php echo base_url(); ?>js/googlemap.js"></script>
 <script>
 (function($,W,D)
 {
@@ -71,13 +73,20 @@
 			 
 			  		<div class="span5">
 						<label class="radio">
-							<input type="radio" name="business_type" id="optionsRadios1" value="service" <?php echo $disabled ?> checked onclick="getChecked('Services')">
+						<?php 
+						 $Schecked="checked";
+						 $Cchecked="";
+						if(isset($business_type) && $business_type=='class'){
+						  $Schecked="";
+						  $Cchecked="checked";
+						}?>
+							<input type="radio" name="business_type" id="optionsRadios1" value="service" <?php echo $disabled ?> <?php echo $Schecked ?> onclick="getChecked('Services')">
 							Services</label>
 						<p><small class="muted">Service providing businesses like stylist,salon,spa etc.</small></p>
 					</div>
 					<div class="span5">		
 					 	<label class="radio">
-					 		<input type="radio" name="business_type" id="optionsRadios1" value="class" <?php echo $disabled ?> onclick="getChecked('Classes')" >
+					 		<input type="radio" name="business_type" id="optionsRadios2" value="class" <?php echo $disabled ?> <?php echo $Cchecked ?> onclick="getChecked('Classes')" >
 					 	 Classes</label>	
 						<p><small class="muted">Conducting classes like yoga,meditation etc.</small></p>
 			 		 </div>
@@ -256,7 +265,12 @@ for($i=1;$i<=7;$i++) {
 	 
 	 </div>
 	 <div class="pull-right">
-	 <input type="hidden" name="businessType" value="services/list_services/?register" id="businessType" >
+	 <?php 
+	 $url='services/list_services/?register';
+	if(isset($business_type) && $business_type=='class'){
+	  $url='services/list_classes/?register';
+	 }?>
+	 <input type="hidden" name="businessType" value="<?php echo $url;?>" id="businessType" >
     <?php if($action=="edit"){ ?>
 	<input type="submit" name="save" value="Update" class="btn btn-success">	 
 		<?php   }elseif($action=="add"){ ?>	

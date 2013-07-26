@@ -20,12 +20,13 @@
 						<small class="pull-right">
 						<?php if(isset($this->session->userdata['business_id'])){ ?>
 						 <a href="<?php echo base_url(); ?>basicinfo/editinfo"><i class="icon-edit icon-large"></i></a>
-						<?php }else{ ?>
-						<a href="#">
-						<i class="icon-star-empty icon-2x  tool" 
-						data-toggle="tooltip"  data-original-title="add to Favourite ">
-						</i>
-						</a><?php } ?>
+						<?php }else{
+						if(isset($isFav)){	
+						?>
+						<a href="<?php echo base_url(); ?>clients/favourite"><i class="icon-star icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="added to Favourite "></i></a>
+						<?php }else{?>
+						<a href="javascript:void(0)" id="addfav<?php echo $_GET['id'] ?>" onclick="addfav(<?php echo $_GET['id'] ?>);" ><i class="icon-star-empty icon-2x  tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $_GET['id'] ?>"></i></a>
+						<?php } } ?>
 						</small>
 						</li>
 					</ul>
@@ -46,13 +47,17 @@
 						<div class="row-fluid rating-div">
 							<div class="span6">
 								<div class="btn-group pull-left">
-							    <?php if(isset($this->session->userdata['id'])) { ?>
+							   
 								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
-								<?php }else{?>
-								<a href="<?php echo base_url(); ?>home/clientlogin"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
-								<?php } ?>
-								<a  href="<?php echo base_url(); ?>bcalendar" class="btn btn-success right " role="button"  
+								<?php if($content->business_type=="class") {
+								 $url='bcalendar/calendar_business/';
+								}else if($content->business_type=="service") {
+								 $url='bcalendar/cal/';
+								 }
+								?>
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button"  
 									data-toggle="modal">View schedule</a>
+									
 							</div>
 							</div>
 							<div class="span6">
@@ -104,7 +109,7 @@
 						 </a>
 					</div>
 					<div id="collapseOne" class="accordion-body collapse ">
-					  <div class="accordion-inner">
+					  <div class="accordion-inner"><br/>
 						<table class="table table-striped">
 							<tbody><?php //print_r($services); ?>
 							<?php foreach($services as $service){ ?>
@@ -116,12 +121,32 @@
 									   $conversion=60;
 									} 
 									
-									$total= $service->timelength * $conversion + $service->padding_time;
+									//$total= $service->timelength * $conversion + $service->padding_time;
 									?>
 									<td><?php  echo "$".$service->price ?></td>
-									<td><?php $totaltime = minutesToHours($total) ;
-									 echo $totaltime." hour";
+									<td>
+									<?php 
+									//$totaltime = minutesToHours($total) ;
+									 //echo $totaltime." hour";
+									 echo $service->timelength." ".$service->time_type; 
 									?></td>
+									
+								   <?php if($this->session->userdata['role']=="manager"){ ?>
+								   <td>
+									<a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							        <a href="#"  data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+									</td>
+								   <?php }else{
+								   $classtype="book_me";
+								   if($type=="Classes"){
+								   $popup="#bookClass";
+								   $classtype="book_class";
+								   }else{
+								   $popup="#book";
+								   }
+								    ?>
+								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal">Book me </a></td>
+								   <?php } ?>
 								</tr>
 							<?php } ?>
 								
@@ -155,6 +180,11 @@
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
 								<td><a href="<?php echo base_url(); ?>bcalendar" class="btn btn-success">View schedule</a></td>
+							    <?php if($this->session->userdata['role']=="manager"){ ?>
+								<td>
+							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="#"  data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+							  </td> <?php } ?>
 							</tr>
 							<?php } ?>
 								
@@ -239,7 +269,7 @@
 				<!--<img src="../img/map.png">-->
 			</div>
 		</div>
-		</div>
+		
 
 	
 <!----------book popup start------------>
@@ -276,7 +306,7 @@
 		  <div class="control-group">
 			<label class="control-label" >Date</label>
 			<div class="controls">
-				<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
+				<div class="input-append date date_pick span8" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
 					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" required>
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				  </div>
@@ -293,7 +323,7 @@
 					<select name="time" class="time" required>
 						
 					</select>
-					<a href="<?php echo base_url();?>bcalendar" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
+					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
 			</div>
 		  </div>
 		  
@@ -301,7 +331,7 @@
 		  <div class="control-group">
 			<label class="control-label" >Message</label>
 			<div class="controls">
-			  <textarea type="text" class="span6" name="note" id="note" placeholder="Message"></textarea>
+			  <textarea type="text" class="span8" name="note" id="note" placeholder="Message"></textarea>
 			  <input type="hidden" name="businessid" value="<?php echo $_GET['id'] ?>">
 			</div>
 		  </div>
@@ -317,6 +347,173 @@
   </form>
 </div>
 	
+<!----Book for a class -------->
+<!----------book popup start------------>
+
+
+<div id="bookClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">Book for class</h3>
+	<br/><div id="booksuccess" class="alert" style="display:none"></div>
+  </div>
+  <div class="modal-body">
+		   <p class="message"></p>	
+		  
+		   <!-- <div class="control-group">
+			<label class="control-label" >Class</label>
+			<div class="controls">
+		
+			  <input type="text" class="span6" id="classname"  readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Price</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="price" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Start Date</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="startdate" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >End Date</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="enddate" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Start Time</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="starttime" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >End Time</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="endtime" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Repeated</label>
+			<div class="controls">
+			 
+			 <input type="text" class="span6 class" id="repeated" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group" id="repeatedDiv">
+			<label class="control-label" >Repeated On</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="repeatedon" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group" id="instructor_name">
+			<label class="control-label" >Instructor</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="instructor" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Last date to enroll</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="lastdate" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Capacity</label>
+			<div class="controls">
+			 
+			 <input type="text" class="span6 class" id="capacity" readonly="">
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" >Available</label>
+			<div class="controls">
+			  
+			 <input type="text" class="span6 class" id="available" readonly="">
+			</div>
+		  </div> -->
+		  
+		  
+		  <table class="table table-striped">
+            
+              <tbody>
+                <tr>
+                  <td>Class</td>
+				  
+                  <td id="classname"></td>
+                  
+                </tr>
+                <tr>
+                  <td>Price</td>
+                  <td id="price" ></td>
+                </tr>
+                <tr>
+                  <td>Start Date</td>
+                  <td id="startdate" ></td>
+                </tr>
+				<tr>
+                  <td>End Date</td>
+                  <td id="enddate" ></td>
+                </tr>
+				<tr>
+                  <td>Start Time</td>
+                  <td id="starttime" ></td>
+                </tr>
+				<tr>
+                  <td>End Time</td>
+                  <td id="endtime" ></td>
+                </tr>
+				<tr>
+                  <td>Repeated</td>
+                  <td id="repeated" ></td>
+                </tr>
+				<tr id="repeatedDiv">
+                  <td>Repeated On</td>
+                  <td id="repeatedon" ></td>
+                </tr>
+				<tr id="instructor_name">
+                  <td>Instructor</td>
+                  <td id="instructor" ></td>
+                </tr>
+				<tr>
+                  <td>Last date to enroll</td>
+                  <td id="lastdate" ></td>
+                </tr>
+				<tr>
+                  <td>Capacity</td>
+                  <td id="capacity" ></td>
+                </tr>
+				<tr>
+                  <td>Available</td>
+                  <td id="available" ></td>
+                </tr>
+              </tbody>
+            </table>
+		  
+	
+  </div>
+ 
+    <div class="modal-footer">
+    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
+	<input type="hidden" name="classid" value="" id="classid" />
+	<input type="button" name="submit" value="Book" id="bookclass" class="btn btn-success span3 offset5"/>
+  </div>
+  </form>
+</div>
+
 <!--------book popup end------------->
 
 <!-----Theater view modal start------>
@@ -406,6 +603,10 @@ function showFullContent(){
  $("#smallContent").hide();
  $("#fullContent").show();
 }
+
+function viewSchedule(){
+  window.location.href="http://localhost/skedulus/bcalendar";
+}
 </script>
 <?php
 function minutesToHours($minutes)
@@ -419,3 +620,22 @@ function minutesToHours($minutes)
 }
 
 ?>
+<script>
+ function addfav(id){
+   $.ajax({
+   url:baseUrl+'search/addtoFav',
+   data: {'id': id},
+   type:'POST',
+   success:function(data){
+   if(data!="false"){
+	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","added to Favourite");
+	$("#addfav"+data).attr("href","http://localhost/skedulus/clients/favourite");
+	$("#addfav"+data).removeAttr('onclick');
+    }else{
+	window.location.href="http://localhost/skedulus/home/clientlogin";
+	}
+	
+   }
+  })
+ }
+</script>

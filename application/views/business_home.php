@@ -1,5 +1,21 @@
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+<script type="text/javascript">
+    function initialize() {
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('city2').value = place.name;
+            document.getElementById('cityLat').value = place.geometry.location.lat();
+            document.getElementById('cityLng').value = place.geometry.location.lng();
+            //alert("This function is working!");
+            //alert(place.name);
+           // alert(place.address_components[0].long_name);
 
-
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize); 
+</script>
 <div class="content container">
 	<div class="row-fluid business_profile">
 		<div class="row-fluid">
@@ -9,25 +25,24 @@
 			 <div class="wrap_inner">
 				<h3>Search Businesses</h3>
 				<div class="row-fluid strip">
+					<form action="<?php echo base_url(); ?>search/global_search" method="GET" name="search">
 					<div class="span4">
-						<input type="text" class="span12 search_input" placeholder="Business Name">
+						<input type="text" class="span12 " name="business_name" placeholder="Business are you looking for?">
 					</div>
 					<div class="span3">
-						<input type="text" class="span12 search_input" placeholder="Location">	
+					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" />  
+                    <input type="hidden" id="city2" name="location" />
+						<!---<input type="text" class="span12 " name="location" placeholder="Location">	--->
 					</div>
-					<div class="span3">													
-						<select class="span12">
-								<option value="0">Categories</option>
-								<option value="1">Hair Style</option>
-								<option value="2">Boutique</option>
-								<option value="3">Spa</option>
-								<option value="4">Yoga classes</option>
-						</select>	
+					
+					<div class="span3">		
+                     <?php $selected = "" ?>
+					 <?php echo form_dropdown('category',$getCategory,$selected,' id="category" class="span12"')  ?>						
 					</div>
-					<!--<div class="span1"><a href="#" class="btn  span12"><i class="icon-star "></i></a></div>-->
-					<div class="span2">						
-						 <a  href="#" class="btn span12 pull-right btn-success"> <i class="icon-search"></i> Search</a>
+					<div class="span2">	
+                    <input type="submit" name="search" class="btn span12 pull-right btn-success" value="Search" />					
 					</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -218,5 +233,5 @@
  	</div>
 </div>
 
-
+</div></div>
 

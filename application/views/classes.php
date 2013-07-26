@@ -61,6 +61,16 @@ function show(){
 	$("#paddingtime").show();
 	$("#padding_time").hide();
 }
+
+function showSelected(){
+ var valu=$('#price_type').val();
+ if(valu=='free'){
+ $("#price").attr('disabled','disabled');
+ $("#price").val(" ");
+ }else{
+ $("#price").removeAttr('disabled');
+ }
+}
 </script>
             <div id="myTabContent" class="tab-content tabcontentbg">	  
 			  <!-- basic info start -->
@@ -102,7 +112,7 @@ function show(){
 						  <?php $isExist =$this->common_model->getRow("user_business_classes","user_business_details_id",$this->session->userdata("business_id"));
 						if(isset($isExist) && $isExist!=""){
 						  ?>
-				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register"  class="btn btn-success ">Save & Continue</a></div>
+				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register=Class"  class="btn btn-success ">Save & Continue</a></div>
 						 <?php } 
 						 } ?>
 				  </div>
@@ -168,10 +178,10 @@ function show(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth">Price</label>
 						<div class="controls">
-						  <select class="input-small" name="price_type" id="price_type">
-						  <option>Fixed</option>
-						  <option>Variable</option>
-						  <option>Free</option>
+						  <select class="input-small" name="price_type" id="price_type" onChange="showSelected()";>
+						  <option value="fixed">Fixed</option>
+						  <option value="variable">Variable</option>
+						  <option value="free">Free</option>
 						  </select> <b>$</b>
 						  <input class="input-mini" type="text" name="price" id="price"  maxlength="4" placeholder="">
 						</div>

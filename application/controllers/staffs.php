@@ -13,7 +13,7 @@ class Staffs extends CI_Controller {
     }
 	
 	public function list_staffs(){
-	 
+	// print_r($_GET); exit;
 	 $this->parser->parse('include/header',$this->data);
 	 if(isset($_GET['register'])){
 	 $this->parser->parse('include/registration_navbar',$this->data);

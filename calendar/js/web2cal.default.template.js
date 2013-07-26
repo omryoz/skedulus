@@ -40,7 +40,7 @@
 			//var groupDD=newevt.find("#eventGroup").get(0);
 			//console.log(groupDD);
 			//removeAllOptions(groupDD);
-			var string = '';
+			var string = '<div class="dropdown"><a class="dropdown-toggle btn input-block-level" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul" role="menu" aria-labelledby="dLabel" style="width:85%">';
 			var str = '';
 			for(var g in groups)
 			{	
@@ -49,14 +49,18 @@
 				var gId = groups[g].groupId;
 				var name = groups[g].groupName;
 				//console.log();
+				
+				
 				if(typeof name != 'undefined'){
-					var str = '<br/><span>'+name+'</span> &nbsp; &nbsp;<input type="checkbox" name="eventGroup" class="eventGroup" value="'+groups[g].groupId+'" /><br/>';
+					var str =  '<li><input type="checkbox" name="eventGroup" class="eventGroup" value="'+groups[g].groupId+'" /><span>'+name+'</span></li>';
 					string = string + str;
 					}
 				
 				
 				//addOption(groupDD, groups[g].groupName,groups[g].groupId,false);
 			} 
+			var closeul='</ul></div></div>';	
+			string=string+closeul;
 			
 			if(obj.group && obj.group.groupId){	
 				//console.log(obj.group.groupId);
@@ -235,20 +239,18 @@
 							+'	<div class="aPointer p-left " style="display: block; z-index: 2; " ></div> 	'
 							+'	<div class="acalclosebtn topright closeNewEvent"></div>	'
 							+'	<div class="header" >	'
-							+'	<h3>	Add Appointment	</h3>'
+							+'	<h3 class="appoint-heading"> 	Add Appointment	 <a href="javascript:rzCloseAddEvent();" name="Close" class="close"> &times;  </a> </h3>'
 							+'	</div>	'
 							+'	<div style="padding:20px;">	'
 							+'	<table cellpadding="0"  width="100%">		'
 							+'		<tr>	'
 							+'			<td valign="top">			'				
 							+'	<div>	'
-							+'		<div class=" labels" >	'
-							+'			Services	'
-							+'		</div>	'
-							+'		<div class="selectGroup"><p id="checkbox"><p>'
-							+'		</div>			'
+							+'	<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label><div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>'
+							+'  <div class="control-group"><label class="control-label">Description</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>'
+							+'  </form>'
 							+'	</div>	'
-
+    
 							// +'		<div>	'
 							// +'			<div class="labels"> '
 							// +'			Staff	'
@@ -258,12 +260,12 @@
 							// +'				</div>	'
 							// +'			</div> 	'
 							
-							+'			<div>	'
-							+'				<div class="labels">Description</div>	'
-							+'				<div class="value">	'
-							+'					<textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea>'
-							+'				</div>	'
-							+'			</div> 	'
+							//+'			<div>	'
+//							+'				<div class="labels">Description</div>	'
+//							+'				<div class="value">	'
+//							+'					<textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea>'
+//							+'				</div>	'
+//							+'			</div> 	'
 							+'			</td>	'
 							+'			<td  valign="top">	'
 							+'			<div>	'
@@ -303,10 +305,10 @@
 							+'		</tr>	'
 							+'	</table>   	'
 							+'			<ul class="actions">'
-							+'				<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success"> Create event </a> </li>'
-							+'				<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton"> Update event </a> </li>'
-							+'				<li> <a href="javascript:rzCloseAddEvent();" name="Close" class="btn"> Close </a> </li> '
+							+'				<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right"> Book </a> </li>'
+							+'				<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton pull-right"> Update event </a> </li>'
 							+'			</ul>'
+							
 							+'	</div>';
 					return _html;
 			}
@@ -398,3 +400,8 @@ if(!hasOptions(from)){return;}for(var i=(from.options.length-1);i>=0;i--){from.o
 function addOption(obj,text,value,selected){if(obj!=null && obj.options!=null){obj.options[obj.options.length] = new Option(text, value, false, selected);}}
 function hasOptions(obj){if(obj!=null && obj.options!=null){return true;}return false;}
 		
+
+$(document).ready(function(){				 
+$(".dropdown-toggle").live("click",function(){ $(".dropdown").toggleClass("open");});
+						   });
+

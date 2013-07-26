@@ -6,6 +6,7 @@ class Clients extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->model('bprofile_model');
+		$this->load->model('cprofile_model');
 		$this->load->model('common_model');
 		$this->load->library('upload');
 		$this->load->library('form_validation');
@@ -60,12 +61,13 @@ class Clients extends CI_Controller {
 	
 	function deleteFav(){
 	 $val= $this->common_model->deleteRow("business_clients_list",$_GET['id']);
-		 echo $val;
+	 echo $val;
 	}
 	
 	function settings(){
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
+		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
 		$this->load->view('settings',$this->data);
 		$this->load->view('include/footer',$this->data);
 	}
@@ -75,6 +77,16 @@ class Clients extends CI_Controller {
 		$this->load->view('include/navbar',$this->data);
 		$this->load->view('offer',$this->data);
 		$this->load->view('include/footer',$this->data);
+	}
+	
+	function editClient(){
+	   $this->cprofile_model->insertinfo();
+	   redirect('/clients/settings');
+	}
+	
+	function changePassword(){
+	   $this->cprofile_model->updatePassword();
+	   echo "success";
 	}
 	
 }

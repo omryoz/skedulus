@@ -3,7 +3,7 @@
 }
 
 .moreEvents a:hover, td.datepickerSpecial a {
-    color: #cc0000;
+    /*color: #cc0000;*/
 }
 
 td.datepickerNotInMonth a, div.datepicker a, .agendaDateEvents, td.datepickerDisabled a, td.datepickerDisabled.datepickerNotInMonth a, div.datepicker td.datepickerNotInMonth a:hover, .searchBtn, .tempNavRight, .tempNavLeft, td.datepickerDisabled a:hover, .calTimeSlot .timetxt, .calTimeSlot {
@@ -11,7 +11,7 @@ td.datepickerNotInMonth a, div.datepicker a, .agendaDateEvents, td.datepickerDis
 }
 
 .navBarLink, #navBarFromDate, .leftNavGroupsList .header, #navBarToDate, .viewNavBar, .leftNavGroupsList .header, .timeTxtover, .timeTxt:hover, tbody.datepickerDays td.datepickerSelected a, tbody.datepickerDays td.datepickerSelected, tbody.datepickerDays td.datepickerSelected a:hover, .calHeader a, .calHeader, .plotterContent, #calNavData li a.current, tbody.datepickerYears td.datepickerSelected, tbody.datepickerMonths td.datepickerSelected, .datepickerDays a:hover, .weekrow th a span, .weekrow th, .navHeader th, div.datepickerDays a:hover, .notInMonth {
-    color: #efefef !important;
+    /*color: #efefef !important;*/
 }
 
 .moreEvents a, .calendarTemplate .header, .currTime, .topnavContainer, .leftNavGroupsList .grpName, .pageNextBtn, .pagePrevBtn, .monthAllEventsContainer a, .monthAllEventsContainer, .mcell .dateCont, #calNavData li a, .agendaViewEvent a, .prevButton, .nextButton, .plotterlink, .moreEvents {
@@ -30,8 +30,9 @@ td.datepickerNotInMonth a, div.datepicker a, .agendaDateEvents, td.datepickerDis
   /* background:@colorA; */
  /* background-image: -webkit-linear-gradient(top, rgb(81, 127, 164), rgb(48, 96, 136));
   background-image: -moz-linear-gradient(top, rgb(81, 127, 164), rgb(48, 96, 136)); */
- background:#666;
+ /*background:#666;*/
  border-radius:5px;
+ border: 1px solid #ccc;
 }
 
 .calInfoMsg .body {
@@ -155,13 +156,13 @@ td.datepickerSpecial.datepickerSelected a {
 div.web2cal {
     cursor: default;
     font-family: Arial, Verdana, Helvetica, sans-serif;
-    font-size: 12px;
+    /*font-size: 12px;*/
     zoom: 1;
     clear: both;
-    min-width: 680px;
+    /*min-width: 680px;*/
     position: relative;
 	font-weight:800;
-	color:white;
+	/*color:white;*/
 }
 
 div.calNavigation {
@@ -183,7 +184,7 @@ div.web2cal a:hover, .monthAllEventsContainer a:hover {
 }
 
 div.web2cal .content {
-    padding-left: 180px;
+    /*padding-left: 180px;*/
     margin: 0px auto;
 }
 
@@ -208,6 +209,7 @@ div.web2cal .content {
     text-align: center;
     padding: 1px 0px 1px 0px;
     font-size: 12px;
+	color: #0088cc;
 }
 
 div.plotterContent {
@@ -225,10 +227,11 @@ div.plotterContent {
 }
 
 html > body div.plotterContent {
-    padding: 6px 1px 6px 6px;
+   /* padding: 6px 1px 6px 6px;*/
 }
 
 div.web2cal .leftNav {
+display:none;
     width: 180px;
     position: absolute;
     top: 10px;
@@ -295,7 +298,7 @@ div.web2cal .leftNav {
 	
 	-webkit-border-top-right-radius: 4px; 
 	-webkit-border-top-left-radius: 4px;
-	background: #eee;
+	/*background: #eee;*/
     text-decoration: none;
 }
 
@@ -549,7 +552,7 @@ div.hrule {
 .calbodyContainer {
     background: #fff;
     border-bottom: 1px solid #fff;
-    border-left: 1px solid #1A478F;
+    /*border-left: 1px solid #1A478F;*/
     overflow-x: hidden;
     padding: 0px;
     overflow-y: auto;
@@ -830,7 +833,7 @@ div.hrule {
     float: left;
 	padding-left: 6px;
 	font-size: 12px;
-    color:#333 !important;
+    /*color:#333 !important;*/
 }
 
 .dayEvent, .newEvent, .monthNewEvent, .monthEvent {
@@ -872,9 +875,9 @@ div.hrule {
     font-size: 11px;
     overflow: hidden;
     padding: 0px;
-	color:#333;
-	margin-top: -4px;
-	text-align:center;
+	color: #0088cc;
+margin-top: 1%;
+text-align: center;
 }
 
 div.highlightEvent {
@@ -898,7 +901,7 @@ div.highlightEvent {
 }
 
 .blueTemplate .header {
-    background-color: #2952A3;
+    /*background-color: #2952A3;*/
     color: #ffffff;
 }
 
@@ -914,16 +917,20 @@ div.highlightEvent {
 }
 
 .tealTemplate {
-    border:2px solid #999;
+
     color: #ffffff;
 	line-height:10px;
 	 font-size: 11px;
+	 background: #fff;
+border: 1px solid #ccc;
+/*border-radius: 6px;*/
 }
 
 .tealTemplate .header {
-    /* background-color: #29527A; */
-    color: #333;
+    /* background-color: #29527A; */	
+	color: #0088cc;
 	font-size: 11px;
+	margin-top: 4%;
 }
 
 .brownTemplate {
@@ -1500,6 +1507,9 @@ a.websbutton:hover {
 	position: absolute;
 	width: 200px;
 	z-index: 750;
+	border-radius: 8px;
+	box-shadow: 5px 5px 9px #ccc;
+	font-weight:normal;
 }
 
 .smallcalclosebtn {
@@ -1544,19 +1554,20 @@ ul.actions {
 }
 
 ul.actions li {
-	float: left;
+	/*float: left;*/
 	margin-left: 6px;
 }
 
 .calendarTemplate {
 	background-color: #fff;
-	border: 1px solid #585858;
+	border: 1px solid #a3a3a3;
 	display: none;
 	padding: 0px;
 	position: absolute;
-	width: 30em;
+	width: auto;
 	z-index: 10;
 	border-radius:4px;
+	box-shadow: 0px 0px 6px 3px #ccc;
 }
 
 .calendarTemplate div.labels {
@@ -1601,7 +1612,7 @@ ul.actions li {
 }
 
 .dshadow {
-	background-color: #000;
+	/*background-color: #000;*/
 	opacity: 0.4;
 	filter: alpha(opacity=40);
 	position: absolute;
@@ -1664,4 +1675,46 @@ div#searchEvent input:focus { background-color:transparent; border:none;}
 .prevRow{padding:5px 0px;clear:both;position:relative;}
 .allDayContainer , .calcredits{display:none !important;}
 .fleft .cals{ background: #ccc; border-radius: 4px;}
-.monthEvent  {background: #eee; color:#eee; line-height:22px;border: 1px solid #bdbdbd; }
+.monthEvent  {
+
+background: #f4f4f4;
+
+ }
+.data {color:#666;}
+.dayEvent.tealTemplate:hover{
+/*background: #F5EBE6;*/
+border-color:#a3a3a3;
+box-shadow:1px 1px 3px #ccc;
+}
+.monthEvent:hover{
+border-color:#a3a3a3;
+box-shadow:1px 1px 3px #ccc;
+}
+/*.fullPreview{
+background: #F5EBE6;
+}*/
+.dayEvent.tealTemplate{
+background: #f4f4f4;
+}
+.appoint-heading{
+margin: 0px;
+line-height: 30px;
+text-align: left;
+margin-left: 5px;
+padding: 5px;
+color: #517fa4;
+}
+.form-appointment .control-label{
+width: auto;
+}
+.form-appointment .control-group{
+margin-bottom:0;
+}
+.form-appointment .controls{
+margin-left: 80px;
+
+}
+.calendarTemplate .appointment-popup-ul{
+padding: 5px 15px;
+}
+.calendarTemplate .appointment-popup-ul input{ margin-right: 10px;}

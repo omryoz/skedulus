@@ -30,7 +30,7 @@ session_start();
 	
 		</div>
 </div>
-   
+   </div></div>
 <script>
     var ical; 
     /*

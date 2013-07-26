@@ -13,6 +13,33 @@ class Bcalendar extends CI_Controller {
 		$this->data['base_url'] = base_url();
     }
 	
+		
+	
+	function cal($id=false){
+	if($id){
+	$this->parser->parse('include/header',$this->data);
+	$this->data['role']="";
+		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
+		  $this->parser->parse('include/dash_navbar',$this->data);
+		  }else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
+		  $this->parser->parse('include/navbar',$this->data);
+		  }
+		  if(isset($this->session->userdata['id'])){
+		  $this->data['user_id'] = $this->session->userdata['id'];
+		  @session_start();
+		  $this->data['role'] = $this->session->userdata['role'];	
+		  }
+		  
+		  $filter=array('id'=>$id);
+		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		 
+		}
+		 $this->parser->parse('calendar',$this->data);
+		 $this->parser->parse('include/footer',$this->data);
+	}
+	
+	
+	
 	public function index(){
 		 $this->parser->parse('include/header',$this->data);
 		 if(isset($this->session->userdata['business_id'])){
@@ -78,7 +105,13 @@ class Bcalendar extends CI_Controller {
 			}else if($times[0]->time_type=="hours"){
 				$conversion = 60;
 			}
-			$total = $times[0]->timelength * $conversion + $times[0]->padding_time;
+			if($times[0]->padding_time_type=="Before & After"){
+			  $twice=2;
+			}else{
+			  $twice=1;
+			}
+			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
+			//$total = $times[0]->timelength * $conversion + $times[0]->padding_time;
 			$time = $time + $total;
 			
 		}
@@ -227,7 +260,7 @@ function createappointment(){
 		//foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
 			$info = array("id"=>$this->input->post('service_id'));	
 			$times = $this->common_model->getserviceTime($info);
-			//print_r();
+			
 			
 			if($times[0]->time_type=="minutes"){
 				$conversion = 1;
@@ -235,7 +268,13 @@ function createappointment(){
 			}else if($times[0]->time_type=="hours"){
 				$conversion = 60;
 			}
-			$total = $times[0]->timelength * $conversion + $times[0]->padding_time;
+			
+			if($times[0]->padding_time_type=="Before & After"){
+			  $twice=2;
+			}else{
+			  $twice=1;
+			}
+			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
 			$time = $time + $total;
 			
 		//}
@@ -319,36 +358,42 @@ function createappointment(){
 		
 	}
 	
-	function calendar_business(){
-		 $this->load->model("bprofile_model"); 
-		 $this->data['classes'] = $this->bprofile_model->getClasses();
-		 $this->data['staffs'] = $this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
-		 //print_r($this->data['tableList']);
-		 $this->parser->parse('include/header',$this->data);
-		 if(isset($this->session->userdata['business_id'])){
+	function calendar_business($id=false){
+	if($id==""){
+       $id=$this->session->userdata['business_id'];
+    }
+	if($id){
+	$this->parser->parse('include/header',$this->data);
+	$this->data['role']="";
+		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
-		  $this->data['user_id'] = $this->session->userdata['id'];
-		  @session_start();
-		  $this->data['role'] = $this->session->userdata['role'];	
-		  
-		}
-		else if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
+		  }else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
 		  $this->parser->parse('include/navbar',$this->data);
+		  }
+		  if(isset($this->session->userdata['id'])){
 		  $this->data['user_id'] = $this->session->userdata['id'];
 		  @session_start();
-		  //print_r($_SESSION);	
-		  // $filter=array('id'=>$this->session->userdata['id']);
-		  $filter=array('id'=>$_SESSION['profileid']);
-		  //print_r($filter);
-		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
-		  @session_start();
 		  $this->data['role'] = $this->session->userdata['role'];	
-		}else{
-		  redirect('home/clientlogin');
+		  }
+		  
+		  $filter=array('id'=>$id);
+		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		 
 		}
-		 $this->load->view("calendar_classes");
+		 $this->parser->parse('calendar_classes',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}
+	 
+	function getStaffClass(){
+	 $detail="[";
+	 $this->load->model("bprofile_model");
+	 $details=$this->bprofile_model->getClassDetails("view_classes_posted_business","id",$_POST['classid']);
+	 // $details=$this->common_model->getRow("view_classes_posted_business","id",$_POST['classid']);
+	  $detail.=json_encode($details);
+	  $detail.="]";
+	  print_r($detail);
+	}
+	
 	
 	function getAllstaff(){
 		//echo "Demo";
@@ -363,7 +408,32 @@ function createappointment(){
 		print_r(json_encode($this->data['tableList']));
 	}
 	
-	
+	function bookclass(){
+		if(isset($this->session->userdata['id']) && $this->session->userdata['id']!=""){
+		$val=$this->common_model->getRow("view_classes_posted_business","id",$this->input->post('classid')); 
+		$fav =array("users_id"=>$this->session->userdata['id'],"user_business_details_id"=>$val->user_business_details_id);
+		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$val->user_business_details_id);
+		if(empty($checkfav)){
+		$this->business_profile_model->insertFav($fav);
+		}
+		
+		
+		$where=" and user_business_posted_class_id=".$this->input->post('classid');
+		$val=$this->common_model->getRow("client_class_booking","users_id",$this->session->userdata['id'],$where);
+		if($val){
+		echo "booked";
+		}else{
+		$this->load->model("bprofile_model"); 
+		$date=date("Y-m-d");
+		$input = array("date"=>$date,"users_id"=>$this->session->userdata['id'],"user_business_posted_class_id"=>$this->input->post('classid'));
+		$val=$this->bprofile_model->bookappointment($input);
+		}
+		}else{
+		 echo "login";
+		 //redirect('home/clientlogin');
+		}
+		
+	}
 
 	
 	

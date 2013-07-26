@@ -83,8 +83,17 @@ class common_model extends CI_Model{
 			return true;
 		}
 		
+/* The function to search */
+		function searchResult($tablename="",$where=""){
+			$query=$this->db->query("select * from `$tablename` where $where");
+			if($query->num_rows()>0){
+				return $query->result();
+			}else{
+				return false;
+			}
+			}
+		
 	function uploadFile($foldername){
-	
 			$config['upload_path'] = './uploads/'.$foldername.'/'; 
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '100';

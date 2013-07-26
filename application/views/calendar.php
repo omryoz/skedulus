@@ -10,22 +10,36 @@
 <!---End--------------->
 <?php 
 	
-    $INC_PATH='calendar/src/'; 
+    $INC_PATH=base_url().'calendar/src/'; 
 ?>
-<?php if(isset($this->session->userdata['profile_id'])){
+<?php 
+//print_r($buisness_details); 
+/*if(isset($this->session->userdata['profile_id'])){
 		  $id=$this->session->userdata('profile_id');
 		}else if(isset($this->session->userdata['business_id'])){
 		  $id=$this->session->userdata('business_id');
-		}
+		}*/
+//print_r($buisness_details[0]->id);		
 @session_start();
-$_SESSION['profileid'] = $id;
+$_SESSION['profileid'] = $buisness_details[0]->id;
+if(!isset($this->session->userdata['id'])){
+ redirect('home/clientlogin');
+}
+ //$values=$this->common_model->getRow("user_business_details","id",$buisness_details[0]->id);
+ //print_r($values); exit;
+  //$sessionVal=array(
+			// 'profileid'=>$values->id,
+		// );
+		 
+		// $this->session->set_userdata($sessionVal);
 
 ?>
 <div class="content container">
 		<div class="row-fluid business_profile">
+		<?php //print_r($this->session->userdata['profileid']);?>
 <h3>Buisness Profile Appointments(<?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?>)</h3>		
 <div id="calendarContainer" ></div>
-<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
+<p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
 	
 </div>
@@ -158,6 +172,8 @@ $_SESSION['profileid'] = $id;
      */
     function rzAddEvent()
     {
+	
+	<?php //if(isset($_SESSION['id'])) { ?>
         var newev = Web2Cal.defaultPlugins.getNewEventObject();
 
 		var _sT=new UTC(newev.startTime);
@@ -172,6 +188,9 @@ $_SESSION['profileid'] = $id;
 		str=str+"&groupId="+newev.group.groupId;
 		str=str+"&user_id="+$("#login_id").html();
 		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
+		<?php //}else{?>
+		//window.location.href=baseUrl+'home/';
+		<?php //} ?>
     } 
     /**
      * Onclick of Close in AddEvent Box.

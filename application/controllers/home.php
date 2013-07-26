@@ -16,6 +16,9 @@ class Home extends CI_Controller {
     }
 	
 	public function index() {
+	    $Category=$this->common_model->getDDArray('category','id','name');
+		$Category[""]=" Select Category";
+		$this->data['getCategory']=$Category;
 		$this->parser->parse('include/header',$this->data);
 		$this->data['contentList']=$this->home_model->getBusiness();
 		if(isset($this->session->userdata['business_id'])){

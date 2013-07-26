@@ -19,6 +19,7 @@ function getBusiness(){
 	}
  
 	function insertinfo(){
+	//print_r($_POST); exit;
 		$insertArray=array();
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];
@@ -29,32 +30,35 @@ function getBusiness(){
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
 		if(isset($_POST['gender']))$insertArray['gender']= $_POST['gender']; 
 		if(isset($_POST['password']))$insertArray['password']= MD5($_POST['password']);
+		if(isset($_POST['phone_number']))$insertArray['phone_number']= $_POST['phone_number'];
 		$insertArray['createdOn']= date("Y-m-d H:i:s");
 		
 		if($_POST['usertype']=='businessSignUp'){ 
 		$insertArray['user_role']= 'manager';
 		$insertArray['status']= 'inactive';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
-		}elseif($_POST['usertype']=='clientSignUp'){
+		}elseif($_POST['usertype']=='clientSignUp'){ //print_r("here"); exit;
 		$insertArray['user_role']= 'client';
 		$insertArray['status']= 'active';
 		$insertArray['activationkey']="0";
-		//Set session 
-		$id=mysql_insert_id();
-			 $sessionVal=array(
-			 'id'=>$id,
-			 'username'=>$_POST['firstname'],
-			 'email'=>$_POST['email']
-		 );
-		 $this->session->set_userdata($sessionVal);
-		
+				
 		}
+		$insertArray['image']='default.jpg';
 		$this->db->insert('users',$insertArray);
 		if($_POST['usertype']=='businessSignUp'){
 		$id=mysql_insert_id();
 		return $id;
 		}else{
-		return true;
+		//Set session 
+		$id=mysql_insert_id();
+			 $sessionVal=array(
+			 'id'=>$id,
+			 'username'=>$_POST['firstname'],
+			 'email'=>$_POST['email'],
+			 'role'=>$_POST['user_role'],
+		 );
+		 $this->session->set_userdata($sessionVal);
+		 return true;
 		}
 	}
 	

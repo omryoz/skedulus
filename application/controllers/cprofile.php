@@ -17,6 +17,9 @@ class Cprofile extends CI_Controller {
     }
 	
 	public function index() {
+	    $Category=$this->common_model->getDDArray('category','id','name');
+		$Category[""]=" Select Category";
+		$this->data['getCategory']=$Category;
 		 $this->data['contentList']=$this->home_model->getBusiness();
 		 $this->parser->parse('include/header',$this->data);
 		 $this->parser->parse('include/navbar',$this->data);
