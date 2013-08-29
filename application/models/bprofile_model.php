@@ -457,6 +457,7 @@ class bprofile_model extends CI_Model {
 		$i=0;
 		if($data){
 			foreach($data as $dataP){
+			    $values['class'] =$dataP->name;
 				$values['start_date'] =$dataP->start_date;
 				$values['end_date']= $dataP->end_date;
 				$values['start_time'] =$dataP->start_time;
@@ -508,7 +509,7 @@ class bprofile_model extends CI_Model {
 	   $new_avail=($val->availability-1);
 	   $updateArray['availability']=$new_avail;
 	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
-	   $this->db->insert("client_class_booking",$input);
+	   $this->db->insert("client_service_appointments",$input);
 	   if($this->db->affected_rows()>0){	   
 				echo $new_avail;
 			}else{
@@ -519,6 +520,114 @@ class bprofile_model extends CI_Model {
 	   }
 	}
 	
+	
+	function getSingleClassDetails(){
+		$sql="Select * from user_business_posted_class where id =".$_POST['classId'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+				$values['start_time'] = date('H:i',strtotime($dataP->start_time));
+				$values['end_time']= date('H:i',strtotime($dataP->end_time));
+				$values['start_date'] =$dataP->start_date;
+				$values['end_date']= $dataP->end_date;
+				$values['user_business_classes_id'] =$dataP->user_business_classes_id;
+				$values['price'] =$dataP->price;			
+				$values['instructor']= $dataP->instructor;
+				$values['lastdate_enroll']= $dataP->lastdate_enroll;
+				$values['class_size'] =$dataP->class_size;
+				$values['availability'] =$dataP->availability;
+				$values['repeat_type'] =$dataP->repeat_type;
+				if($dataP->repeat_type=="weekly"){
+				 $values['repeat_week_days'] =$dataP->repeat_week_days;
+				}
+				if($dataP->repeat_type=="monthly"){
+				 $values['repeat_months'] =$dataP->repeat_months;
+				}
+				if($dataP->repeat_type=="daily"){
+				 $values['repeat_all_day'] =$dataP->repeat_all_day;
+				}
+				
+				//$values['availability']= $dataP->availability;
+				$i++;
+			}
+			return $values;
+		}
+	}
+	
+	function maxEndDate(){
+	//echo "Select max(end_date) from user_business_posted_class where seriesid =".$seriesid; exit;
+    $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classId']);
+	
+	//echo "Select max(end_date) as enddate from user_business_posted_class where seriesid =".$val->seriesid; exit;
+	$sql="Select max(end_date) as enddate from user_business_posted_class where seriesid =".$val->seriesid;
+	 $query=$this->db->query($sql);			 			
+		$data=$query->result();	
+		if($data) {
+		$values['enddate']=$data[0]->enddate;
+		$values['seriesid']=$val->seriesid;
+			return $values;
+		}
+		//return false;
+	}
+	
+	function getClients(){
+	 $query = $this->db->query("select users_id,first_name,last_name from view_business_clients where user_business_details_id=".$_POST['businessid']);
+	    $data= $query->result();
+		if($data){
+		
+		 foreach($data as $dataP){
+				$values[]=$dataP->first_name." ".$dataP->last_name;
+				
+			}
+			//print_r($values);
+			echo json_encode($values); 
+			//return $values;
+		}
+	}
+	
+	function addClient(){
+	   $insertArray=array();
+		if(isset($_POST['name']))$insertArray['first_name']= $_POST['name'];
+		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
+		if(isset($_POST['phone']))$insertArray['phone_number']= $_POST['phone'];
+		
+		if($_POST['users_id']==""){
+		$this->db->insert('users',$insertArray);
+		$id=mysql_insert_id();
+		$action = 'add';
+		}
+		if($id){
+		  $insertBArray['users_id']= $id;
+		  $insertBArray['user_business_posted_class_id']= $_POST['classid'];
+		  $insertBArray['date']= date('Y-m-d');
+		  if(isset($_POST['notes']))$insertBArray['note']= $_POST['notes'];
+		  $this->db->insert('client_class_booking',$insertBArray);
+		  
+		  
+		    $query=$this->db->query("select * from business_clients_list where user_business_details_id = '".$this->session->userdata['business_id']."' and users_id='".$id."'");
+			$data= $query->result();
+			if(empty($data)){
+			$this->db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$id."','".$this->session->userdata['business_id']."' )");
+			}
+		}
+		
+		if(isset($_POST['users_id']) && $_POST['users_id']!=""){
+		 $insertArray['users_id']= $_POST['users_id'];
+		  $insertArray['user_business_posted_class_id']= $_POST['classid'];
+		$this->db->update('view_client_class_booking',$insertArray,array('users_id' => $_POST['users_id']));
+		$action = 'update';
+		}
+		
+		
+		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'"}]';
+		print_r ($val);
+	}
+	
+	// function getClientlist(){
+	 
+	// }
 	
 }
 ?>

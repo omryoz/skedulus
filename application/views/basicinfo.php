@@ -162,7 +162,7 @@
 
 
 $start = strtotime('7:00');
-$end = strtotime('24:00');
+$end = strtotime('23:59');
 			for( $i = $start; $i <= $end; $i += (60*15)) 
 			{
 			    $value=date('H:i', $i);
@@ -219,27 +219,27 @@ for($i=1;$i<=7;$i++) {
 			<input type="checkbox" <?php  echo $checked; ?> name="<?php echo $i; ?>" onClick="getchecked(this,<?php echo $i ?>);" id="<?php echo $i; ?>"></div>
 			<div class="span2"><?php echo $weekdays[$i] ?></div>
 			<div class="span2">
-			<div class="input-append bootstrap-timepicker span12" placeholder="open">
+			<div >
 			<?php 
 			$starttime=$i.'from';
 			$id='divO'.$i;
-			echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span7"'.$disabled) 
+			echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span12"'.$disabled) 
 			
 			?>
 			 
             	<!--<input type="text" class="<?php //echo $classS; ?>" name="<?php //echo $i ?>from"  readonly="readonly" id="divO<?php //echo $i; ?>" >---->
-            	<span class="add-on"><i class="icon-time"></i></span>
+            	
         	</div>
 			</div>
 			<div class="span2">
-			<div class="input-append bootstrap-timepicker span12" placeholder="close">
+			<div >
 			<?php 
 			$endtime=$i.'to';
 			$id='divC'.$i;
-			echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span7"'.$disabled) 
+			echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span12"'.$disabled) 
 			?>
             	<!---<input type="text" class="<?php //echo $classE; ?>"  name="<?php// echo $i ?>to"   readonly="readonly" id="divC<?php// echo $i; ?>">---->
-            	<span class="add-on"><i class="icon-time"></i></span>
+            	
         	</div>
 			</div>
 					

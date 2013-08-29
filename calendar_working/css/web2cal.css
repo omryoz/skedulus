@@ -444,7 +444,7 @@ div.topHideShowLink {
     height: 150px;
     overflow-X: hidden;
     overflow-Y: auto;
-    position: absolute;
+   /*  position: absolute; */
     width: 112px;
     width: 160px;
     z-index: 250;

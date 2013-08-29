@@ -20,7 +20,7 @@ class common_model extends CI_Model{
 	function getDDArray($table="",$indexField="",$valueField="",$where=""){
 		$options = "";
 		$arrTemp=array();
-		$sql = "SELECT $indexField,$valueField FROM $table WHERE 1";
+		$sql = "SELECT $indexField,$valueField FROM $table WHERE 1 $where";
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();
 		if($data) {
@@ -80,6 +80,7 @@ class common_model extends CI_Model{
 		function deleteRow($tablename="",$id=""){
 			$sql=sprintf("delete from `$tablename` where id='".$id."' ");
 			$query=$this->db->query($sql);
+			#echo $this->db->last_query();
 			return true;
 		}
 		
@@ -238,6 +239,19 @@ public function mail($emailTo,$subject,$message){
 		
 	}
 	
+	function getclassTime($info=false){
+		if($info){
+			$query = $this->db->get_where("user_business_classes",$info);
+			if($query->num_rows()>0){
+				return $query->result();
+			}else{
+				return false;
+			}
+			
+		}else{
+			return false;
+		}
+	}
 	
 	
 	

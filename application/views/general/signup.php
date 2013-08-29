@@ -1,3 +1,4 @@
+
 <div class="content container login_page">
 <?php if(isset($success)){ ?>
 	<p class="alert">Please check your mail and click on the verification link we sent you to continue with your business registration.</p>
@@ -25,6 +26,7 @@
                 <span>Signup with Twitter</span>
             </a>
         </div>
+		
     </div>
 	<div class="social_buttons visible-phone">
                        <ul class="unstyled inline ">
@@ -203,6 +205,12 @@ function passwordStrength(password)
 	 document.getElementById("passwordDescription").innerHTML = desc[score];
 	 document.getElementById("passwordStrength").className = "strength" + score;
 }
+</script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/modernizr-custom.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/polyfiller.js"></script>
+<script>
+    // Polyfill all unsupported features
+    $.webshims.polyfill();	
 </script>
 <style>
 #passwordStrength

@@ -1,4 +1,5 @@
-<?php
+ <?php
+ error_reporting(0);
 /* Manage Business registration Controller */
 class Bcalendar extends CI_Controller {
 	function __construct(){
@@ -7,6 +8,7 @@ class Bcalendar extends CI_Controller {
 		$this->load->library('parser');
 		$this->load->model('calendar_model');
 		$this->load->model('common_model');
+		$this->load->model("bprofile_model");
 		$this->load->model('business_profile_model');
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
@@ -234,12 +236,13 @@ function checkweekendDayName($date=false){
 }
 
 function createappointment(){
-	if($this->input->post('submit')){
+	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
 		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked");
+		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
-		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'));
+		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
@@ -248,6 +251,8 @@ function createappointment(){
 		}else{
 			redirect("");
 		}
+	}else{
+	redirect("home/clientlogin");
 	}
 }
 
@@ -377,10 +382,19 @@ function createappointment(){
 		  }
 		  
 		  $filter=array('id'=>$id);
+		  $where=" And user_business_details_id=".$id;
+		  $classes=$this->common_model->getDDArray("user_business_classes","id","name",$where);
+		  $classes[""]=" Select";
+		  $this->data['classes']=$classes; 
+		
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		 
 		}
+		if($this->session->userdata['role']=="client"){
+		$this->parser->parse('calendar_bookclass',$this->data);
+		}else{
 		 $this->parser->parse('calendar_classes',$this->data);
+		}
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	 
@@ -392,6 +406,25 @@ function createappointment(){
 	  $detail.=json_encode($details);
 	  $detail.="]";
 	  print_r($detail);
+	}
+	
+	//get the  single class details
+	function getClassDetails(){
+	 $this->load->model("bprofile_model");
+	 $values=$this->bprofile_model->getSingleClassDetails();
+	 $detail="[";
+	 $detail.=json_encode($values);
+	  $detail.="]";
+	 print_r($detail); 
+	}
+	
+	function getSeriesid(){
+	 $this->load->model("bprofile_model");
+	  $values=$this->bprofile_model->maxEndDate();
+	  $detail="[";
+	  $detail.=json_encode($values);
+	  $detail.="]";
+	  print_r($detail); 
 	}
 	
 	
@@ -412,33 +445,116 @@ function createappointment(){
 		if(isset($this->session->userdata['id']) && $this->session->userdata['id']!=""){
 		$val=$this->common_model->getRow("view_classes_posted_business","id",$this->input->post('classid')); 
 		$fav =array("users_id"=>$this->session->userdata['id'],"user_business_details_id"=>$val->user_business_details_id);
-		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$val->user_business_details_id);
+		$where=" and users_id=".$this->session->userdata['id'];
+		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$val->user_business_details_id,$where);
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
 		
 		
-		$where=" and user_business_posted_class_id=".$this->input->post('classid');
-		$val=$this->common_model->getRow("client_class_booking","users_id",$this->session->userdata['id'],$where);
+		$where=" and services_id=".$this->input->post('classid');
+		$val=$this->common_model->getRow("client_service_appointments","users_id",$this->session->userdata['id'],$where);
 		if($val){
-		echo "booked";
+		$val=1;
+		echo $val;
 		}else{
 		$this->load->model("bprofile_model"); 
-		$date=date("Y-m-d");
-		$input = array("date"=>$date,"users_id"=>$this->session->userdata['id'],"user_business_posted_class_id"=>$this->input->post('classid'));
+		$date=date("Y-m-d h:m:s");
+		$starttime=$this->input->post('date')." ".$this->input->post('starttime');
+		$endtime=$this->input->post('date')." ".$this->input->post('endtime');
+		$input = array("start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','appointment_date'=>$date);
 		$val=$this->bprofile_model->bookappointment($input);
 		}
 		}else{
-		 echo "login";
+		$val=0;
+		 echo $val;
 		 //redirect('home/clientlogin');
 		}
 		
 	}
 
+	function endTimeClass(){
+		$time = "";
+		$conversion = "";
+			$info = array("id"=>$this->input->post('class_id'));	
+			$times = $this->common_model->getclassTime($info);
+			
+			
+			if($times[0]->time_type=="minutes"){
+				$conversion = 1;
+					
+			}else if($times[0]->time_type=="hours"){
+				$conversion = 60;
+			}
+			
+			if($times[0]->padding_time_type=="Before & After"){
+			  $twice=2;
+			}else{
+			  $twice=1;
+			}
+			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
+			$time = $time + $total;
+			
+		//}
+		$t_time = $this->convertToHoursMins($time,'%d:%d');
+		$t_time = $t_time.':0';
+		$start_time = $this->input->post('starttime');
+		$t = $start_time.':0';
+		
+		$time = explode(":",$this->addTime($t_time,$t));
+		$endtime = $time[0].':'.$time[1];
+		echo $endtime;
+	}
 	
 	
+	function staffSchedule($id=false){
+	if($id){
+	$this->parser->parse('include/header',$this->data);
+	$this->data['role']="";
+		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
+		  $this->parser->parse('include/dash_navbar',$this->data);
+		  }else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
+		  $this->parser->parse('include/navbar',$this->data);
+		  }
+		  if(isset($this->session->userdata['id'])){
+		  $this->data['user_id'] = $this->session->userdata['id'];
+		  @session_start();
+		  $this->data['role'] = $this->session->userdata['role'];	
+		  }
+		  
+		  $filter=array('users_id'=>$id);
+		  $this->data['staff_details'] = $this->business_profile_model->getstaffDetailsByfilter($filter);
+		 
+		}
+		 $this->parser->parse('staffCalendar',$this->data);
+		 $this->parser->parse('include/footer',$this->data);
+	}
 	
+	function checkStatus(){
+	 $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classID']);
+	 print_r($val->modifiedStatus);
+	}
 	
+	function getClients(){ 
+	$this->bprofile_model->getClients();
+	 // $val=$this->common_model->getAllRows("view_business_clients","user_business_details_id",$_POST['businessid']);
+	  //print_r($val);
+	}
+	
+	function addClient(){
+	 $this->bprofile_model->addClient();
+	 
+	}
+	function clientlist(){
+	$val=$this->common_model->getAllRows("view_client_class_booking","user_business_posted_class_id",$_POST['classid']);
+	 print_r (json_encode($val));
+	 //$this->bprofile_model->getClientlist();
+	}
+	
+	function getclientdetails(){
+	 $val=$this->common_model->getAllRows("view_client_class_booking","users_id",$_POST['userid']);
+	 print_r (json_encode($val));
+	}
 }
 
 ?>

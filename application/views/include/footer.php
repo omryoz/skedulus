@@ -1,4 +1,4 @@
-<footer id="footer">
+<div id="footer">
 		 <div class="container" id="foot">
 			<div class="row-fluid">
 				<div class="span9" align="center">
@@ -78,12 +78,12 @@
 			</div>
 		 </div>
 		 
-    </footer>
+    </div>
 
 	
 	 <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?php echo base_url(); ?>js/bootstrap-transition.js"></script>
-    <!--<script src="js/bootstrap-alert.js"></script>-->
+    <script src="<?php echo base_url(); ?>js/bootstrap-alert.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap-modal.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap-dropdown.js"></script>
     <!--<script src="js/bootstrap-scrollspy.js"></script>-->
@@ -93,6 +93,8 @@
     <script src="<?php echo base_url(); ?>js/bootstrap-button.js"></script>
     <script src="<?php echo base_url(); ?>js/bootstrap-collapse.js"></script>
 	<script src="<?php echo base_url(); ?>js/bootstrap-timepicker.js"></script>
+	
+	<!-- <script src="<?php echo base_url(); ?>js/modernizr.js"></script> -->
   <!--  <script src="js/bootstrap-carousel.js"></script>-->
   <!--  <script src="js/bootstrap-typeahead.js"></script>-->
 <!--	<script src="js/modernizr.custom.88281.js"></script>.-->
@@ -101,12 +103,11 @@
 <script type="text/javascript" src="<?php echo base_url(); ?>js/simplyscroll/jquery.simplyscroll.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/script.js"></script>
 <!---<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.tn3lite.min.js"></script>--->
-	
+<!--<script type="text/javascript" src="<?php echo base_url(); ?>PIE-1.0.0/PIE.js"></script>--->	
 <!--Mouse over image slider for business_profile scripts end-->
 <!---Script for google map--->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script> 
-
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>-->
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>--> 
 
 
 
@@ -115,6 +116,8 @@
 	/*$('.info').popover('hide')*/
 	$('.info').popover({html:true});
 </script>-->	
+
+
 
 
   </body>

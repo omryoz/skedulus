@@ -85,7 +85,7 @@ class Staffs extends CI_Controller {
 			echo($id);
 			}
 		 }
-		 if(isset($_GET['id']) && $_GET['id']!=""){
+		 if(isset($_GET['id']) && $_GET['id']!="" && !isset($_GET['delete'])){
 			$val= $this->bprofile_model->getStaffdetails();
 			echo($val);
 		 }
@@ -104,7 +104,9 @@ class Staffs extends CI_Controller {
 		 
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);
-		 echo $val;
+		 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Staff deleted successfully !');
+		 redirect("staffs/list_staffs");
 		 }
 	}	
 	

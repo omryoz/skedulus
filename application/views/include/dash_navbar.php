@@ -1,3 +1,11 @@
+<script>
+$(document).ready(function(){
+		_page = window.location.pathname.split('/')[2];
+	   $('a[href="http://localhost/skedulus/'+_page+'"] ,a[href="http://localhost/skedulus/'+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+
+});
+
+</script>
 <div class="content container">
 <div class="row-fluid ">
 <div class="navbar  navbar-inverse">
@@ -12,80 +20,57 @@
 				$results = explode('/', trim($url,'/'));
 			?>
 			<div class="nav-collapse collapse menu_dash">			
-				<ul class="nav business-navbar">
-					<?php if($results[1]=='overview'){ 
-					$class=" class='active'";
+				<ul class="nav business-navbar justify-nav">
+					<?php 
+					//$active = (!empty($results && $results[1]=='overview')?"active":"");
+					/*if($results[1]=='overview'){ 
+						$class=" class='active'";
 					}else{
-					$class="";
-					}
+						$class="";
+					}*/
 					?> 
-					<li <?php echo $class; ?>>
+					<li>
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p>Overview</p></center></a>
 					</li>
-					<?php if($results[1]=='bcalendar'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>>
-						<a href="<?php echo base_url() ?>bcalendar/calendar_business"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
+					<?php 
+					if($this->session->userdata['business_type']=="class"){
+							$link = "calendar_business";
+							
+						}else{	
+						$id=$this->session->userdata['business_id'];
+							$link = 'cal/'.$id;
+								
+						}
+					?>
+					<li>
+						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
 					</li>
-					<?php if($results[1]=='businessProfile'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>>
+					
+					<li >
 						<a href="<?php echo base_url() ?>businessProfile"><center><i class="icon-briefcase"></i><p>My Business Profile
 						</p></center>
 						</a>
 					</li>
-					<?php if($results[1]=='settings'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p>Business Settings
+					
+					<li ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p>Business Settings
 					</p></center>
 						</a>
 					</li>
-					<?php if($results[1]=='gallery'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p>Photo Gallery</p>
+					
+					<li ><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p>Photo Gallery</p>
 					</center>
 						</a>
 					</li>
-					<?php if($results[1]=='clients'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p>My Clients</p>
+					
+					<li ><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p>My Clients</p>
 					</center></a>
 					</li>
-					<?php if($results[1]=='staffs'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php  echo $class; ?>><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p>Staffs</p>
+					
+					<li ><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p>Staffs</p>
 					</center></a>
 					</li>
-					<?php if($results[1]=='services'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
+					
+					<li >
 					<?php 
 					if($this->session->userdata['business_type']=="class"){
 							$link = "list_classes";
@@ -95,17 +80,11 @@
 							$text = "Services";		
 						}
 					?>
-					
-					<li <?php echo $class; ?>><a href="<?php echo base_url() ?>services/<?=$link?>"><center><i class="icon-cogs"></i><p><?=$text?></p>
+					<a href="<?php echo base_url() ?>services/<?=$link?>"><center><i class="icon-cogs"></i><p><?=$text?></p>
 					</center></a>
 					</li>
-					<?php if($results[1]=='offers'){ 
-					$class=" class='active'";
-					}else{
-					$class="";
-					}
-					?> 
-					<li <?php echo $class; ?>><a href="<?php echo base_url() ?>offers/list_offers"><center><i class="icon-thumbs-up"></i><p>Offers</p>
+					
+					<li><a href="<?php echo base_url() ?>offers/list_offers"><center><i class="icon-thumbs-up"></i><p>Offers</p>
 					</center></a>
 					</li>
 				</ul>

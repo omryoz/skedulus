@@ -1,11 +1,13 @@
 <!---For calendar----->
 <link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/optionalStyling.css"> 
         <link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/web2cal.css"> 
-        <script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script> 
+        <?php /*?><script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script> <?php */?>
         <script src="<?php echo base_url() ?>calendar/js/Web2Cal-Basic-2.0-min.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
+	
+
 		
 <!---End--------------->
 <?php 
@@ -37,7 +39,7 @@ if(!isset($this->session->userdata['id'])){
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
-<h3>Buisness Profile Appointments(<?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?>)</h3>		
+<h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
@@ -46,6 +48,96 @@ if(!isset($this->session->userdata['id'])){
 </div>
   </div>
 </div>
+<!----Modal------>
+<!-- Modal -->
+  <!-- <div class="modal fade" id="bookApp">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn">Close</a>
+          <a href="#" class="btn btn-primary">Save changes</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+<div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
+								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
+								<div class="acalclosebtn topright closeNewEvent"></div>	
+								<div class="header" >	
+								<h3 class="appoint-heading"> 	Book Appointment	
+								<a href="javascript:;" name="Close"  class="close" data-dismiss="modal" aria-hidden="true"> &times;  </a> </h3>
+								</div>	
+								<div style="padding:20px;">	
+								<table cellpadding="0"  width="100%">		
+									<tr>	
+										<td valign="top">							
+								<div>	
+								<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label><div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>
+							  <div class="control-group"><label class="control-label">Note</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>
+							
+							  
+							
+							  </form>
+							  
+								</div>	
+    
+							
+										</td>	
+										<td  valign="top">	
+										<div>	
+											<div class="labels hide">	
+												Start Date:
+											</div>	
+											<div class="startDate">	
+												<input type="hidden" class="startDateClass"  name="eventStartDate" style="width:6em; border:1px solid #C3D9FF;" id="eventStartDate"/>	
+											</div>			
+										</div>	
+										<div>	
+											<div class="labels hide" >	
+												Start Time:
+											</div>	
+											<div class="startTime">	
+												<input type="hidden" class="startTimeClass" name="eventStartTime" style="width:5em; border:1px solid #C3D9FF;" id="eventStartTime"/>	 
+											</div>	 	
+										</div> 	
+										<div>	
+											<div class="labels hide">	
+												End Date:
+											</div>	
+											<div class="endDate">	
+												<input type="hidden" name="eventEndDate" style="width:6em; border:1px solid #C3D9FF;" id="eventEndDate"/>	
+											</div>			
+										</div>	  	
+							
+										<div>	
+											<div class="labels hide" >	
+												End Time: 
+											</div>	
+											<div class="endTime">	
+												<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	
+											</div>		 	
+										</div>	
+										</td>	
+									</tr>	
+								</table>   	
+										<ul class="actions">
+											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+											<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton pull-right"> Update event </a> </li>
+										</ul>
+							
+								</div>  
+</div>
+</div>
+
+
 <script>
     var ical; 
     /*
@@ -58,7 +150,7 @@ if(!isset($this->session->userdata['id'])){
             onUpdateEvent: updateEvent,
             onNewEvent: onNewEvent,  
 			onPreview: onPreview, 
-            views: "day, month, week, agenda"
+            views: "day, week, agenda"
         });
         ical.build();
     }
@@ -172,22 +264,38 @@ if(!isset($this->session->userdata['id'])){
      */
     function rzAddEvent()
     {
-	
 	<?php //if(isset($_SESSION['id'])) { ?>
-        var newev = Web2Cal.defaultPlugins.getNewEventObject();
-
-		var _sT=new UTC(newev.startTime);
-		var _eT=new UTC(newev.endTime); 
-		var stStr=_sT.toDateString() +" "+_sT.toTimeString();
-		var edStr=_eT.toDateString() +" "+_eT.toTimeString();  
-		
+       var newev = jQuery("#bookApp");
+		//var _sT=new UTC(newev.find("#eventStartTime").val());
+		//var _eT=new UTC(newev.find("#eventEndTime").val()); 
+		var stStr=newev.find("#eventStartDate").val() +" "+newev.find("#eventStartTime").val();
+		var edStr=newev.find("#eventStartDate").val() +" "+newev.find("#eventEndTime").val();  
+		//var newEventContainer = jQuery("#bookApp"); 
+		//var strtTime=newEventContainer.find("#eventStartTime").val();
+		//alert(strtTime);
 		var str="?1=1";
-		str=str+"&eventName="+newev.name;
+		str=str+"&eventName="+newev.find("#eventName").val();
 		str=str+"&st="+stStr;
 		str=str+"&et="+edStr;
-		str=str+"&groupId="+newev.group.groupId;
-		str=str+"&user_id="+$("#login_id").html();
+		
+		var grp=newev.find(".eventGroup:checked").val();
+			//alert(grp.length);
+			//var id = "";
+			var id = [];
+			$(".eventGroup:checked").each(function() {
+				var checked = $(this).val();
+				//id = id + checked +"," ;  
+				id.push($(this).val());
+			});
+			var s = id.join(', ');
+			//alert(s);
+			var grp = s;
+		//str=str+"&groupId="+newev.group.groupId;
+		str=str+"&groupId="+grp;
+		str=str+"&user_id="+$("#login_id").html(); 
 		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
+		$("#bookApp").removeClass("in");
+		$("div[id=darker]").remove();
 		<?php //}else{?>
 		//window.location.href=baseUrl+'home/';
 		<?php //} ?>

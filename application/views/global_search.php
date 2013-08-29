@@ -186,10 +186,10 @@
    success:function(data){
    if(data!="false"){
 	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","added to Favourite");
-	$("#addfav"+data).attr("href","http://localhost/skedulus/clients/favourite");
+	$("#addfav"+data).attr("href",base_url+"/clients/favourite");
 	$("#addfav"+data).removeAttr('onclick');
     }else{
-	window.location.href="http://localhost/skedulus/home/clientlogin";
+	window.location.href=base_url+"home/clientlogin";
 	}
 	
    }

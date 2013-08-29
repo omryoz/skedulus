@@ -55,13 +55,13 @@ Web2Cal.defaultSettings['startTime']						= 0;
 Web2Cal.defaultSettings['endTime'] 							= 23;
 Web2Cal.defaultSettings['customViewSize'] 					= 4;
 Web2Cal.defaultSettings['timeFormat'] 						= 24;
-Web2Cal.defaultSettings['dwSlotHeight'] 					= 60; 
+Web2Cal.defaultSettings['dwSlotHeight'] 					= 100; 
 Web2Cal.defaultSettings['timeZoneOffset']					= -new Date().getTimezoneOffset();
-Web2Cal.defaultSettings['controlWidth'] 					= '99%';
-Web2Cal.defaultSettings['controlHeight'] 					= '500px';
+Web2Cal.defaultSettings['controlWidth'] 					= '100%';
+Web2Cal.defaultSettings['controlHeight'] 					= '550px';
 Web2Cal.defaultSettings["showLeftNav"] 						= true;   
 Web2Cal.defaultSettings["showAllDay"]	 					= false;
-Web2Cal.defaultSettings["showQuickFilter"]	 				= true;  
+Web2Cal.defaultSettings["showQuickFilter"]	 				= false;  
 Web2Cal.defaultSettings["showOptions"]		 				= false;  
 Web2Cal.defaultSettings["newEventInPopUp"]					= false;  
 Web2Cal.defaultSettings["interval"]							= 4;
@@ -70,9 +70,12 @@ Web2Cal.defaultSettings["weekDataTemplate"]  				= "dayWeekEventTemplate";
 Web2Cal.defaultSettings["monthDataTemplate"]  				= "monthEventTemplate";	 
 Web2Cal.defaultSettings["agendaDataTemplate"]  				= "agendaViewTemplate";	 
 Web2Cal.defaultSettings["monthAllDayTemplate"]				= "monthAllDayTemplate";
+Web2Cal.defaultSettings["showQuickAdd"]	 					= false;  
 
 Web2Cal.defaultSettings["previewTemplate"]					= "previewTemplate";
 Web2Cal.defaultSettings["newEventTemplate"]					= "defaultNewEventTemplate";
+Web2Cal.defaultSettings["wsSlotHeight"]				    	= "100";
+
  
 //callbacks 
 Web2Cal.defaultSettings["loadEvents"]  							= function(){}; 

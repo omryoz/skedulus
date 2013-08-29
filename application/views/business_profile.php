@@ -55,15 +55,14 @@
 								 $url='bcalendar/cal/';
 								 }
 								?>
-								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button"  
-									data-toggle="modal">View schedule</a>
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal">View schedule</a>
 									
 							</div>
 							</div>
 							<div class="span6">
 							<ul class="unstyled inline pull-right ul-rating">
 								<li><div id="star" class="star-rate"> </div></li>		
-								<li><a href="javascript:;"><i class="icon-time icon-large" title="open now"></i></a></li>
+								<!--<li><a href="javascript:;"><i class="icon-time icon-large" title="open now"></i></a></li>-->
 								
 							</ul>
 							
@@ -179,7 +178,7 @@
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
-								<td><a href="<?php echo base_url(); ?>bcalendar" class="btn btn-success">View schedule</a></td>
+								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>" class="btn btn-success">View schedule</a></td>
 							    <?php if($this->session->userdata['role']=="manager"){ ?>
 								<td>
 							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;

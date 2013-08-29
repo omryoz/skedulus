@@ -19,15 +19,20 @@ class deleteclass
 	function return_response()
 	{
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
-		  
-		$eventId=$this->queryVars['eventId']; 
 		$input=array();
+		$input['eventId']=$this->queryVars['class_id']; 
 		
-		//$input['name']=$name; 
-		$input['eventId']=$eventId; 
-		$db->query("delete from user_business_posted_class  where id=".$this->queryVars['eventId']);
-		//print_r($this->queryVars);
-		//echo "delete from client_service_appointments  where id=".$this->queryVars['eventId'];
+		if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='single'){
+	     $db->query("delete from user_business_posted_class  where id=".$this->queryVars['class_id']);
+	     }
+	  
+		  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+			  $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
+		  }
+		
+		
+		//$db->query("delete from user_business_posted_class  where id=".$this->queryVars['class_id']);
+
 		return $input;
 	}
 	function is_authorized()

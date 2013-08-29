@@ -3,7 +3,7 @@
 						 <h5> Edit Staff Availability </h5>
 						  <?php 
 							 $start = strtotime('7:00');
-						     $end = strtotime('24:00');
+						     $end = strtotime('23:59');
 							for( $i = $start; $i <= $end; $i += (60*15)) 
 							{
 								$value=date('H:i', $i);
@@ -35,25 +35,25 @@
 								<input type="checkbox" <?php echo $checked;?> id="<?php echo $i; ?>" onclick="getchecked(this,<?php echo $i ?>);"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
 							
 								<div class="span3">
-									<div class="input-append bootstrap-timepicker span12" placeholder="open">
+									<div >
 									<?php 
 										$starttime=$i.'from';
 										$id='divO'.$i;
-										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span7"'.$disabled) 
+										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span12"'.$disabled) 
 										
 									?>
 									
-									<span class="add-on"><i class="icon-time"></i></span>
+									
 									</div>
 								</div>
 								<div class="span3">
-									<div class="input-append bootstrap-timepicker span12" placeholder="close">
+									<div >
 									<?php 
 									$endtime=$i.'to';
 									$id='divC'.$i;
-									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span7"'.$disabled) 
+									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span12"'.$disabled) 
 									?>
-									<span class="add-on"><i class="icon-time"></i></span>
+									
 									</div>
 								</div>
 								

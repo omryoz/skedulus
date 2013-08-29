@@ -22,25 +22,28 @@ class postclasses
 	function return_response()
 	{
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
-		
-		/*$sTimeStr=$this->queryVars['st'];
-		$eTimeStr=$this->queryVars['et'];
-		$sDateStr=$this->queryVars['sd'];
-		$eDateStr=$this->queryVars['ed'];
-		$enrolLastDateStr=$this->queryVars['eden'];
-		$className=$this->queryVars['class'];
-		$groupId=$this->queryVars['groupId'];
-		$user_id=$this->queryVars['user_id'];
-		
-	
+	 
 
-		
-       $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked')");*/
-	   
-		$class=$this->queryVars['class'];
-		$start_date=$this->queryVars['sd'];
-		$end_date=$this->queryVars['ed'];
+	  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='single'){
+	      $db->query("delete from user_business_posted_class  where id=".$this->queryVars['class_id']);
+	  }
+	  
+	  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+	      $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
+	  }
+	  
+
+        $date= date("Y-m-d H:m:s"); 
 		$class_id=$this->queryVars['class'];
+		$db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$class_id."', '".$date."')");
+	    $seriesid= mysql_insert_id();
+		$class=$this->queryVars['class'];
+		$start_date=date("Y-m-d",strtotime($this->queryVars['sd']));
+		if($this->queryVars['repeatstatus'] == 'Remove Repeat'){
+		$end_date=date("Y-m-d",strtotime($this->queryVars['ed']));		
+		}else{
+		$end_date=date("Y-m-d",strtotime($this->queryVars['sd']));
+		}
 		$staff_id=$this->queryVars['tr_id'];
 		$sTimeStr=$this->queryVars['st'];
 		$eTimeStr=$this->queryVars['et'];
@@ -52,82 +55,73 @@ class postclasses
 		$repeat_all_day="";
 		$ax=array();
 		$count=0;
-		if($repeat=="weekly"){
+		if($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="weekly"){
 		$repeat_week_days=$this->queryVars['checked'];
-		}elseif($repeat=="monthly"){
+		}elseif($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="monthly"){
 		$repeat_months=$this->queryVars['checked'];
 		}elseif($repeat=="daily"){
 		$repeat_all_day='1';
 		}
 		
-		// $fromDateTS = $this->queryVars['sd'];
-		// $toDateTS = $this->queryVars['ed'];
-		 //$days = (strtotime($toDateTS) - strtotime($fromDateTS)) / (60 * 60 * 24);
 		
-	   $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($start_date))."', '".date("Y-m-d",strtotime($end_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."')");
-	   $id=  mysql_insert_id();
-	   $results = $db->get_results("select * from view_classes_posted_business where id = '".$id."'");
-	   $calendarId=$results[0]->id;
-	   $name=$results[0]->name;
-		//$input=array(); 
-		//$input['eventName']=$results[0]->name;
-		//$input['eventDesc']=$desc;
-	    //$input['group']['groupId']=1;  
-		//$input['eventId']=$id;
-		$condition=array();
-		$condition['calendar_id']=$calendarId;
-		$startTime=str_replace("/", "-", $start_date).' '.date("H:i:s", strtotime($sTimeStr));
-		$endTime=str_replace("/", "-", $end_date).' '.date("H:i:s", strtotime($eTimeStr)); 
-		$check_date = $start_date;
-		
-		
-		//print_r($results); exit;
-		         $repeatType= $results[0]->repeat_type;
-				 $eventsarray=array(); 
-			     $evCount=0;
-				 $count=$count+1;
-				   switch($repeatType)
-				   {
-				   case "daily":
-				    $id=1;
-				while ($check_date <= $end_date) {
-                 if(strtotime($check_date) <= strtotime($end_date)){									
-					$evCount=$evCount+1;
-						$event='';
-						$event["eventId"]=$results[0]->id.$id;	  
-						$event['eventName']= $results[0]->name;
-						$event['startTime']=$check_date." ".$sTimeStr;
-						$event['endTime']=$check_date." ".$eTimeStr;
-						$eventsarray[$evCount]=$event; 
-				}   
-				    $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
-					$id++;
-					$calendar['events']=$eventsarray;
-				   
-				}   
+			
+		//if($repeat!=""){
+		  switch($repeat)
+				   {  
+				case "daily":
+				    $check_date = $start_date;
+					while ($check_date <= $end_date) { 
+				    if(strtotime($check_date) <= strtotime($end_date)){				
+					 $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+					 
+					 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
+					}
+				   }
 				break;
 				
-							
+				case "weekly":
+				    $check_date = $start_date;
+					$repeat_week_day= explode(",",$repeat_week_days);
+					while ($check_date <= $end_date) { 
+					$day= date('N',strtotime($check_date));
+					if(in_array($day,$repeat_week_day)){
+				    //if(strtotime($check_date) <= strtotime($end_date)){				
+					 $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+					 }
+					 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
+					//}
+				   }
+				break;
+				
+				case "monthly":
+				    $check_date = $start_date;
+					
+					    //$month= date('m',strtotime($check_date));
+						$day= date('d',strtotime($check_date));
+						$year= date('Y',strtotime($check_date));
+						
+						//$Eventday= date('d',strtotime($evVal->start_date));
+						//$Evdate=$year.'-'.$month.'-'.$Eventday;
+					$rmonths=rtrim($repeat_months,',');
+					$repeat_month= explode(",",$rmonths);
+					foreach($repeat_month as $mon){
+					    $monthdate=$year.'-'.$mon.'-'.$day;
+					    $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($monthdate))."', '".date("Y-m-d",strtotime($monthdate))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+					}
+					
+					
+				break;
+				
+				
 				
 				default:
 				echo "None";
-				   
+				
 				   }
+		//}
 		
 		
-		
-		
-	  
-	   
-	      $calendar["groupId"]=$calendarId;
-			$calendar["name"]=$name;
-			$ax[$count]=$calendar;
-		//print_r($ax); exit;
-		return $ax;
-		
-		
-		
-		 
+	    
 	}
 	
 	function is_authorized()

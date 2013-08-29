@@ -5,36 +5,7 @@
 */
 
 
-/*
-$(function(){
-       
-       var nowTemp = new Date();
-   var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 
-       var checkin = $('#start_date').datepicker({
-         onRender: function(date) {
-           return date.valueOf() < now.valueOf() ? 'disabled' : '';
-         }
-       }).on('changeDate', function(ev) {
-         if (ev.date.valueOf() > checkout.date.valueOf()) {
-           var newDate = new Date(ev.date)
-           newDate.setDate(newDate.getDate() + 1);
-           checkout.setValue(newDate);
-         }
-         checkin.hide();
-         $('#end_date')[0].focus();
-       }).data('datepicker');
-       var checkout = $('#end_date').datepicker({
-         onRender: function(date) {
-           return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
-         }
-       }).on('changeDate', function(ev) {
-         checkout.hide();
-       }).data('datepicker');
-});*/
-
-	
-	
 //Global variable 
 
 var base_url = "http://localhost/skedulus/";
@@ -50,24 +21,25 @@ function bookService(serviceid){
 
 $(document).ready(function(){
 $("#eventGroup").live("change",function(){
+  var class_name = $(this).val();
+   if(class_name==""){
+    $(".demo").html("");
+	$("#eventEndTime").val("");
+   }else{ 
 	var url = base_url+"bcalendar/getAllstaff";
-	//alert(url);
-	var class_name = $(this).val();
-	//alert(class_name);
 	$(".demo").html("");
 	$.post(url,{class_name:class_name}, function(data){
-		//$(".staff").html("");
-		//alert(data);
-		
 		$.each(eval(data), function( key, value ) { 
 			var append_option = "<option id="+key+" value="+value.id+">"+value.name+"</option>";
-			//console.log(append_option);
-			//$("#trainer").append(append_option);
-			//$("#Demo").append(append_option);
-			$(".calendarTemplate .demo").append(append_option);
+			$(".demo").append(append_option);
 		});
 	});
 	
+	var url1 = base_url+"bcalendar/endTimeClass";
+	$.post(url1,{starttime:$("#eventStartTime").val(),class_id:class_name},function(data){
+	 $("#eventEndTime").val(data);
+	});
+  }
 });
 
 $(".book_me").live("click",function(){ 
@@ -153,34 +125,6 @@ $(".time").live("change",function(){
 		});
 	
 });
-/*
-$(".st_date").live("click",function(){
-	alert((this).val());	
-});*/
-
-/*
-$(".st_date").live("click",function(){ 
-	
-	var business_id = $("#business_id").html();
-	//alert(business_id);
-	//alert($(".st_date").val()); 
-	var url = base_url+"bcalendar/getfreeslotsbydate";
-	$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
-		//alert(info);
-		if(info==0){
-			//$(".btn-success").attr("href","javascript:;");
-			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
-			
-		}
-		else{
-			$(".time").html(""); 
-			$(".time").append(info);
-		}
-	});
-	
-});*/
-
-
 
 
 /*Time Calculation*/
@@ -268,8 +212,8 @@ $("#bookclass").live("click",function(){
 	 $("#booksuccess").show();
    }else if(data=="login"){ 
     window.location.href=base_url+'home/clientlogin';
-   }else{
-     $("#available").val(data);
+   }else{ 
+     $("#available").html(data);
      var messg="Booked Successfully";
 	 $("#booksuccess").html(messg);
 	 $("#booksuccess").show();
@@ -279,15 +223,127 @@ $("#bookclass").live("click",function(){
  })
  
 })
-/*var countChecked = function() {
-  var n = $( "input:checked" ).length;
-  //$( "div" ).text( n + (n === 1 ? " is" : " are") + " checked!" );
-};
-countChecked();*/
 
-/*$("input[type=checkbox] #eventGroup").on("click",function(){
-	alert("hello");
-});*/
+$(".launch").on("click",function(){
+$("#bookApp").modal('show');
+//$("#bookApp").addClass("in");
+// <div class="modal-backdrop fade in"></div>
+   //alert("here");
+	//$("#bookApp").modal('show');
+	//$("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
+})
+
+// $(".close").on("click",function(){
+// $("#bookApp").removeClass("in");
+// $("div[id=darker]").remove();
+// })
+
+
+
+
+$(".launchClass").on("click",function(){ 
+$.ajax({
+	    url:base_url+'bcalendar/getClients',
+		data:{businessid:$("#login_id").html()},
+		type:'POST',
+		success:function(data){
+           $("#tags").val(data);		
+		
+		}
+	  })
+
+ var removediv="Add Repeat";
+   $("#repeatdiv").hide();
+   $("#weeks").css("display",'none');
+   $("#months").css("display",'none');
+   $("#repeathtml").html(removediv);
+   $("#repeatstatus").val(removediv);
+$("#StartDate").val($("#eventStartDate").val()); 
+$(".StartTime").val($(".eventStartTime1").val());
+//$("#EndDate").val($("#eventEndDate").val());
+//$("#postclass")[0].reset();
+$("#update").hide();$("#add").show();
+$("#editpost").hide();$("#postnew").show();
+$("#updateid").val(" ");
+
+$("#postclass").modal("show");
+	//$("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
+})
+
+
+
+$("#addClient").on("click",function(){
+ var data=$("#clientform").serialize()+'&classid='+$("#eventId").html();
+ $.ajax({
+ url:base_url+"bcalendar/addClient",
+ data:data,
+ type:'POST',
+ success:function(data){
+  $.each(eval(data),function(i,v){
+  if(v.action=='add'){
+   var clientHtml='<li><a href="javascript:;" onclick="editclient('+v.id+')" >'+v.name+'</a></li>';
+   $("#clientlist").append(clientHtml);
+   }else{
+   alert("updated");
+   }
+  })
+  
+ }
+ })
+
+})
+
+$(".clientlist").click(function(){
+ var data='&classid='+$("#eventId").html();
+ $("#clientlist").html("");
+ $.ajax({
+ url:base_url+"bcalendar/clientlist",
+ data:data,
+ type:'POST',
+ success:function(data){ 
+  $.each(eval(data),function(i,v){ 
+   var clientHtml='<li><a href="javascript:;" class="editclient" onclick="editclient('+v.users_id+')" >'+v.first_name+'</a></li>';
+   $("#clientlist").append(clientHtml);
+  })
+  
+ }
+ })
+})
+
+$("#bookClass").click(function(){ 
+ $.ajax({
+  url:base_url+"bcalendar/bookclass",
+  data:{classid:$("#updateid").val(),note:$("#note").val(),starttime:$("#starttime").html(),endtime:$("#endtime").html(),date:$("#StartDate").html()},
+  type:"POST",
+  success:function(data){ 
+  var messg="";
+//$("#booksuccess").html(messg);  
+   if(data==0){ 
+    window.location.href=base_url+'home/clientlogin';
+   }else{
+     if(data==1){
+	 
+     messg="Already Booked";
+	 } else{
+	 $("#available").html(data);
+     messg="Booked Successfully";
+	 }  
+     
+	 $("#booksuccess").html(messg);
+	 $("#booksuccess").show();
+   }
+	 
+   }
+ })
+})
+
+
+$(".timeTxt").click(function(){
+  var url1 = base_url+"bcalendar/endTimeClass";
+	$.post(url1,{starttime:$(".StartTime").val(),class_id:$("#eventGroup").val()},function(data){
+	 $("#eventEndTime").val(data);
+	});
+})
 
 _page = window.location.pathname.split('/')[2];
        $('a[href="'+_page+'"],a[href="'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
@@ -310,6 +366,7 @@ _page = window.location.pathname.split('/')[2];
 			})
 			.on('changeDate', function(ev){
 				//alert("hello")
+				$('.date_pick').datepicker('hide');
 				var business_id = $("#business_id").html();
 				//alert(business_id);
 				//alert($(".st_date").val()); 
@@ -488,5 +545,13 @@ $(document).ready( function() {
 // });
 /*Multiple Select Option JQuery End*/
 
+$(document).ready(function(){
+	$(".confirm").on("click",function(e){
+	var this_ele = $(this);
+e.preventDefault();
+apprise('Are you sure want to delete?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	
+});
 
+});
 

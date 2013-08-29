@@ -132,7 +132,8 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 										  <td><?php echo $content['name']; ?></td>
 										  <td>
 										  <a href="#myModal" data-toggle="modal" onclick= editStaff(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-										  <a href="javascript:void(0);" onclick= deleteStaff(<?php echo $content['id'] ?>); data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+										  <!--<a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete" onclick= deleteStaff(<?php echo $content['id'] ?>); data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>-->
+										 <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 										  </td>
 										</tr>
 									<?php $i++; } ?>
@@ -264,7 +265,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 						<h5> Add Staff Availability </h5>
 						  <?php 
 							 $start = strtotime('7:00');
-						     $end = strtotime('24:00');
+						     $end = strtotime('23:59');
 							for( $i = $start; $i <= $end; $i += (60*15)) 
 							{
 								$value=date('H:i', $i);
@@ -297,26 +298,24 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 								<input type="checkbox" <?php echo $checked;?> id="<?php echo $i; ?>" onclick="getchecked(this,<?php echo $i ?>);"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
 							
 								<div class="span3">
-									<div class="input-append bootstrap-timepicker span12" placeholder="open">
+									
 									<?php 
 										$starttime=$i.'from';
 										$id='divO'.$i;
-										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span7"'.$disabled) 
+										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span12"'.$disabled) 
 										
 									?>
 									
-									<span class="add-on"><i class="icon-time"></i></span>
-									</div>
+									
 								</div>
 								<div class="span3">
-									<div class="input-append bootstrap-timepicker span12" placeholder="close">
+									
 									<?php 
 									$endtime=$i.'to';
 									$id='divC'.$i;
-									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span7"'.$disabled) 
+									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span12"'.$disabled) 
 									?>
-									<span class="add-on"><i class="icon-time"></i></span>
-									</div>
+									
 								</div>
 								
 						</div>

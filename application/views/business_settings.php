@@ -77,10 +77,10 @@
 					<div class="control-group">
 					  <label class="control-label" for="inputPassword">Send me reminder before</label>
 					  <div class="controls">
-						<div class="input-append bootstrap-timepicker " placeholder="open">
+						<div >
 						<?php 
 						$start = strtotime('7:00');
-					    $end = strtotime('24:00');
+					    $end = strtotime('23:59');
 						for( $i = $start; $i <= $end; $i += (60*15)) 
 						{
 							$value=date('H:i', $i);
@@ -88,11 +88,11 @@
 							
 						}
 						
-			            echo form_dropdown('remind_before',$slotlist,$remind_before,'id=remind_before class="inputime span8"') 
+			            echo form_dropdown('remind_before',$slotlist,$remind_before,'id=remind_before class="inputime span3"') 
 			
 			            ?>
 						<!---<input type="text" name="remind_before" id="remind_before" class=" inputime span4" value="<?php //echo $remind_before; ?>">--->
-						<span class="add-on"><i class="icon-time"></i></span>
+						
 						</div>
 					  </div>
 					</div>
@@ -100,7 +100,7 @@
 					  <label class="control-label" for="inputPassword">Clients can cancel/reschedule the appointments before 
 					  </label>
 					  <div class="controls">
-					   <div class="input-append bootstrap-timepicker " placeholder="open">
+					   <div >
 					   <?php 
 						$start = strtotime('7:00');
 					    $end = strtotime('24:00');
@@ -111,18 +111,18 @@
 							
 						}
 						
-			            echo form_dropdown('cancel_reschedule_before',$slotlist,$cancel_reschedule_before,'id=remind_before class="inputime span8"') 
+			            echo form_dropdown('cancel_reschedule_before',$slotlist,$cancel_reschedule_before,'id=remind_before class="inputime span3"') 
 			
 			            ?>
 						<!---<input type="text" name="cancel_reschedule_before" class=" inputime span4" value="<?php //echo $cancel_reschedule_before; ?>">---->
-						<span class="add-on"><i class="icon-time"></i></span>
+						
 						</div>
 					  </div>
 					</div>
 					<div class="control-group">
 					  <label class="control-label" for="inputPassword">Clients can book an appointment before</label>
 					  <div class="controls">
-						<div class="input-append bootstrap-timepicker " placeholder="open">
+						<div >
 						<?php 
 						$start = strtotime('7:00');
 					    $end = strtotime('24:00');
@@ -133,11 +133,11 @@
 							
 						}
 						
-			            echo form_dropdown('book_before',$slotlist,$book_before,'id=remind_before class="inputime span8"') 
+			            echo form_dropdown('book_before',$slotlist,$book_before,'id=remind_before class="inputime span3"') 
 			
 			            ?>
 						<!---<input type="text" name="book_before" class=" inputime span4" value="<?php //echo $book_before; ?>">---->
-						<span class="add-on"><i class="icon-time"></i></span>
+						
 						</div>
 					  </div>
 					</div>

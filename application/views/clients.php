@@ -88,7 +88,9 @@
 										  <td><?php echo $content['name']; ?></td>
 										  <td>
 										  <a href="#client" data-toggle="modal" onclick= editClient(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-										  <a href="javascript:void(0);" onclick= deleteClient(<?php echo $content['id'] ?>); data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+										  
+										 
+										  <a href="<?=base_url()?>clients/manage_clients?id=<?php echo $content['id']; ?>&delete=delete" data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 										  </td>
 										</tr>
 									<?php $i++; } ?>

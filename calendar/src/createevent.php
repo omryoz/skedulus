@@ -23,12 +23,17 @@ class createevent
 	{
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		//$db = new db("root", " ", "skedulus", "localhost");
-		$sTimeStr=$this->queryVars['st'];
-		$eTimeStr=$this->queryVars['et'];
+		
+		//$startdate=explode("",$this->queryVars['st']);
+		$sTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['st']));
+		$eTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['et']));
+		
+		//$sTimeStr=$this->queryVars['st'];
+		//$eTimeStr=$this->queryVars['et'];
 		$evName=$this->queryVars['eventName'];
 		$groupId=$this->queryVars['groupId'];
 		$user_id=$this->queryVars['user_id'];
-		$check=$db->query("select * from business_clients_list where user_business_details_id = '".$_SESSION['profileid']."'");
+		$check=$db->query("select * from business_clients_list where user_business_details_id = '".$_SESSION['profileid']."' and users_id='".$user_id."'");
 		if(empty($check)){
 		$db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$user_id."','".$_SESSION['profileid']."' )");
 		}

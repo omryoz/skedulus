@@ -38,6 +38,23 @@ function getProfileDetailsByfilter($filter=false,$limit=false,$offset=false,$ord
 			return false;
 		}	
 }	
+
+function getstaffDetailsByfilter($filter=false,$limit=false,$offset=false,$orderBy=false){
+		if($limit){	
+			$this->db->limit($limit,$offset);
+		}
+		if($filter){
+			$query = $this->db->get_where('view_business_employees',$filter);
+		}
+		else{
+			$query = $this->db->get('view_business_employees');
+		}
+		if($this->db->affected_rows()){
+			return $query->result();
+		}else{
+			return false;
+		}	
+}	
  
  function insertFav($fav){
 	if($fav){

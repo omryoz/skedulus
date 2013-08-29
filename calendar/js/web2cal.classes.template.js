@@ -182,7 +182,7 @@
 				var role = document.getElementById("role").innerHTML;
 				//alert(role);
 				var _html='<div id="previewTemplate"  class="calendarTemplate fullPreviewTemplate " style="display:none">'
-						+'		<div class="aPointer p-left" style="display: block; z-index: 2; "></div>'
+						+'		<div class="aPointer " style="display: block; z-index: 2; "></div>'
 						+'		<div id="ds-right" class="dshadow ds-right"></div>'
 						+'		<div id="ds-bottom" class="dshadow ds-bottom"></div>'
 						+'		<div id="ds-corner" class="dshadow ds-corner"></div>' 
@@ -213,7 +213,7 @@
 						//var role = ${role};
 						
 							if(role=="manager"){
-							_html =_html+'<ul class="actions"><li><a href="javascript:rzEditEvent(\'${eventId}\');" name="edit" class="websbutton"> Edit event </a> </li><li><a href="javascript:rzDeleteEvent(\'${eventId}\');" name="delete" class="websbutton"> Delete event </a> </li></ul>';
+							_html =_html+'<ul class="actions"><li><a href="javascript:rzEditEvent(\'${eventId}\');" name="edit" class="websbutton"> Edit event </a> </li><li><a href="javascript:rzDeleteEvent(\'${eventId}\');" name="delete" class="websbutton"> Delete  event </a> </li></ul>';
 							}
 							
 						
@@ -231,11 +231,11 @@
 			}  
 			var createNewEventTemplate = function()
 			{
-				var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate">	'
+				var _html='<div id="test" class="calendarTemplate newEventTemplate ">	'
 							+'	<div class="aPointer p-left " style="display: block; z-index: 2; " ></div> 	'
 							+'	<div class="acalclosebtn topright closeNewEvent"></div>	'
 							+'	<div class="header" >	'
-							+'	<h3>	Add Appointment	</h3>'
+							+'	<h3>	Add Appointment 	</h3>'
 							+'	</div>	'
 							+'	<div style="padding:20px;">	'
 							+'	<table cellpadding="0"  width="100%">		'

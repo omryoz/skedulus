@@ -37,7 +37,7 @@
 			//console.log(groupDD);
 			removeAllOptions(groupDD);
 			//alert(groups);
-			
+			//addOption(groupDD, "Select",'',true);
 			for(var g in groups)
 			{	
 				if(!groups.hasOwnProperty(g))continue;
@@ -152,6 +152,7 @@
 			} 
 			var createDefaultPreview = function()
 			{
+			//alert(eventId);
 				var _html='<div id="previewTemplate"  class="calendarTemplate fullPreviewTemplate " style="display:none">'
 						+'		<div class="aPointer p-left" style="display: block; z-index: 2; "></div>'
 						+'		<div id="ds-right" class="dshadow ds-right"></div>'
@@ -163,6 +164,7 @@
 						+'		<table width="100%">'
 						+'			<tr>'
 						+'				<td valign="top">'
+						+'					<input type="hidden" name="eventStartTime" id="eventStartTime1" class="eventStartTime">'
 						+'					<span class="TextSizeXSmall">Start: </SPAN><span class="startTime">${formattedStartTime}</span>'
 						+'					<br/>'
 						+'					<span class="TextSizeXSmall">End: </SPAN><span class="startTime">${formattedEndTime}</span>'
@@ -182,10 +184,11 @@
 						+'			</tr> '
 						+'		</table>'
 						+'		<ul class="actions">'
-						+'			<li> <a href="javascript:rzEditEvent(\'${eventId}\');" name="edit" class="websbutton"> Edit event </a> </li>'
-						+'			<li> <a href="javascript:rzDeleteEvent(\'${eventId}\');" name="delete" class="websbutton"> Delete event </a> </li> '
+						+'			<li> <a href="javascript:singleClass(\'${eventId}\');" name="edit" class="websbutton"> Only this </a> </li>'
+						+'			<li> <a href="javascript:multiClass(\'${eventId}\');" name="delete" class="websbutton"> All  </a> </li> '
 						+'		</ul>' 
 						+'</div>';
+						//$("#eventId").html(\'${eventId}'\);
 					return _html;
 			}
 			var createMonthAllDayTemplate=function()
@@ -199,135 +202,54 @@
 			}  
 			var createNewEventTemplate = function()
 			{
-				var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate">	'
-							+'	<div class="aPointer p-left " style="display: block; z-index: 2; " ></div> 	'
-							+'	<div class="acalclosebtn topright closeNewEvent"></div>	'
-							+'	<div class="header" >	'
-							+'		Post New Classes	'
-							+'	<a href="javascript:rzCloseAddEvent();" name="Close" class="websbutton close">&times;</a></div>	'
-							+'	<div style="padding:8px;height:80%;margin-bottom:30px;">	'
-							+'	<table cellpadding="0"  width="100%">		'
-							+'		<tr>	'
-							+'			<td valign="top">			'
-							+'			<div>	'
-							+'				<div class="label">Class Name</div>	'
-							+'				<div class="value">	'
-							+'					<select name="eventGroup" style="width:10em; border:1px solid #C3D9FF;"  id="eventGroup"></select> '
-							+'				</div>	'
-							+'			</div> 	'
-					
-
-							+'	<div>	'
-							+'		<div class=" label" >	'
-							+'			Trainer	'
-							+'		</div>	'
-							+'		<div class="selectGroup">	'
-							+'			<select name="trainer" style="width:10em; border:1px solid #C3D9FF;"  id="trainer" class="demo"></select> <p class="hide event_id"></p>	'
-							+'		</div>			'
-							+'	</div>	'
-							
-							+'	<div>	'
-							+'		<div class=" label" >	'
-							+'			Enrollment Last Date	'
-							+'		</div>	'
-							+'		<div class="selectGroup">	'
-							+'			<input type="Text" name="enroll_last" style="width:6em; border:1px solid #C3D9FF;" id="enroll_last"/>	'
-							+'		</div>			'
-							+'	</div>	'
-							+'	<div>	'
-							+'		<div class=" label" >	'
-							+'			Class Size	'
-							+'		</div>	'
-							+'		<div class="value">	'
-							+'			<input type="Text" name="class_size" style="width:6em; border:1px solid #C3D9FF;" id="class_size"/>	'
-							+'		</div>			'
-							+'	</div>	'
-							
-							+'	<div>	'
-							+'		<div class=" label" >	'
-							+'			Repeat Type	'
-							+'		</div>	'
-							+'		<div class="Repeat">	'
-							+'			<select name="repeat_type" id="repeat_type"><option id="daily" value="daily">Daily</option><option id="weekly" value="weekly">Weekly</option><option id="monthly" value="monthly">Monthly</option></select>	'
-							+'		</div>			'
-							+'	</div>	'
-							+' <div id="weeks" style="display:none">'
-					         //+' <?php for($i=0;$i<=7;$i++){ ?>'
-					         +'<input type="checkbox" name="week"  class="weekly" value="1">Monday<br>'
-			                 +'<input type="checkbox" name="week" class="weekly" value="2">Tuesday<br>'
-							 +'<input type="checkbox" name="week"  class="weekly" value="3">Wednesday<br>'
-							 +'<input type="checkbox" name="week" class="weekly" value="4">Thursday<br>'
-							 +'<input type="checkbox" name="week" class="weekly" value="5">Friday<br>'
-							 +'<input type="checkbox" name="week" class="weekly" value="6">Saturday<br>'
-							 +'<input type="checkbox" name="week" class="weekly" value="7">Sunday<br>'
-					        // +'<?php }?>'
-					         +'</div>'
-							 
-							 +' <div id="months" style="display:none">'
-					         //+' <?php for($i=0;$i<=7;$i++){ ?>'
-					         +'<input type="checkbox" name="month" class="monthly" value="1">January<br>'
-			                 +'<input type="checkbox" name="month"  class="monthly" value="2">February<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="3">March<br>'
-							 +'<input type="checkbox" name="month"  class="monthly" value="4">April<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="5">May<br>'
-							 +'<input type="checkbox" name="month"  class="monthly" value="6">June<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="7">July<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="8">August<br>'
-			                 +'<input type="checkbox" name="month" class="monthly" value="9">September<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="10">October<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="11">November<br>'
-							 +'<input type="checkbox" name="month" class="monthly" value="12">December<br>'
-							
-					        // +'<?php }?>'
-					         +'</div>'
-							
-							
-							
-							+'			</td>	'
+			
+			var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate " style="width: 150px; height: 30px;">	'
+							+'<div>'
+							+'<center style="padding-top: 5px;"><a  href="javascript:;" class=" launchClass" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Book class</a></center>'
+							+'          <td style="width:10px;"></td> '
 							+'			<td  valign="top">	'
-							+'			<div>	'
-							+'				<div class="label ">	'
+							+'			<div style="display:none">	'
+							+'				<div class=" ">	'
 							+'					Start Date:'
 							+'				</div>	'
 							+'				<div class="startDate">	'
-							+'					<input type="Text" name="eventStartDate" style="width:6em; border:1px solid #C3D9FF;" id="eventStartDate"/>	'
+							+'					<input type="hidden" name="eventStartDate" style=" border:1px solid #C3D9FF;" id="eventStartDate"/>	'
 							+'				</div>			'
 							+'			</div>	'
-							+'			<div>	'
-							+'				<div class="label " >	'
+							+'			<div style="display:none">	'
+							+'				<div class=" " >	'
 							+'					Start Time:'
 							+'				</div>	'
 							+'				<div class="startTime">	'
-							+'					<input type="Text" name="eventStartTime" style="width:5em; border:1px solid #C3D9FF;" id="eventStartTime"/>	' 
+							+'					<input type="Text" name="eventStartTime" class="eventStartTime1" style=" border:1px solid #C3D9FF;" id="eventStartTime"/>	' 
 							+'				</div>	 	'
 							+'			</div> 	'
-							+'			<div>	'
-							+'				<div class="label ">	'
+							+'			<div style="display:none">	'
+							+'				<div class=" ">	'
 							+'					End Date:'
 							+'				</div>	'
 							+'				<div class="endDate">	'
-							+'					<input type="Text" name="eventEndDate" style="width:6em; border:1px solid #C3D9FF;" id="eventEndDate"/>	'
+							+'					<input type="Text" name="eventEndDate" style=" border:1px solid #C3D9FF;" id="eventEndDate"/>	'
 							+'				</div>			'
 							+'			</div>	  	'
 							
-							+'			<div>	'
-							+'				<div class="label" >	'
+							+'			<div style="display:none">	'
+							+'				<div class="" >	'
 							+'					End Time: '
 							+'				</div>	'
 							+'				<div class="endTime">	'
-							+'					<input type="Text" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	'
+							+'					<input type="Text" name="eventEndTime" style=" border:1px solid #C3D9FF;" id="eventEndTime"/> 	'
 							+'				</div>		 	'
 							+'			</div>	'
 							+'			</td>	'
-							+'		</tr>	'
-							+'	</table>   	'
-							+'			<ul class="actions">'
-							+'				<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="websbutton btn btn-success pull-right"> Create event </a> </li>'
-							+'				<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton btn btn-success pull-right"> Update event </a> </li>'
-							// +'				<li> <a href="javascript:rzCloseAddEvent();" name="Close" class="websbutton"> Close </a> </li> '
-							+'			</ul>'
+							+'</div>'	
 							+'	</div>';
 					return _html;
+				
+				
+			
+				
+					
 			}
 
 			var createAgendaTemplate=function()
@@ -341,18 +263,26 @@
 					+'		<div class="agendaEventsForDate">'
 					+'			<div field="events">'
 					+'			<div class="agendaViewEvent" id="agendaViewEvent${eventId}${_localId}">'
-					+'				<table width="100%" >'
+					+'				<table width="100%" class="agenda-table" >'
 					+'					<tr>'
-					+'						<td width="60%">'
-					+'							<div class="arrowExpand evtDtlArrowIcon" id="eventIcon${eventId}${_localId}"></div>'
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; ">${eventName}</span> </a>'
-					+'						</td>'
-					+'						<td width="28%"> '
+					
+					+'						<td > '
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> Service with Client Name</span> </a>'
 					+'						</td>'
-					+'						<td width="10%">'
-					+'							<span>${function:extractEventColor}</span>'
+					
+					+'					</tr>'
+					+'					<tr>'
+					+'						<td width="60%" class="td-info">'
+					+'			<i class=" icon-time"></i> 50 min '
+					+'			&nbsp;'
+					+'			&nbsp;'
+					+'			<i class=" icon-user"></i> Service provider '
+					+'			&nbsp;'
+					+'			&nbsp;'
+					+'			<i class=" icon-map-marker"></i> Profession '
 					+'						</td>'
+				
 					+'					</tr>'
 					+'				</table>'
 					+'			</div>'
@@ -364,7 +294,7 @@
 					+'						<br/>'
 					+'						<span class="TextSizeXSmall">End: </SPAN><span class="startTime">${formattedEndTime}</span>'
 					+'					</td> '
-					+'					<td rowspan="3" align="right"> ' 
+					+'					<td rowspan="3" > ' 
 					+'							<div>'
 					+'								<ul>'
 					+'									<li><a href="javascript:void(0)" id="agendaEditBtn${eventId}" onclick="rzEditEvent(\'${eventId}\', event);">Edit Event</a>'

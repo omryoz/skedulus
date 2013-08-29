@@ -80,7 +80,7 @@ class Services extends CI_Controller {
 			redirect('services/list_classes');
 			}
 		 }
-		 if(isset($_GET['id'])){
+		 if(isset($_GET['id']) && !isset($_GET['delete'])){
 			$val= $this->bprofile_model->getClassesdetails();
 			echo($val);
 		 }
@@ -90,7 +90,10 @@ class Services extends CI_Controller {
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("user_business_classes",$_GET['id']);
-		 echo $val;
+		 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Class delete successfully !');
+		 redirect("services/list_classes");
+		 
 		 }
 	}
 	

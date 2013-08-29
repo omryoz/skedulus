@@ -1,7 +1,7 @@
 <!---For calendar----->
 <link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/optionalStyling.css"> 
         <link type="text/css" rel="stylesheet" href="<?php echo base_url() ?>calendar/css/web2cal.css"> 
-        <script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script> 
+        <?php /*?><script src="<?php echo base_url() ?>calendar/ext/jquery-1.3.2.min.js"> </script><?php */?> 
         <script src="<?php echo base_url() ?>calendar/js/Web2Cal-Basic-2.0-min.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.myappointment.js">  </script> 
@@ -21,6 +21,45 @@ session_start();
 //$_SESSION['profileid'] = $id;
 //print_r($_SESSION);
 ?>
+
+<div id="reschedule" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">Appointment Details</h3>
+  </div>
+  <div class="modal-body">
+	<p id="eventId" class="hide"></p>
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<table class="table table-striped" >
+			<tbody>
+				<tr><td>Business Name</td><td>demo1</td></tr>
+				<tr><td>Service/Class</td><td>demo1</td></tr>
+				<tr><td>Service Provider</td><td>demo1</td></tr>
+				<tr><td>Date</td><td>12/12/1212</td></tr>
+				<tr><td>Time</td><td>12:12:1212</td></tr>
+			</tbody>
+			</table>
+		</div>
+	
+	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
+	<p id="eventId" class="hide"></p>
+	<ul class="unstyled inline pull-right" style="margin: 0px;">
+	<li ><button class="btn btn-success  clientlist" id="singleClass" >
+	Reschedule</button></li>
+	<li >
+	<a  class="websbutton btn btn-success confirm " href="javascript:rzDeleteEvent()" >Delete</a>
+	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
+	</li>
+	</ul>
+    
+	
+	
+	</div>
+  </div>
+</div>
+
+
 <div class="content container">
 		<div class="row-fluid business_profile">
 			<h3>My Appointments</h3>		
@@ -59,9 +98,11 @@ session_start();
 	}
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{
-		activeEvent=dataObj;
-		ical.showPreview(evt, html);
+	{ 
+	   $("#eventId").html($(evt).attr('eventid'));
+	   $("#reschedule").modal('show');
+		//activeEvent=dataObj;
+		//ical.showPreview(evt, html);
 	}
     /*
      Method invoked when event is moved or resized
@@ -158,11 +199,12 @@ session_start();
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(event_id){ 	
+    function rzDeleteEvent(){ 	
 		var str="?";
 		//str=str+"eventName="+activeEvent.name; 
-		str=str+"&eventId="+event_id;
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
+		str=str+"&eventId="+$("#eventId").html();
+		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		$("#reschedule").modal('hide');
     } 
     
     /**

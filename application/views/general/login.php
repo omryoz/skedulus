@@ -47,7 +47,8 @@
 		
 		<form  class="reset" id="form2">
 		   <input  type="text" class="span12"  placeholder="Email address" >
-		   <a href="business_overview.php" type="submit" class="btn btn-success span4">Reset</a>
+		   <!-- <a href="business_overview.php" type="submit" class="btn btn-success span4">Reset</a> -->
+		   <input type="submit" name="Reset" value="Reset" class="btn btn-success span4" />
 		   <a href="javascript:;" class="pull-right revert" onClick="$('#form2').toggle();$('#form1').toggle();">Back to login?</a>
 		</form>
 		</div>
@@ -55,3 +56,9 @@
 	</div>
 	
 </div>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/modernizr-custom.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/polyfiller.js"></script>
+<script>
+    // Polyfill all unsupported features
+    $.webshims.polyfill();	
+</script>

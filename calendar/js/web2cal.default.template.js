@@ -17,7 +17,7 @@
 			//alert(ed.toStandardFormat());
 			//alert("Start Time" + st.toNiceTime() );	
 			//alert("End Time" + ed.toNiceTime() );
-			var newevt=jQuery("#defaultNewEventTemplate"); 
+			var newevt=jQuery("#bookApp"); 
 			//Clear out and reset form
 			newevt.find("#eventDesc").val("").end()
 				.find("#eventName").val("").focus().end() 
@@ -233,7 +233,21 @@
 							+'</div>';
 				return _html;
 			}  
+			
 			var createNewEventTemplate = function()
+			{
+				var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate" style="width: 150px; height: 30px;" >'
+							+'<div>'
+							+'<center style="padding-top: 5px;"><a  href="javascript:;" class=" launch" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Book appointment</a></center>'
+							
+							+'</div>'
+							
+							
+							+'	</div>';
+					return _html;
+			}
+			
+			var createNewEventTemplate1 = function()
 			{
 				var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate">	'
 							+'	<div class="aPointer p-left " style="display: block; z-index: 2; " ></div> 	'
@@ -248,24 +262,13 @@
 							+'	<div>	'
 							+'	<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label><div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>'
 							+'  <div class="control-group"><label class="control-label">Description</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>'
+							
+							+'  <div class="control-group"><label class="control-label">Description</label><div class="controls"><a  href="javascript:;" class="btn btn-primary btn-large launch">Launch demo modal</a></div></div>'
+							
 							+'  </form>'
 							+'	</div>	'
     
-							// +'		<div>	'
-							// +'			<div class="labels"> '
-							// +'			Staff	'
-							// +'		</div>	'
-							// +'		<div class="selectGroup">	'
-							// +'					<select class="input-small" id="allDayEvent" name="member"></select>'
-							// +'				</div>	'
-							// +'			</div> 	'
 							
-							//+'			<div>	'
-//							+'				<div class="labels">Description</div>	'
-//							+'				<div class="value">	'
-//							+'					<textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea>'
-//							+'				</div>	'
-//							+'			</div> 	'
 							+'			</td>	'
 							+'			<td  valign="top">	'
 							+'			<div>	'
@@ -324,50 +327,30 @@
 					+'		<div class="agendaEventsForDate">'
 					+'			<div field="events">'
 					+'			<div class="agendaViewEvent" id="agendaViewEvent${eventId}${_localId}">'
-					+'				<table width="100%" >'
+					+'				<table width="100%" class="agenda-table" >'
 					+'					<tr>'
-					+'						<td width="60%">'
-					+'							<div class="arrowExpand evtDtlArrowIcon" id="eventIcon${eventId}${_localId}"></div>'
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; ">${eventName}</span> </a>'
-					+'						</td>'
-					+'						<td width="28%"> '
+					+'						<td >'
+					//+'							<div class="arrowExpand //evtDtlArrowIcon" //id="eventIcon${eventId}${_localId}"></div>'
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> Service with Client Name</span> </a>'
 					+'						</td>'
-					+'						<td width="10%">'
-					+'							<span>${function:extractEventColor}</span>'
+				
+					+'					</tr>'
+					+'					<tr>'
+					+'						<td width="60%" class="td-info">'
+					+'			<i class=" icon-time"></i> 50 min '
+					+'			&nbsp;'
+					+'			&nbsp;'
+					+'			<i class=" icon-user"></i> Service provider '
+					+'			&nbsp;'
+					+'			&nbsp;'
+					+'			<i class=" icon-map-marker"></i> Profession '
 					+'						</td>'
+				
 					+'					</tr>'
 					+'				</table>'
 					+'			</div>'
-					+'			<div id="eventDetail${eventId}${_localId}" class="agendaEventDetail" style="display:none;clear:both;">'
-					+'				<table width="100%" cellpadding="2"  cellspacing="2" >'
-					+'				<tr>'
-					+'					<td valign="top">'
-					+'						<span class="TextSizeXSmall">Start: </SPAN><span class="startTime">${formattedStartTime}</span>'
-					+'						<br/>'
-					+'						<span class="TextSizeXSmall">End: </SPAN><span class="startTime">${formattedEndTime}</span>'
-					+'					</td> '
-					+'					<td rowspan="3" align="right"> ' 
-					+'							<div>'
-					+'								<ul>'
-					+'									<li><a href="javascript:void(0)" id="agendaEditBtn${eventId}" onclick="rzEditEvent(\'${eventId}\', event);">Edit Event</a>'
-					+'									<li> <a href="javascript:void(0)" id="agendaDeleteBtn${eventId}"  onclick="rzDeleteEvent(\'${eventId}\', event);">Delete Event</a>'
-					+'								</ul>	 '
-					+'							</div>  '
-					+'					</td>'
-					+'				</tr>'
-					+'				<tr> '
-					+'					<td colspan="2" align="left">'
-					+'						<span class="callabel TextSizeXSmall">'
-					+'							Description:'
-					+'						</span>			'
-					+'						<div  class="EventDescription">'
-					+'							${description}'
-					+'						</div>'
-					+'					</td>'
-					+'				</tr>  '
-					+'				</table>'
-					+'			</div>'
+					
 					+'		</div>'
 					+'		</div>'
 					+'		</div>'
@@ -402,6 +385,6 @@ function hasOptions(obj){if(obj!=null && obj.options!=null){return true;}return 
 		
 
 $(document).ready(function(){				 
-$(".dropdown-toggle").live("click",function(){ $(".dropdown").toggleClass("open");});
+$(".dropdown-toggle").on("click",function(){ $(".dropdown").toggleClass("open");});
 						   });
 

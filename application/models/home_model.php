@@ -55,7 +55,7 @@ function getBusiness(){
 			 'id'=>$id,
 			 'username'=>$_POST['firstname'],
 			 'email'=>$_POST['email'],
-			 'role'=>$_POST['user_role'],
+			 'role'=>'client',
 		 );
 		 $this->session->set_userdata($sessionVal);
 		 return true;

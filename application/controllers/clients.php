@@ -26,13 +26,15 @@ class Clients extends CI_Controller {
 			$this->bprofile_model->insertClient();
 			redirect('clients/list_clients');
 		 }
-		 if(isset($_GET['id'])){
+		 if(isset($_GET['id']) && !isset($_GET['delete'])){
 			$val= $this->bprofile_model->getClientdetails();
 			echo($val);
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);
-		 echo $val;
+		$this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Client deleted successfully !');
+		 redirect("clients/list_clients");
 		 }
 	}	
 	
@@ -61,7 +63,10 @@ class Clients extends CI_Controller {
 	
 	function deleteFav(){
 	 $val= $this->common_model->deleteRow("business_clients_list",$_GET['id']);
-	 echo $val;
+	 //echo $val;
+	 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Business unfavourite successfully !');
+	 redirect("clients/favourite");
 	}
 	
 	function settings(){

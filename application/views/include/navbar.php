@@ -1,3 +1,4 @@
+
 <div class="content container">
 <div class="row-fluid ">
 <div class="navbar  navbar-inverse container">
@@ -8,7 +9,7 @@
 				<span class="icon-bar"></span>
 			</a>
 			<div class="nav-collapse collapse menu1">			
-				<ul class="nav client-navbar">
+				<ul class="nav client-navbar justify-nav">
 					<li class="">
 						<a href="<?php echo base_url();?>cprofile"><center><i class="icon-home"></i><p>Home</p></center></a>
 					</li>

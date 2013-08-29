@@ -314,7 +314,7 @@
 					+'							<div>'
 					+'								<ul>'
 					+'									<li> <a href="javascript:;" name="Reschedule" class="websbutton"> Reschedule </a> </li>'
-					+'									<li> <a href="javascript:void(0)" id="agendaDeleteBtn${eventId}"  onclick="rzDeleteEvent(\'${eventId}\', event);">Delete Event</a>'
+					+'									<li> <a href="javascript:void(0)" id="agendaDeleteBtn${eventId}"  onclick="rzDeleteEvent(\'${eventId}\', event);">Delete  Event</a>'
 					+'								</ul>	 '
 					+'							</div>  '
 					+'					</td>'
