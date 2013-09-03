@@ -1,29 +1,29 @@
-
+﻿
 <div class="content container login_page">
 <?php if(isset($success)){ ?>
-	<p class="alert">Please check your mail and click on the verification link we sent you to continue with your business registration.</p>
+	<p class="alert"><?=(lang('Apps_verificationlink'))?></p>
 	<?php } ?>
 	<?php if(isset($clientsuccess)){ ?>
-	<p class="alert">Your account is successfully created.Please login to continue.</p>
+	<p class="alert"><?=(lang('Apps_afterloginalert'))?></p>
 	<?php } ?>
 	<div class="row-fluid">
 		<center><h1 class="login_logo"><a href="<?php echo base_url();?>home">Skedulus</a></h1>
-		<span>Already have an account?<b><a href="<?php echo base_url();?>home/<?php echo $signUp ?>"> Log in.</a></b></span>
+		<span><?=(lang('Apps_alreadyaccount'))?><b><a href="<?php echo base_url();?>home/<?php echo $signUp ?>"> <?=(lang('Apps_login'))?></a></b></span>
 		</center>
 		<div class="rule_connect">
-        <strong >Connect with</strong>
+        <strong ><?=(lang('Apps_connectwith'))?></strong>
       </div>
 		<div class="social_buttons hidden-phone" >
         <div class="inset">
             <a class="fb login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
-                <span>Signup with Facebook</span>
+                <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
             <a class="tw login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
-                <span>Signup with Twitter</span>
+                <span><?=(lang('Apps_signtw'))?></span>
             </a>
         </div>
 		
@@ -36,17 +36,17 @@
                </div>
 	<center><h4>Or</h4></center>
 	<hr class="hr_style">
-	<center><h2>Create your account using email</h2></center>
+	<center><h2><?=(lang('Apps_createaccount'))?></h2></center>
 	<div class="row-fluid">
 		<div class="span6 offset4 login_form">
-		<form action="<?php echo base_url(); ?>home/<?php echo $userRole ?>/?checkino" method="POST" name="sign_up" id="sign_up" >
-		  <input type="text" class="span8" placeholder="First name" name="firstname" value="" maxlength="15" />
+		<form action="<?php echo base_url(); ?>common_functions/<?php echo $userRole ?>/?checkino" method="POST" name="sign_up" id="sign_up" >
+		  <input type="text" class="span8" placeholder="<?=(lang('Apps_firstname'))?>" name="firstname" value="" maxlength="15" />
 		
-		  <input  type="text" class="span8"  placeholder="Last name" name="lastname" value=""  maxlength="15" />
+		  <input  type="text" class="span8"  placeholder="<?=(lang('Apps_lastname'))?>" name="lastname" value=""  maxlength="15" />
 		 
 		  <div class="row-fluid">
 		  <div class="span2">
-		   <label class="inline span12 "><h5>Birthday :</h5></label>
+		   <label class="inline span12 "><h5><?=(lang('Apps_birthday'))?></h5></label>
 		   </div>
 		    <div class="span2">
 			<?php 
@@ -55,7 +55,7 @@
 		$year[$i]= $i; 
 		}
 		 $selected = "";
-		 echo form_dropdown('year', $year, $selected,'id="year" class="span12 inline select-date"');
+		 echo form_dropdown('Year', $year, $selected,'id="year" class="span12 inline select-date"');
 		?>
 		 </div>
 		 <div class="span2">
@@ -66,16 +66,16 @@
 		$month[$i]= date('M', mktime(0, 0, 0, $i)); 
 		}
 		
-		 echo form_dropdown('month', $month, set_value('month'),'id="month" class="span12 inline select-date"');
+		 echo form_dropdown('Month', $month, set_value('month'),'id="month" class="span12 inline select-date"');
 		?>
 		 </div>
 		 <div class="span2">
 		<?php 
 		$day[]="Day";
-		 echo form_dropdown('day', $day, set_value('day'),'id="day" class="span12 inline select-date"');
+		 echo form_dropdown('Day', $day, set_value('day'),'id="day" class="span12 inline select-date"');
 		?>
 		 </div>
-		 <a href="javascript:;" class="notification-link" data-toggle="popover" data-placement="bottom" data-content=" &lt;b&gt;Providing your birthday &lt;/b&gt;  &lt;br/&gt;helps us to give special notification and offers to you" title="" >Why do I need to provide my bithday?</a>
+		 <a href="javascript:;" class="notification-link" data-toggle="popover" data-placement="bottom" data-content=" &lt;b&gt;Providing your birthday &lt;/b&gt;  &lt;br/&gt;helps us to give special notification and offers to you" title="" ><?=(lang('Apps_whybirthday'))?></a>
 		 </div>
 		 <?php 
 		$options=array(
@@ -84,19 +84,19 @@
 		'female'=>"Female"
 		);
 		 $selectedgender = "";
-	     echo form_dropdown('gender', $options, $selectedgender ,'class="span8 select-gender"');
+	     echo form_dropdown('Select your gender', $options, $selectedgender ,'class="span8 select-gender"');
 		?>
 		 
-		 <input  type="text" class="span8"  placeholder="Email" name="email" value="" id="email" /> 
+		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_email'))?>" name="email" value="" id="email" /> 
 		 
-		 <input  type="text" class="span8"  placeholder="Phone number" name="phone_number" value="" id="phone_number" maxlength="15" /> 
+		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_phonenumber'))?>" name="phone_number" value="" id="phone_number" maxlength="15" /> 
 		
-		 <input  type="password" class="span8" placeholder="Password" name="password" id="password" onkeyup="passwordStrength(this.value)" maxlength="20" />
+		 <input  type="password" class="span8" placeholder="<?=(lang('Apps_pwd'))?>" name="password" id="password" onkeyup="passwordStrength(this.value)" maxlength="20" />
 		
 		 <div id="passwordDescription"></div>
 		 <div id="passwordStrength" class="strength0"></div>
 		 <br/>
-		  <input type="submit" name="Create Account" value="Create Account" class="btn span8 btn-success">
+		  <input type="submit" name="Create Account" value="<?=(lang('Apps_createacc'))?>" class="btn span8 btn-success">
 		  <!--<a href="business_overview.php" type="submit" class="btn span12 btn-success">Create Account</a>--->
 		  <input type="hidden" name="usertype" value="<?php echo $userRole; ?>" />  
 		</form>

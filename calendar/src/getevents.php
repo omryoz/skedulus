@@ -44,7 +44,7 @@ class getevents
 			//Get Events for the calendar... 
 			$condition=array();
 			$condition['calendar_id']=$calendarId;
-			$resEvents = $db->get_results("select * from view_client_buisness_services_appointments where services_id=".$calendarId);   
+			$resEvents = $db->get_results("select * from view_client_appoinment_details where type='service' and user_business_details_id=".$_SESSION['profileid']);   
 			$eventsarray=array(); 
 			$evCount=0;
 			  
@@ -56,7 +56,17 @@ class getevents
 						$event='';
 						$event["eventId"]=$evVal->id;
 						$event['eventName']=$evVal->note;
-						$event['role']=$evVal->user_role;
+						$event['business_name']=$evVal->business_name;
+						$event['category_name']=$evVal->category_name;
+						if($evVal->employee_id!=0){
+						   $event['serviceProvider']=$evVal->employee_first_name." ".$evVal->employee_last_name;
+						}
+						$event['clientname']=$evVal->clients_first_name." ".$evVal->clients_last_name;
+						$difference = strtotime($evVal->end_time) - strtotime($evVal->start_time);
+						// getting the difference in minutes
+						$difference_in_minutes = $difference / 60;
+						$event['servicetime']=$difference_in_minutes;
+						//$event['role']=$evVal->user_role;
 						//$event['eventDesc']=$evVal->event_description;
 						$event['startTime']=$evVal->start_time;
 						$event['endTime']=$evVal->end_time;

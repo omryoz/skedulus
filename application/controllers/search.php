@@ -11,6 +11,9 @@ class Search extends CI_Controller {
 		$this->load->model('common_model');
 		$this->data['bodyclass']='index';
 		$this->load->library('session');
+		CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
     }
 	
 	public function index() {

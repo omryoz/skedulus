@@ -23,14 +23,14 @@
 		</div>
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
-				<h3>Search Businesses</h3>
+				<h3><?=(lang('Apps_searchbusiness'))?></h3>
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="GET" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="business_name" placeholder="Business are you looking for?">
+						<input type="text" class="span12 " name="business_name" placeholder="<?=(lang('Apps_businessfor'))?>?">
 					</div>
 					<div class="span3">
-					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" />  
+					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
                     <input type="hidden" id="city2" name="location" />
 						<!---<input type="text" class="span12 " name="location" placeholder="Location">	--->
 					</div>
@@ -40,7 +40,7 @@
 					 <?php echo form_dropdown('category',$getCategory,$selected,' id="category" class="span12"')  ?>						
 					</div>
 					<div class="span2">	
-                    <input type="submit" name="search" class="btn span12 pull-right btn-success" value="Search" />					
+                    <input type="submit" name="search" class="btn span12 pull-right btn-success" value="<?=(lang('Apps_search'))?>" />					
 					</div>
 					</form>
 				</div>
@@ -87,7 +87,7 @@
 				<div class="span3 right-nav" >
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-				<h3> Appointments</h3>
+				<h3> <?=(lang('Apps_appointments'))?></h3>
 						<br/>
 						<div class="row-fluid appointment_list">
 						<div class="span4">
@@ -178,12 +178,12 @@
 						</div>
 						</div>
 						</div>
-					  		<a href="my_appointments.php" class="pull-right"> view more</a>					
+					  		<a href="my_appointments.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
 				</div>
 				</div>
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-						<h3>Offers</h3>
+						<h3><?=(lang('Apps_offer'))?></h3>
 						<div class="offer" >
 								<a  href="offer.php">
 								<div class=" row-fluid offer-blocks">
@@ -220,7 +220,7 @@
 								</div>
 								</a>
 							</div>	
-							<a href="offer.php" class="pull-right"> view more</a>							
+							<a href="offer.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>							
 				</div>
 				</div> 
 				

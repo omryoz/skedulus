@@ -4,11 +4,11 @@
 			<div class="row-fluid">
 				<div class="span4">
 					<ul class="nav nav-tabs notify setting-tab" id="myTab">
-					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> Personal Info</h4></a>
+					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_info'))?>       <?=(lang('Apps_personal'))?></h4></a>
 					  </li>
-					  <li><a href="#Password" data-toggle="tab"><h4><i class="icon-key"></i> Change Password</h4></a></li>
-					  <li><a href="#Credit" data-toggle="tab"><h4><i class=" icon-credit-card"></i> Manage Credit Card</h4></a></li>
-					  <li><a href="#Notification" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> Notification Settings</h4>
+					  <li><a href="#Password" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
+					  <li><a href="#Credit" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
+					  <li><a href="#Notification" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
 					  </a> </li>
 					</ul>
 				</div>
@@ -17,40 +17,40 @@
 						 <div class="tab-pane fade active in" id="Personal">
 							  <div class="row-fluid">
 								  <div class="span8" id="showProfile">
-									  <strong>Personal Details</strong>
+									  <strong><?=(lang('Apps_details'))?><?=(lang('Apps_personal'))?></strong>
 									  <hr> 
 									  <div class="row-fluid">
 										<div class="span10 offset1">
 											<dl class="dl-horizontal pesonal_info">
-											  <dt>Name</dt> 
+											  <dt><?=(lang('Apps_name'))?></dt> 
 											  <dd><?php echo($personalInfo->first_name." ".$personalInfo->last_name);?></dd>
-											  <dt>Date Of Birth</dt>
+											  <dt><?=(lang('Apps_dob'))?></dt>
 											  <dd><?php $date=$personalInfo->date_of_birth; 
 											  if($date!="0")
 											   echo date("d-m-Y",strtotime($date));
 											  ?></dd>
-											  <dt>Gender</dt>
+											  <dt><?=(lang('Apps_gender'))?></dt>
 											  <dd><?php echo($personalInfo->gender); ?></dd>
 											</dl>
 										</div>
 										</div><br/>
-										<strong>Contact Details</strong>
+										<strong><?=(lang('Apps_details'))?><?=(lang('Apps_contact'))?></strong>
 									  <hr>
 									  <div class="row-fluid"> 
 										<div class="span10 offset1">
 											<dl class="dl-horizontal pesonal_info">
-											  <dt>Email</dt>
+											  <dt><?=(lang('Apps_email'))?></dt>
 											  <dd><?php echo($personalInfo->email)?></dd>
-											  <dt>Phone Number</dt>
+											  <dt><?=(lang('Apps_phonenumber'))?></dt>
 											  <dd><?php echo($personalInfo->phone_number); ?></dd>
-											  <dt>City</dt>
+											  <dt><?=(lang('Apps_city'))?></dt>
 											  <dd></dd>
-											  <dt>Country</dt>
+											  <dt><?=(lang('Apps_country'))?></dt>
 											  <dd></dd>
 											</dl>
 										</div>
 										</div><br/>
-										<strong>About Me</strong>
+										<strong><?=(lang('Apps_aboutme'))?></strong>
 									  <hr class="style-margin-b"> 
 									  <div class="row-fluid">
 										<div class="span10 offset1">
@@ -70,7 +70,7 @@
 														<img src="<?php echo base_url();?>uploads/photo/<?=(!empty($personalInfo->image)?$personalInfo->image:'default.jpg'); ?>"  style="width: 100px;">
 													</a>
 													<h5 >
-													<center style="margin-bottom: -30px; color: white;"> Change Image </center>
+													<center style="margin-bottom: -30px; color: white;"> <?=(lang('Apps_changeimage'))?> </center>
 													<input type="file" name="file" style="opacity:0">
 														<!---<center><a href="#">Photo Name</a></center>--->
 													</h5>
@@ -80,16 +80,16 @@
 									</div>
 									<div class="span12" id="editProfile" style="display:none">
 									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post">
-									  <strong>Personal Details</strong>
-									  <hr> 
+									  <strong><?=(lang('Apps_details'))?><?=(lang('Apps_personal'))?></strong>
+									  <hr>  
 									  <div class="row-fluid">
 										<div class="span10 offset1">
 											<dl class="dl-horizontal pesonal_info">
-											  <dt>First name</dt>
+											  <dt><?=(lang('Apps_firstname'))?></dt>
 											  <dd><input class="span9" type="text" name="firstname" value=<?php echo $personalInfo->first_name;?>></dd>
-											  <dt>Last name</dt>
+											  <dt><?=(lang('Apps_lastname'))?></dt>
 											  <dd><input class="span9" type="text" name="lastname" value=<?php echo $personalInfo->last_name;?>></dd>
-											  <dt>Date Of Birth</dt>
+											  <dt><?=(lang('Apps_dob'))?></dt>
 											  <dd>
 											  <?php $date=$personalInfo->date_of_birth; 
 											  $sDay ="";
@@ -132,7 +132,7 @@
 											  
 											  
 											  </dd>
-											  <dt>Gender</dt>
+											  <dt><?=(lang('Apps_gender'))?></dt>
 											  <dd>
 											  <?php  
 											  $options=array(
@@ -146,29 +146,29 @@
 											</dl>
 										</div>
 										</div><br/>
-										<strong>Contact Details</strong>
+										<strong><?=(lang('Apps_details'))?><?=(lang('Apps_contact'))?></strong>
 									  <hr>
 									  <div class="row-fluid"> 
 										<div class="span10 offset1">
 											<dl class="dl-horizontal pesonal_info">
-											  <dt>Email</dt>
+											  <dt><?=(lang('Apps_email'))?></dt>
 											  <dd class="style-margin-b"><?php echo $personalInfo->email?></dd>
-											  <dt>Phone Number</dt>
+											  <dt><?=(lang('Apps_phonenumber'))?></dt>
 											  <dd ><input type="text" name="phone" value=<?php echo $personalInfo->phone_number; ?> maxlength=15 class="span9"></dd>
-											  <dt>City</dt>
+											  <dt><?=(lang('Apps_city'))?></dt>
 											  <dd class="style-margin-b"></dd>
-											  <dt>Country</dt>
+											  <dt><?=(lang('Apps_country'))?></dt>
 											  <dd></dd>
 											</dl>
 										</div>
 										</div><br/>
-										<strong>About Me</strong>
+										<strong><?=(lang('Apps_aboutme'))?></strong>
 									  <hr class="style-margin-b"> 
 									  <div class="row-fluid">
 										<div class="span10 offset1">
 										<textarea name="about_me" rows="4" value="" class="span10"><?php echo $personalInfo->about_me;?></textarea>
 										</div></div>
-										<input type="submit" name="save" value="Update" class="btn btn-success pull-right span2" >
+										<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success pull-right span2" >
 										<!---<a href="#" >Save</a>--->
 										</form>
 										</div>
@@ -176,7 +176,7 @@
 						  <div class="tab-pane fade" id="Password">
 							  <div class="row-fluid"><p class="alert" id="successMessage" style="display:none"></p>
 								  <div class="span12 ">
-									<strong>Change Password</strong>
+									<strong><?=(lang('Apps_changepwd'))?></strong>
 									<hr/>
 								  <br/>
 									<form class="form-horizontal" id="changepassword" name="changepassword">
@@ -187,20 +187,20 @@
 										  </div>
 										</div>--->
 										<div class="control-group">
-										  <label class="control-label" for="inputPassword">New Password :</label>
+										  <label class="control-label" for="inputPassword"> <?=(lang('Apps_newpwd'))?>:</label>
 										  <div class="controls">
-											<input type="password" name="password" id="password" placeholder="Password" class="span9" maxlength="20">
+											<input type="password" name="password" id="password" placeholder="<?=(lang('Apps_pwd'))?>" class="span9" maxlength="20">
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="inputPassword">Confirm Password :</label>
+										  <label class="control-label" for="inputPassword"> <?=(lang('Apps_confirmpwd'))?>:</label>
 										  <div class="controls">
-											<input type="password" name="confirmpassword" id="confirmpassword" placeholder="Confirm Password" class="span9">
+											<input type="password" name="confirmpassword" id="confirmpassword" placeholder="<?=(lang('Apps_confirmpwd'))?>" class="span9">
 											
 										  </div>
 										</div>
 										<br/><br/><br/>
-										 <input type="submit" name="save" class="btn btn-success pull-right span2" value="Save" />
+										 <input type="submit" name="save" class="btn btn-success pull-right span2" value="<?=(lang('Apps_save'))?>" />
 										 <!---<a href="javascript:void(0)" onclick=submit(); id="changePassword" class="btn btn-success pull-right span2">Save</a>--->
 									 </form>
 									
@@ -210,91 +210,91 @@
 						  <div class="tab-pane fade" id="Credit">
 							<div class="row-fluid">
 								  <div class="span12 ">
-									<strong>Manage Credit Card </strong>
+									<strong> <?=(lang('Apps_creditcard'))?></strong>
 									<a href="#" class="pull-right btn btn-mini"><i class="icon-edit" title="edit"></i></a>
 									<hr/>
 								  <br/>
 									<form class="form-horizontal">
 										<div class="control-group">
-										  <label class="control-label" for="inputName">Name On Card <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="inputName"> <?=(lang('Apps_nameoncard'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword1" placeholder="Name" class="span12" >
+											<input type="text" id="inputPassword1" placeholder="<?=(lang('Apps_name'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="inputNumber">Credit Card Number <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="inputNumber"> <?=(lang('Apps_creditcardno'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword2" placeholder="Number" class="span12" >
+											<input type="text" id="inputPassword2" placeholder="<?=(lang('Apps_number'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">CVV :</label>
+										  <label class="control-label" for="input"> <?=(lang('Apps_cvv'))?>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="CVV" class="span12" >
+											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_cvv'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">Expiration <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?> <b class="astrick">*</b>:</label>
 										  <div class="controls">
 											<select class="span6" >
-													<option>Month</option>
+													<option><?=(lang('Apps_month'))?></option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>
 											<select class="span6" >
-													<option>Year</option>
+													<option><?=(lang('Apps_year'))?></option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">First Name :</label>
+										  <label class="control-label" for="input"><?=(lang('Apps_firstname'))?> :</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="First Name" class="span12">
+											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_firstname'))?>" class="span12">
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">Last Name <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"><?=(lang('Apps_lastname'))?> <b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="Last Name" class="span12" >
+											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_lastname'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">Address <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"> <?=(lang('Apps_address'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="Address" class="span12" >
+											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_address'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">State <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"> <?=(lang('Apps_state'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
 											<select class="span12" >
-													<option>Select State</option>
+													<option> <?=(lang('Apps_select'))?> <?=(lang('Apps_state'))?> </option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input">City <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"><?=(lang('Apps_city'))?> <b class="astrick">*</b>:</label>
 										  <div class="controls">
 											<select class="span12" >
-													<option>Select city</option>
+													<option><?=(lang('Apps_select'))?> <?=(lang('Apps_city'))?> </option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>
 										  </div>
 										</div><div class="control-group">
-										  <label class="control-label" for="input">Zip <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"> <?=(lang('Apps_zip'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="Zip" class="span12"  >
+											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_zip'))?>" class="span12"  >
 										  </div>
 										</div>
 										
 										
-										 <a href="#" class="btn btn-success pull-right ">Store Credit Card</a>
-										 <br clear="right"/><small class="pull-right"><b class="astrick">*</b> Fields are mandatory </small>
+										 <a href="#" class="btn btn-success pull-right "><?=(lang('Apps_storecreditcard'))?></a>
+										 <br clear="all"/><small class="pull-right"><b class="astrick">*</b> <?=(lang('Apps_fieldsmandatory'))?> </small>
 									 </form>
 									
 								  </div>
@@ -304,29 +304,29 @@
 						  <div class="tab-pane fade" id="Notification">
 							  <div class="row-fluid">
 								  <div class="span12">
-								  <strong> Notification Settings</strong>
+								  <strong> <?=(lang('Apps_notificationsetting'))?></strong>
 								  <hr/>
 								  <br/>
 									<form class="form-horizontal offset1" name="notification" id="notification">
 										<div class="control-group">
-										  <label class="control-label " for="input">Appointment Reminder : </label>
+										  <label class="control-label " for="input"> <?=(lang('Apps_appointremainder'))?>: </label>
 												<div class="controls">
 													<label class="radio inline">
 														<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-														On 
+														<?=(lang('Apps_on'))?> 
 													</label>
 													<label class="radio inline">
 														<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-														Off 
+														<?=(lang('Apps_off'))?> 
 													</label>
 												</div>
 										</div>
 										
 										<div class="control-group">
-										  <label class="control-label" for="input">Send the reminder on :</label>
+										  <label class="control-label" for="input"> <?=(lang('Apps_sendremindr'))?>:</label>
 										  <div class="controls">
 											<select class="span3">
-												<option>Days</option>
+												<option><?=(lang('Apps_days'))?></option>
 												<option>1 day notice</option>
 												<option>2 day notice</option>
 												<option>3 day notice</option>
@@ -335,20 +335,20 @@
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label"  for="input">Send me text message : </label>
+										  <label class="control-label"  for="input"> <?=(lang('Apps_sendmetextmsg'))?>: </label>
 										  <!-- <label class="control-label"  for="input">Send me text message : from business manager :  </label> -->
 										  <div class="controls">
 										  <label class="radio inline">
 										  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-										   On 
+										   <?=(lang('Apps_on'))?> 
 										</label>
 										<label class="radio inline">
 										  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-										   Off 
+										   <?=(lang('Apps_off'))?> 
 										</label>
 										</div>
 										</div>
-										<a href="#" class="btn btn-success span2 pull-right" id="nSettings">Save</a> 
+										<a href="#" class="btn btn-success span2 pull-right" id="nSettings"><?=(lang('Apps_save'))?></a> 
 									</form>
 								  </div>
 							  </div>

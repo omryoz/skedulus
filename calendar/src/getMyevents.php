@@ -22,7 +22,7 @@ class getMyevents
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		
 		
-		$res = $db->get_results("select * from client_service_appointments where users_id=".$this->queryVars['id'].""); 
+		$res = $db->get_results("select * from view_client_appoinment_details where users_id=".$this->queryVars['id'].""); 
 		
 		$ax=array();
 		
@@ -36,11 +36,19 @@ class getMyevents
 			$event='';
 			$event["eventId"]=$value->id;
 			$event['eventName']=$value->note;
-			//$event['buiseness']=$value->name;
-			//$event['role']=$value->user_role;
+			$event['business_name']=$value->business_name;
+			$event['category_name']=$value->category_name;
+			if($value->employee_id!=0){
+			   $event['serviceProvider']=$value->employee_first_name." ".$value->employee_last_name;
+			}
 			//$event['eventDesc']=$evVal->event_description;
 			$event['startTime']=$value->start_time;
 			$event['endTime']=$value->end_time;
+			
+			$difference = strtotime($value->end_time) - strtotime($value->start_time);
+			// getting the difference in minutes
+			$difference_in_minutes = $difference / 60;
+			$event['servicetime']=$difference_in_minutes;
 			$event['group']['groupId']=$value->services_id;
 
 			$eventsarray[$key]=$event; 	

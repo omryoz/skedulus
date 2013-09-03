@@ -9,6 +9,9 @@ class BusinessProfile extends CI_Controller {
 		$this->load->model('common_model');
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
+		CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
     }
 	
 	public function index(){
@@ -22,14 +25,13 @@ class BusinessProfile extends CI_Controller {
 	// }
 	
 	$this->parser->parse('include/header',$this->data);
-	 if(isset($this->session->userdata['business_id'])){
+	 if($this->session->userdata['role']=='manager'){
 		$this->parser->parse('include/dash_navbar',$this->data);
-	}
-	if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
-		$sessionVal=array('profile_id'=>$_GET['id']);
-	    $this->session->set_userdata($sessionVal);
+	}else if($this->session->userdata['role']=='client'){
+		//$sessionVal=array('profile_id'=>$_GET['id']);
+	    //$this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
-		$where=" and users_id=".$this->session->userdata['id'];
+		$where=" and users_id=".$_GET['id'];
 		$checkFav=$this->common_model->getRow("view_business_clients","user_business_details_id",$_GET['id'],$where);
 		
 		if(isset($checkFav) && $checkFav!="")
@@ -42,8 +44,8 @@ class BusinessProfile extends CI_Controller {
 	 }else{
 		$id=$this->session->userdata['business_id'];
 	 }
-	 if(isset($this->session->userdata['id']))
-	 $this->data['user_id'] = $this->session->userdata['id'];
+	 //if(isset($this->session->userdata['id']))
+	 $this->data['user_id'] = $id;
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
 	
 	 $where=" AND type='business'";

@@ -2,7 +2,7 @@
 			<div id="myTabContent" class="tab-content tabcontentbg">
               <div class="tab-pane fade active in " id="home">
 					<div class="row-fluid">
-						<h4 > Subscriptions:</h4> <br>
+						<h4 > <?=(lang('Apps_subscription'))?>:</h4> <br>
 						<center>
 						<div class="span3 freebox">
 							<h3>Basic</h3>
@@ -10,38 +10,38 @@
 								<table class="table table-striped subs-tab">
 									<tbody>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be only 1 staff serving  for your business.">
-											<td> User </td>
-											<th> Can be 1 </th>
+											<td>  <?=(lang('Apps_user'))?> </td>
+											<th> <?=(lang('Apps_canbe'))?> 1 </th>
 											
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage only 1 business">
-											<td> Business </td>
-											<th> Can be 1</th>
+											<td> <?=(lang('Apps_business'))?> </td>
+											<th> <?=(lang('Apps_canbe'))?> 1</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be only 1 active offer for your business">
-											<td> Offer </td>
-											<th> 1 Active</th>
+											<td> <?=(lang('Apps_offer'))?> </td>
+											<th> 1 <?=(lang('Apps_active'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You business gallery can have at most 5 pictures.">
-											<td> Pictures</td>
-											<th>Upto 5</th>
+											<td> <?=(lang('Apps_pictures'))?></td>
+											<th><?=(lang('Apps_upto'))?> 5</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The business reports generated is the basic.">
-											<td> Reports</td>
-											<th>basic</th>
+											<td> <?=(lang('Apps_reports'))?></td>
+											<th><?=(lang('Apps_basic'))?></th>
 										</tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased separately"><td colspan="6"><center>Promotional Notification </center></td></tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased  separately"><td colspan="6" ><span class="pull-right"><b>0</b><!--<a href="#">--><small> Can buy separately</small><!--</a>--></span></td></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased separately"><td colspan="6"><center><?=(lang('Apps_pro_notify'))?> </center></td></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business has to be purchased  separately"><td colspan="6" ><span class="pull-right"><b>0</b><!--<a href="#">--><small> <?=(lang('Apps_canbebuysepratly'))?></small><!--</a>--></span></td></tr>
 									</tbody>
 								</table>
 							</div>
 							
 									
 								<p>
-									<span>$15/month</span>
+									<span>$15/<?=(lang('Apps_month'))?></span>
 								</p>
 								<!--<span class="label label-important add">Try it for free - 90days  </span>-->
-								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>	
+								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>	
 								
 								</div>
 								<div class="span3 freebox">								
@@ -50,28 +50,28 @@
 								<table class="table table-striped subs-tab">
 									<tbody>
 										<tr  data-toggle="tooltip" class="tool" data-original-title="There can be upto 3 staffs serving  for your business.">
-											<td> Users </td>
-											<th> upto 3 </th>
+											<td> <?=(lang('Apps_user'))?> </td>
+											<th> <?=(lang('Apps_upto'))?> 3 </th>
 											
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage only 1 business">
-											<td> Business </td>
-											<th> Can be 1</th>
+											<td> <?=(lang('Apps_business'))?> </td>
+											<th> <?=(lang('Apps_canbe'))?> 1</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be upto 5 active offers for your business">
-											<td> Offers </td>
-											<th> 5 Active</th>
+											<td> <?=(lang('Apps_offer'))?> </td>
+											<th> 5 <?=(lang('Apps_active'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You business gallery can have at most 15 pictures.">
-											<td> Pictures</td>
-											<th>Upto 15</th>
+											<td> <?=(lang('Apps_pictures'))?></td>
+											<th><?=(lang('Apps_upto'))?> 15</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The business reports generated is enhanced.">
-											<td> Reports</td>
-											<th>enhanced</th>
+											<td> <?=(lang('Apps_reports'))?></td>
+											<th><?=(lang('Apps_enhanced'))?></th>
 										</tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your business are 5/month"><td colspan="6"><center>Promotional Notifications </center></td></tr>
-										<tr><th colspan="6" ><center>5/month</center></th></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your business are 5/month"><td colspan="6"><center><?=(lang('Apps_pro_notify'))?> </center></td></tr>
+										<tr><th colspan="6" ><center>5/<?=(lang('Apps_month'))?></center></th></tr>
 									</tbody>
 								</table>
 							</div>
@@ -79,9 +79,10 @@
 										
 						<!--<span class="label label-important add">Try it for free - 90days  </span>-->
 						<p>
-						<span>$25/month</span>
+						<span>$25/<?=(lang('Apps_month'))?></span>
+						
 						</p>
-						<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
+						<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>
 					</div>
 			
 					<div class="span3 freebox">
@@ -90,28 +91,28 @@
 								<table class="table table-striped subs-tab">
 									<tbody>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be upto 10 staffs serving  for your businesses.">
-											<td> Users </td>
-											<th> upto 10 </th>
+											<td> <?=(lang('Apps_user'))?> </td>
+											<th> <?=(lang('Apps_upto'))?> 10 </th>
 											
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage upto 2 businesses">
-											<td> Businesses </td>
-											<th> upto 2</th>
+											<td> <?=(lang('Apps_business'))?>es </td>
+											<th> <?=(lang('Apps_upto'))?> 2</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be upto 10 active offers for your businesses">
-											<td> Offers </td>
-											<th> 10 Active</th>
+											<td> <?=(lang('Apps_offer'))?> </td>
+											<th> 10 <?=(lang('Apps_active'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="Each of your business gallery can have  unlimited pictures.">
-											<td> Pictures</td>
-											<th>unlimited</th>
+											<td> <?=(lang('Apps_pictures'))?></td>
+											<th><?=(lang('Apps_unlimited'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The business reports generated is enhanced.">
-											<td> Reports</td>
-											<th>enhanced</th>
+											<td> <?=(lang('Apps_reports'))?></td>
+											<th><?=(lang('Apps_enhanced'))?></th>
 										</tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your businesses are 10/month"><td colspan="6" ><center>Promotional Notifications </center></td></tr>
-										<tr><th colspan="6" ><center>10/month</center></th></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your businesses are 10/month"><td colspan="6" ><center><?=(lang('Apps_pro_notify'))?> </center></td></tr>
+										<tr><th colspan="6" ><center>10/<?=(lang('Apps_month'))?></center></th></tr>
 									</tbody>
 								</table>
 							</div>
@@ -121,9 +122,9 @@
 											
 											 <!--<span class="label label-important add">Try it for free - 90days  </span>-->
 			<p>
-			<span >$40/month</span>
+			<span >$40/<?=(lang('Apps_month'))?></span>
 			</p>
-			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
+			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>
 			</div>
 			
 			<div class="span3 freebox">
@@ -132,44 +133,44 @@
 								<table class="table table-striped subs-tab">
 									<tbody>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be more than 10 staffs serving  for your businesses.">
-											<td> Users </td>
-											<th class="th-style"> more than 10 </th>
+											<td> <?=(lang('Apps_user'))?> </td>
+											<th class="th-style"> <?=(lang('Apps_morethan'))?> 10 </th>
 											
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage more than 2 businesses">
-											<td> Businesses </td>
-											<th class="th-style"> more than 2</th>
+											<td> <?=(lang('Apps_business'))?>es </td>
+											<th class="th-style"> <?=(lang('Apps_morethan'))?> 2</th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="Each of your business can have  unlimited offers.">
-											<td> Offers </td>
-											<th> unlimited</th>
+											<td> <?=(lang('Apps_offer'))?> </td>
+											<th> <?=(lang('Apps_unlimited'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="Each of your business gallery can have  unlimited pictures.">
-											<td> Pictures</td>
-											<th>unlimited</th>
+											<td> <?=(lang('Apps_pictures'))?></td>
+											<th><?=(lang('Apps_unlimited'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The business reports generated is enhanced.">
-											<td> Reports</td>
-											<th>enhanced</th>
+											<td> <?=(lang('Apps_reports'))?></td>
+											<th><?=(lang('Apps_enhanced'))?></th>
 										</tr>
-										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your businesses are 20/month"><td colspan="6" ><center>Promotional Notifications </center></td></tr>
-										<tr><th colspan="6" ><center>20/month</center></th></tr>
+										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotional notification for your businesses are 20/month"><td colspan="6" ><center><?=(lang('Apps_pro_notify'))?> </center></td></tr>
+										<tr><th colspan="6" ><center>20/<?=(lang('Apps_month'))?></center></th></tr>
 									</tbody>
 								</table>
 							</div>
 								
 											
 			<p>
-			<span ><a href="#">Contact us</a></span>
+			<span ><a href="#"><?=(lang('Apps_contactus'))?></a></span>
 			</p>
-			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> Subscribe Now !!</a>
+			<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>
 			</div>
 			</center>
 			</div>
               </div>
 			  <br/><br/>
 			  <div class="row-fluid">
-			  <a  href="#create-user-modal" role="button"  data-toggle="modal" class="btn btn-success span3" ><i class="icon-ok icon-white"></i>Start your free Trial </a>
+			  <a  href="#create-user-modal" role="button"  data-toggle="modal" class="btn btn-success span3" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 			  <!-- basic info start -->
 			  </div>
       
@@ -186,7 +187,7 @@
 <h3 id="myModalLabel">Create Account</h3>
 </div>
 <div class="modal-body">
-  <form class="form-horizontal" action="<?php echo base_url(); ?>home/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
+  <form class="form-horizontal" action="<?php echo base_url(); ?>common_functions/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
  	   <div class="rule_connect">
         <strong >Connect with</strong>
       </div>

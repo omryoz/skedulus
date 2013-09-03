@@ -625,6 +625,45 @@ class bprofile_model extends CI_Model {
 		print_r ($val);
 	}
 	
+	
+	function getAppDetails(){
+		$sql="Select * from view_client_appoinment_details where id =".$_POST['eventID'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+			    $values['business_name'] =$dataP->business_name;
+				$values['e_first_name'] =$dataP->employee_first_name;
+				$values['e_last_name']= $dataP->employee_first_name;
+				$values['type']= $dataP->type;
+				if($dataP->type=='class'){
+				$ClassNames=$this->common_model->getRow("view_classes_posted_business",'id',$dataP->services_id);	
+				$values['services']=$ClassNames->name;
+				}else{
+				$where=" and user_business_details_id=".$dataP->user_business_details_id;
+				$serviceName=$this->common_model->getDDArray("user_business_services",'id','name',$where);
+				$ex=explode(',',$dataP->services_id);
+				$services='';
+				foreach($ex as $val){
+				//$services.=$val;
+				$services.=$serviceName[$val];
+				$services.=',';
+				}
+				$values['services']=$services;
+				
+				}
+				
+				$date=date("Y-m-d",strtotime($dataP->start_time));
+				$time=date("h:i",strtotime($dataP->start_time));
+				$values['date'] =$date;
+				$values['time'] =$time;
+				
+				$i++;
+			}
+			return $values;
+		}
+	}
 	// function getClientlist(){
 	 
 	// }

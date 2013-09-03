@@ -287,7 +287,7 @@ if(!isset($this->session->userdata['id'])){
 				//id = id + checked +"," ;  
 				id.push($(this).val());
 			});
-			var s = id.join(', ');
+			var s = id.join(',');
 			//alert(s);
 			var grp = s;
 		//str=str+"&groupId="+newev.group.groupId;

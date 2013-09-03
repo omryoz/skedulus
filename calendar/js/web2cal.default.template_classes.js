@@ -268,19 +268,19 @@
 					
 					+'						<td > '
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> Service with Client Name</span> </a>'
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> ${classname} with ${classSize} </span> </a>'
 					+'						</td>'
 					
 					+'					</tr>'
 					+'					<tr>'
 					+'						<td width="60%" class="td-info">'
-					+'			<i class=" icon-time"></i> 50 min '
+					+'			<i class=" icon-time"></i> ${servicetime} min '
 					+'			&nbsp;'
 					+'			&nbsp;'
-					+'			<i class=" icon-user"></i> Service provider '
+					+'			<i class=" icon-user"></i> ${serviceProvider} '
 					+'			&nbsp;'
 					+'			&nbsp;'
-					+'			<i class=" icon-map-marker"></i> Profession '
+					+'			<i class=" icon-map-marker"></i> ${category_name} '
 					+'						</td>'
 				
 					+'					</tr>'

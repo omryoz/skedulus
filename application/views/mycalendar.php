@@ -33,11 +33,46 @@ session_start();
 		<div class="row-fluid">
 			<table class="table table-striped" >
 			<tbody>
-				<tr><td>Business Name</td><td>demo1</td></tr>
-				<tr><td>Service/Class</td><td>demo1</td></tr>
-				<tr><td>Service Provider</td><td>demo1</td></tr>
-				<tr><td>Date</td><td>12/12/1212</td></tr>
-				<tr><td>Time</td><td>12:12:1212</td></tr>
+			<tr> 
+					  <td>
+					    Business Name 	
+					  </td>
+					  <td>
+					   <span id="business_name"></span>
+					  </td>
+		   </tr>
+		   <tr> 
+					  <td>
+					    <span id="type"></span> 	
+					  </td>
+					  <td>
+					   <span id="typeName"></span>
+					  </td>
+		   </tr>
+		    <tr id="serviceprovider"> 
+					  <td>
+					    Service Provider	
+					  </td>
+					  <td>
+					   <span id="name"></span>
+					  </td>
+		   </tr>
+			 <tr> 
+					  <td>
+					    Date	
+					  </td>
+					  <td>
+					   <span id="date"></span>
+					  </td>
+		     </tr>	
+			  <tr> 
+					  <td>
+					    Time	
+					  </td>
+					  <td>
+					   <span id="time"></span>
+					  </td>
+		      </tr>
 			</tbody>
 			</table>
 		</div>
@@ -62,7 +97,7 @@ session_start();
 
 <div class="content container">
 		<div class="row-fluid business_profile">
-			<h3>My Appointments</h3>		
+			<h3><?=(lang('Apps_myappointments'))?></h3>		
 			<div id="calendarContainer" class="calendar_aap"></div>
 			<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
 			<p class="role hide"><?=(!empty($role))?$role:''?></p>
@@ -100,6 +135,33 @@ session_start();
     function onPreview(evt, dataObj, html)
 	{ 
 	   $("#eventId").html($(evt).attr('eventid'));
+	    $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:$(evt).attr('eventid')},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+			$("#business_name").html(v.business_name);
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#name").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#serviceprovider").css("display",'none');
+			}
+			if(v.type=='class'){
+			var type='Class';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			}else{
+			var type='Services';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			}
+			$("#date").html(v.date);
+			$("#time").html(v.time);
+		  })
+	   }
+	   })
+	   
 	   $("#reschedule").modal('show');
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);

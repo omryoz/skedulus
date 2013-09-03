@@ -1,6 +1,6 @@
 <?php
 /* Manage Home Controller */
-class Home extends CI_Controller {
+class Common_functions extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
@@ -13,26 +13,8 @@ class Home extends CI_Controller {
 		$this->data['bodyclass']='index';
 		$this->load->library('form_validation');
 		$this->load->library('session');
-		CI_Controller::get_instance()->load->helper('language');
-		$this->load->library('utilities');
-	    $this->utilities->language();
+		
     }
-	
-	public function index() {
-	    $Category=$this->common_model->getDDArray('category','id','name');
-		$Category[""]=" Select Category";
-		$this->data['getCategory']=$Category;
-		$this->parser->parse('include/header',$this->data);
-		$this->data['contentList']=$this->home_model->getBusiness();
-		if(isset($this->session->userdata['business_id'])){
-			$this->parser->parse('include/dash_navbar',$this->data);
-		}
-		if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
-			$this->parser->parse('include/navbar',$this->data);
-		}
-		$this->parser->parse('general/home',$this->data);
-		$this->parser->parse('include/footer',$this->data);
-	}
 	
 	public function employee(){
 	$this->data['userRole']="employeelogin";
@@ -125,29 +107,68 @@ class Home extends CI_Controller {
 	public function clientlogin(){ 
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
-		if(isset($_GET['failure'])){
-		
+		if(isset($_GET['checkinfo'])){
+		$password= MD5($_POST['password']);
+		 $where=" And password='".$password."' AND status='active'";
+		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
+		 if($values==""){
+		 redirect('home/clientlogin/?failure');
 		 $this->data['failure']="Failure";
-		 $this->parser->parse('include/meta_tags',$this->data);
-		 $this->parser->parse('general/login',$this->data);
-		
+		 //$this->parser->parse('include/meta_tags',$this->data);
+		// $this->parser->parse('general/login',$this->data);
+		 }else{
+		  //print_r($values->user_role); exit;
+		  $sessionVal=array(
+			 'id'=>$values->id,
+			 'username'=>$values->first_name,
+			 'email'=>$values->email,
+			 'role'=>$values->user_role
+		 );
+		// print_r($values->user_role); exit;
+		 $this->session->set_userdata($sessionVal);
+			if($values->user_role=='manager'){
+			$this->businesslogin();
+			}else{
+			redirect('cprofile');
+			}
+		 }
 		}else{
-		$this->parser->parse('include/meta_tags',$this->data);
-		$this->parser->parse('general/login',$this->data);
+		redirect('home/clientlogin');
+		//$this->parser->parse('include/meta_tags',$this->data);
+		//$this->parser->parse('general/login',$this->data);
 		}
 	}
 	
 	
 	public function businessSignUp(){
-	    $Category=$this->common_model->getDDArray('category','id','name');
-		$Category[""]=" Select Category";
-		$this->data['getCategory']=$Category;
-	    $this->parser->parse('include/header',$this->data);
-		$this->data['contentList']=$this->home_model->getBusiness();
-		$this->data['success']="successfull";
-		$this->parser->parse('general/home',$this->data);
-		$this->parser->parse('include/footer',$this->data);
-	 
+	$this->data['userRole']="businessSignUp";
+	$this->data['signUp']="businesslogin";
+	if(isset($_GET['checkino'])){ 
+			 $id=$this->home_model->insertinfo();
+			 $userdetails= $this->common_model->getRow("users","id",$id);
+	         $this->data['name'] = $userdetails->first_name." ".$userdetails->last_name;
+		     $this->data['activation_key'] = $userdetails->activationkey;
+		     $email = $userdetails->email; 
+			 $subject ="Account Activation";	
+			 $message=$this->load->view('account_activation',$this->data,TRUE);
+			
+			$this->common_model->mail($email,$subject,$message);
+   			// $this->account_activation($id);
+			 $this->data['success']="successfull";
+	}
+	 redirect('home/businessSignUp');
+	   //$this->parser->parse('include/header',$this->data);
+	  // $this->data['contentList']=$this->home_model->getBusiness();
+		// if(isset($this->session->userdata['business_id'])){
+			// $this->parser->parse('include/dash_navbar',$this->data);
+		// }
+		// if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
+			// $this->parser->parse('include/navbar',$this->data);
+		// }
+		//$this->parser->parse('general/home',$this->data);
+		//$this->parser->parse('include/footer',$this->data);
+	  //$this->parser->parse('include/meta_tags',$this->data);
+	  //$this->load->view('general/signup',$this->data);
 }
 
 
@@ -198,6 +219,5 @@ class Home extends CI_Controller {
 	}
 	
 	
+	
 }
-
-?>

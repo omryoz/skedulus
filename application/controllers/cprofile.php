@@ -14,6 +14,9 @@ class Cprofile extends CI_Controller {
 		$this->data['bodyclass']='index';
 		$this->load->library('form_validation');
 		$this->load->library('session');
+		CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
     }
 	
 	public function index() {

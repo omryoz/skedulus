@@ -21,6 +21,15 @@ class Welcome extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+	
+	public function language($language = false){
+		   $this->load->library('user_agent');
+		   $language_filter = array('language' => $language);
+		   $this->session->set_userdata($language_filter);
+		   $referer = $this->agent->referrer();
+		   $this->config->set_item('language', $language);
+		   redirect(''.$referer.'');
+       }
 }
 
 /* End of file welcome.php */

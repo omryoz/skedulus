@@ -27,7 +27,7 @@ class createevent
 		//$startdate=explode("",$this->queryVars['st']);
 		$sTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['st']));
 		$eTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['et']));
-		
+		$date=date("Y-m-d h:m:s");
 		//$sTimeStr=$this->queryVars['st'];
 		//$eTimeStr=$this->queryVars['et'];
 		$evName=$this->queryVars['eventName'];
@@ -37,7 +37,7 @@ class createevent
 		if(empty($check)){
 		$db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$user_id."','".$_SESSION['profileid']."' )");
 		}
-        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked')");
+        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."' )");
 		
 		 
 		$input=array(); 

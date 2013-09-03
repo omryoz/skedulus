@@ -13,6 +13,9 @@ class Bcalendar extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
 		$this->data['base_url'] = base_url();
+		CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
     }
 	
 		
@@ -239,7 +242,8 @@ function createappointment(){
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
-		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked");
+		$date=date("Y-m-d");
+		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'));
 		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
 		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
@@ -388,7 +392,7 @@ function createappointment(){
 		  $this->data['classes']=$classes; 
 		
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
-		 
+		  $this->data['businessId']=$id;
 		}
 		if($this->session->userdata['role']=="client"){
 		$this->parser->parse('calendar_bookclass',$this->data);
@@ -462,7 +466,7 @@ function createappointment(){
 		$date=date("Y-m-d h:m:s");
 		$starttime=$this->input->post('date')." ".$this->input->post('starttime');
 		$endtime=$this->input->post('date')." ".$this->input->post('endtime');
-		$input = array("start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','appointment_date'=>$date);
+		$input = array("start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
 		$val=$this->bprofile_model->bookappointment($input);
 		}
 		}else{
@@ -554,6 +558,15 @@ function createappointment(){
 	function getclientdetails(){
 	 $val=$this->common_model->getAllRows("view_client_class_booking","users_id",$_POST['userid']);
 	 print_r (json_encode($val));
+	}
+	
+	function getAppDetails(){
+	  $details=$this->bprofile_model->getAppDetails();
+	  $detail="[";
+	  $detail.=json_encode($details);
+	  $detail.="]";
+	  print_r($detail);
+      	// $val=$this->common_model->getRow("view_client_appoinment_details","id",$_POST['eventID']);
 	}
 }
 

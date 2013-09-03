@@ -56,8 +56,22 @@ class getclasses
 						$evCount=$evCount+1;
 						$event='';
 						$event["eventId"]=$evVal->id;
+						$event["classname"]=$evVal->name;
+						$event["category_name"]=$evVal->category_name;
 						$event['startTime']=$evVal->start_date." ".$evVal->start_time;
 						$event['endTime']=$evVal->end_date." ".$evVal->end_time;
+						
+						$classSize=$evVal->class_size - $evVal->availability;
+						if($classSize==1){
+						$event['classSize']=$classSize." participant";
+						}else{
+						$event['classSize']=$classSize." participants";
+						}
+						$difference = strtotime($evVal->end_time) - strtotime($evVal->start_time);
+						// getting the difference in minutes
+						$difference_in_minutes = $difference / 60;
+						$event['servicetime']=$difference_in_minutes;
+						$event['serviceProvider']=$evVal->instructor_firstname." ".$evVal->instructor_lastname;
 						$event['group']['groupId']=$evVal->user_business_classes_id;
 						
 						$eventsarray[$evCount]=$event; 

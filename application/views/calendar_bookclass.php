@@ -114,6 +114,7 @@ if(!isset($this->session->userdata['id'])){
 	       <li>
 		        <input type="hidden" name="updateid"  id="updateid" value="">
 				<p class="hide" id="starttime"></p><p  class="hide" id="endtime"></p>
+				<p id="business_id" class="hide"><?php echo $businessId; ?></p>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" >Book</a>
 	        </li>
 	    </ul>

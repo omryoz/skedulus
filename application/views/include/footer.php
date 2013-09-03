@@ -5,25 +5,25 @@
 						<ul class="inline" id="foot_icon">
 							<li>
 								<a href="#"><center>
-								<i class="icon-mobile-phone icon-white icon-3x"></i></center><span>Mobile Apps</span></a>
+								<i class="icon-mobile-phone icon-white icon-3x"></i></center><span><?=(lang('Apps_mobileapp'))?></span></a>
 							</li>
 							<li class="aboutus">
 								<a href="#"><center>
-								<i class="icon-home icon-white icon-large"></i></center><span>About Us</span></a>
+								<i class="icon-home icon-white icon-large"></i></center><span><?=(lang('Apps_aboutus'))?></span></a>
 							</li>
 							<li class="contactus">
 								<a href="#"><center>
-								<i class="icon-envelope icon-white icon-large"></i></center><span>Contact Us</span></a>
+								<i class="icon-envelope icon-white icon-large"></i></center><span><?=(lang('Apps_contactus'))?></span></a>
 							</li>
 							
 							<li class="privacy">
 								<a href="#"><center>
-								<i class="icon-ban-circle icon-white icon-large"></i></center><span>Privacy</span></a>
+								<i class="icon-ban-circle icon-white icon-large"></i></center><span><?=(lang('Apps_privacy'))?></span></a>
 							</li>
 							
 							<li>
 								<a href="#"><center>
-								<i class="icon-question-sign icon-white icon-large"></i></center><span>Help</span></a>
+								<i class="icon-question-sign icon-white icon-large"></i></center><span><?=(lang('Apps_help'))?></span></a>
 							</li>
 							<?php if($this->session->userdata('role')=="manager") { ?>
 							 <li>
@@ -33,7 +33,7 @@
 							  ?>
 							  <li> 
 								<a href="<?php echo base_url(); ?>business_registration"><center>
-								<i class="icon-flag icon-white icon-large"></i></center><span>Features & pricing</span></a>
+								<i class="icon-flag icon-white icon-large"></i></center><span><?=(lang('Apps_f&p'))?></span></a>
 							</li> 
 							  <?php 
 							} ?>
@@ -110,6 +110,17 @@
 <!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>--> 
 
 
+<?php if((lang('Apps_lang'))!=''): ?> 
+<script type="text/javascript">
+                       var stylesheetFile = '<?=base_url()?>less/hebrew.less';
+                       var link  = document.createElement('link');
+                       link.rel  = "stylesheet";
+                       link.type = "text/less";
+                       link.href = stylesheetFile;
+                       less.sheets.push(link);
+                       less.refresh();
+</script>
+<?php endif; ?>
 
 
 <!--<script>

@@ -263,7 +263,7 @@ if(!isset($this->session->userdata['id'])){
 						  <div class="control-group">
 							<div class="controls">
 							  <button type="button" class="btn btn-success pull-right" id="addClient">Done</button>
-							  <input type="text" name="users_id" id="users_id" >
+							  <input type="hidden" name="users_id" id="users_id" >
 							</div>
 						  </div>
 					</form>

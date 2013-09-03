@@ -313,7 +313,7 @@ $(".clientlist").click(function(){
 $("#bookClass").click(function(){ 
  $.ajax({
   url:base_url+"bcalendar/bookclass",
-  data:{classid:$("#updateid").val(),note:$("#note").val(),starttime:$("#starttime").html(),endtime:$("#endtime").html(),date:$("#StartDate").html()},
+  data:{classid:$("#updateid").val(),note:$("#note").val(),starttime:$("#starttime").html(),endtime:$("#endtime").html(),date:$("#StartDate").html(),businessid:$("#business_id").html()},
   type:"POST",
   success:function(data){ 
   var messg="";
@@ -555,3 +555,8 @@ apprise('Are you sure want to delete?', {'confirm':true, 'textYes':'Yes already!
 
 });
 
+
+$('#postclass,#bookApp').modal({
+  backdrop: 'static',
+  show:false
+})

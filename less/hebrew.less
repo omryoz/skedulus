@@ -1,0 +1,95 @@
+@import "bootstrap/bootstrap.less";
+@import "bootstrap/responsive.less";
+
+.hebrew{
+	direction:rtl;
+}
+
+@right:left ;
+@left:right ;
+
+.pull-left{
+	float: @left !important;
+}
+.pull-right{
+	float: @right !important;
+}
+.span9{
+.pull-left;
+}
+.span3{
+.pull-right;
+}
+/* ---for footer start-- */
+#footer #foot_icon li i{
+margin-right:-15px;
+}
+.likebox.offset1{
+margin-left:0px;
+}
+/* ---for footer end-- */
+
+
+/* .row-fluid [class*="span"]:last-child {
+  margin-right: 0 !important;
+}
+
+.row-fluid [class*="span"] {
+  margin-right: 2.127659574468085% !important;
+  margin-left: 0% !important;
+} */
+.row-fluid [class*="span"]:first-child {
+  margin-right: 0 !important;
+  float:right;
+}
+
+.row-fluid [class*="span"] {
+  margin-right: 2.127659574468085% !important;
+  margin-left: 0% !important;
+  float: @left !important;
+}
+.navbar .nav > li {
+float: right ;
+}
+
+/* calendar css */
+.calTimeSlot{
+left:auto !important;
+}
+#calNavData li , .controlsContainer{
+float: right;
+}
+div.calNavigation {
+float: left !important;
+}
+/* calendar css end*/
+/* favroite business */
+.li-element li:nth-child(4n + 5){
+	margin-right: 0 !important;
+	}
+/* favroite business */
+.dl-horizontal dt {
+  float: right;
+  clear: right;
+  /* text-align: right !important; */
+}
+.dl-horizontal dd {
+  margin-right: 180px;
+  margin-left:0px;
+}
+.form-horizontal .control-label {
+  float: right;
+  text-align: left;
+}
+.form-horizontal .controls {
+  margin-right: 180px;
+  margin-left: 0px;
+}
+.rating-div .ul-rating {
+right:auto ;
+left:0;
+}
+.business_profile .days_dl dd {
+margin-right: 90px ;
+margin-left: 0px ;
+}
