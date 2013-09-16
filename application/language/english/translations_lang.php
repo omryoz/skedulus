@@ -2,7 +2,7 @@
 	  /*
 		  File name :Translation
 		  Functions :Translation the text in english
-		  Developer :Rakesh Chhugani
+		  Developer :Rakesh Chhugani , Swathi , Pankaj .
 	  */
 	  
 		$lang = array();
@@ -131,4 +131,143 @@
 		$lang['Apps_days'] = "Days";
 		$lang['Apps_sendmetextmsg'] = "Send me text message";
 		/* setting end*/ 
+		
+		/* Business profile end*/ 
+		$lang['Apps_bookme'] = "Book me";
+		$lang['Apps_viewschedule'] = "View schedule";
+		$lang['Apps_staff'] = "Staff";
+		$lang['Apps_workinghour'] = "Working Hours";
+		$lang['Apps_bookanappointment'] = "Book an appointment";
+		$lang['Apps_service'] = "Service";
+		$lang['Apps_date'] = "Date";
+		$lang['Apps_time'] = "Time";
+		$lang['Apps_message'] = "Message";
+		$lang['Apps_bookforclass'] = "Book for class";
+		$lang['Apps_class'] = "Class";
+		$lang['Apps_price'] = "Price";
+		$lang['Apps_start'] = "Start";
+		$lang['Apps_end'] = "End";
+		$lang['Apps_repeated'] = "Repeated";
+		$lang['Apps_instructor'] = "Instructor";
+		$lang['Apps_lastdatetoenroll'] = "Last date to enroll";
+		$lang['Apps_capacity'] = "Capacity";
+		$lang['Apps_available'] = "Available";
+		$lang['Apps_book'] = "Book";
+		/* Business profile end*/ 
+		
+		/* Business profile edit info start*/  
+		$lang['Apps_selectadaterange'] = "Select a date range";
+		$lang['Apps_selectyourbusinesstype'] = "Select Your Business Type";
+		$lang['Apps_servicefeature'] = "Service providing businesses like stylist,salon,spa etc.";
+		$lang['Apps_classfeature'] = "Conducting classes like yoga,meditation etc.";
+		$lang['Apps_classes'] = "Classes";
+		$lang['Apps_services'] = "Services";
+		$lang['Apps_uploadlogo'] = "Upload your business logo";
+		$lang['Apps_businessdetails'] = "Business Details";
+		$lang['Apps_addcontactinfo'] = "Address and Contact Info";
+		$lang['Apps_loadingwait'] = "Loading Please Wait";
+		$lang['Apps_availabilityhrs'] = "Availability - Business hours";
+		$lang['Apps_selectcalendar'] = "Select Calender";
+		$lang['Apps_selectcalendartype'] = "Select a calendar type for your business";
+		$lang['Apps_savandcon'] = "Save & Continue";
+		$lang['Apps_businessname'] = "Business Name";
+		$lang['Apps_description'] = "Description";
+		/* Business profile edit info end*/ 
+		
+		/* business setting start */
+		$lang['Apps_appointmentremainder'] = "Appointment Remainders";
+		$lang['Apps_sendmereminderbfr'] = "Send me reminder before";
+		$lang['Apps_clientcancanclreshdule'] = "Clients can cancel/reschedule the appointments before";
+		$lang['Apps_clientcanbookappntbfr'] = "Clients can book an appointment before";
+		$lang['Apps_sendmetxtmsgonbooking'] = "Send me text messages when clients book online";
+		$lang['Apps_sendemailconfm'] = "Send email confirmation"; 
+		$lang['Apps_insert'] = "insert";
+		/* business setting end */
+		
+		/* gallery page start*/
+		$lang['Apps_photolist'] = "Photo List";
+		$lang['Apps_add'] = "Add";
+		$lang['Apps_edit'] = "Edit";
+		$lang['Apps_delete'] = "delete";
+		$lang['Apps_noimagesaddedyet'] = "No Images added yet";
+		$lang['Apps_editphoto'] = "Edit Photo";
+		$lang['Apps_photo'] = "Photo";
+		$lang['Apps_upload'] = "Upload";
+		$lang['Apps_order'] = "Order";
+		$lang['Apps_cancel'] = "Cancel";
+		/* gallery page start*/
+		
+		/* client page start */
+		$lang['Apps_clientlist'] = "Clients List";
+		$lang['Apps_clientphoto'] = "Client Photo";
+		$lang['Apps_client'] = "Client";
+		$lang['Apps_action'] = "Action";
+		$lang['Apps_noclientaddedyet'] = "No Clients added yet";
+		$lang['Apps_someonegmail'] = "someone@example.com";
+		/* client page end */
+		
+		/* staffs page start */
+		$lang['Apps_mailsendtostaffmember'] = "Mail has been sent to the added staff member";
+		$lang['Apps_stafflist'] = "Staff List";
+		$lang['Apps_staff'] = "Staff";
+		$lang['Apps_nostaffaddedyet'] = "No staffs added yet";
+		$lang['Apps_back'] = "Back";
+		$lang['Apps_availability'] = "Availability";
+		$lang['Apps_mobilenumber'] = "Mobile Number";
+		$lang['Apps_assignservicetostaff'] = "Assign services to staff";
+		$lang['Apps_noservicesaddedyet'] = "No services added yet";
+		$lang['Apps_addstaffavailability'] = "Add Staff Availability";
+		/* staffs page start */
+		
+		/* classes page start */
+		$lang['Apps_classeslist'] = "Classes List";
+		$lang['Apps_clientphoto'] = "Client Photo";
+		$lang['Apps_client'] = "Client";
+		$lang['Apps_action'] = "Action";
+		$lang['Apps_noclientaddedyet'] = "No Clients added yet";
+		$lang['Apps_noclassadedyet'] = "No Classes added yet";
+		$lang['Apps_general'] = "General";
+		$lang['Apps_length'] = "Length";
+		$lang['Apps_minutes'] = "minutes";
+		$lang['Apps_hours'] = "hours";
+		$lang['Apps_addpaddingtime'] = "Add padding time";
+		$lang['Apps_padding'] = "Padding";
+		$lang['Apps_before'] = "Before";
+		$lang['Apps_after'] = "After";
+		$lang['Apps_beforeandafter'] = "Before & After";
+		$lang['Apps_fixed'] = "Fixed";
+		$lang['Apps_variable'] = "Variable";
+		$lang['Apps_free'] = "Free";
+		$lang['Apps_classsize'] = "Class Size";
+		$lang['Apps_asignstafftoclass'] = "Assign Staff to this class";
+		$lang['Apps_nostaffadded'] = "No staff added yet";
+		/* classes page end */
+		
+		/* post class popup  start */
+		$lang['Apps_bookedperclassbasis'] = "Booked on a per-class basis";
+		$lang['Apps_viewdetails'] = "View Details";
+		$lang['Apps_postclass'] = "Post Class";
+		$lang['Apps_editclass'] = "Edit Class";
+		$lang['Apps_trainers'] = "Trainers";
+		$lang['Apps_lastdateforenroll'] = "Last date for enroll";
+		$lang['Apps_note'] = "note";
+		/* post class popup  end  in calendarbook class.php*/
+		
+		/* post class popup  start */
+		$lang['Apps_clientaddedperclassbasis'] = "Clients are always added on a per-class basis";
+		$lang['Apps_allclasses'] = "All Classes";
+		$lang['Apps_onlythisclass'] = "Only This Class";
+		$lang['Apps_addrepeat'] = "Add Repeat";
+		$lang['Apps_repeattype'] = "Repeat Type";
+		$lang['Apps_daily'] = "Daily";
+		$lang['Apps_weekly'] = "Weekly";
+		$lang['Apps_monthly'] = "Monthly";
+		$lang['Apps_enddate'] = "End Date";
+		$lang['Apps_endtime'] = "End Time";
+		$lang['Apps_clientnotes'] = "Client Notes";
+		$lang['Apps_done'] = "Done";
+		/* post class popup  end */
+		
+		
+		
 ?>

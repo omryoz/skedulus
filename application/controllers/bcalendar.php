@@ -39,6 +39,7 @@ class Bcalendar extends CI_Controller {
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		 
 		}
+		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -84,6 +85,8 @@ class Bcalendar extends CI_Controller {
 		}else{
 		  redirect('home/clientlogin');
 		}
+		//$this->data['user_id'] = $id;
+	    $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('mycalendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -186,7 +189,9 @@ function getserviceBybusinessfilter(){
 
 function getstaffnameByfilter(){
 	if($this->input->post('service_id')){
-		$filter = array('service_id'=>$this->input->post('service_id'));
+	$service = explode(",",$this->input->post('service_id'));
+	$filter = $service;
+		//$filter = array('service_id'=>$this->input->post('service_id'));
 		$resuls = $this->common_model->getserviceByfilter($filter);	
 		print_r(json_encode($resuls));
 		
@@ -200,7 +205,11 @@ function getfreeslotsbydate(){
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'))){
 			 //echo "We work on selected day";
 			 $day = $this->checkweekendDayName($this->input->post('date'));
+			 if($this->input->post('staff_id')!='0'){
+			 $filter = array("users_id"=>$this->input->post('staff_id'),"name"=>$day); 
+			 }else{
 			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day); 
+			 }
 			 $this->data['slots'] = $this->common_model->getAllslots($filter);
 			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))));
 			 //print_r($this->data['booked_slots']);

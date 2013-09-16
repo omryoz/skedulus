@@ -298,13 +298,11 @@
 					+'					</tr>'
 					+'					<tr>'
 					+'						<td  class="td-info">'
-					+'			<i class=" icon-time"></i> ${servicetime} min '
-					+'			&nbsp;'
-					+'			&nbsp;'
-					+'			<i class=" icon-user"></i> ${serviceProvider} '
-					+'			&nbsp;'
-					+'			&nbsp;'
-					+'			<i class=" icon-map-marker"></i> ${category_name} '
+					+'			<ul class="inline unstyled"><li><i class=" icon-time"></i> ${servicetime} min </li>'
+					
+					+'			<li><i class=" icon-user"></i> ${serviceProvider} </li>'
+					
+					+'			<li><i class=" icon-map-marker"></i> ${category_name} </li></ul>'
 					+'						</td>'
 				
 					+'					</tr>'

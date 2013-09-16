@@ -22,7 +22,7 @@ session_start();
 //print_r($_SESSION);
 ?>
 
-<div id="reschedule" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Appointment Details</h3>
@@ -39,6 +39,7 @@ session_start();
 					  </td>
 					  <td>
 					   <span id="business_name"></span>
+					   <p id="business_id" class="hide"></p>
 					  </td>
 		   </tr>
 		   <tr> 
@@ -80,10 +81,10 @@ session_start();
 	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
 	<p id="eventId" class="hide"></p>
 	<ul class="unstyled inline pull-right" style="margin: 0px;">
-	<li ><button class="btn btn-success  clientlist" id="singleClass" >
-	Reschedule</button></li>
-	<li >
-	<a  class="websbutton btn btn-success confirm " href="javascript:rzDeleteEvent()" >Delete</a>
+	<li>
+	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
+	<li>
+	<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" >Delete</a>
 	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
 	</li>
 	</ul>
@@ -142,6 +143,7 @@ session_start();
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
 			$("#business_name").html(v.business_name);
+			$("#business_id").html(v.business_details_id);
 			if(v.e_first_name!="" || v.e_last_name!=""){
 			$("#name").html(v.e_first_name+" "+v.e_last_name);
 			}else{
@@ -151,10 +153,12 @@ session_start();
 			var type='Class';
 			$("#type").html(type);
 			$("#typeName").html(v.services);
+			$("#reschedulebtn").hide();
 			}else{
 			var type='Services';
 			$("#type").html(type);
 			$("#typeName").html(v.services);
+			$("#reschedulebtn").show();
 			}
 			$("#date").html(v.date);
 			$("#time").html(v.time);
@@ -320,6 +324,7 @@ session_start();
 	$(".data").css("color","black");*/	
 	
     });
+	
 	
 	
 </script>

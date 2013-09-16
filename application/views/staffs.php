@@ -105,23 +105,23 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 
 </script>
 <?php if(isset($success)){ ?>
-	<p class="alert">Mail has been sent to the added staff member</p>
+	<p class="alert"><?=(lang('Apps_mailsendtostaffmember'))?></p>
 	<?php } ?>
 
 						<div id="myTabContent" class="tab-content tabcontentbg">
 						  <div class="tab-pane fade active in" id="staff">
 							  <div class="row-fluid">
 								<div class="">
-									<h3>Staff List
-										<a href="#myModal" onclick="resetForm();"  class="btn pull-right btn-success" data-toggle="modal">+add</a>
+									<h3><?=(lang('Apps_stafflist'))?> 
+										<a href="#myModal" onclick="resetForm();"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
 									</h3>
 									<?php if(isset($tableList)) { ?>
 									<table class="table  table-staff table-hover  table-striped" >
 									  <thead>
 										<tr >
 										  <th><h4>#</h4></th>
-										  <th><h4>Staff Name</h4></th>
-										  <th><h4>Action</h4></th>
+										  <th><h4>Staff Name<?=(lang('Apps_staff'))?>  <?=(lang('Apps_name'))?></h4></th>
+										  <th><h4><?=(lang('Apps_action'))?> </h4></th>
 										</tr>
 									  </thead>
 									 <?php
@@ -139,7 +139,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 									<?php $i++; } ?>
 									</table>
 									<?php }else{ ?>
-									 <p class="alert">No staffs added yet</p>
+									 <p class="alert"><?=(lang('Apps_nostaffaddedyet'))?> </p>
 									<?php } ?>
 								 <?php if(isset($_GET['register'])) {
 									if($_GET['register']=='Class'){
@@ -148,8 +148,8 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 									$url="services/list_services/?register";
 									}
 								 ?>	
-								  <a href="<?php echo base_url(); ?><?php echo $url; ?>" class="btn btn-success pull-left">Back</a>
-							  <div class="pull-right"><a href="<?php echo base_url(); ?>overview"  class="btn btn-success " >Save & Continue</a>
+								  <a href="<?php echo base_url(); ?><?php echo $url; ?>" class="btn btn-success pull-left"><?=(lang('Apps_back'))?> </a>
+							  <div class="pull-right"><a href="<?php echo base_url(); ?>overview"  class="btn btn-success " ><?=(lang('Apps_savandcon'))?> </a>
 								<?php } ?>	
 							 </div>
 						  </div>
@@ -166,40 +166,40 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="staff1" id="edit" style="display:none">Edit Staff</h4>
-		<h3 ><h4 id="add"> Add Staff</h4></h3>
+		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_edit'))?> <?=(lang('Apps_staff'))?> </h4>
+		<h3 ><h4 id="add"><?=(lang('Apps_add'))?>  <?=(lang('Apps_staff'))?></h4></h3>
 	  </div>
 	 
 	  <div class="modal-body">
 	  <div> <input type="hidden" name="userid" id="userid" value="" /> <input type="hidden" name="action" id="action">
             <ul id="serviceTab" class="nav nav-tabs">
-              <li class="active"><a href="#add_staff" data-toggle="tab"><b>Staff</b></a></li>
-              <li><a href="#add_service" data-toggle="tab"><b>Services</b></a></li>
-			  <li><a href="#add_availability" data-toggle="tab"><b>Availability</b></a></li>
+              <li class="active"><a href="#add_staff" data-toggle="tab"><b><?=(lang('Apps_staff'))?> </b></a></li>
+              <li><a href="#add_service" data-toggle="tab"><b><?=(lang('Apps_services'))?> </b></a></li>
+			  <li><a href="#add_availability" data-toggle="tab"><b><?=(lang('Apps_availability'))?> </b></a></li>
             </ul>
 	  		<div id="serviceTabContent" class="tab-content">
 				  <div class="tab-pane fade in active" id="add_staff"><p class="alert" id="successaddstaffs" style="display:none"></p>
 					<form class="form-horizontal"  id="addstaffs" method="POST">
 							<div class="control-group">
-							  <label class="control-label" for="firstname">First Name :</label>
+							  <label class="control-label" for="firstname"> <?=(lang('Apps_firstname'))?> :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="firstname" name="firstname" placeholder="First Name">
+								<input class="input-large radi" type="text" id="firstname" name="firstname" placeholder="<?=(lang('Apps_firstname'))?>">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="lastname">Last Name :</label>
+							  <label class="control-label" for="lastname"> <?=(lang('Apps_lastname'))?> :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="lastname" name="lastname" placeholder="Last Name">
+								<input class="input-large radi" type="text" id="lastname" name="lastname" placeholder="<?=(lang('Apps_lastname'))?>">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="firstname">Email :</label>
+							  <label class="control-label" for="firstname"> <?=(lang('Apps_email'))?> :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="email" name="email" placeholder="someone@example.com">
+								<input class="input-large radi" type="text" id="email" name="email" placeholder="<?=(lang('Apps_someonegmail'))?>">
 							  </div>
 							</div>
 							  <div class="control-group">
-								<label class="control-label" for="inputPassword">Mobile Number :</label>
+								<label class="control-label" for="inputPassword"><?=(lang('Apps_mobilenumber'))?> :</label>
 								<div class="controls">
 								  <input class="input-large radi" type="text" id="phone_number" name="phonenumber" placeholder="" maxlength="15">
 								
@@ -211,22 +211,22 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 				    <input type="hidden" name="addstaffs" value="addstaffs" />
 				     <input type="hidden" name="insert" value="insert" />
 					   <div class="modal-footer" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="Save" />
+					   <input type="submit" name="save" class="btn btn-success" value="Save<?=(lang('Apps_save'))?> " />
 					   </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
 					 <div class="modal-footer" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success" value="Update" />
-					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
+					  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?> " />
+					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?> </a>
 					 </div> 
 				  </form>
 				  </div>
 				 <div class="tab-pane fade" id="add_service"><p class="alert" id="successassignstaffs" style="display:none"></p>
 				 <form class="form-horizontal"  id="assignstaffs" method="POST">
 					 <div class="row-fluid">
-					  <h5>Assign services to staff</h5>
+					  <h5><?=(lang('Apps_assignservicetostaff'))?> </h5>
 					 <?php if(isset($services) && $services!=""){ ?>
 				<div class="span6 offset1">
 				<?php foreach($services as $servicename){  ?>
@@ -237,10 +237,10 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 					<?php } ?>		
 			     </div>
 				<?php }else{?>
-                <p class="alert">No services added yet</p>
+                <p class="alert"><?=(lang('Apps_noservicesaddedyet'))?> </p>
 				<?php } ?>
 				<div class="modal-footer" id="insert">
-					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Save" />
+					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="<?=(lang('Apps_save'))?> " />
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
@@ -262,7 +262,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 					 <form class="form-horizontal"  id="staffavail" method="POST">
 					  <!---<div class="row-fluid" id="showedited" style="display:none;"></div>--->
 					 <div class="row-fluid" id="showedited">
-						<h5> Add Staff Availability </h5>
+						<h5>  <?=(lang('Apps_addstaffavailability'))?> </h5>
 						  <?php 
 							 $start = strtotime('7:00');
 						     $end = strtotime('23:59');
@@ -321,7 +321,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 						</div>
 					<?php } ?>
 					<div class="modal-footer" id="insert">
-					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success" value="Save" />
+					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success" value="<?=(lang('Apps_save'))?> " />
 					   
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>

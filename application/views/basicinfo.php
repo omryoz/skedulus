@@ -66,7 +66,7 @@
 			  <form action="<?php echo base_url(); ?><?php echo $actions; ?>" id="frm1" name="frm1" method="POST" enctype="multipart/form-data">  
 			  <label>
 			  		<h5>
-			  			<span class="badge badge-success">1</span> &nbsp;&nbsp;&nbsp;Select Your Business Type.
+			  			<span class="badge badge-success">1</span> &nbsp;&nbsp;&nbsp;<?=(lang('Apps_selectyourbusinesstype'))?>.
 			  		</h5>
 			  </label>
 			  <div class="row-fluid">
@@ -81,20 +81,20 @@
 						  $Cchecked="checked";
 						}?>
 							<input type="radio" name="business_type" id="optionsRadios1" value="service" <?php echo $disabled ?> <?php echo $Schecked ?> onclick="getChecked('Services')">
-							Services</label>
-						<p><small class="muted">Service providing businesses like stylist,salon,spa etc.</small></p>
+							<?=(lang('Apps_services'))?></label>
+						<p><small class="muted"><?=(lang('Apps_servicefeature'))?></small></p>
 					</div>
 					<div class="span5">		
 					 	<label class="radio">
 					 		<input type="radio" name="business_type" id="optionsRadios2" value="class" <?php echo $disabled ?> <?php echo $Cchecked ?> onclick="getChecked('Classes')" >
-					 	 Classes</label>	
-						<p><small class="muted">Conducting classes like yoga,meditation etc.</small></p>
+					 	 <?=(lang('Apps_classes'))?></label>	
+						<p><small class="muted"><?=(lang('Apps_classfeature'))?></small></p>
 			 		 </div>
 			   </div>
 			  
 			  <label>
 			  		<h5>
-			  			<span class="badge badge-success">2</span> &nbsp;&nbsp;&nbsp;Upload your business logo.
+			  			<span class="badge badge-success">2</span> &nbsp;&nbsp;&nbsp;<?=(lang('Apps_uploadlogo'))?>.
 			  		</h5>
 			  </label>
 			
@@ -104,22 +104,22 @@
 			  </div>
 			  
 			  <label><h5>
-			  	<span class="badge badge-success">3</span> &nbsp;&nbsp;&nbsp;Business Details 
+			  	<span class="badge badge-success">3</span> &nbsp;&nbsp;&nbsp; <?=(lang('Apps_businessdetails'))?>
 			  </h5></label>
 			 
 			  <div class="row-fluid">
 				  <div class="span8">
 				  <?php $selected = $category; ?>
 				  <?php echo form_dropdown('category',$getCategory,$selected,' id="category" class="span4"')  ?>
-				  <br clear="left"/>
-					  <input type="text" placeholder="Business Name" class="span4" name="name" id="name" value="<?php echo $name ?>">
-					<br clear="left"/> 
-					 <textarea rows="3" placeholder="Description" class="span8" name="description" id="description" value="<?php echo $description ?>"><?php echo $description ?></textarea>
+				  <br clear="all"/>
+					  <input type="text" placeholder="<?=(lang('Apps_businessname'))?>" class="span4 " name="name" id="name" value="<?php echo $name ?>">
+					<br clear="all"/> 
+					 <textarea rows="3" placeholder="<?=(lang('Apps_description'))?>" class="span8 " name="description" id="description" value="<?php echo $description ?>"><?php echo $description ?></textarea>
 				 </div>
 			 </div>
 
 	<h5>
-		<span class="badge badge-success">4</span> &nbsp;&nbsp;&nbsp;Address and Contact Info
+		<span class="badge badge-success">4</span> &nbsp;&nbsp;&nbsp;<?=(lang('Apps_addcontactinfo'))?>
 	</h5>
 	
 	<div class="row-fluid">
@@ -131,10 +131,10 @@
 		$add ="Israel";
 		} 
 		?>
-		 <textarea class="postcode" id="Postcode" name="address" placeholder="Country" value="<?php echo $add; ?>"><?php echo $add; ?></textarea>
+		 <textarea class="postcode" id="Postcode" name="address" placeholder="Country<?=(lang('Apps_country'))?>" value="<?php echo $add; ?>"><?php echo $add; ?></textarea>
 		
 		<br clear="left"/>
-	<input  type="text" placeholder="Mobile" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
+	<input  type="text" placeholder="Mobile<?=(lang('Apps_mobileapp'))?>" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
 	    
          <input id="hidLat" name="hidLat" type="hidden" value="<?php echo $map_latitude; ?>">
          <input id="hidLong" name="hidLong" type="hidden" value="<?php echo $map_longitude ?>"> 
@@ -142,7 +142,7 @@
 		 <div class="span6">
 		
 				<div id="geomap" style="width:100%; height:400px;">
-				<p>Loading Please Wait...</p>
+				<p><?=(lang('Apps_loadingwait'))?>...</p>
 				
 			</div>
 		 </div>
@@ -152,7 +152,7 @@
 	
 	
 	 <h5>
-	 	<span class="badge badge-success">6</span> &nbsp;&nbsp;&nbsp;Availability - Business hours</h5> 
+	 	<span class="badge badge-success">6</span> &nbsp;&nbsp;&nbsp;<?=(lang('Apps_availabilityhrs'))?></h5> 
 	 	<div>
 
 	 <div class="row-fluid"></div>
@@ -247,9 +247,9 @@ for($i=1;$i<=7;$i++) {
 
 <?php  }  ?>
 	 </div>
-	 <h5><span class="badge btn-primary">7</span> &nbsp;&nbsp;&nbsp;Select Calender</h5>
+	 <h5><span class="badge btn-primary">7</span> &nbsp;&nbsp;&nbsp;<?=(lang('Apps_selectcalendar'))?></h5>
 	 <div>
-	 <p class="muted">Select a calendar type for your business</p>
+	 <p class="muted"><?=(lang('Apps_selectcalendartype'))?></p>
 	 <?php 
 	 
 	 $options= array(
@@ -272,9 +272,9 @@ for($i=1;$i<=7;$i++) {
 	 }?>
 	 <input type="hidden" name="businessType" value="<?php echo $url;?>" id="businessType" >
     <?php if($action=="edit"){ ?>
-	<input type="submit" name="save" value="Update" class="btn btn-success">	 
+	<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success">	 
 		<?php   }elseif($action=="add"){ ?>	
-	<input type="submit" name="save" value="Save & Continue" class="btn btn-success">
+	<input type="submit" name="save" value="<?=(lang('Apps_savandcon'))?>" class="btn btn-success">
 	<?php } ?>
 	 <!---<a href="business_registration/services"  class="btn btn-primary" >Save & Continue</a>-->
 	 </div>   

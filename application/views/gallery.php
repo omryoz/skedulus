@@ -47,8 +47,8 @@
 </script>
 
 		<div class="row-fluid">
-			<h3>Photo List
-				<a href="#gallery"  class="btn pull-right btn-success" data-toggle="modal">+add</a>
+			<h3><?=(lang('Apps_photolist'))?>
+				<a href="#gallery"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 			</h3>
 				<?php 
 				$i=0;
@@ -65,9 +65,9 @@
 						<div class="thumbnail">
 						
 						 <ul class="inline unstyled icon">
-                                               <li><a href="#gallery" data-toggle="modal" class="btn  btn-mini" onclick= editPhoto(<?php echo $content['id']; ?>)><i class="icon-edit" title="edit "></i></a>
+                                               <li><a href="#gallery" data-toggle="modal" class="btn  btn-mini" onclick= editPhoto(<?php echo $content['id']; ?>)><i class="icon-edit" title=" <?=(lang('Apps_edit'))?>"></i></a>
                                                </li>
-                                               <li><a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title="delete "></i></a>
+                                               <li><a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title=" <?=(lang('Apps_delete'))?>"></i></a>
                                                </li>
                           </ul>
 						<a href="#">
@@ -81,7 +81,7 @@
 				<?php $i++; } ?>
 				</ul>
 				<?php }else{ ?>
-				<p class="alert">No Images added yet</p>
+				<p class="alert"><?=(lang('Apps_noimagesaddedyet'))?></p>
 				<?php } ?>
 				
 				
@@ -91,19 +91,19 @@
 		<div id="gallery" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="staff1" id="edit" style="display:none">Edit Photo</h4>
-		<h4 class="staff1" id="add" >Add Photo</h4>
+		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editphoto'))?></h4>
+		<h4 class="staff1" id="add" ><?=(lang('Apps_add'))?> <?=(lang('Apps_photo'))?></h4>
 	  </div>
 	  <div class="modal-body">
 		<form name="addImage" id="addImage" class="bs-docs-example form-horizontal "  enctype="multipart/form-data"  action="<?php echo base_url();?>gallery/manage_gallery" method="POST">
 				<div class="control-group">
-				  <label class="control-label" for="firstname">Photo Name :</label>
+				  <label class="control-label" for="firstname"><?=(lang('Apps_photo'))?>  <?=(lang('Apps_name'))?>:</label>
 				  <div class="controls">
 					<input class="input-large " type="text" name="name" id="title" >
 				  </div>
 				</div>
 				<div class="control-group" id="showPhoto">
-				  <label class="control-label" for="lastname">Upload Photo :</label>
+				  <label class="control-label" for="lastname"> <?=(lang('Apps_upload'))?> <?=(lang('Apps_photo'))?>:</label>
 				  <div class="controls">
 				  <input type="file" name="userfile" size="20" />
 					<!--<input class="input-large " type="file" name="photo" id="photo">--->
@@ -118,25 +118,25 @@
 				</div>
 				
 				<div class="control-group">
-				  <label class="control-label" for="firstname">Description :</label>
+				  <label class="control-label" for="firstname"> <?=(lang('Apps_description'))?>:</label>
 				  <div class="controls">
-					<textarea class="input-large " rows="3" placeholder="Description" name="description" id="description" ></textarea>
+					<textarea class="input-large " rows="3" placeholder="<?=(lang('Apps_description'))?>" name="description" id="description" ></textarea>
 				  </div>
 				</div>
 	  <div class="control-group">
-		<label class="control-label" for="inputPassword">Order :</label>
+		<label class="control-label" for="inputPassword"> <?=(lang('Apps_order'))?>:</label>
 		<div class="controls">
 		  <input class="input-large " type="text" name="order" id="order" maxlength="5" >
 		</div>
 	  </div>  
-	  <input type="hidden" name="insert" value="insert" >
+	  <input type="hidden" name="insert" value="<?=(lang('Apps_insert'))?>" >
       <div class="modal-footer" id="insert">
-		<input type="submit" name="save" value="Save" class="btn btn-success">
+		<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success">
 	  </div>
 		<div class="modal-footer" style="display:none" id="update">
 			  <input type="hidden" name="id" id="id" value="" />
-			  <input type="submit" name="save" class="btn btn-success" value="Update" />
-			  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
+			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
+			  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 		</div> 		  
 	  </form>
 	  </div>

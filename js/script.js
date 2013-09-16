@@ -42,9 +42,24 @@ $("#eventGroup").live("change",function(){
   }
 });
 
+//For rescheduling of appointments
+$("#reschedulebtn").live("click",function(){
+  $("#reschedule").modal('hide');
+  $("#book").modal('show');
+  var business_id = $("#business_id").html();
+	$(".services").html("");
+	var serviceid="";
+	var bookService=$(this).attr("data-val");
+	if(bookService)
+	var serviceid=bookService;
+	getservices(business_id,bookService);
+})
+
 $(".book_me").live("click",function(){ 
 	var business_id = $("#business_id").html();
 	$(".services").html("");
+	$(".time").val(" ");
+	$(".st_date").val(" ");
 	var serviceid="";
 	var bookService=$(this).attr("data-val");
 	if(bookService)
@@ -52,15 +67,40 @@ $(".book_me").live("click",function(){
 	getservices(business_id,bookService);
 });
 
+$(".bookmultiServices").live("click",function(){ 
+var business_id = $("#business_id").html();
+var string = '<div class="dropdown"><a class="dropdown-toggle btn input-block-level" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul" role="menu" aria-labelledby="dLabel" style="width:85%">';
+			var str = '';
+    var url = base_url+"bcalendar/getserviceBybusinessfilter";
+	$.post(url,{business_id:business_id}, function(data){ 
+		$.each(eval(data), function( key, value ) {
+		 //alert(value.name);
+			//var append = "<option id="+key+" value="+value.id+" "+selected+">"+value.name+"</option>";
+			var str = "<li><input type='checkbox' name='serviceID' class='serviceID' value="+value.id+" />"+value.name+"</li>";
+			string = string + str;
+			
+		});
+		var closeul='</ul></div></div>';	
+			string=string+closeul;
+			//alert(string);
+			$("#checkbox").html(string);
+	});
+	
+})
+
 function getservices(business_id,serviceid){   
 	var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	$.post(url,{business_id:business_id}, function(data){ 
+	var append_option = "<option id='-1' >Select service</option>";
+		$(".services").append(append_option);
 		$.each(eval(data), function( key, value ) {
 		  var selected=" ";
 		  if(serviceid==value.id){
 		  var selected="selected";
 		   }
 			var append = "<option id="+key+" value="+value.id+" "+selected+">"+value.name+"</option>";
+			//var append = "<li><input type='checkbox' name='eventGroup' class='eventGroup' value="+key+" />"+value.name+"</li>";
+			//alert(append);
 			$(".services").append(append);
 		});
 	});
@@ -72,6 +112,8 @@ function getStaffs(serviceid){
  var url = base_url+"bcalendar/getstaffnameByfilter";
   $.post(url,{service_id:serviceid}, function(data){ 
 		$(".staff").html(""); 
+		var append_option = "<option id='-1' >Select staff</option>";
+		$(".staff").append(append_option);
 		$.each(eval(data), function( key, value ) {
 			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
 			$(".staff").append(append_option);
@@ -80,9 +122,13 @@ function getStaffs(serviceid){
 }
 /*Get staff name*/
 	$(".services").live("change",function(){
+	$(".time").html(" ");
+	$(".st_date").val(" ");
 	var url = base_url+"bcalendar/getstaffnameByfilter";
 	$.post(url,{service_id:$(this).val()}, function(data){ 
-		$(".staff").html(""); 
+		$(".staff").html("");
+var append_option = "<option id='-1' >Select staff</option>";
+		$(".staff").append(append_option);		
 		$.each(eval(data), function( key, value ) { 
 			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
 			$(".staff").append(append_option);
@@ -91,6 +137,11 @@ function getStaffs(serviceid){
 	
 });
 
+$(".staff").live("change",function(){
+	 $("#selectedstaff").val($(this).val());
+	 $(".time").html(" ");
+	$(".st_date").val(" ");
+})
 
 
 $(".time").live("change",function(){
@@ -125,6 +176,49 @@ $(".time").live("change",function(){
 		});
 	
 });
+
+$(".serviceID").live("click",function(){ 
+	var checked = '';
+	$('input:checkbox[name=serviceID]').each(function() 
+	{   
+		if($(this).is(':checked')){
+			checked = checked  + $(this).val() +',';	
+		}	
+	});
+
+    $(".time").html(" ");
+	$(".st_date").val(" ");
+	var url = base_url+"bcalendar/getstaffnameByfilter";
+	$.post(url,{service_id:checked}, function(data){ 
+		$(".staff").html("");
+       var append_option = "<option id='-1' >Select staff</option>";
+		$(".staff").append(append_option);		
+		$.each(eval(data), function( key, value ) { 
+			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
+			$(".staff").append(append_option);
+		});
+	});	
+		//var starttime = $("#eventStartTime").val();
+		//alert(starttime);	
+		// var myUrl = base_url+"bcalendar/getendtime";
+		// $.ajax({
+			// type: "POST",
+			// url: myUrl,
+			// data: { checked : checked,starttime:starttime },
+			// success: function(data) {
+				alert(checked);
+				//alert('it worked');
+				//alert(data);
+				// $("#eventEndTime").val(data);
+			// },
+			// error: function() {
+				//alert('it broke');
+			// },
+			// complete: function() {
+				//alert('it completed');
+			// }
+		// });
+ });
 
 
 /*Time Calculation*/
@@ -368,10 +462,16 @@ _page = window.location.pathname.split('/')[2];
 				//alert("hello")
 				$('.date_pick').datepicker('hide');
 				var business_id = $("#business_id").html();
+				var staff_id = $("#selectedstaff").val(); 
+				if(staff_id!='Select staff'){
+				staff_id = $("#selectedstaff").val();
+				}else{
+				staff_id='0';
+				}
 				//alert(business_id);
 				//alert($(".st_date").val()); 
 				var url = base_url+"bcalendar/getfreeslotsbydate";
-				$.post(url,{date:$(".st_date").val(),business_id:business_id},function(info){
+				$.post(url,{date:$(".st_date").val(),business_id:business_id,staff_id:staff_id},function(info){
 				//alert(info);
 				if(info==0){
 				//$("#book").attr("href","javascript:;");

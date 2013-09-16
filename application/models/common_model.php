@@ -162,9 +162,11 @@ public function mail($emailTo,$subject,$message){
 	/*Get Business Services by filter*/
 	function getserviceByfilter($filter=false){
 		if($filter){
-			$this->db->where($filter);
+			$this->db->where(in_array($filter));
 		}
 		$query = $this->db->get("view_employee_services");
+		echo $this->db->last_query();
+			exit;
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{

@@ -34,7 +34,7 @@
 					</h3>
 					
 						<strong><?php echo $content->category_name; ?></strong><br clear="left"/>
-						<span>Phone no. <?php echo $content->mobile_number; ?> </span><br clear="left"/>
+						<span> <?=(lang('Apps_phonenumber'))?><?php echo $content->mobile_number; ?> </span><br clear="left"/>
 						<span><?php echo  $content->address; ?></span><br clear="left"/>							
 						
 						<span id="fullContent" style="display:none"> <?php echo $content->business_description;?></span>
@@ -42,22 +42,21 @@
 						$des =  $content->business_description;
 						echo substr($des,0,50)."....";?>
 						<br clear="left"/>
-						<a href="javascript:void(0);" onclick="showFullContent()">view more..</a>
+						<a href="javascript:void(0);" onclick="showFullContent()"> <?=(lang('Apps_viewmore'))?>..</a>
 						</span>
 						<div class="row-fluid rating-div">
 							<div class="span6">
-								<div class="btn-group pull-left">
-							   
-								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal">Book me </a>
-								<?php if($content->business_type=="class") {
-								 $url='bcalendar/calendar_business/';
-								}else if($content->business_type=="service") {
+							   <?php if($content->business_type=="class") {
+								 $url='bcalendar/calendar_business/'; ?>
+								 <a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+								<?php }else if($content->business_type=="service") {
 								 $url='bcalendar/cal/';
-								 }
 								?>
-								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal">View schedule</a>
-									
+								<div class="btn-group pull-left">
+								<a href="#bookmultiServices"  class="btn btn-success left bookmultiServices" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
+							<?php }		?>
 							</div>
 							<div class="span6">
 							<ul class="unstyled inline pull-right ul-rating">
@@ -138,13 +137,14 @@
 								   <?php }else{
 								   $classtype="book_me";
 								   if($type=="Classes"){
-								   $popup="#bookClass";
+								   $popup= base_url().'bcalendar/calendar_business/'.$_GET['id'];
+								  // $popup="#bookClass";
 								   $classtype="book_class";
 								   }else{
 								   $popup="#book";
 								   }
 								    ?>
-								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal">Book me </a></td>
+								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
 								   <?php } ?>
 								</tr>
 							<?php } ?>
@@ -167,7 +167,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#staff">
-						 <h3>  Staff <i class="icon-chevron-down pull-right"></i></h3>
+						 <h3>  <?=(lang('Apps_info'))?>  <i class="icon-chevron-down pull-right"></i></h3>
 					  </a>
 					</div>
 					<div id="staff" class="accordion-body collapse">
@@ -178,7 +178,7 @@
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
-								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>" class="btn btn-success">View schedule</a></td>
+								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
 							    <?php if($this->session->userdata['role']=="manager"){ ?>
 								<td>
 							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
@@ -205,7 +205,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#offer">
-						 <h3> Offers <i class="icon-chevron-down pull-right"></i></h3>
+						 <h3> <?=(lang('Apps_offer'))?><i class="icon-chevron-down pull-right"></i></h3>
 					  </a>
 					</div>
 					<div id="offer" class="accordion-body collapse">
@@ -242,7 +242,7 @@
 				
 			</div>
 			<div class="span3">
-				<h3>Working Hours</h3>
+				<h3> <?=(lang('Apps_workinghour'))?></h3>
 				<dl class="dl-horizontal days_dl">
 				<?php foreach($availability as $available) { ?>
 				<dt><?php echo $available->name ?></dt>
@@ -271,80 +271,7 @@
 		
 
 	
-<!----------book popup start------------>
 
-
-<div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">Book an appointment</h3>
-  </div>
-  <div class="modal-body">
-		   <p class="message"></p>	
-		  
-		   <div class="control-group">
-			<label class="control-label" >Service</label>
-			<div class="controls">
-			  <!--<input type="text" class="span6" readonly="" placeholder="Service">-->
-			  <!--<p id="service hide">Services</p>-->
-			  <select class="services" name="services" required>
-				<option>Select Services</option>
-			  </select>
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Staff</label>
-			<div class="controls">
-			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
-			  <select name="staff" class="staff"> 
-				<option>Select Staff</option>
-			  </select>
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Date</label>
-			<div class="controls">
-				<div class="input-append date date_pick span8" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" required>
-					<span class="add-on"><i class="icon-calendar"></i></span>
-				  </div>
-				  <!--<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-                                       <input class="span10 st_date" size="16" type="text" value="<?=date("d-m-Y")?>" >
-                                       <span class="add-on"><i class="icon-calendar"></i></span>
-                                 </div>-->
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Time</label>
-			<div class="controls">
-					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" required>
-						
-					</select>
-					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true">view Schedule</a>
-			</div>
-		  </div>
-		  
-		  
-		  <div class="control-group">
-			<label class="control-label" >Message</label>
-			<div class="controls">
-			  <textarea type="text" class="span8" name="note" id="note" placeholder="Message"></textarea>
-			  <input type="hidden" name="businessid" value="<?php echo $_GET['id'] ?>">
-			</div>
-		  </div>
-		  
-	
-  </div>
-  <div class="modal-footer">
-    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5"/>
-	<input type="hidden" name="user_id" value="<?=$user_id?>" />
-	<input type="hidden" name="end_time" id="end_time" value="" required/>
-  </div>
-  </form>
-</div>
 	
 <!----Book for a class -------->
 <!----------book popup start------------>
@@ -354,7 +281,7 @@
    <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">Book for class</h3>
+    <h3 id="myModalLabel"> <?=(lang('Apps_bookforclass'))?></h3>
 	<br/><div id="booksuccess" class="alert" style="display:none"></div>
   </div>
   <div class="modal-body">
@@ -450,53 +377,53 @@
             
               <tbody>
                 <tr>
-                  <td>Class</td>
+                  <td> <?=(lang('Apps_class'))?></td>
 				  
                   <td id="classname"></td>
                   
                 </tr>
                 <tr>
-                  <td>Price</td>
+                  <td> <?=(lang('Apps_price'))?></td>
                   <td id="price" ></td>
                 </tr>
                 <tr>
-                  <td>Start Date</td>
+                  <td><?=(lang('Apps_start'))?><?=(lang('Apps_date'))?></td>
                   <td id="startdate" ></td>
                 </tr>
 				<tr>
-                  <td>End Date</td>
+                  <td> <?=(lang('Apps_end'))?><?=(lang('Apps_date'))?></td>
                   <td id="enddate" ></td>
                 </tr>
 				<tr>
-                  <td>Start Time</td>
+                  <td> <?=(lang('Apps_start'))?><?=(lang('Apps_time'))?></td>
                   <td id="starttime" ></td>
                 </tr>
 				<tr>
-                  <td>End Time</td>
+                  <td> <?=(lang('Apps_end'))?><?=(lang('Apps_time'))?></td>
                   <td id="endtime" ></td>
                 </tr>
 				<tr>
-                  <td>Repeated</td>
+                  <td> <?=(lang('Apps_repeated'))?></td>
                   <td id="repeated" ></td>
                 </tr>
 				<tr id="repeatedDiv">
-                  <td>Repeated On</td>
+                  <td><?=(lang('Apps_repeated'))?><?=(lang('Apps_on'))?></td>
                   <td id="repeatedon" ></td>
                 </tr>
 				<tr id="instructor_name">
-                  <td>Instructor</td>
+                  <td> <?=(lang('Apps_instructor'))?></td>
                   <td id="instructor" ></td>
                 </tr>
 				<tr>
-                  <td>Last date to enroll</td>
+                  <td> <?=(lang('Apps_lastdatetoenroll'))?></td>
                   <td id="lastdate" ></td>
                 </tr>
 				<tr>
-                  <td>Capacity</td>
+                  <td> <?=(lang('Apps_capacity'))?></td>
                   <td id="capacity" ></td>
                 </tr>
 				<tr>
-                  <td>Available</td>
+                  <td> <?=(lang('Apps_available'))?></td>
                   <td id="available" ></td>
                 </tr>
               </tbody>
@@ -508,7 +435,7 @@
     <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="hidden" name="classid" value="" id="classid" />
-	<input type="button" name="submit" value="Book" id="bookclass" class="btn btn-success span3 offset5"/>
+	<input type="button" name="submit" value="<?=(lang('Apps_book'))?>" id="bookclass" class="btn btn-success span3 offset5"/>
   </div>
   </form>
 </div>

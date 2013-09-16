@@ -44,15 +44,15 @@ if(!isset($this->session->userdata['id'])){
 
 <div id="editClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 id="myModalLabel">Clients are always added on a per-class basis.</h4>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 id="myModalLabel"><?=(lang('Apps_clientaddedperclassbasis'))?></h4>
   </div>
   <div class="modal-body">
 	<p id="eventId" class="hide"></p>
 	<div class="row-fluid">
 	
-	<button class="btn span6 clientlist" id="multiClass">All Classes</button>
-    <button class="btn btn-success span6 clientlist" id="singleClass" >Only This Class</button>
+	<button class="btn span6 clientlist" id="multiClass"><?=(lang('Apps_allclasses'))?></button>
+    <button class="btn btn-success span6 clientlist" id="singleClass" ><?=(lang('Apps_onlythisclass'))?></button>
 	</div>
   </div>
 </div>
@@ -63,8 +63,8 @@ if(!isset($this->session->userdata['id'])){
 <div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
 <ul class="nav nav-tabs" id="postclasstab">
-  <li class="active"><a href="#edit_class" id="addclass">Post Class</a><a href="#edit_class" id="updateclass" style="display:none">Edit Class</a></li>
-  <li><a href="#add_client">Client List</a></li>
+  <li class="active"><a href="#edit_class" id="addclass"><?=(lang('Apps_postclass'))?></a><a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
+  <li><a href="#add_client"><?=(lang('Apps_clientlist'))?></a></li>
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button>
 </ul>
  <hr/>
@@ -74,15 +74,15 @@ if(!isset($this->session->userdata['id'])){
         <table border="0" cellpadding="0" width="100%" class="class-table">  
             <tbody>  
 			<tr height="40px;"> 
-					  <td style="padding-right: 10px;">
-					    <div class="labelBlock"> Classes </div>
+					  <td >
+					    <div class="labelBlock">  <?=(lang('Apps_classes'))?></div>
 						<?php 
 						$select="";
 						echo form_dropdown('eventGroup',$classes,$select,' id=eventGroup')   ?>						
 					  </td>
 					  
 					  <td>
-					   <div class="labelBlock"> Trainers</div>
+					   <div class="labelBlock"> <?=(lang('Apps_trainers'))?></div>
 					   <select name="trainer"   id="trainer" class="demo">
 					   </select> 
 					   <p class="hide event_id"></p>
@@ -93,29 +93,29 @@ if(!isset($this->session->userdata['id'])){
 
 					<tr>
 					  <td>
-					     <div class="labelBlock">Date</div>
+					     <div class="labelBlock"><?=(lang('Apps_date'))?></div>
 						 <input type="text" class=" date_pick" value="" id="StartDate">
 					    <!--- <input type="text" class="inputboxblue" id="StartDate">--->
 					  </td>
 
 					  <td style="position:relative;">
-					     <div class="labelBlock">Time</div>
+					     <div class="labelBlock"><?=(lang('Apps_time'))?></div>
 					     <a href="#"><input type="text" class="StartTime" id="eventStartTime"></a>
-						 <a href="javascript:;" id="repeat" class="add-repeat"><p id="repeathtml" value="add">Add Repeat</p></a>
+						 <a href="javascript:;" id="repeat" class="add-repeat"><p id="repeathtml" value="add"><?=(lang('Apps_addrepeat'))?></p></a>
 					  </td>
 					  
 					</tr>
 					<tr style="display:none" id="repeatdiv">
 					  <td>
-					   <div class="labelBlock"> Repeat Type </div>
+					   <div class="labelBlock">  <?=(lang('Apps_repeattype'))?></div>
 					       <select name="repeat_type" id="repeat_type">
-						  <option id="daily" value="daily">Daily</option>
-						  <option id="weekly" value="weekly">Weekly</option>
-						  <option id="monthly" value="monthly">Monthly</option>
+						  <option id="daily" value="daily"><?=(lang('Apps_daily'))?></option>
+						  <option id="weekly" value="weekly"><?=(lang('Apps_weekly'))?></option>
+						  <option id="monthly" value="monthly"><?=(lang('Apps_monthly'))?></option>
 						  </select>
 					  </td>
 					  <td>
-					    <div class="labelBlock"> End Date</div>
+					    <div class="labelBlock"> <?=(lang('Apps_enddate'))?></div>
 						<input type="text" class=" date_pick" value="" id="EndDate">
 					  </td>
 						<td>
@@ -167,18 +167,18 @@ if(!isset($this->session->userdata['id'])){
 					<tr style="display:block; margin-top: 50px;">
 					  
 					  <td>
-					    <div class="labelBlock"> End Time</div>
+					    <div class="labelBlock"> <?=(lang('Apps_endtime'))?></div>
 					     <input type="text" class=""  id="eventEndTime">
 					  </td>
 					</tr>
 					<tr> 
 					  <td>
-					    <div class="labelBlock"> Last date for enroll</div>
+					    <div class="labelBlock"> <?=(lang('Apps_lastdateforenroll'))?></div>
 						<input type="text" class=" date_pick" value="" id="enroll_last">					   
 					   <!----<input type="text" class="inputboxblue"  id="endDateenrollment">---->
 					  </td> 
 					  <td>
-					    <div class="labelBlock"> Capacity</div>
+					    <div class="labelBlock"> <?=(lang('Apps_capacity'))?></div>
 					     <input type="text" class=""  id="class_size">
 						 <input type="hidden" name="repeatstatus" id="repeatstatus">
 					  </td> 
@@ -194,15 +194,15 @@ if(!isset($this->session->userdata['id'])){
 			
 	    <ul class="unstyled inline" >
 	        <li id="add">
-	            <a class="websbutton btn btn-success pull-right" href="javascript:rzAddEvent();">Save</a>
+	            <a class="websbutton btn btn-success pull-right" href="javascript:rzAddEvent();"><?=(lang('Apps_save'))?></a>
 	        </li>
 	       <!-- <li>
 	            <a  href="javascript:void(0)" class="websbutton"  onclick="return closeAddEvent();">Cancel</a>
 	        </li>--->
 	        <li id="update" style="display:none" class="pull-right">
 			    <input type="hidden" name="updateid"  id="updateid" value="">
-				 <a class="websbutton btn btn-success " href="javascript:rzDeleteEvent();">Delete</a>
-	             <a class="websbutton btn btn-success " href="javascript:rzUpdateEvent();">Update</a>
+				 <a class="websbutton btn btn-success " href="javascript:rzDeleteEvent();"><?=(lang('Apps_delete'))?></a>
+	             <a class="websbutton btn btn-success " href="javascript:rzUpdateEvent();"><?=(lang('Apps_update'))?></a>
 	        </li>
 	    </ul>
     </div>
@@ -212,7 +212,7 @@ if(!isset($this->session->userdata['id'])){
   <div class="tab-pane" id="add_client">
 		<div class="row-fluid">
 			<div class="span3">
-				<span class="pull-right">client
+				<span class="pull-right"><?=(lang('Apps_client'))?>
 				<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="showform">
 				<!---<a href="javascript:;" class="showform">--->
 					<i class="icon-plus"></i>
@@ -228,7 +228,7 @@ if(!isset($this->session->userdata['id'])){
 				<div id="demo" class="collapse ">
 					<form class="form-horizontal" id="clientform">
 						  <div class="control-group">
-							<label class="control-label" for="inputEmail">Client name</label>
+							<label class="control-label" for="inputEmail"><?=(lang('Apps_client'))?> <?=(lang('Apps_name'))?></label>
 							<div class="controls">
 							 <!---<input id="tags" data-names="" />--->
 							  <input type="text"  class="input-large" name="name" id="name" required>
@@ -236,25 +236,25 @@ if(!isset($this->session->userdata['id'])){
 							</div>
 						  </div>
 						  <div class="control-group">
-							<label class="control-label" for="inputPassword">Email</label>
+							<label class="control-label" for="inputPassword"><?=(lang('Apps_email'))?></label>
 							<div class="controls">
 							  <input type="text"  class="input-large" name="email" id="email">
 							</div>
 						  </div>
 						   <div class="control-group">
-							<label class="control-label" for="inputPassword">Phone</label>
+							<label class="control-label" for="inputPassword"><?=(lang('Apps_phonenumber'))?></label>
 							<div class="controls">
 							  <input type="text" class="input-large" name="phone" id="phone">
 							</div>
 						  </div>
 						   <div class="control-group">
-							<label class="control-label" for="inputPassword">Price</label>
+							<label class="control-label" for="inputPassword"><?=(lang('Apps_price'))?></label>
 							<div class="controls">
 							  <input type="text"  class="input-large" name="price" id="price">
 							</div>
 						  </div>
 						   <div class="control-group">
-							<label class="control-label" for="inputPassword">Client Notes</label>
+							<label class="control-label" for="inputPassword"><?=(lang('Apps_clientnotes'))?></label>
 							<div class="controls">
 							<textarea name="notes" id="note"></textarea>
 							  <!---<input type="text" id="inputPassword"  class="input-large">--->
@@ -262,7 +262,7 @@ if(!isset($this->session->userdata['id'])){
 						  </div>
 						  <div class="control-group">
 							<div class="controls">
-							  <button type="button" class="btn btn-success pull-right" id="addClient">Done</button>
+							  <button type="button" class="btn btn-success pull-right" id="addClient"><?=(lang('Apps_done'))?></button>
 							  <input type="hidden" name="users_id" id="users_id" >
 							</div>
 						  </div>
@@ -376,13 +376,10 @@ if($("#monthlylist").val()!=""){
 			onPreview: onPreview,
 			//newEventTemplate:"calendarNewEvent",
 			showLeftNav: false,			
-            views: "day, month, week, agenda"
+            views: "day, week, agenda"
         });
         ical.build();
     }
-	
-
-	
 	function createNewEvent()
 	{ 
         var newEventContainer = jQuery("#calendarNewEvent");
@@ -686,7 +683,7 @@ if($("#monthlylist").val()!=""){
 		str=str+"&tr_id="+trainer;   
 		 //exit;
 		
-		if($("#postclass").attr("data-val")=='single'){
+		if($("#postclass").attr("data-val")=='single'){ alert(str);
 		str=str+"&status=single";
 		if($("#EndDate").val()!=""){
 		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
@@ -699,9 +696,6 @@ if($("#monthlylist").val()!=""){
 		 ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
 		}
 		window.location.href=base_url+'bcalendar/calendar_business';
-	
-	
-		
 	}
     /**
      Clicking delete in Preview window

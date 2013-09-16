@@ -45,14 +45,14 @@ if(!isset($this->session->userdata['id'])){
 <div id="editClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 id="myModalLabel">Booked on a per-class basis.</h4>
+    <h4 id="myModalLabel"><?=(lang('Apps_bookedperclassbasis'))?>.</h4>
   </div>
   <div class="modal-body">
 	<p id="eventId" class="hide"></p>
 	<div class="row-fluid">
 	
 	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
-    <button class="btn btn-success span6 clientlist" id="singleClass" >View Details</button>
+    <button class="btn btn-success span6 clientlist" id="singleClass" ><?=(lang('Apps_viewdetails'))?></button>
 	</div>
   </div>
 </div>
@@ -62,8 +62,8 @@ if(!isset($this->session->userdata['id'])){
 <!-- New Event Template -->
 <div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
-  <h3 id="addclass" class="appoint-heading">Post Class <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
-    <h3  id="updateclass" style="display:none" class="appoint-heading">Edit Class <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
+  <h3 id="addclass" class="appoint-heading"> <?=(lang('Apps_postclass'))?><button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
+    <h3  id="updateclass" style="display:none" class="appoint-heading"><?=(lang('Apps_editclass'))?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
   
 
  <hr/>
@@ -74,35 +74,35 @@ if(!isset($this->session->userdata['id'])){
 		<div id="booksuccess" class="alert" style="display:none"></div>
 		<tr> 
 					  <td style="padding-right: 10px;">
-					    <div class="labelBlock"> Classes : <span id="className"></span></div>	
+					    <div class="labelBlock">  <?=(lang('Apps_classes'))?>: <span id="className"></span></div>	
 					  </td>
 					  <td>
-					   <div class="labelBlock"> Trainers : <span id="trainers"></span></div>
+					   <div class="labelBlock">  <?=(lang('Apps_trainers'))?>: <span id="trainers"></span></div>
 					   <p class="hide event_id"></p>
 					  </td>
 		</tr>
 		<tr>
 					  <td>
-					     <div class="labelBlock">Date : <span id="StartDate"></span></div>
+					     <div class="labelBlock"> <?=(lang('Apps_date'))?>: <span id="StartDate"></span></div>
 					  </td>
 					  <td style="position:relative;">
-					     <div class="labelBlock">Time: <span id="StartTime"></span></div>
+					     <div class="labelBlock"><?=(lang('Apps_time'))?>: <span id="StartTime"></span></div>
 					  </td>
 		</tr>
 		<tr> 
 					  <td>
-					    <div class="labelBlock"> Last date for enroll : <span id="lastdate"></span></div>
+					    <div class="labelBlock">  <?=(lang('Apps_lastdateforenroll'))?>: <span id="lastdate"></span></div>
 					  </td> 
 					  <td>
-					    <div class="labelBlock"> Capacity : <span id="class_size"></span></div>
+					    <div class="labelBlock">  <?=(lang('Apps_capacity'))?>: <span id="class_size"></span></div>
 					  </td> 
 					</tr> 
 		<tr> 
 				<td>
-					<div class="labelBlock"> Available : <span id="available"></span></div>
+					<div class="labelBlock">  <?=(lang('Apps_available'))?>: <span id="available"></span></div>
 						</td> 
 					<td>
-						<textarea name="note" id="note" placeholder="note" style=
+						<textarea name="note" id="note" placeholder="<?=(lang('Apps_note'))?>" style=
 						"width: 99%!important;"></textarea>
 					  </td> 
 					</tr> 
@@ -115,7 +115,7 @@ if(!isset($this->session->userdata['id'])){
 		        <input type="hidden" name="updateid"  id="updateid" value="">
 				<p class="hide" id="starttime"></p><p  class="hide" id="endtime"></p>
 				<p id="business_id" class="hide"><?php echo $businessId; ?></p>
-	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" >Book</a>
+	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
 	        </li>
 	    </ul>
     </div>

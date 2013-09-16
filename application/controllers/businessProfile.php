@@ -31,7 +31,7 @@ class BusinessProfile extends CI_Controller {
 		//$sessionVal=array('profile_id'=>$_GET['id']);
 	    //$this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
-		$where=" and users_id=".$_GET['id'];
+		$where=" and users_id=".$this->session->userdata['id'];
 		$checkFav=$this->common_model->getRow("view_business_clients","user_business_details_id",$_GET['id'],$where);
 		
 		if(isset($checkFav) && $checkFav!="")
@@ -46,20 +46,22 @@ class BusinessProfile extends CI_Controller {
 	 }
 	 //if(isset($this->session->userdata['id']))
 	 $this->data['user_id'] = $id;
+	 $this->parser->parse('include/modal_popup',$this->data);
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
 	
 	 $where=" AND type='business'";
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
 	 $this->data['type']="Classes";
-	 $this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
+	 $this->data['services']=$this->business_profile_model->getClasses();
+	 //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
 	 }else if($this->data['content']->business_type=='service'){
      $this->data['type']="Services";	 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
 	 }
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
 	 $where1=" order by  orderNum ASC";
-	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);
+	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	
 	 $this->parser->parse('business_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}

@@ -54,7 +54,7 @@
 				<form class="form-horizontal form-setting " name="bsettings" id="bsettings" action="<?php echo base_url(); ?>settings/business" method="POST">
 					
 					<div class="control-group ">
-						<label class="control-label " for="inputEmail">Appointment Remainders</label>
+						<label class="control-label " for="inputEmail"><?=(lang('Apps_appointmentremainder'))?></label>
 						<div class="controls ">
 						<label class="radio inline">
 						<?php  
@@ -65,17 +65,17 @@
 						}elseif($appointment_reminders=="off"){
 						$fchck="checked";
 						}
-						echo form_radio('appointment_reminders','on',$nchck); ?>On 
-						</label>
+						echo form_radio('appointment_reminders','on',$nchck); ?> 
+						<?=(lang('Apps_on'))?></label>
 						<label class="radio inline">
-						<?php echo form_radio('appointment_reminders','off',$fchck); ?>Off 
+						<?php echo form_radio('appointment_reminders','off',$fchck); ?><?=(lang('Apps_off'))?> 
 						</label>
 						<div id="AErrorContainer"></div>
 						</div>
 						
 					</div>
 					<div class="control-group">
-					  <label class="control-label" for="inputPassword">Send me reminder before</label>
+					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendmereminderbfr'))?></label>
 					  <div class="controls">
 						<div >
 						<?php 
@@ -97,8 +97,8 @@
 					  </div>
 					</div>
 					<div class="control-group">
-					  <label class="control-label" for="inputPassword">Clients can cancel/reschedule the appointments before 
-					  </label>
+					  <label class="control-label" for="inputPassword">
+					  <?=(lang('Apps_clientcancanclreshdule'))?></label>
 					  <div class="controls">
 					   <div >
 					   <?php 
@@ -120,7 +120,7 @@
 					  </div>
 					</div>
 					<div class="control-group">
-					  <label class="control-label" for="inputPassword">Clients can book an appointment before</label>
+					  <label class="control-label" for="inputPassword"><?=(lang('Apps_clientcanbookappntbfr'))?></label>
 					  <div class="controls">
 						<div >
 						<?php 
@@ -142,7 +142,7 @@
 					  </div>
 					</div>
 					<div class="control-group">
-					  <label class="control-label" for="inputPassword">Send me text messages when clients book online</label>
+					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendmetxtmsgonbooking'))?></label>
 					  <div class="controls">
 					  <label class="radio inline">
 						<?php 
@@ -154,17 +154,17 @@
 						}elseif($send_message=="off"){
 						$fcheck="checked";
 						}
-						echo form_radio("send_message","on",$ncheck); ?>On 
-						</label>
+						echo form_radio("send_message","on",$ncheck); ?> 
+						<?=(lang('Apps_on'))?></label>
 						<label class="radio inline">
-						<?php echo form_radio("send_message","off",$fcheck); ?>Off 
-						</label>
+						<?php echo form_radio("send_message","off",$fcheck); ?> 
+						<?=(lang('Apps_off'))?></label>
 						<div id="messageErrorContainer"></div>
 					  </div>
 					</div>
 					
 					<div class="control-group">
-					  <label class="control-label" for="inputPassword">Send email confirmation</label>
+					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendemailconfm'))?></label>
 					  <div class="controls">
 					  <label class="radio inline">
 						<?php 
@@ -175,17 +175,17 @@
 						}elseif($send_email=="off"){
 						$ofcheck="checked";
 						}
-						echo form_radio("send_email","on",$nocheck); ?>On 
-						</label>
+						echo form_radio("send_email","on",$nocheck); ?> 
+						<?=(lang('Apps_on'))?></label>
 						<label class="radio inline">
-						<?php echo form_radio("send_email","off",$ofcheck); ?>Off 
-						</label>
+						<?php echo form_radio("send_email","off",$ofcheck); ?> 
+						<?=(lang('Apps_off'))?></label>
 						<div id="emailErrorContainer"></div>
 					  </div>
 					</div>
 					
-					<input type="hidden" name="insert" value="insert">
-					<input type="submit" name="save" value="Save" class=" btn btn-success pull-right">
+					<input type="hidden" name="insert" value="insert<?=(lang('Apps_insert'))?>">
+					<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class=" btn btn-success pull-right">
 				 
 				</form>
 			</div>

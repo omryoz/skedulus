@@ -10,6 +10,8 @@ class Settings extends CI_Controller {
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
 		CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
     }
 	
 	public function business(){

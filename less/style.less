@@ -303,7 +303,8 @@ div{
 	a:hover{
 	text-decoration:none;
 	}
-	th,td {vertical-align:middle;text-align:center;border-top: 1px dashed #dddddd;}
+	th,td {vertical-align:middle; text-align:center !important;
+	border-top: 1px dashed #dddddd;}
 }
 .check1{
 	padding: 0 0 0 43px;
@@ -1163,7 +1164,7 @@ display:block;
 	li{
 	width:11.1111111115%;
 		a{
-		padding: 10px 1px;
+		padding: 10px 1px !important;
 		}
 		p{
 		font-size:10px;
@@ -1358,6 +1359,7 @@ margin-left:0px;
 .justify-nav > li > a {
   padding-top: 15px;
   padding-bottom: 15px;
+  
   color: #777;
   font-weight: bold;
   text-align: center;
@@ -1405,4 +1407,14 @@ margin-left:0px;
     border-radius: 0 5px 5px 0 !important;
     border-right: 0;
   }
+}
+.input-append{
+input{border-bottom-left-radius: 9px !important;
+border-top-left-radius: 9px!important;
+border-bottom-right-radius: 0px !important;
+border-top-right-radius: 0px!important;
+}
+}
+.agenda-table .td-info  li:first-child{
+padding-left:0px;
 }

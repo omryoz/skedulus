@@ -634,6 +634,7 @@ class bprofile_model extends CI_Model {
 		if($data){
 			foreach($data as $dataP){
 			    $values['business_name'] =$dataP->business_name;
+				$values['business_details_id'] =$dataP->business_details_id;
 				$values['e_first_name'] =$dataP->employee_first_name;
 				$values['e_last_name']= $dataP->employee_first_name;
 				$values['type']= $dataP->type;
@@ -664,6 +665,10 @@ class bprofile_model extends CI_Model {
 			return $values;
 		}
 	}
+	
+	
+	
+	
 	// function getClientlist(){
 	 
 	// }

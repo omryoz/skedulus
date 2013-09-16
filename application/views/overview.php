@@ -1,14 +1,14 @@
 		
 		<div class="row-fluid">
-		<h3>Select a date range</h3>
+		<h3><?=(lang('Apps_selectadaterange'))?></h3>
 		<div class="span3 ">
 			
 			
 			<table class="table">
         <thead>
           <tr>
-            <th>Start Date: <input type="text" class="span12 date_pick" value="" id="dpd1"></th>
-            <th>End Date : <input type="text" class="span12 date_pick" value="" id="dpd2"></th>
+            <th><?=(lang('Apps_start'))?><?=(lang('Apps_date'))?>: <input type="text" class="span12 date_pick" value="" id="dpd1"></th>
+            <th><?=(lang('Apps_end'))?><?=(lang('Apps_date'))?> : <input type="text" class="span12 date_pick" value="" id="dpd2"></th>
           </tr>
         </thead>
       </table>

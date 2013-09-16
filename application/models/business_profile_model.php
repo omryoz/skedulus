@@ -66,6 +66,20 @@ function getstaffDetailsByfilter($filter=false,$limit=false,$offset=false,$order
  } 
 	
 	
+function getClasses(){
+        if(isset($_GET['id'])){
+		$id=$_GET['id'];
+	    }else{
+		$id=$this->session->userdata['business_id'];
+	   }
+		$sql="Select DISTINCT(user_business_classes_id), name,price,timelength,time_type from view_classes_posted_business where user_business_details_id =".$id;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+		return $data;
+		}
+	}
 	
 	
 	
