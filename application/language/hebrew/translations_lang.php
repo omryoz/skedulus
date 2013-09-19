@@ -7,7 +7,7 @@
          
 		$lang = array();
 		$lang['Apps_lang'] = "hebrew";
-		$lang['Apps_hey'] = "How are you";
+		$lang['Apps_hey'] = "מה שלומך";
 		/* subscription page start */
 		$lang['Apps_settings'] = "הגדרות";
 		$lang['Apps_subscription'] = "הרשמות";
@@ -18,11 +18,12 @@
 		$lang['Apps_reports'] = "דיווחים";
 		$lang['Apps_pro_notify'] = "הודעה על קידום מכירות";
 		$lang['Apps_canbe'] = "יכול להיות";
+		$lang['Apps_single'] = "יחיד";
 		$lang['Apps_active'] = "פעיל";
 		$lang['Apps_upto'] = "עד";
 		$lang['Apps_basic'] = "בסיסי";
-		$lang['Apps_enhanced'] = "משופר";
-		$lang['Apps_unlimited'] = "בלתי מוגבל";	
+		$lang['Apps_enhanced'] = "מורחב";
+		$lang['Apps_unlimited'] = "ללא הגבלה";
 		$lang['Apps_morethan'] = "יותר מ";
 		$lang['Apps_month'] = "חודש";
 		$lang['Apps_canbebuysepratly'] = "ניתן לקנות בנפרד";	
@@ -34,97 +35,99 @@
 		$lang['Apps_hello'] = "שלום";
 		/* header end */
 		/* footer start */
-		$lang['Apps_mobileapp'] = "יישומים לטלפון ניידים";
+		$lang['Apps_mobileapp'] = "אפליקציות";
 		$lang['Apps_aboutus'] = "אודות";
 		$lang['Apps_privacy'] = "פרטיות";
 		$lang['Apps_help'] = "עזרה";
-		$lang['Apps_f&p'] = "תכונות ותמחור";	
+		$lang['Apps_f&p'] = "מסלולים ותעריפים";
 		$lang['Apps_subscribenow'] = "הירשם עכשיו";
 		$lang['Apps_startyourfreetrial'] = "התחל תקופת הניסיון ללא תשלום";
         /* footer end */  
 		/* home start */
-		$lang['Apps_searchbusiness'] = "עסקי חיפוש";
-		$lang['Apps_businessfor'] = "עסקים אתה מחפש";
+		$lang['Apps_searchbusiness'] = "חיפוש";
+		$lang['Apps_businessfor'] = "חפש לפי שם";
 		$lang['Apps_enterlocation'] = "הזן מיקום";
-		$lang['Apps_search'] = "לחפש";
-		$lang['Apps_viewmore'] = "צג יותר";
-		$lang['Apps_offer'] = "מציע";
+		$lang['Apps_search'] = "חיפוש";
+		$lang['Apps_viewmore'] = "הצג עוד";
+		$lang['Apps_offer'] = "מבצעים";
 		/* home end */  
 		/* login page start*/ 
-        $lang['Apps_newuser'] = "?משתמש חדש";
-		$lang['Apps_signup'] = "!הירשם"; 
+        $lang['Apps_newuser'] = "משתמש חדש?";
+		$lang['Apps_signup'] = "הירשם!"; 
 		$lang['Apps_loginfb'] = "כניסה עם פייסבוק";
 		$lang['Apps_logintw'] = "כניסה עם טוויטר";
-		$lang['Apps_forgetpwd'] = "?שכחת את הסיסמה שלך";
-		$lang['Apps_backtologin'] = "?חזרה לכניסה";
+		$lang['Apps_forgetpwd'] = "שכחת את הסיסמא?";
+		$lang['Apps_backtologin'] = "חזרה לכניסה?";
 		$lang['Apps_login'] = "התחבר";
 		$lang['Apps_email'] = 'דוא"ל';
 		$lang['Apps_pwd'] = "סיסמא";
 		$lang['Apps_emailaddress'] = 'כתובת דוא"ל';
-		$lang['Apps_reset'] = "לאתחל";
+		$lang['Apps_reset'] = "איפוס";
 		$lang['Apps_emailpwdnotmatch'] = ".אימייל וסיסמא אינו תואמת. אנא נסה שוב";
 		$lang['Apps_activeuserforlogin'] = "אתה משתמש פעיל. אנא הירשם כדי להמשיך";
         /* login page end*/  
 		
 		/* signup page start*/ 
-		$lang['Apps_alreadyaccount'] = "?יש לך חשבון כבר";
+		$lang['Apps_alreadyaccount'] = "משתמש קיים?";
 		$lang['Apps_connectwith'] = "להתחבר עם";
 		$lang['Apps_signfb'] = "הרשמה עם פייסבוק";
 		$lang['Apps_signtw'] = "הרשמה עם טוויטר";
 		$lang['Apps_createaccount'] = 'צור החשבון שלך באמצעות דוא"ל';
-		$lang['Apps_firstname'] = "שם פרטיים";
-		$lang['Apps_birthday'] = "יום הולדת";
+		$lang['Apps_firstname'] = "שם פרטי";
+		$lang['Apps_birthday'] = "תאריך לידה";
 		$lang['Apps_lastname'] = "שם משפחה";
 		$lang['Apps_year'] = "שנה";
 		$lang['Apps_month'] = "חודש";
 		$lang['Apps_day'] = "יום";
-		$lang['Apps_whybirthday'] = "?מדוע אני צריך לספק ליום ההולדת שלי";
-		$lang['Apps_selectgender'] = "בחר את המין שלך";
-		$lang['Apps_phonenumber'] = "מספר טלפון";
+		$lang['Apps_whybirthday'] = "בשביל מה אני צריך להזין תאריך לידה?";
+		$lang['Apps_selectgender'] = "מין";
+		$lang['Apps_phonenumber'] = "מספר נייד";
 		$lang['Apps_createacc'] = "צור חשבון";
 		$lang['Apps_afterloginalert'] = "החשבון שלך נוצר בהצלחה. יש להתחבר לאתר כדי להמשיך.";
-		$lang['Apps_verificationlink'] = "אנא בדוק את הדואר שלך ולחץ על קישור האימות שנשלחנו לך להמשיך עם רישום העסק שלך.";
+		$lang['Apps_verificationlink'] = "אנא בדוק את הדואר שלך ולחץ על קישור האימות בכדי להמשיך בתהליך ההרשמה.";
 		/* signup page end*/       
 		
 		/* client navbar start*/ 
-		$lang['Apps_myappointments'] = "המינויים שלי";
+		$lang['Apps_myappointments'] = "הפגישות שלי";
 		$lang['Apps_favbusiness'] = "עסקים מועדפים";
-		$lang['Apps_special'] = "מיוחד";
+		$lang['Apps_special'] = "מבצעים";
 		/* client navbar end*/ 
 		
 		// $lang['Apps_confirmdelete'] = "האם אתה בטוח שברצונך למחוק?";
 		/* setting start*/ 
 		$lang['Apps_changepwd'] = "שינוי סיסמא";
 		$lang['Apps_personal'] = "אישי";
+		$lang['Apps_personal_details'] = "פרטים אישיים";
 		$lang['Apps_info'] = "מידע";
-		$lang['Apps_contact'] = "ליצור קשר עם ";
+		$lang['Apps_contact'] = "צור קשר";
+		$lang['Apps_contact_details'] = "פרטי התקשרות";
 		$lang['Apps_details'] = "פרטים";
 		$lang['Apps_creditcard'] = "ניהול כרטיס אשראי";
-		$lang['Apps_notificationsetting'] = "הגדרות של התראות";
+		$lang['Apps_notificationsetting'] = "עידכונים";
 		$lang['Apps_name'] = "שם";
-		$lang['Apps_dob'] = "תאריך הלידה";
+		$lang['Apps_dob'] = "תאריך לידה";
 		$lang['Apps_gender'] = "מין";
 		$lang['Apps_city'] = "עיר";
 		$lang['Apps_country'] = "מדינה";
-		$lang['Apps_aboutme'] = "עליי";
-		$lang['Apps_changeimage'] = "לשנות את התדמית";
+		$lang['Apps_aboutme'] = "אודותי";
+		$lang['Apps_changeimage'] = "שינוי תמונה";
 		$lang['Apps_newpwd'] = "סיסמא חדשה";
 		$lang['Apps_confirmpwd'] = "אשר סיסמא";
 		$lang['Apps_nameoncard'] = "שם בעל כרטיס";
 		$lang['Apps_creditcardno'] = "מספר כרטיס אשראי";
-		$lang['Apps_cvv'] = "ערך אימות כרטיס";
-		$lang['Apps_update'] = "לעדכן";
-		$lang['Apps_save'] = "לחסוך";
+		$lang['Apps_cvv'] = "CVV";
+		$lang['Apps_update'] = "עדכן";
+		$lang['Apps_save'] = "שמור";
 		$lang['Apps_number'] = "מספר";
-		$lang['Apps_expiration'] = "פקיעה";
+		$lang['Apps_expiration'] = "תוקף";
 		$lang['Apps_address'] = "כתובת";
 		$lang['Apps_state'] = "מדינה";
 		$lang['Apps_select'] = "לבחור";
-		$lang['Apps_zip'] = "רוכסן";
-		$lang['Apps_storecreditcard'] = "כרטיס אשראי בחנות";
-		$lang['Apps_fieldsmandatory'] = "שדות הם שדות חובה";
+		$lang['Apps_zip'] = "מיקוד";
+		$lang['Apps_storecreditcard'] = "שמור כרטיס אשראי";
+		$lang['Apps_fieldsmandatory'] = "שדות חובה";
 		$lang['Apps_appointremainder'] = "תזכורת פגישה";
-		$lang['Apps_on'] = "על";
+		$lang['Apps_on'] = "פעיל";
 		$lang['Apps_off'] = "כבוי";
 		$lang['Apps_sendremindr'] = "שלח תזכורת על";
 		$lang['Apps_days'] = "ימים";
@@ -132,45 +135,47 @@
 		/* setting end*/ 
 		
 		/* Business profile end*/ 
-		$lang['Apps_bookme'] = "Book me";
-		$lang['Apps_viewschedule'] = "View schedule";
-		$lang['Apps_staff'] = "Staff";
-		$lang['Apps_workinghour'] = "Working Hours";
-		$lang['Apps_bookanappointment'] = "Book an appointment";
-		$lang['Apps_service'] = "Service";
-		$lang['Apps_date'] = "Date";
-		$lang['Apps_time'] = "Time";
-		$lang['Apps_message'] = "Message";
-		$lang['Apps_bookforclass'] = "Book for class";
-		$lang['Apps_class'] = "Class";
-		$lang['Apps_price'] = "Price";
-		$lang['Apps_start'] = "Start";
-		$lang['Apps_end'] = "End";
-		$lang['Apps_repeated'] = "Repeated";
-		$lang['Apps_instructor'] = "Instructor";
-		$lang['Apps_lastdatetoenroll'] = "Last date to enroll";
-		$lang['Apps_capacity'] = "Capacity";
-		$lang['Apps_available'] = "Available";
-		$lang['Apps_book'] = "Book";
+		$lang['Services'] = "שירותים" ;
+		$lang['Classes'] = "שיעורים" ;
+		$lang['Apps_bookme'] = "קבע תור";
+		$lang['Apps_viewschedule'] = "צפה ביומן";
+		$lang['Apps_staff'] = "צוות";
+		$lang['Apps_workinghour'] = "שעות פעילות";
+		$lang['Apps_bookanappointment'] = "קבע פגישה";
+		$lang['Apps_service'] = "שירות";
+		$lang['Apps_date'] = "תאריך";
+		$lang['Apps_time'] = "שעה";
+		$lang['Apps_message'] = "הודעה";
+		$lang['Apps_bookforclass'] = "הצטרף לשיעור";
+		$lang['Apps_class'] = "שיעור";
+		$lang['Apps_price'] = "מחיר";
+		$lang['Apps_start'] = "התחלה";
+		$lang['Apps_end'] = "סיום";
+		$lang['Apps_repeated'] = "מחזורי";
+		$lang['Apps_instructor'] = "מדריך";
+		$lang['Apps_lastdatetoenroll'] = "תאריך אחרון לרישום";
+		$lang['Apps_capacity'] = "מקומות";
+		$lang['Apps_available'] = "זמין";
+		$lang['Apps_book'] = "הירשם";
 		/* Business profile end*/ 
 		
 		/* Business profile edit info start*/ 
 		$lang['Apps_selectadaterange'] = "Select a date range";
-		$lang['Apps_selectyourbusinesstype'] = "Select Your Business Type";
-		$lang['Apps_servicefeature'] = "Service providing businesses like stylist,salon,spa etc.";
+		$lang['Apps_selectyourbusinesstype'] = "בחר את סוג העסק שלך";
+		$lang['Apps_servicefeature'] = "עסק נותן שירותים (לדוגמא: ספר, קוסמטיאית, ספא וכדומה)";
 		$lang['Apps_classfeature'] = "Conducting classes like yoga,meditation etc.";
-		$lang['Apps_classes'] = "Classes";
-		$lang['Apps_services'] = "Services";
-		$lang['Apps_uploadlogo'] = "Upload your business logo";
-		$lang['Apps_businessdetails'] = "Business Details";
-		$lang['Apps_addcontactinfo'] = "Address and Contact Info";
-		$lang['Apps_loadingwait'] = "Loading Please Wait";
-		$lang['Apps_availabilityhrs'] = "Availability - Business hours";
-		$lang['Apps_selectcalendar'] = "Select Calender";
+		$lang['Apps_classes'] = "שיעורים";
+		$lang['Apps_services'] = "שירותים";
+		$lang['Apps_uploadlogo'] = "טען לוגו חברה";
+		$lang['Apps_businessdetails'] = "פרטי העסק";
+		$lang['Apps_addcontactinfo'] = "כתובת ופרטי התקשרות";
+		$lang['Apps_loadingwait'] = "טוען, אנא המתן";
+		$lang['Apps_availabilityhrs'] = "זמינות - שעות פעילות";
+		$lang['Apps_selectcalendar'] = "בחר יומן";
 		$lang['Apps_selectcalendartype'] = "Select a calendar type for your business";
-		$lang['Apps_savandcon'] = "Save & Continue";
-		$lang['Apps_businessname'] = "Business Name";
-		$lang['Apps_description'] = "Description";
+		$lang['Apps_savandcon'] = "שמור והמשך";
+		$lang['Apps_businessname'] = "שם העסק";
+		$lang['Apps_description'] = "תיאור";
 		/* Business profile  edit info end*/ 
 		
 		/* business setting start */
@@ -184,7 +189,7 @@
 		/* business setting end */
 		
 		/* gallery pages start*/
-		$lang['Apps_photolist'] = "Photo List";
+		$lang['Apps_photolist'] = "תמונות";
 		$lang['Apps_add'] = "add";
 		$lang['Apps_edit'] = "edit";
 		$lang['Apps_delete'] = "delete";
@@ -197,7 +202,7 @@
 		/* gallery pages start*/
 		
 		/* client page start */
-		$lang['Apps_clientlist'] = "Clients List";
+		$lang['Apps_clientlist'] = "לקוחות";
 		$lang['Apps_clientphoto'] = "Client Photo";
 		$lang['Apps_client'] = "Client";
 		$lang['Apps_action'] = "Action";
@@ -207,39 +212,40 @@
 		
 		/* staffs page start */
 		$lang['Apps_mailsendtostaffmember'] = "Mail has been sent to the added staff member";
-		$lang['Apps_stafflist'] = "Staff List";
-		$lang['Apps_staff'] = "Staff";
+		$lang['Apps_stafflist'] = "צוות";
 		$lang['Apps_nostaffaddedyet'] = "No staffs added yet";
 		$lang['Apps_back'] = "Back";
 		$lang['Apps_availability'] = "Availability";
 		$lang['Apps_mobilenumber'] = "Mobile Number";
 		$lang['Apps_assignservicetostaff'] = "Assign services to staff";
-		$lang['Apps_noservicesaddedyet'] = "No services added yet";
-		$lang['Apps_addstaffavailability'] = "Add Staff Availability";
+		$lang['Apps_noservicesaddedyet'] = "לא הוגדרו שירותים";
+		$lang['Apps_addstaffavailability'] = "הגדר זמינות עובד";
 		/* staffs page start */
 		
 		/* classes page start */
-		$lang['Apps_classeslist'] = "Classes List";
-		$lang['Apps_clientphoto'] = "Client Photo";
-		$lang['Apps_client'] = "Client";
+		$lang['Apps_class_name'] = "שם השיעור" ;
+		$lang['Apps_service_name'] = "שם השירות" ;
+		$lang['Apps_classeslist'] = "שיעורים" ;
+		$lang['Apps_clientphoto'] = "תמונת לקוח";
+		$lang['Apps_client'] = "לקוח";
 		$lang['Apps_action'] = "Action";
-		$lang['Apps_noclientaddedyet'] = "No Clients added yet";
-		$lang['Apps_noclassadedyet'] = "No Classes added yet";
-		$lang['Apps_general'] = "General";
-		$lang['Apps_length'] = "Length";
-		$lang['Apps_minutes'] = "minutes";
-		$lang['Apps_hours'] = "hours";
-		$lang['Apps_addpaddingtime'] = "Add padding time";
+		$lang['Apps_noclientaddedyet'] = "לא נמצאו לקוחות";
+		$lang['Apps_noclassadedyet'] = "טרם הוגדרו שירותים";
+		$lang['Apps_general'] = "כללי";
+		$lang['Apps_length'] = "משך";
+		$lang['Apps_minutes'] = "דקות";
+		$lang['Apps_hours'] = "שעות";
+		$lang['Apps_addpaddingtime'] = "הגדר זמן הכנה";
 		$lang['Apps_padding'] = "Padding";
-		$lang['Apps_before'] = "Before";
-		$lang['Apps_after'] = "After";
-		$lang['Apps_beforeandafter'] = "Before & After";
-		$lang['Apps_fixed'] = "Fixed";
-		$lang['Apps_variable'] = "Variable";
-		$lang['Apps_free'] = "Free";
-		$lang['Apps_classsize'] = "Class Size";
+		$lang['Apps_before'] = "לפני";
+		$lang['Apps_after'] = "אחרי";
+		$lang['Apps_beforeandafter'] = "לפני ואחרי";
+		$lang['Apps_fixed'] = "קבוע";
+		$lang['Apps_variable'] = "משתנה";
+		$lang['Apps_free'] = "חינם";
+		$lang['Apps_classsize'] = "מספר מקומות";
 		$lang['Apps_asignstafftoclass'] = "Assign Staff to this class";
-		$lang['Apps_nostaffadded'] = "No staff added yet";
+		$lang['Apps_nostaffadded'] = "לא הוגדרו עובדים";
 		/* classes page end */
 		
 		/* post class popup  start */

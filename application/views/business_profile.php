@@ -103,7 +103,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading"  >
 						<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-							<h3>  <?php echo $type; ?>  <i class="icon-chevron-down pull-right"></i></h3>
+							<h3>  <?php echo lang($type); ?>  <i class="icon-chevron-down pull-right"></i></h3>
 						 </a>
 					</div>
 					<div id="collapseOne" class="accordion-body collapse ">
@@ -167,7 +167,7 @@
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#staff">
-						 <h3>  <?=(lang('Apps_info'))?>  <i class="icon-chevron-down pull-right"></i></h3>
+						 <h3>  <?=(lang('Apps_staff'))?>  <i class="icon-chevron-down pull-right"></i></h3>
 					  </a>
 					</div>
 					<div id="staff" class="accordion-body collapse">

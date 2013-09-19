@@ -18,6 +18,7 @@
 		$lang['Apps_reports'] = "Reports";
 		$lang['Apps_pro_notify'] = "Promotional Notification";
 		$lang['Apps_canbe'] = "can be";
+		$lang['Apps_single'] = "Single";
 		$lang['Apps_active'] = "active";
 		$lang['Apps_upto'] = "upto";
 		$lang['Apps_basic'] = "basic";
@@ -44,7 +45,7 @@
 		/* footer end */
 		/* home start */
 		$lang['Apps_searchbusiness'] = "Search Businesses";
-		$lang['Apps_businessfor'] = "Business are you looking for";
+		$lang['Apps_businessfor'] = "Search by name";
 		$lang['Apps_enterlocation'] = "Enter a location";
 		$lang['Apps_search'] = "Search";
 		$lang['Apps_viewmore'] = "view more";  
@@ -79,8 +80,8 @@
 		$lang['Apps_month'] = "Month";
 		$lang['Apps_day'] = "Day";
 		$lang['Apps_whybirthday'] = "Why do I need to provide my birthday?";
-		$lang['Apps_selectgender'] = "Select your gender";
-		$lang['Apps_phonenumber'] = "Phone number";
+		$lang['Apps_selectgender'] = "Gender";
+		$lang['Apps_phonenumber'] = "Mobile number";
 		$lang['Apps_createacc'] = "Create Account";
 		$lang['Apps_afterloginalert'] = "Your account is successfully created.Please login to continue.";
 		$lang['Apps_verificationlink'] = "Please check your mail and click on the verification link we sent you to continue with your business registration.";
@@ -96,9 +97,11 @@
 		// $lang['Apps_confirmdelete'] = "Are you sure want to delete?";
 		/* setting start*/ 
 		$lang['Apps_changepwd'] = "Change Password";
+		$lang['Apps_personal_details'] = "Personal Details";
 		$lang['Apps_personal'] = "Personal";
 		$lang['Apps_info'] = "Info";
 		$lang['Apps_contact'] = "Contact ";
+		$lang['Apps_contact_details'] = "Contact Details";
 		$lang['Apps_details'] = "Details";
 		$lang['Apps_creditcard'] = "Manage Credit Card";
 		$lang['Apps_notificationsetting'] = "Notification Settings";
@@ -132,7 +135,9 @@
 		$lang['Apps_sendmetextmsg'] = "Send me text message";
 		/* setting end*/ 
 		
-		/* Business profile end*/ 
+		/* Business profile end*/
+		$lang['Services'] = "Services" ;
+		$lang['Classes'] = "Classes" ;
 		$lang['Apps_bookme'] = "Book me";
 		$lang['Apps_viewschedule'] = "View schedule";
 		$lang['Apps_staff'] = "Staff";
@@ -185,7 +190,7 @@
 		/* business setting end */
 		
 		/* gallery page start*/
-		$lang['Apps_photolist'] = "Photo List";
+		$lang['Apps_photolist'] = "Photos";
 		$lang['Apps_add'] = "Add";
 		$lang['Apps_edit'] = "Edit";
 		$lang['Apps_delete'] = "delete";
@@ -198,7 +203,7 @@
 		/* gallery page start*/
 		
 		/* client page start */
-		$lang['Apps_clientlist'] = "Clients List";
+		$lang['Apps_clientlist'] = "Clients";
 		$lang['Apps_clientphoto'] = "Client Photo";
 		$lang['Apps_client'] = "Client";
 		$lang['Apps_action'] = "Action";
@@ -208,7 +213,7 @@
 		
 		/* staffs page start */
 		$lang['Apps_mailsendtostaffmember'] = "Mail has been sent to the added staff member";
-		$lang['Apps_stafflist'] = "Staff List";
+		$lang['Apps_stafflist'] = "Staff";
 		$lang['Apps_staff'] = "Staff";
 		$lang['Apps_nostaffaddedyet'] = "No staffs added yet";
 		$lang['Apps_back'] = "Back";
@@ -220,7 +225,9 @@
 		/* staffs page start */
 		
 		/* classes page start */
-		$lang['Apps_classeslist'] = "Classes List";
+		$lang['Apps_class_name'] = "Class name";
+		$lang['Apps_service_name'] =  "Service name";
+		$lang['Apps_classeslist'] = "Classes";
 		$lang['Apps_clientphoto'] = "Client Photo";
 		$lang['Apps_client'] = "Client";
 		$lang['Apps_action'] = "Action";

@@ -30,8 +30,8 @@
 					calendar: "Calendar is required",
 				    mobile: {
 					required: 'Mobile number is required',
-					digits: "Only numbers are allowed",
-					},
+					digits: "Only numbers are allowed"
+					}
 					//userfile: " ",
                 },
 				
