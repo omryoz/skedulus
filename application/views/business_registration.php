@@ -11,12 +11,12 @@
 									<tbody>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be only 1 staff serving  for your business.">
 											<td>  <?=(lang('Apps_user'))?> </td>
-											<th> <?=(lang('Apps_canbe'))?> 1 </th>
+											<th> <?=(lang('Apps_single'))?></th>
 											
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage only 1 business">
 											<td> <?=(lang('Apps_business'))?> </td>
-											<th> <?=(lang('Apps_canbe'))?> 1</th>
+											<th> <?=(lang('Apps_single'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be only 1 active offer for your business">
 											<td> <?=(lang('Apps_offer'))?> </td>
@@ -56,7 +56,7 @@
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="You can manage only 1 business">
 											<td> <?=(lang('Apps_business'))?> </td>
-											<th> <?=(lang('Apps_canbe'))?> 1</th>
+											<th> <?=(lang('Apps_single'))?></th>
 										</tr>
 										<tr data-toggle="tooltip" class="tool" data-original-title="There can be upto 5 active offers for your business">
 											<td> <?=(lang('Apps_offer'))?> </td>

@@ -4,7 +4,7 @@
 			<div class="row-fluid">
 				<div class="span4">
 					<ul class="nav nav-tabs notify setting-tab" id="myTab">
-					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_info'))?>       <?=(lang('Apps_personal'))?></h4></a>
+					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_personal_details'))?></h4></a>
 					  </li>
 					  <li><a href="#Password" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
 					  <li><a href="#Credit" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
@@ -17,7 +17,7 @@
 						 <div class="tab-pane fade active in" id="Personal">
 							  <div class="row-fluid">
 								  <div class="span8" id="showProfile">
-									  <strong><?=(lang('Apps_details'))?><?=(lang('Apps_personal'))?></strong>
+									  <strong><?=(lang('Apps_personal_details'))?></strong>
 									  <hr> 
 									  <div class="row-fluid">
 										<div class="span10 offset1">
@@ -34,7 +34,7 @@
 											</dl>
 										</div>
 										</div><br/>
-										<strong><?=(lang('Apps_details'))?><?=(lang('Apps_contact'))?></strong>
+										<strong><?=(lang('Apps_contact_details'))?></strong>
 									  <hr>
 									  <div class="row-fluid"> 
 										<div class="span10 offset1">
@@ -80,7 +80,7 @@
 									</div>
 									<div class="span12" id="editProfile" style="display:none">
 									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post">
-									  <strong><?=(lang('Apps_details'))?><?=(lang('Apps_personal'))?></strong>
+									  <strong><?=(lang('Apps_personal_details'))?></strong>
 									  <hr>  
 									  <div class="row-fluid">
 										<div class="span10 offset1">
@@ -146,7 +146,7 @@
 											</dl>
 										</div>
 										</div><br/>
-										<strong><?=(lang('Apps_details'))?><?=(lang('Apps_contact'))?></strong>
+										<strong><?=(lang('Apps_contact_details'))?></strong>
 									  <hr>
 									  <div class="row-fluid"> 
 										<div class="span10 offset1">

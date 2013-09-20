@@ -76,7 +76,7 @@ function showSelected(){
               <div class="tab-pane fade active in" id="service">
                 <div class="row-fluid">
 					<div class="">
-						<h3 >Services List 
+						<h3 ><?=lang('Services')?>
 						   <a href="#myModal1" class="btn pull-right btn-success" data-toggle="modal">+add</a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
@@ -84,8 +84,8 @@ function showSelected(){
 						  <thead>
 							<tr >
 							  <th><h4>#</h4></th>
-							  <th><h4>Service Name</h4></th>
-							  <th><h4>Action</h4></th>
+								<th><h4><?=(lang('Apps_service_name'))?> <?=(lang('Apps_name'))?></h4></th>
+							  	<th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php $i=1; 
@@ -103,7 +103,7 @@ function showSelected(){
 						 <?php $i++;} ?>
 						</table>
 						<?php }else{?>
-						 <p class="alert">No services added yet</p>
+							<p class="alert"><?=(lang('Apps_noservicesaddedyet'))?></p>
 						 <?php } ?>
 						 <?php if(isset($_GET['register'])) { ?>
 						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left">Back</a>
@@ -126,7 +126,7 @@ function showSelected(){
 
 <div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">ï¿½</button>
     <h3 id="myModalLabel">
 	<h4 class="staff1" id="edit" style="display:none">Edit Service</h4>
 	<h4 class="staff1" id="add">Add Service</h4>

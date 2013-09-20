@@ -27,7 +27,7 @@
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="GET" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="business_name" placeholder="<?=(lang('Apps_businessfor'))?>?">
+						<input type="text" class="span12 " name="business_name" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
 					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  

@@ -77,7 +77,7 @@ function showSelected(){
               <div class="tab-pane fade active in" id="service">
                 <div class="row-fluid">
 					<div class="">
-						<h3><?=(lang('Apps_classeslist'))?> 
+						<h3><?=(lang('Apps_Classes'))?>
 						   <a href="#myModal1" class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
@@ -85,8 +85,8 @@ function showSelected(){
 						  <thead>
 							<tr >
 							  <th><h4>#</h4></th>
-							  <th><h4><?=(lang('Apps_class'))?> <?=(lang('Apps_name'))?></h4></th>
-							  <th><h4><?=(lang('Apps_action'))?></h4></th>
+						  <th><h4><?=(lang('Apps_class_name'))?> <?=(lang('Apps_name'))?></h4></th>
+						  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php 
@@ -107,7 +107,7 @@ function showSelected(){
 						 <?php $i++;} ?>
 						</table>
 						<?php }else{?>
-						 <p class="alert"><?=(lang('No Classes added yet'))?></p>
+						 <p class="alert"><?=(lang('Apps_noclassadedyet'))?></p>
 						 <?php } ?>
 						 <?php if(isset($_GET['register'])) { ?>
 						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left"><?=(lang('Apps_back'))?></a>

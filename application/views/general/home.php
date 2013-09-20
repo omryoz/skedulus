@@ -69,7 +69,7 @@
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="GET" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="business_name" placeholder="<?=(lang('Apps_businessfor'))?>?">
+						<input type="text" class="span12 " name="business_name" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
 					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
@@ -194,7 +194,7 @@
 <!-- Modal -->
 <div id="create-user-modal" class="modal hide fade modal-bigger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">ï¿½</button>
 <h3 id="myModalLabel">Create Account</h3>
 </div>
 <div class="modal-body">
