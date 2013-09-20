@@ -148,6 +148,8 @@ public function mail($emailTo,$subject,$message){
 	function getserviceTime($info=false){
 		if($info){
 			$query = $this->db->get_where("user_business_services",$info);
+			// echo $this->db->last_query();
+			// exit;
 			if($query->num_rows()>0){
 				return $query->result();
 			}else{
@@ -162,11 +164,11 @@ public function mail($emailTo,$subject,$message){
 	/*Get Business Services by filter*/
 	function getserviceByfilter($filter=false){
 		if($filter){
-			$this->db->where(in_array($filter));
+			$this->db->where($filter);
 		}
 		$query = $this->db->get("view_employee_services");
-		echo $this->db->last_query();
-			exit;
+		// echo $this->db->last_query();
+			// exit;
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{
@@ -205,6 +207,8 @@ public function mail($emailTo,$subject,$message){
 	function getAllslots($info=false){
 		if($info){
 			$query = $this->db->get_where("view_service_availablity",$info);
+			// echo $this->db->last_query();
+			// exit;
 			if($query->num_rows()>0){
 				$results = $query->result();
 				return $results[0];
@@ -219,6 +223,8 @@ public function mail($emailTo,$subject,$message){
 	function createAppointment($info){
 		if($info){
 			$query = $this->db->insert("client_service_appointments",$info);
+			// echo $this->db->last_query();
+			// exit;
 			if($this->db->affected_rows()>0){
 				return true;
 			}else{
@@ -229,11 +235,29 @@ public function mail($emailTo,$subject,$message){
 		}
 	}
 	
-	function getBookedslotsByDate($date=false){
+	function updateAppointment($info,$id){
+		if($info){
+		$this->db->where('id', $id);
+        //$this->db->update('mytable', $object);
+			$query = $this->db->update("client_service_appointments",$info);
+			// echo $this->db->last_query();
+			// exit;
+			if($this->db->affected_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+		}else{
+			return false;
+		}
+	}
+	
+	function getBookedslotsByDate($date=false,$where){
 		if($date){
-			$query = $this->db->query("SELECT *,TIME(start_time) as start_time,TIME(end_time) as end_time,DATE(start_time) as start_date FROM `client_service_appointments`  HAVING start_date = '".$date."'");
-			//echo $this->db->last_query();
-			//exit;	
+			$query = $this->db->query("SELECT *,TIME(start_time) as start_time,TIME(end_time) as end_time,DATE(start_time) as start_date FROM `client_service_appointments` where ".$where."  HAVING start_date = '".$date."'");
+			// echo $this->db->last_query();
+			// print_r($query->result());
+			// exit;	
 			return $query->result();
 		}else{
 			return false;

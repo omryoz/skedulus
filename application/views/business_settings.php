@@ -102,20 +102,28 @@
 					  <div class="controls">
 					   <div >
 					   <?php 
-						$start = strtotime('7:00');
-					    $end = strtotime('24:00');
-						for( $i = $start; $i <= $end; $i += (60*15)) 
-						{
-							$value=date('H:i', $i);
-							$slotlist[$value] = date('H:i', $i); 
+						// $start = strtotime('7:00');
+					    // $end = strtotime('24:00');
+						// for( $i = $start; $i <= $end; $i += (60*15)) 
+						// {
+							// $value=date('H:i', $i);
+							// $slotlist[$value] = date('H:i', $i); 
 							
-						}
+						// }
 						
-			            echo form_dropdown('cancel_reschedule_before',$slotlist,$cancel_reschedule_before,'id=remind_before class="inputime span3"') 
+			            //echo form_dropdown('cancel_reschedule_before',$slotlist,$cancel_reschedule_before,'id=remind_before class="inputime span3"') 
 			
 			            ?>
 						<!---<input type="text" name="cancel_reschedule_before" class=" inputime span4" value="<?php //echo $cancel_reschedule_before; ?>">---->
+						<?php
+						   for($i=1;$i<=24;$i++){ 
+						    $slotlist1[$i]=$i;
+						   }
+						   echo form_dropdown('cancel_reschedule_before',$slotlist1,$cancel_reschedule_before,'class="input-mini"') 
+						?>
 						
+						
+						<span>Hours</span>
 						</div>
 					  </div>
 					</div>
@@ -124,19 +132,27 @@
 					  <div class="controls">
 						<div >
 						<?php 
-						$start = strtotime('7:00');
-					    $end = strtotime('24:00');
-						for( $i = $start; $i <= $end; $i += (60*15)) 
-						{
-							$value=date('H:i', $i);
-							$slotlist[$value] = date('H:i', $i); 
+						// $start = strtotime('7:00');
+					    // $end = strtotime('24:00');
+						// for( $i = $start; $i <= $end; $i += (60*15)) 
+						// {
+							// $value=date('H:i', $i);
+							// $slotlist[$value] = date('H:i', $i); 
 							
-						}
+						// }
 						
-			            echo form_dropdown('book_before',$slotlist,$book_before,'id=remind_before class="inputime span3"') 
+			           // echo form_dropdown('book_before',$slotlist,$book_before,'id=remind_before class="inputime span3"') 
 			
 			            ?>
 						<!---<input type="text" name="book_before" class=" inputime span4" value="<?php //echo $book_before; ?>">---->
+						<?php
+						   for($i=1;$i<=24;$i++){ 
+						    $slotlist2[$i]=$i;
+						   }
+						   echo form_dropdown('book_before',$slotlist2,$book_before,'class="input-mini"') 
+						?>
+						
+						</select> <span>Hours</span>
 						
 						</div>
 					  </div>

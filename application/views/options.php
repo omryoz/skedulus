@@ -8,7 +8,8 @@
 			$end_booked = strtotime($booked->end_time);
 			for( $i = $start_booked; $i < $end_booked; $i += (60*15)){
 				//$booked_container = date('g:iA', $i).",";
-				$booked_container[] = date('g:iA', $i);
+				//$booked_container[] = date('g:iA', $i);
+				$booked_container[] = date('H:i', $i);
 			}
 			//$end_booked[] = strtotime($booked->end_time);
 		}
@@ -19,13 +20,14 @@
 		$start = strtotime($slots->start_time);
 		$end = strtotime($slots->end_time);
 		for( $i = $start; $i <= $end; $i += (60*15)){
-			$total_slotlist[] = date('g:iA', $i);
+			//$total_slotlist[] = date('g:iA', $i);
+			$total_slotlist[] = date('H:i', $i);
 		}
 	
 		$option = "";
 		$last_slots = "";
+		$option .= "<option value=''>Select time slot</option>";
 		foreach($total_slotlist as $single_total){
-			
 			//echo "Single Slots".$single_total."<br/>";
 			//print_r($booked_container)."Booked Slots";
 			
@@ -33,7 +35,12 @@
 				echo "Not Availble Slots".$single_total;
 					
 			}else{
-				$option .= "<option id=".$i." value=".$single_total.">".$single_total."</option>"; 
+			     if($selectedTimeSlot!='' && $selectedTimeSlot == $single_total){
+				  $selected='selected';
+				 }else{
+				$selected='';
+				}
+				$option .= "<option id=".$i." value=".$single_total." ".$selected.">".$single_total."</option>"; 
 			}
 			$last_slots = $single_total; 
 		}
@@ -88,8 +95,9 @@ if(!empty($slots)){
 		$end = strtotime($slots->end_time);
 		for( $i = $start; $i <= $end; $i += (60*15)) 
 		{
-			//$slotlist[] = date('g:iA', $i);
-			$slotlist = date('g:iA', $i);
+			
+			//$slotlist = date('g:iA', $i);
+			$slotlist = date('H:i', $i);
 			$option .= "<option id=".$i." value=".$slotlist.">".$slotlist."</option>"; 
 		}
 		

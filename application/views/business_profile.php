@@ -53,6 +53,7 @@
 								 $url='bcalendar/cal/';
 								?>
 								<div class="btn-group pull-left">
+								<!---<a href="#book"  class="btn btn-success left book_me" bookstatus="multi" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>--->
 								<a href="#bookmultiServices"  class="btn btn-success left bookmultiServices" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
 								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
@@ -144,7 +145,7 @@
 								   $popup="#book";
 								   }
 								    ?>
-								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
+								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" bookstatus="single" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
 								   <?php } ?>
 								</tr>
 							<?php } ?>
@@ -531,7 +532,7 @@ function showFullContent(){
 }
 
 function viewSchedule(){
-  window.location.href="http://localhost/skedulus/bcalendar";
+  window.location.href="<?php echo base_url() ?>bcalendar";
 }
 </script>
 <?php
@@ -555,10 +556,10 @@ function minutesToHours($minutes)
    success:function(data){
    if(data!="false"){
 	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","added to Favourite");
-	$("#addfav"+data).attr("href","http://localhost/skedulus/clients/favourite");
+	$("#addfav"+data).attr("href","<?php echo base_url() ?>clients/favourite");
 	$("#addfav"+data).removeAttr('onclick');
     }else{
-	window.location.href="http://localhost/skedulus/home/clientlogin";
+	window.location.href="<?php echo base_url() ?>home/clientlogin";
 	}
 	
    }

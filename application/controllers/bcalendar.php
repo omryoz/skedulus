@@ -39,7 +39,7 @@ class Bcalendar extends CI_Controller {
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		 
 		}
-		 $this->parser->parse('include/modal_popup',$this->data);
+		 //$this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -76,10 +76,10 @@ class Bcalendar extends CI_Controller {
 	function mycalender(){
 		 //print_r($this->session->userdata);
 		 $this->parser->parse('include/header',$this->data);
-		 if(isset($this->session->userdata['business_id'])){
+		 if($this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
 		  $this->data['user_id'] = $this->session->userdata['id'];
-		}else if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
+		}else if($this->session->userdata['role']=='client'){
 		  $this->parser->parse('include/navbar',$this->data);
 		  $this->data['user_id'] = $this->session->userdata['id'];
 		}else{
@@ -98,7 +98,31 @@ class Bcalendar extends CI_Controller {
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
+	
+	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){
+	  if($date<=date("d-m-Y")){
+		 $currentTime= date('H:i');
+		 $value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$business_id);
+		if($action=='schedule'){
+		  $bookbefore=$value->book_before;
+		}else{
+		  $bookbefore=$value->cancel_reschedule_before;
+		}
+		if(($startTime < $currentTime || $date < date("d-m-Y")) || (($startTime >= $currentTime) && (($startTime-$currentTime) < $bookbefore)) ){
+		  //echo $startTime;
+		 //  echo -1;
+		   return false;
+			//echo "less time";
+ 		}else{	 
+		    return true;
+	    }
+	   }else{
+	       return true;
+	   }
+    }
+	
 	function getendtime(){
+	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
 		$conversion = "";
@@ -130,7 +154,17 @@ class Bcalendar extends CI_Controller {
 		
 		$time = explode(":",$this->addTime($t_time,$t));
 		$return = $time[0].':'.$time[1];
-		echo $return;
+		//if($this->input->post('date'))
+		if($this->checkday($this->input->post('date'),$this->input->post('business_id'))){
+		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$return);
+		}else{
+			echo 1;
+		}
+	}else{
+	    echo -1;
+	}
+		//echo $return;
+		
 	}
 	
 	function convertToHoursMins($time, $format = '%d:%d') {
@@ -189,9 +223,7 @@ function getserviceBybusinessfilter(){
 
 function getstaffnameByfilter(){
 	if($this->input->post('service_id')){
-	$service = explode(",",$this->input->post('service_id'));
-	$filter = $service;
-		//$filter = array('service_id'=>$this->input->post('service_id'));
+		$filter = array('service_id'=>$this->input->post('service_id'));
 		$resuls = $this->common_model->getserviceByfilter($filter);	
 		print_r(json_encode($resuls));
 		
@@ -200,18 +232,51 @@ function getstaffnameByfilter(){
 	}
 }
 
+function getstaffnamesByfilter(){
+	if($this->input->post('service_id')){
+	$string = rtrim($this->input->post('service_id'), ',');
+	//$service = explode(",",$this->input->post('service_id'));
+	//print_r($service); exit;
+	//$filter = " 1 and";
+	// foreach($service as $val){
+	// if($val!=""){
+      	$filter = 'service_id  IN ('.$string.')'; 
+		// }
+	// } 
+	$resuls = $this->common_model->getserviceByfilter($filter);	
+	print_r(json_encode($resuls));
+	}else{
+		return false;
+	}
+}
+
 function getfreeslotsbydate(){
+   // if($this->input->post('date')==date("d-m-Y")){
+     // echo date('H:i');
+     // $this->common_model->checkSettings();
+      // echo "today"; exit;
+   // }else
 	if($this->input->post('date')){
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'))){
 			 //echo "We work on selected day";
 			 $day = $this->checkweekendDayName($this->input->post('date'));
-			 if($this->input->post('staff_id')!='0'){
-			 $filter = array("users_id"=>$this->input->post('staff_id'),"name"=>$day); 
+			 if($this->input->post('staff_id')!=0 || $this->input->post('staff_id')!=''){
+			 $filter = array("users_id"=>$this->input->post('staff_id'),"name"=>$day,"type"=>'employee'); 
 			 }else{
-			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day); 
+			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day,"type"=>'business'); 
 			 }
 			 $this->data['slots'] = $this->common_model->getAllslots($filter);
-			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))));
+			 $where=1;
+			 
+			 if($this->input->post('eventId')!=''){ 
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			  $where='id!='.$this->input->post('eventId');
+			 }else{
+			 $where='1';
+			 $this->data['selectedTimeSlot']='';
+			 }
+			// print_r($this->data['selectedTimeSlot']); exit;
+			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
 			 //print_r($this->data['booked_slots']);
 			 //exit;	
 			 //print_r($this->data['slots']);
@@ -251,15 +316,25 @@ function createappointment(){
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
-		$date=date("Y-m-d");
-		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'));
+		$date=date("Y-m-d h:m:s");
+		if($this->input->post('eventId')){
+		$id=$this->input->post('eventId');
+		}else{
+		$id=0;
+		}
+		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
 		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
 		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
-		if($this->common_model->createAppointment($input)){
+		if($id!=0){
+		$val=$this->common_model->updateAppointment($input,$this->input->post('eventId'));
+		}else{
+		$val=$this->common_model->createAppointment($input);
+		}
+		if($val){
 			redirect("bcalendar/mycalender");
 		}else{
 			redirect("");
@@ -272,14 +347,45 @@ function createappointment(){
 /*Get End Time by Selected Services*/
 
 	function getendtimeByservie(){
+	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
 		$conversion = "";
 		//foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
-			$info = array("id"=>$this->input->post('service_id'));	
-			$times = $this->common_model->getserviceTime($info);
+		if($this->input->post('status')!=""){
+		
+		$str=rtrim($this->input->post('service_id'),',');
+		if($str!=''){
+		$info = 'id  IN ('.$str.')';
+         }else{
+		 echo '-2'; exit;
+		 }		
+		}else{
+		$info = array("id"=>$this->input->post('service_id'));	
+		}
+		$times = $this->common_model->getserviceTime($info);
+			//print_r($times);
+		
+		if($this->input->post('status')!=""){ //$timeVals="";
+		  foreach($times as $timeVal){
+		    //$timeVal.=$time->timelength.',';
+		    if($timeVal->time_type=="minutes"){
+				$conversion = 1;
+					
+			}else if($timeVal->time_type=="hours"){
+				$conversion = 60;
+			}
 			
-			
+			if($timeVal->padding_time_type=="Before & After"){
+			  $twice=2;
+			}else{
+			  $twice=1;
+			}
+			$total = $timeVal->timelength * $conversion + $timeVal->padding_time * $twice;
+			//$timeVals.=$total.',';
+			$time = $time + $total; 
+		  }//print_r($time); exit;
+		}else{
 			if($times[0]->time_type=="minutes"){
 				$conversion = 1;
 					
@@ -294,9 +400,10 @@ function createappointment(){
 			}
 			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
 			$time = $time + $total;
-			
+		}	
 		//}
-		$t_time = $this->convertToHoursMins($time,'%d:%d');
+		
+		$t_time = $this->convertToHoursMins($time,'%d:%d'); 
 		$t_time = $t_time.':0';
 		$start_time = $this->input->post('starttime');
 		$t = $start_time.':0';
@@ -305,11 +412,20 @@ function createappointment(){
 		$return = $time[0].':'.$time[1];
 		//echo $return;
 		//exit;
-		$day = $this->checkweekendDayName($this->input->post('date'));
-		$filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day); 
+		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$return);
+		}else{
+		  echo -1;
+		}
+	}
+	
+	function checkAvailable($date,$business_id,$start_time,$end_time){
+	//print_r("here".$date); exit;
+	     $day = $this->checkweekendDayName($date);
+		$filter = array("user_business_details_id"=>$business_id,"name"=>$day); 
 		$slots = $this->common_model->getAllslots($filter);
-		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))));
-		//print_r($this->data['booked_slots']);
+		$where='1';
+		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
+		//print_r($booked_slots); exit;
 		/*Get all empty slots*/
 		
 		$booked_container = array();
@@ -344,8 +460,8 @@ function createappointment(){
 		
 		
 		$time_needed = array();
-		$start = strtotime($this->input->post('starttime'));
-		$end = strtotime($return);
+		$start = strtotime($start_time);
+		$end = strtotime($end_time);
 		for( $i = $start; $i <= $end; $i += (60*15)){
 			$time_needed[] = date('g:iA', $i);
 		}
@@ -369,11 +485,10 @@ function createappointment(){
 		}
 		
 		if($returned){
-			echo $return;
+			echo $end_time;
 		}else{
 			echo 0;
 		}
-		
 	}
 	
 	function calendar_business($id=false){

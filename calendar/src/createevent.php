@@ -25,8 +25,11 @@ class createevent
 		//$db = new db("root", " ", "skedulus", "localhost");
 		
 		//$startdate=explode("",$this->queryVars['st']);
-		$sTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['st']));
-		$eTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['et']));
+		//$sTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['st']));
+		//$eTimeStr=date("Y-m-d H:m:s",strtotime($this->queryVars['et']));
+		
+		$sTimeStr=date("Y-m-d H:i",strtotime($this->queryVars['st']));
+		$eTimeStr=date("Y-m-d H:i",strtotime($this->queryVars['et']));
 		$date=date("Y-m-d h:m:s");
 		//$sTimeStr=$this->queryVars['st'];
 		//$eTimeStr=$this->queryVars['et'];
@@ -37,6 +40,7 @@ class createevent
 		if(empty($check)){
 		$db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$user_id."','".$_SESSION['profileid']."' )");
 		}
+		//echo "insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."' )"; exit;
         $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."' )");
 		
 		 

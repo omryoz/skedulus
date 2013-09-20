@@ -70,6 +70,7 @@ if(!isset($this->session->userdata['id'])){
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
+								<p class="message"></p>	
 								<div class="acalclosebtn topright closeNewEvent"></div>	
 								<div class="header" >	
 								<h3 class="appoint-heading"> 	Book Appointment	
@@ -122,14 +123,15 @@ if(!isset($this->session->userdata['id'])){
 												End Time: 
 											</div>	
 											<div class="endTime">	
-												<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	
+												<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 
+												<input type="hidden" name="business_id"  id="business_id" value="<?php print_r($buisness_details[0]->id) ?>"/> 												
 											</div>		 	
 										</div>	
 										</td>	
 									</tr>	
 								</table>   	
 										<ul class="actions">
-											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right" id="bookAppbtn"> Book </a> </li>
 											<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton pull-right"> Update event </a> </li>
 										</ul>
 							
@@ -296,6 +298,7 @@ if(!isset($this->session->userdata['id'])){
 		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
 		$("#bookApp").removeClass("in");
 		$("div[id=darker]").remove();
+		location.reload();
 		<?php //}else{?>
 		//window.location.href=baseUrl+'home/';
 		<?php //} ?>

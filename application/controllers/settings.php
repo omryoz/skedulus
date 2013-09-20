@@ -21,8 +21,10 @@ class Settings extends CI_Controller {
 	 if($isExist){
 	 $this->data['appointment_reminders']=$isExist->appointment_reminders;
 	 $this->data['remind_before']=date('H:i',strtotime($isExist->remind_before));
-	 $this->data['cancel_reschedule_before']=date('H:i',strtotime($isExist->cancel_reschedule_before));
-	 $this->data['book_before']=date('H:i',strtotime($isExist->book_before));
+	 //$this->data['cancel_reschedule_before']=date('H:i',strtotime($isExist->cancel_reschedule_before));
+	 //$this->data['book_before']=date('H:i',strtotime($isExist->book_before));
+	 $this->data['cancel_reschedule_before']=$isExist->cancel_reschedule_before;
+	 $this->data['book_before']=$isExist->book_before;
 	 $this->data['send_message']=$isExist->send_message;
 	 $this->data['send_email']=$isExist->send_email;
 	 

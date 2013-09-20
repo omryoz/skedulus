@@ -40,6 +40,9 @@ session_start();
 					  <td>
 					   <span id="business_name"></span>
 					   <p id="business_id" class="hide"></p>
+					   <p id="services_id" class="hide"></p>
+					   <p id="employee_id" class="hide"></p>
+					   <p id="note" class="hide"></p>
 					  </td>
 		   </tr>
 		   <tr> 
@@ -72,6 +75,7 @@ session_start();
 					  </td>
 					  <td>
 					   <span id="time"></span>
+					   <span id="endtime" class="hide"></span>
 					  </td>
 		      </tr>
 			</tbody>
@@ -158,10 +162,18 @@ session_start();
 			var type='Services';
 			$("#type").html(type);
 			$("#typeName").html(v.services);
+			$("#services_id").html(v.services_id);
+			$("#employee_id").html(v.employee_id);
+			$("#note").html(v.note);
+			if(v.status=='active'){
 			$("#reschedulebtn").show();
+			}else{
+			$("#reschedulebtn").hide();
+			}
 			}
 			$("#date").html(v.date);
 			$("#time").html(v.time);
+			$("#endtime").html(v.endtime);
 		  })
 	   }
 	   })

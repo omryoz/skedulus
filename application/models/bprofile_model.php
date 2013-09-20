@@ -636,7 +636,10 @@ class bprofile_model extends CI_Model {
 			    $values['business_name'] =$dataP->business_name;
 				$values['business_details_id'] =$dataP->business_details_id;
 				$values['e_first_name'] =$dataP->employee_first_name;
-				$values['e_last_name']= $dataP->employee_first_name;
+				$values['e_last_name']= $dataP->employee_last_name;
+				$values['services_id']= $dataP->services_id;
+				$values['employee_id']= $dataP->employee_id;
+				$values['note']= $dataP->note;
 				$values['type']= $dataP->type;
 				if($dataP->type=='class'){
 				$ClassNames=$this->common_model->getRow("view_classes_posted_business",'id',$dataP->services_id);	
@@ -648,17 +651,25 @@ class bprofile_model extends CI_Model {
 				$services='';
 				foreach($ex as $val){
 				//$services.=$val;
+				if($val!=''){
 				$services.=$serviceName[$val];
-				$services.=',';
+				$services.=','; }
 				}
 				$values['services']=$services;
 				
 				}
 				
 				$date=date("Y-m-d",strtotime($dataP->start_time));
-				$time=date("h:i",strtotime($dataP->start_time));
+				if($date<date("Y-m-d")){
+				$values['status']='inactive';
+				}else{
+				$values['status']='active'; 
+				}
+				$time=date("h:iA",strtotime($dataP->start_time));
+				$endtime=date("H:i",strtotime($dataP->end_time));
 				$values['date'] =$date;
 				$values['time'] =$time;
+				$values['endtime'] =$endtime;
 				
 				$i++;
 			}

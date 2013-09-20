@@ -25,9 +25,9 @@ class BusinessProfile extends CI_Controller {
 	// }
 	
 	$this->parser->parse('include/header',$this->data);
-	 if($this->session->userdata['role']=='manager'){
+	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		$this->parser->parse('include/dash_navbar',$this->data);
-	}else if($this->session->userdata['role']=='client'){
+	}else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
 		//$sessionVal=array('profile_id'=>$_GET['id']);
 	    //$this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
@@ -44,8 +44,11 @@ class BusinessProfile extends CI_Controller {
 	 }else{
 		$id=$this->session->userdata['business_id'];
 	 }
-	 //if(isset($this->session->userdata['id']))
-	 $this->data['user_id'] = $id;
+	 if(isset($this->session->userdata['id'])){
+	 $this->data['user_id'] = $this->session->userdata['id'];
+	 }else{
+	 $this->data['user_id'] = '';
+	 }
 	 $this->parser->parse('include/modal_popup',$this->data);
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
 	
