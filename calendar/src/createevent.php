@@ -34,6 +34,7 @@ class createevent
 		//$sTimeStr=$this->queryVars['st'];
 		//$eTimeStr=$this->queryVars['et'];
 		$evName=$this->queryVars['eventName'];
+		$employee_id=$this->queryVars['employee_id'];		
 		$groupId=$this->queryVars['groupId'];
 		$user_id=$this->queryVars['user_id'];
 		$check=$db->query("select * from business_clients_list where user_business_details_id = '".$_SESSION['profileid']."' and users_id='".$user_id."'");
@@ -41,7 +42,7 @@ class createevent
 		$db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$user_id."','".$_SESSION['profileid']."' )");
 		}
 		//echo "insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."' )"; exit;
-        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."' )");
+        $db->query("insert into client_service_appointments(users_id,note,services_id, start_time,end_time,status,appointment_date,type,user_business_details_id,employee_id) VALUES ('".$user_id."', '".$evName."', '".$groupId."', '".$sTimeStr."', '".$eTimeStr."','booked','".$date."','service','".$_SESSION['profileid']."','".$employee_id."' )");
 		
 		 
 		$input=array(); 

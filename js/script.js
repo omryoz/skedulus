@@ -20,7 +20,7 @@ function bookService(serviceid){
 }
 
 $(document).ready(function(){
-$("#eventGroup").live("change",function(){
+$("#eventGroup").live("change",function(){  
   var class_name = $(this).val();
    if(class_name==""){
     $(".demo").html("");
@@ -85,11 +85,11 @@ $("#reschedulebtn").live("click",function(){
 	
 	$(".start_date").val(date);
 	getserviceStaffs($("#services_id").html(),$("#employee_id").html());
-	if($("#employee_id").html()!=''){
+	if($("#employee_id").html()!=0){
 	  var staff_id=$("#employee_id").html();
 	}else{
-	  var staff_id=0;
-	}
+	  var staff_id='';
+	} 
 	$(".time").attr('action','reschedule');
 	gettimeslots($("#date").html(),business_id,staff_id,$("#eventId").html(),$("#time").html());
 })
@@ -192,7 +192,7 @@ $(".time").live("change",function(){
 		var starttime = $(this).val();
 		var service_ = $(".services").val();
 		var status="";
-		var date = $(".st_date").val();
+		var date = $(".st_date").val(); //alert(service_);
 		if(service_=="SelectService"){
 		    // alert($("#services").val());
 			 service_ = $("#selectedService").val();
@@ -212,14 +212,18 @@ $(".time").live("change",function(){
 			success: function(data) {
 				if(data==-2){ 
 				 $(".message").addClass("alert").html("Select atleast one service");
+				 $(".book_appointment").attr("onsubmit","return false;");
 				 // alert("Select atleast one service");
 				}else if(data==0){
-					alert("Time Slots Not Available Which you are trying with services")		;
+					alert("Time Slots Not Available Which you are trying with services");
+					$(".book_appointment").attr("onsubmit","return false;");
 				}else if(data==-1){
 				    $(".message").addClass("alert").html("Cannot book");
+					$(".book_appointment").attr("onsubmit","return false;");
 				}else{
 					console.log(data);
 					$(".end_time").val(data);
+					$(".book_appointment").attr("onsubmit","return true;");
 				}
 			},
 			error: function() {
@@ -271,25 +275,26 @@ function getserviceStaffs(checked,selected){
 
 }
  
+ $(".staff").live('change',function(){
+    //alert($(".staff").val());
+	if($(".staff").val()!='Select staff'){
+	$(".users_id").val($(".staff").val());
+	$staffid=$(".staff").val();
+	}else{
+	$staffid='';
+	}
+	var starttime = $("#eventStartTime").val();
+	var date= $("#eventStartDate").val();
+	var checkedServices= $("#checkedServices").val();
+	getendtime(checkedServices,starttime,date,$("#business_id").val(),$staffid);
+ })
  
-/*Time Calculation*/
-$(".eventGroup").live("click",function(){ 
-	var checked = '';
-	$('input:checkbox[name=eventGroup]').each(function() 
-	{   
-		if($(this).is(':checked')){
-			checked = checked  + $(this).val() +',';	
-		}	
-	});	
-		var starttime = $("#eventStartTime").val();
-		var date= $("#eventStartDate").val(); 
-		//alert(starttime);	
-		$(".message").removeClass("alert").html(" ");
-		var myUrl = base_url+"bcalendar/getendtime";
+ function getendtime(checked,starttime,date,business_id,staffid){
+	var myUrl = base_url+"bcalendar/getendtime";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
-			data: { checked : checked,starttime:starttime,date:date,business_id:$("#business_id").val() },
+			data: { checked : checked,starttime:starttime,date:date,business_id:business_id,staffid:staffid },
 			success: function(data) {  
 				if(data==0){
 				    $("#bookAppbtn").attr("href","javascript:;");
@@ -316,6 +321,25 @@ $(".eventGroup").live("click",function(){
 				//alert('it completed');
 			}
 		});
+  
+ }
+ 
+/*Time Calculation*/
+$(".eventGroup").live("click",function(){ 
+    $(".message").removeClass("alert").html(" ");
+	var checked = '';
+	$('input:checkbox[name=eventGroup]').each(function() 
+	{   
+		if($(this).is(':checked')){
+			checked = checked  + $(this).val() +',';	
+		}	
+	});	
+	selected='';
+	var starttime = $("#eventStartTime").val();
+	var date= $("#eventStartDate").val();
+	var checkedServices= $("#checkedServices").val(checked);
+	getserviceStaffs(checked,selected);
+	getendtime(checked,starttime,date,$("#business_id").val(),$(".users_id").val());
  });
  
  
@@ -396,6 +420,7 @@ $(".launch").on("click",function(){
 	 // alert("Cannot book");
 	// }else{
 	$("#bookApp").modal('show');
+	$(".staff").val('');
 	$(".message").removeClass("alert").html(" ");
 	//}
 })
@@ -536,7 +561,7 @@ _page = window.location.pathname.split('/')[2];
 				if(staff_id!='Select staff'){
 				staff_id = $("#selectedstaff").val();
 				}else{
-				staff_id=0;
+				staff_id='';
 				}
 				//alert($(".st_date").val());
 				var eventId='';
@@ -561,7 +586,7 @@ _page = window.location.pathname.split('/')[2];
 				if(staff_id!='Select staff'){
 				staff_id = $("#selectedstaff").val();
 				}else{
-				staff_id=0;
+				staff_id='';
 				}
 				//alert($(".start_date").val());
 				var eventId='';
@@ -572,19 +597,19 @@ _page = window.location.pathname.split('/')[2];
 				
 			});
 			
-function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
+function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){ 
 	var url = base_url+"bcalendar/getfreeslotsbydate";
 			$.post(url,{date:start_date,business_id:business_id,staff_id:staff_id,eventId:eventId,timeslot:timeslot},function(info){
 			//alert(info);
 			if(info==0){
 			//$("#book").attr("href","javascript:;");
 			
-			$("#book_appointment").attr("onsubmit","return false");
+			$(".book_appointment").attr("onsubmit","return false");
 			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
 			$(".time").html(""); 
 			}
 			else{
-			$("#book_appointment").attr("onsubmit","return true");	
+			$(".book_appointment").attr("onsubmit","return true");	
 			$(".time").html(""); 
 			$(".time").append(info);
 			$(".message").removeClass("alert").html("");

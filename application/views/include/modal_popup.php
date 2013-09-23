@@ -79,7 +79,7 @@
 
 <!---pop up for multi select services--->
 <div id="bookmultiServices" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal book_appointment1" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
+   <form class="form-horizontal book_appointment" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment1">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
@@ -142,7 +142,7 @@
   </div>
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5"/>
+	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_apps"/>
 	<input type="hidden" name="user_id" value="<?=$user_id?>" />
 	<input type="hidden" name="eventId" class="eventId" id="eventid" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/> 
@@ -159,7 +159,7 @@
     {
         setupFormValidation: function()
         {
-            $(".book_appointment").validate({
+            $("#book_appointment").validate({
                 rules: {
                     date: {
 					required: true,
@@ -208,7 +208,7 @@
     {
         setupFormValidation: function()
         {
-            $(".book_appointment1").validate({
+            $("#book_appointment1").validate({
                 rules: {
                     date: {
 					required: true,

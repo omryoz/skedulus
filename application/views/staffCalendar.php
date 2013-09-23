@@ -15,8 +15,6 @@
 <?php 
 	
 @session_start();
-//print_r($staff_details);
-
 if(!isset($this->session->userdata['id'])){
  redirect('home/clientlogin');
 }
@@ -30,7 +28,7 @@ if(!isset($this->session->userdata['id'])){
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffid" value="<?php print_r($staff_details[0]->users_id); ?>">
 <input type="hidden" name="businessid" id="businessid" value="<?php print_r($staff_details[0]->user_business_details_id); ?>" >
-
+<p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 	
 </div>
@@ -39,7 +37,7 @@ if(!isset($this->session->userdata['id'])){
 </div>
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
-								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
+								<div class="aPointer  " style="display: block; z-index: 2; " ></div> <p class="message"></p>		
 								<div class="acalclosebtn topright closeNewEvent"></div>	
 								<div class="header" >	
 								<h3 class="appoint-heading"> 	Book Appointment	 
@@ -50,7 +48,8 @@ if(!isset($this->session->userdata['id'])){
 									<tr>	
 										<td valign="top">							
 								<div>	
-								<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label><div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>
+								<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label>
+								<div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>
 							  <div class="control-group"><label class="control-label">Note</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>
 							
 							  
@@ -92,6 +91,8 @@ if(!isset($this->session->userdata['id'])){
 											</div>	
 											<div class="endTime">	
 												<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 	
+												<input type="hidden" name="business_id"  id="business_id" value="<?php print_r($staff_details[0]->user_business_details_id) ?>"/>
+											    <input type="hidden" name="users_id" class="users_id"  id="users_id" value="<?php print_r($staff_details[0]->users_id) ?>"/> 	
 											</div>		 	
 										</div>	
 										</td>	
@@ -236,7 +237,7 @@ if(!isset($this->session->userdata['id'])){
      */
     function rzAddEvent()
     {
-	<?php //if(isset($_SESSION['id'])) { ?>
+	if ($('.form-appointment :checkbox:checked').length > 0){
        var newev = jQuery("#bookApp");
 		//var _sT=new UTC(newev.find("#eventStartTime").val());
 		//var _eT=new UTC(newev.find("#eventEndTime").val()); 
@@ -247,9 +248,10 @@ if(!isset($this->session->userdata['id'])){
 		//alert(strtTime);
 		var str="?1=1";
 		str=str+"&eventName="+newev.find("#eventName").val();
+		str=str+"&employee_id="+$("#staffid").val();
 		str=str+"&st="+stStr;
 		str=str+"&et="+edStr;
-		
+		//alert(str);
 		var grp=newev.find(".eventGroup:checked").val();
 			//alert(grp.length);
 			//var id = "";
@@ -268,9 +270,11 @@ if(!isset($this->session->userdata['id'])){
 		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
 		$("#bookApp").removeClass("in");
 		$("div[id=darker]").remove();
-		<?php //}else{?>
-		//window.location.href=baseUrl+'home/';
-		<?php //} ?>
+		location.reload();
+		}else{
+		$(".message").addClass("alert").html("Select atleast one service");
+	    return false;
+		}
     } 
     /**
      * Onclick of Close in AddEvent Box.

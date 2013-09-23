@@ -532,7 +532,7 @@ function showFullContent(){
 }
 
 function viewSchedule(){
-  window.location.href="<?php echo base_url() ?>bcalendar";
+  window.location.href="<?php echo base_url() ?>bcalendar/cal/<?php echo $_GET['id']?>";
 }
 </script>
 <?php

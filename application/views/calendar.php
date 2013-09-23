@@ -81,7 +81,20 @@ if(!isset($this->session->userdata['id'])){
 									<tr>	
 										<td valign="top">							
 								<div>	
-								<form class="form-horizontal form-appointment"><div class="control-group"><label class="control-label">Service</label><div class="controls"><div class="selectGroup"><p id="checkbox"><p></div></div>
+								<form class="form-horizontal form-appointment">
+								<div class="control-group"><label class="control-label">Service</label>
+								<div class="controls">
+								<div class="selectGroup"><p id="checkbox"><p>
+								</div></div>
+								
+								<div class="control-group"><label class="control-label">Staffs</label>
+								<div class="controls">
+								<select name="staff" class="staff"> 
+									<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
+								 </select>
+								</div>
+								</div>
+								
 							  <div class="control-group"><label class="control-label">Note</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>
 							
 							  
@@ -125,6 +138,8 @@ if(!isset($this->session->userdata['id'])){
 											<div class="endTime">	
 												<input type="hidden" name="eventEndTime" style="width:5em; border:1px solid #C3D9FF;" id="eventEndTime"/> 
 												<input type="hidden" name="business_id"  id="business_id" value="<?php print_r($buisness_details[0]->id) ?>"/> 												
+												<input type="hidden" name="users_id"  id="users_id" class="users_id" value=""/>
+												<input type="hidden" name="checkedServices"  id="checkedServices" value=""/>												
 											</div>		 	
 										</div>	
 										</td>	
@@ -266,7 +281,7 @@ if(!isset($this->session->userdata['id'])){
      */
     function rzAddEvent()
     {
-	<?php //if(isset($_SESSION['id'])) { ?>
+	if ($('.form-appointment :checkbox:checked').length > 0){
        var newev = jQuery("#bookApp");
 		//var _sT=new UTC(newev.find("#eventStartTime").val());
 		//var _eT=new UTC(newev.find("#eventEndTime").val()); 
@@ -277,6 +292,7 @@ if(!isset($this->session->userdata['id'])){
 		//alert(strtTime);
 		var str="?1=1";
 		str=str+"&eventName="+newev.find("#eventName").val();
+		str=str+"&employee_id="+newev.find(".staff").val();
 		str=str+"&st="+stStr;
 		str=str+"&et="+edStr;
 		
@@ -294,14 +310,15 @@ if(!isset($this->session->userdata['id'])){
 			var grp = s;
 		//str=str+"&groupId="+newev.group.groupId;
 		str=str+"&groupId="+grp;
-		str=str+"&user_id="+$("#login_id").html(); 
+		str=str+"&user_id="+$("#login_id").html(); //alert(str);
 		ajaxObj.call("action=createevent"+str, function(ev){ical.addEvent(ev);});
 		$("#bookApp").removeClass("in");
 		$("div[id=darker]").remove();
 		location.reload();
-		<?php //}else{?>
-		//window.location.href=baseUrl+'home/';
-		<?php //} ?>
+	 }else{ 
+	  $(".message").addClass("alert").html("Select atleast one service");
+	  return false;
+	 }
     } 
     /**
      * Onclick of Close in AddEvent Box.

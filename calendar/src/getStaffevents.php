@@ -29,7 +29,9 @@ class getStaffevents
 		$staffid=$this->queryVars['staffid'];
 		$businessid=$this->queryVars['businessid'];
 		
-		$res = $db->get_results("select * from user_business_services where user_business_details_id=".$businessid);   
+		//$res = $db->get_results("select * from user_business_services where user_business_details_id=".$businessid);  
+		//echo "select * from employee_services where users_id=".$staffid." AND business_id=".$businessid;exit;
+		$res = $db->get_results("select * from view_employee_services where users_id=".$staffid." AND business_id=".$businessid); 		
 		$ax=array();
 		//return count($res);
 		//
@@ -38,14 +40,16 @@ class getStaffevents
 			
 			$count=$count+1;
 			$calendar='';
-			$calendarId=$value->id;
+			$calendarId=$value->service_id;
+			//$calendarId=$value->id;
 			$name=$value->name;
 
 			
 			//Get Events for the calendar... 
 			$condition=array();
 			$condition['calendar_id']=$calendarId;
-			$resEvents = $db->get_results("select * from client_service_appointments where services_id='".$calendarId."' AND employee_id ='".$staffid."' ");   
+			//echo "select * from client_service_appointments where services_id='".$calendarId."' AND employee_id ='".$staffid."'"; exit;
+			$resEvents = $db->get_results("select * from client_service_appointments where employee_id ='".$staffid."' ");   
 			$eventsarray=array(); 
 			$evCount=0;
 			  
