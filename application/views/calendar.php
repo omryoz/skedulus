@@ -15,25 +15,14 @@
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php 
-//print_r($buisness_details); 
-/*if(isset($this->session->userdata['profile_id'])){
-		  $id=$this->session->userdata('profile_id');
-		}else if(isset($this->session->userdata['business_id'])){
-		  $id=$this->session->userdata('business_id');
-		}*/
-//print_r($buisness_details[0]->id);		
+//print_r($buisness_availability); 
+		
 @session_start();
-$_SESSION['profileid'] = $buisness_details[0]->id;
-if(!isset($this->session->userdata['id'])){
- redirect('home/clientlogin');
-}
- //$values=$this->common_model->getRow("user_business_details","id",$buisness_details[0]->id);
- //print_r($values); exit;
-  //$sessionVal=array(
-			// 'profileid'=>$values->id,
-		// );
-		 
-		// $this->session->set_userdata($sessionVal);
+// $_SESSION['profileid'] = $buisness_details[0]->id;
+// if(!isset($this->session->userdata['id'])){
+ // redirect('home/clientlogin');
+// }
+
 
 ?>
 <div class="content container">
@@ -43,7 +32,8 @@ if(!isset($this->session->userdata['id'])){
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
-	
+<p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
+<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
 </div>
 </div>
   </div>
@@ -70,9 +60,9 @@ if(!isset($this->session->userdata['id'])){
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
-								<p class="message"></p>	
+								<p class="message" style="display:none;"></p>	
 								<div class="acalclosebtn topright closeNewEvent"></div>	
-								<div class="header" >	
+								<div class="modal-header" >	
 								<h3 class="appoint-heading"> 	Book Appointment	
 								<a href="javascript:;" name="Close"  class="close" data-dismiss="modal" aria-hidden="true"> &times;  </a> </h3>
 								</div>	
@@ -82,20 +72,23 @@ if(!isset($this->session->userdata['id'])){
 										<td valign="top">							
 								<div>	
 								<form class="form-horizontal form-appointment">
-								<div class="control-group"><label class="control-label">Service</label>
-								<div class="controls">
-								<div class="selectGroup"><p id="checkbox"><p>
-								</div></div>
-								
-								<div class="control-group"><label class="control-label">Staffs</label>
-								<div class="controls">
-								<select name="staff" class="staff"> 
-									<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
-								 </select>
+								<div class="control-group">
+									<label class="control-label">Service</label>
+									<div class="controls">
+										<div class="selectGroup"><p id="checkbox"><p>
+										</div>
+									</div>
 								</div>
+								<div class="control-group">
+									<label class="control-label">Staffs</label>
+									<div class="controls">
+										<select name="staff" class="staff"> 
+										<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
+										</select>
+									</div>
 								</div>
 								
-							  <div class="control-group"><label class="control-label">Note</label><div class="controls"><textarea  class="inputbox" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>
+							  <div class="control-group"><label class="control-label">Note</label><div class="controls"><textarea  class="inputbox input-block-level" rows="2" cols="10" name="eventName" id="eventName"></textarea></div></div>
 							
 							  
 							
@@ -145,8 +138,19 @@ if(!isset($this->session->userdata['id'])){
 										</td>	
 									</tr>	
 								</table>   	
+								
+								
 										<ul class="actions">
+										 <?php
+										$url='';
+										 if(!isset($this->session->userdata['id'])){
+											 //redirect('home/clientlogin');
+											 //$url="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+										  ?>
+										   <li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+											<?php }else{ ?>
 											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right" id="bookAppbtn"> Book </a> </li>
+											<?php } ?>
 											<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton pull-right"> Update event </a> </li>
 										</ul>
 							
@@ -276,11 +280,18 @@ if(!isset($this->session->userdata['id'])){
 		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
     } 
     
+
     /**
      * Click of Add in add event box.
      */
     function rzAddEvent()
     {
+	// alert($("#bookAppbtn").attr('data-val'));
+	if(($("#bookAppbtn").attr('data-val'))){
+	  $("#referal_url").val($("#bookAppbtn").attr('data-val'));
+	  $("#referal_url").attr('href','');
+	  //window.location='http://localhost/skedulus/home/clientlogin';
+	}
 	if ($('.form-appointment :checkbox:checked').length > 0){
        var newev = jQuery("#bookApp");
 		//var _sT=new UTC(newev.find("#eventStartTime").val());
@@ -316,9 +327,11 @@ if(!isset($this->session->userdata['id'])){
 		$("div[id=darker]").remove();
 		location.reload();
 	 }else{ 
-	  $(".message").addClass("alert").html("Select atleast one service");
+	  $(".message").addClass("alert").html("Select atleast one service").css({"display":"block","margin":"0px"});
+	
 	  return false;
 	 }
+	
     } 
     /**
      * Onclick of Close in AddEvent Box.

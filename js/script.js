@@ -51,7 +51,7 @@ $("#reschedulebtn").live("click",function(){
   $("#businessid").val($("#business_id").html());
   $("#eventid").val($("#eventId").html());
   $(".end_time").val($("#endtime").html());
-  var string = '<div class="dropdown"><a class="dropdown-toggle btn input-block-level" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul" role="menu" aria-labelledby="dLabel" style="width:85%">';
+  var string = '<div class="dropdown"><a class="dropdown-toggle btn semi-large" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel">';
 	var str = '';
     var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	var temp = new Array();
@@ -114,7 +114,7 @@ $(".message").removeClass("alert").html(" ");
 $(".start_date").val(" ");
 $(".time").html(" ");
 var business_id = $("#business_id").html();
-var string = '<div class="dropdown"><a class="dropdown-toggle btn input-block-level" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul" role="menu" aria-labelledby="dLabel" style="width:85%">';
+var string = '<div class="dropdown"><a class="dropdown-toggle btn semi-large" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel" >';
 			var str = '';
     var url = base_url+"bcalendar/getserviceBybusinessfilter";
 	$.post(url,{business_id:business_id}, function(data){ 
@@ -179,7 +179,7 @@ var append_option = "<option id='-1' >Select staff</option>";
 	
 });
 
-$(".staff").live("change",function(){
+$(".staff").live("change",function(){ 
 	 $("#selectedstaff").val($(this).val());
 	 $(".time").html(" ");
 	$(".st_date").val(" ");
@@ -275,7 +275,7 @@ function getserviceStaffs(checked,selected){
 
 }
  
- $(".staff").live('change',function(){
+ /* $(".staff").live('change',function(){
     //alert($(".staff").val());
 	if($(".staff").val()!='Select staff'){
 	$(".users_id").val($(".staff").val());
@@ -287,7 +287,7 @@ function getserviceStaffs(checked,selected){
 	var date= $("#eventStartDate").val();
 	var checkedServices= $("#checkedServices").val();
 	getendtime(checkedServices,starttime,date,$("#business_id").val(),$staffid);
- })
+ }) */
  
  function getendtime(checked,starttime,date,business_id,staffid){
 	var myUrl = base_url+"bcalendar/getendtime";

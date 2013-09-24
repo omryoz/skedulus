@@ -531,7 +531,7 @@ function showFullContent(){
  $("#fullContent").show();
 }
 
-function viewSchedule(){
+function viewSchedule(){ //alert("here");
   window.location.href="<?php echo base_url() ?>bcalendar/cal/<?php echo $_GET['id']?>";
 }
 </script>

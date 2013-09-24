@@ -81,6 +81,36 @@ function getClasses(){
 		}
 	}
 	
+	function user_business_availability($id,$type){
+	if($type=='employee'){
+	 $where = "users_id ='".$id."' and type='".$type."'";
+	}else{
+	$where="user_business_details_id ='".$id."' and type='".$type."'";
+	}
+	    $sql="Select users_id,user_business_details_id,type,start_time FROM `user_business_availability` WHERE ".$where;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$values=''; 
+		if($data){
+			foreach($data as $dataP){
+				$values[$i]= "'".$dataP->start_time."'";
+				$i++;
+			}
+			//print_r($values); exit;
+			$val= implode(',',$values);
+			$sql1="Select LEAST(".$val.") As least";
+			$query1=$this->db->query($sql1);
+		    $data1= $query1->result(); 
+			
+			
+			$sql2="Select max(end_time) as end_time FROM `user_business_availability` WHERE ".$where;
+		    $query2=$this->db->query($sql2);
+		    $data2= $query2->result();
+			
+			return array('start_time'=>date('H',strtotime($data1[0]->least)),'end_time'=>date('H',strtotime($data2[0]->end_time)));
+		}
+	}
 	
 	
 }

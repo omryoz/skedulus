@@ -1639,9 +1639,9 @@ color: #517fa4;
 .form-appointment .control-label{
 width: auto;
 }
-.form-appointment .control-group{
+/* .form-appointment .control-group{
 margin-bottom:0;
-}
+} */
 .form-appointment .controls{
 margin-left: 80px;
 

@@ -65,7 +65,7 @@ class BusinessProfile extends CI_Controller {
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
 	 $where1=" order by  orderNum ASC";
 	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	
-	 $this->parser->parse('business_profile',$this->data);
+	$this->parser->parse('business_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	

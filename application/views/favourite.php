@@ -48,5 +48,7 @@
 		</div>	
 </div>	
 </div></div>	
-
+<script>
+$('.li-element li:nth-child(4n + 5)').addClass('no-margin');
+</script>
 

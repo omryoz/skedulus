@@ -44,6 +44,10 @@ Web2CalLanguage_EN={
 	,MSG_RETRIEVING: "Retrieving Events" 	
 	,MSG_VIEW_NOTFOUND:"View '{0}' Not found. \nCheck your settings. The Default View may not be in the selected views"
 }
+$(document).ready(function(){
+var start_time=$("#Bstarttime").html();
+var end_time=$("#Bendtime").html();
+
 
 Web2Cal.LANG=Web2CalLanguage_EN;
 Web2Cal.defaultSettings=new Array();
@@ -51,8 +55,8 @@ Web2Cal.defaultSettings['leftNavTitle']						=  Web2Cal.LANG.HIDESHOW;
 Web2Cal.defaultSettings['startOfWeek']			 			= 0;
 Web2Cal.defaultSettings['date'] 							= new Date();
 Web2Cal.defaultSettings['defaultView'] 						= "week";
-Web2Cal.defaultSettings['startTime']						= 0;
-Web2Cal.defaultSettings['endTime'] 							= 23;
+Web2Cal.defaultSettings['startTime']						= start_time;
+Web2Cal.defaultSettings['endTime'] 							= end_time;
 Web2Cal.defaultSettings['customViewSize'] 					= 4;
 Web2Cal.defaultSettings['timeFormat'] 						= 24;
 Web2Cal.defaultSettings['dwSlotHeight'] 					= 100; 
@@ -81,7 +85,7 @@ Web2Cal.defaultSettings["wsSlotHeight"]				    	= "100";
 Web2Cal.defaultSettings["loadEvents"]  							= function(){}; 
 
 
-
+})
 
 Web2Cal.dictionary=function(){};
 /**

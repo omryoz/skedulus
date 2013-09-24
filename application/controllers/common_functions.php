@@ -104,7 +104,11 @@ class Common_functions extends CI_Controller {
 		// }
 	//}
 	
-	public function clientlogin(){ 
+	public function clientlogin(){  
+	if(isset($_POST['referal_url'])){
+	 $referal_url=$_POST['referal_url'];
+	 $this->data['url']=$referal_url;
+	}
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
@@ -112,30 +116,31 @@ class Common_functions extends CI_Controller {
 		 $where=" And password='".$password."' AND status='active'";
 		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
 		 if($values==""){
-		 redirect('home/clientlogin/?failure');
-		 $this->data['failure']="Failure";
-		 //$this->parser->parse('include/meta_tags',$this->data);
-		// $this->parser->parse('general/login',$this->data);
+		 CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
+		 //redirect('home/clientlogin/?failure');
+	    $this->data['failure']="Failure";
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->parser->parse('general/login',$this->data);
 		 }else{
-		  //print_r($values->user_role); exit;
 		  $sessionVal=array(
 			 'id'=>$values->id,
 			 'username'=>$values->first_name,
 			 'email'=>$values->email,
 			 'role'=>$values->user_role
 		 );
-		// print_r($values->user_role); exit;
 		 $this->session->set_userdata($sessionVal);
+		 if($referal_url){ 
+		  header("Location:".$_POST['referal_url']);
+		 }else{
 			if($values->user_role=='manager'){
 			$this->businesslogin();
 			}else{
 			redirect('cprofile');
 			}
 		 }
-		}else{
-		redirect('home/clientlogin');
-		//$this->parser->parse('include/meta_tags',$this->data);
-		//$this->parser->parse('general/login',$this->data);
+		 }
 		}
 	}
 	

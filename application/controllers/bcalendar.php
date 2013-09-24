@@ -20,7 +20,7 @@ class Bcalendar extends CI_Controller {
 	
 		
 	
-	function cal($id=false){
+	function cal($id=false){ 
 	if($id){
 	$this->parser->parse('include/header',$this->data);
 	$this->data['role']="";
@@ -37,6 +37,7 @@ class Bcalendar extends CI_Controller {
 		  
 		  $filter=array('id'=>$id);
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 		 
 		}
 		 //$this->parser->parse('include/modal_popup',$this->data);
@@ -352,10 +353,25 @@ function createappointment(){
 			redirect("");
 		}
 	}else{
-	redirect("home/clientlogin");
+	//print_r($this->input->post('url'));exit;
+	$this->data['url']=$this->input->post('url');
+	//redirect("home/clientlogin",$this->data);
+	$this->data['userRole']="clientlogin";
+	$this->data['signUp']="clientSignUp";
+	$this->parser->parse('include/meta_tags',$this->data);
+	$this->parser->parse('general/login',$this->data);
 	}
 }
 
+
+function referal_url($url){
+//print_r($_REQUEST);exit;
+    $this->data['url']=$this->input->get('url');
+	$this->data['userRole']="clientlogin";
+	$this->data['signUp']="clientSignUp";
+	$this->parser->parse('include/meta_tags',$this->data);
+	$this->parser->parse('general/login',$this->data);
+}
 /*Get End Time by Selected Services*/
 
 	function getendtimeByservie(){
@@ -671,7 +687,7 @@ function createappointment(){
 		  
 		  $filter=array('users_id'=>$id);
 		  $this->data['staff_details'] = $this->business_profile_model->getstaffDetailsByfilter($filter);
-		 
+		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'employee');
 		}
 		 $this->parser->parse('staffCalendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);

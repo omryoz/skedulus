@@ -45,9 +45,18 @@ $(document).ready(function(){
 					<li>
 						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
 					</li>
-					
+					<?php 
+					if($this->session->userdata['business_type']=="class"){
+							$link = "calendar_business";
+							
+						}else{	
+						$id=$this->session->userdata['business_id'];
+							$link = '?id='.$id;
+								
+						}
+					?>
 					<li >
-						<a href="<?php echo base_url() ?>businessProfile"><center><i class="icon-briefcase"></i><p>My Business Profile
+						<a href="<?php echo base_url() ?>businessProfile/<?php echo $link;?>"><center><i class="icon-briefcase"></i><p>My Business Profile
 						</p></center>
 						</a>
 					</li>

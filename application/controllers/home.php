@@ -123,6 +123,10 @@ class Home extends CI_Controller {
 	//}
 	
 	public function clientlogin(){ 
+	if(isset($_POST['referal_url'])){
+	 $referal_url=$_POST['referal_url'];
+	 $this->data['url']=$referal_url;
+	}
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['failure'])){

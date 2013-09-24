@@ -21,6 +21,7 @@
     // Polyfill all unsupported features
     $.webshims.polyfill();	
 </script>
+
 <!-- for html5 support in ie8 end-->
 <!------for edit/delete script ----->
 <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
@@ -31,6 +32,16 @@
 <script>
 var base_url = "http://localhost/skedulus/";
 </script>
+
+
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+     
+	  <script src="<?php echo base_url(); ?>js/respond/html5shiv.js"></script>
+      <script src="<?php echo base_url(); ?>js/respond/respond.min.js"></script>
+    <![endif]-->
+
   </head>
  
   <body class="ie6 ie7 ie8 <?=(lang('Apps_lang'))?>">

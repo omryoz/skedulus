@@ -15,9 +15,9 @@
 <?php 
 	
 @session_start();
-if(!isset($this->session->userdata['id'])){
- redirect('home/clientlogin');
-}
+// if(!isset($this->session->userdata['id'])){
+ // redirect('home/clientlogin');
+// }
  
 
 ?>
@@ -30,6 +30,8 @@ if(!isset($this->session->userdata['id'])){
 <input type="hidden" name="businessid" id="businessid" value="<?php print_r($staff_details[0]->user_business_details_id); ?>" >
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
+<p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
+<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
 	
 </div>
 </div>
@@ -99,7 +101,13 @@ if(!isset($this->session->userdata['id'])){
 									</tr>	
 								</table>   	
 										<ul class="actions">
-											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+										 <?php if(!isset($this->session->userdata['id'])){
+											 //redirect('home/clientlogin');
+										  ?>
+										<li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right" id="bookAppbtn"> Book </a> </li>
+											<?php }else{ ?>
+											<li id="addEventBtn"> <a href="javascript:rzAddEvent();" name="edit" class="btn btn-success pull-right" id="bookAppbtn"> Book </a> </li>
+											<?php } ?>
 											<li style="display:none;" id="updateEventBtn"> <a href="javascript:rzUpdateEvent();" name="Update" class="websbutton pull-right"> Update event </a> </li>
 										</ul>
 							

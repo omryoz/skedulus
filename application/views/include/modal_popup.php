@@ -60,6 +60,7 @@
 			<div class="controls">
 			  <textarea type="text" class="span8" name="note" id="note" placeholder="Message"></textarea>
 			  <input type="hidden" name="businessid" value="<?php echo $_GET['id'] ?>"> 
+			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			 
 			</div>
 		  </div>
@@ -132,9 +133,9 @@
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
-			  <textarea type="text" class="span8 messageNote" name="note" id="note" placeholder="Message"></textarea>
+			  <textarea type="text" class=" messageNote" name="note" id="note" placeholder="Message"></textarea>
 			  <input type="hidden" name="businessid" id="businessid" value="<?php echo $_GET['id'] ?>"> 
-			 
+			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			</div>
 		  </div>
 		  
@@ -182,7 +183,7 @@
 				
 				 errorPlacement: function(error, element) {
 				 error.insertAfter( element ); 
-				 error.css('padding-left', '8px');
+				 error.css('padding-left', '0px');
 				},
 
                 submitHandler: function(form) {
@@ -231,7 +232,8 @@
 				
 				 errorPlacement: function(error, element) {
 				 error.insertAfter( element ); 
-				 error.css('padding-left', '8px');
+				 error.css({'position':'absolute','right':'5px'});
+				  
 				},
 
                 submitHandler: function(form) {
