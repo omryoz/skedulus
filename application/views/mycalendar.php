@@ -23,7 +23,8 @@ session_start();
 ?>
 
 <div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
+<p class="message"></p> 
+ <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">Appointment Details</h3>
   </div>
@@ -88,7 +89,8 @@ session_start();
 	<li>
 	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
 	<li>
-	<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" >Delete</a>
+	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
+	<a  class="websbutton btn btn-success" id="deleteApp" href="#" >Delete</a>
 	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
 	</li>
 	</ul>
@@ -106,7 +108,8 @@ session_start();
 			<div id="calendarContainer" class="calendar_aap"></div>
 			<p class="hide" id="login_id"><?php print_r($user_id); ?></p>
 			<p class="role hide"><?=(!empty($role))?$role:''?></p>
-	
+		<p id="Bstarttime" class="hide" ></p>
+       <p id="Bendtime" class="hide"></p>
 		</div>
 </div>
    </div></div>
@@ -277,13 +280,37 @@ session_start();
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(){ 	
+	 $("#deleteApp").live("click",function(){
+	 $(".message").removeClass("alert").html(" ");
+	if(confirm("Are you sure you want to remove from list?")) {
+	  var url = base_url+"bcalendar/checkfordelete";
+	  $.ajax({
+		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
+		url:url,
+		type:'POST',
+		success:function(data){  alert(data);
+		if(data=='no'){ 
+		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		return false;
+		}else if(data=='yes'){
 		var str="?";
-		//str=str+"eventName="+activeEvent.name; 
-		str=str+"&eventId="+$("#eventId").html();
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
-		$("#reschedule").modal('hide');
-    } 
+			//str=str+"eventName="+activeEvent.name; 
+			str=str+"&eventId="+$("#eventId").html(); alert(str);
+			ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+			$("#reschedule").modal('hide');
+		
+		}
+	 }
+	  })
+	 }
+ 
+})
+    // function rzDeleteEvent(){ 	
+		// var str="?";
+		// str=str+"&eventId="+$("#eventId").html();
+		// ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		// $("#reschedule").modal('hide');
+    // } 
     
     /**
      * Click of Add in add event box.

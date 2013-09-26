@@ -22,22 +22,18 @@
 			<div class="wrap_inner">
 			<h3>Search Businesses</h3>
 				<div class="row-fluid strip">
-					<form action="<?php echo base_url(); ?>search/global_search" method="GET" name="search">
+					<form action="<?php echo base_url(); ?>search/global_search" method="post" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="business_name" value="<?php echo $_GET['business_name'] ?>" placeholder="Business are you looking for?">
+						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="Business are you looking for?">
 					</div>
 					<div class="span3">
-					  <input id="searchTextField" type="text" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $_GET['location'] ?>" />  
-                      <input type="hidden" id="city2" name="location" value="<?php echo $_GET['location'] ?>" />
+					  <input id="searchTextField" type="text" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
+                      <input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />
 						<!---<input type="text" class="span12 " placeholder="Location" name="location" value="<?php //echo $_GET['location'] ?>">	--->
 					</div>
 					<div class="span3">	
-                     <?php 
-					 $selected="";
-					 if($_GET['category']!=" ")
-					 $selected = $_GET['category'] 
-					 ?>
-					 <?php echo form_dropdown('category',$getCategory,$selected,' id="category" class="span12"')  ?>										
+                    
+					 <?php echo form_dropdown('category',$getCategory,$category,' id="category" class="span12"')  ?>										
 					</div>
 					<div class="span2">						
 						 <input type="submit" name="search" class="btn span12 pull-right btn-success" value="Search" />					

@@ -45,9 +45,14 @@ Web2CalLanguage_EN={
 	,MSG_VIEW_NOTFOUND:"View '{0}' Not found. \nCheck your settings. The Default View may not be in the selected views"
 }
 $(document).ready(function(){
-var start_time=$("#Bstarttime").html();
-var end_time=$("#Bendtime").html();
-
+var start_time=0;
+var end_time=24;
+if($("#Bstarttime").html()!=''){
+ start_time=$("#Bstarttime").html();
+}
+if($("#Bendtime").html()!=''){
+ end_time=$("#Bendtime").html();
+}
 
 Web2Cal.LANG=Web2CalLanguage_EN;
 Web2Cal.defaultSettings=new Array();

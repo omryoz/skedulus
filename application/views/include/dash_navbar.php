@@ -1,7 +1,8 @@
 <script>
 $(document).ready(function(){
 		_page = window.location.pathname.split('/')[2];
-	   $('a[href="http://localhost/skedulus/'+_page+'"] ,a[href="http://localhost/skedulus/'+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+	  // $('a[href="'base_url+_page+'"] ,a[href="'base_url+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+	   $('a[href="'+base_url+''+_page+'"] ,a[href="'+base_url+''+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
 
 });
 

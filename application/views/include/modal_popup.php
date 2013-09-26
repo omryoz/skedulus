@@ -47,7 +47,7 @@
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="">
+					<select name="time" class="time" action="" eventId="">
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
@@ -122,7 +122,7 @@
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="">
+					<select name="time" class="time" action="" eventId="">
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>

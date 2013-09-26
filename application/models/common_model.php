@@ -34,7 +34,7 @@ class common_model extends CI_Model{
 	}
 	
     /* This function returns all specified records */
-	function getAllRows($tableName="", $fieldName="", $value="", $where=""){
+	function getAllRows($tableName="", $fieldName="", $value="", $where=""){ 
 		$sql = sprintf("SELECT * FROM `%s` WHERE %s = '%s' %s",$tableName,$fieldName,mysql_real_escape_string($value),$where);
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();	

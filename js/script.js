@@ -13,6 +13,8 @@ var base_url = "http://localhost/skedulus/";
 $('.tool').tooltip('hide')
 
 
+	
+
 function bookService(serviceid){ 
 	var business_id = $("#business_id").html();
 	$(".services").html("");
@@ -91,6 +93,7 @@ $("#reschedulebtn").live("click",function(){
 	  var staff_id='';
 	} 
 	$(".time").attr('action','reschedule');
+	$(".time").attr('eventId',$("#eventId").html());
 	gettimeslots($("#date").html(),business_id,staff_id,$("#eventId").html(),$("#time").html());
 })
 
@@ -208,7 +211,7 @@ $(".time").live("change",function(){
 		$.ajax({
 			type: "POST",
 			url: myUrl,
-			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id ,status:status ,action:$('.time').attr('action')},
+			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id ,status:status ,action:$('.time').attr('action'),eventId:$('.time').attr('eventId')},
 			success: function(data) {
 				if(data==-2){ 
 				 $(".message").addClass("alert").html("Select atleast one service");
@@ -275,7 +278,7 @@ function getserviceStaffs(checked,selected){
 
 }
  
- /* $(".staff").live('change',function(){
+  $("#staffSelect").live('change',function(){ alert("here");
     //alert($(".staff").val());
 	if($(".staff").val()!='Select staff'){
 	$(".users_id").val($(".staff").val());
@@ -286,27 +289,28 @@ function getserviceStaffs(checked,selected){
 	var starttime = $("#eventStartTime").val();
 	var date= $("#eventStartDate").val();
 	var checkedServices= $("#checkedServices").val();
-	getendtime(checkedServices,starttime,date,$("#business_id").val(),$staffid);
- }) */
+	var eventId='';
+	getendtime(checkedServices,starttime,date,$("#business_id").val(),$staffid,eventId);
+ }) 
  
- function getendtime(checked,starttime,date,business_id,staffid){
+ function getendtime(checked,starttime,date,business_id,staffid,eventId){
 	var myUrl = base_url+"bcalendar/getendtime";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
-			data: { checked : checked,starttime:starttime,date:date,business_id:business_id,staffid:staffid },
+			data: { checked : checked,starttime:starttime,date:date,business_id:business_id,staffid:staffid,eventId:eventId },
 			success: function(data) {  
 				if(data==0){
 				    $("#bookAppbtn").attr("href","javascript:;");
-					$(".message").addClass("alert").html("Time Slot selected is not enough");
+					$(".message").addClass("alert").html("Time Slot selected is not enough").css({"display":"block","margin":"0px"});
 					//alert("Time Slots Not Available Which you are trying with services");
 				}else if(data==1){
 				    $("#bookAppbtn").attr("href","javascript:;");
-					$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
+					$(".message").addClass("alert").html("We won't work on selected date kindly select another day").css({"display":"block","margin":"0px"});
 				    //alert("We won't work on selected date kindly select another day");
 				}else if(data==-1){
 				    $("#bookAppbtn").attr("href","javascript:;");
-					$(".message").addClass("alert").html("Cannot book");
+					$(".message").addClass("alert").html("Cannot book").css({"display":"block","margin":"0px"});
 				    //alert("We won't work on selected date kindly select another day");
 				}else{
 				    $("#bookAppbtn").attr("href","javascript:rzAddEvent();");
@@ -338,8 +342,9 @@ $(".eventGroup").live("click",function(){
 	var starttime = $("#eventStartTime").val();
 	var date= $("#eventStartDate").val();
 	var checkedServices= $("#checkedServices").val(checked);
+	var eventId='';
 	getserviceStaffs(checked,selected);
-	getendtime(checked,starttime,date,$("#business_id").val(),$(".users_id").val());
+	getendtime(checked,starttime,date,$("#business_id").val(),$(".users_id").val(),eventId);
  });
  
  
@@ -617,7 +622,8 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 			});
 
 }
-	
+
+
 	
 			//$('.date_pick').datepicker();
             $('.endtime').timepicker({
@@ -651,6 +657,7 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 		$('.offer_block').click('live',function(){
 window.location.href='offer.php'; 
 });
+
 		
 
 		

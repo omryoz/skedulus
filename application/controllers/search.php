@@ -30,30 +30,38 @@ class Search extends CI_Controller {
 	}
 	
 	
-	public function global_search(){
+	public function global_search(){ //print_r($_POST); exit;
 	    $Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
-		$this->load->view('include/header',$this->data);
+		$this->data['category']='';
+		$this->data['manager_name']='';
+		$this->data['location']='';
 		$where=1;
-		if(isset($_GET['business_name']) && $_GET['business_name']!=""){
-		$where.= " AND business_name LIKE '%" .$_GET['business_name']. "%'";
+		if(isset($_POST['manager_name']) && $_POST['manager_name']!=""){
+		$this->data['manager_name']=$_POST['manager_name'];
+		$where.= " AND manager_firstname LIKE '%" .$_POST['manager_name']. "%' OR manager_lastname LIKE '%" .$_POST['manager_name']. "%'";
 		}
-		if(isset($_GET['location']) && $_GET['location']!=""){
-		$where.= " AND address LIKE '%" .$_GET['location']. "%'";
+		if(isset($_POST['location']) && $_POST['location']!=""){
+		$this->data['location']=$_POST['location'];
+		$where.= " AND address LIKE '%" .$_POST['location']. "%'";
 		}
-		if(isset($_GET['category']) && $_GET['category']!=""){
-		$where.= " AND category_id LIKE '%" .$_GET['category']. "%'";
+		if(isset($_POST['category']) && $_POST['category']!=""){
+		$this->data['category']=$_POST['category'];
+		$where.= " AND category_id LIKE '%" .$_POST['category']. "%'";
 		}
 		$this->data['searchResult']=$this->common_model->searchResult('view_business_details',$where);
-		//if(isset($this->session->userdata['role']) && $this->session->userdata['role']='client'){
-		if(isset($this->session->userdata['id'])){
+		
+		$this->parser->parse('include/header',$this->data);
+		if(isset($this->session->userdata['id']) && $this->session->userdata['role']=='client'){
 		$this->data['favList']=$this->search_model->getFavBusiness();
 		
 		$this->parser->parse('include/navbar',$this->data);
+		}elseif(isset($this->session->userdata['id']) && $this->session->userdata['role']=='manager'){
+		 $this->parser->parse('include/dash_navbar',$this->data);
 		}
-		$this->load->view('global_search',$this->data);
-		$this->load->view('include/footer',$this->data);  
+		$this->parser->parse('global_search',$this->data);
+		$this->parser->parse('include/footer',$this->data);  
 	}
 	
 	function addtoFav(){

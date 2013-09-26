@@ -18,7 +18,7 @@
 //print_r($buisness_availability); 
 		
 @session_start();
-// $_SESSION['profileid'] = $buisness_details[0]->id;
+ $_SESSION['profileid'] = $buisness_details[0]->id;
 // if(!isset($this->session->userdata['id'])){
  // redirect('home/clientlogin');
 // }
@@ -82,7 +82,7 @@
 								<div class="control-group">
 									<label class="control-label">Staffs</label>
 									<div class="controls">
-										<select name="staff" class="staff"> 
+										<select name="staff" class="staff" id="staffSelect"> 
 										<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
 										</select>
 									</div>

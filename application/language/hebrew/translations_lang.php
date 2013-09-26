@@ -203,10 +203,10 @@
 		
 		/* client page start */
 		$lang['Apps_clientlist'] = "לקוחות";
-		$lang['Apps_clientphoto'] = "Client Photo";
-		$lang['Apps_client'] = "Client";
-		$lang['Apps_action'] = "Action";
-		$lang['Apps_noclientaddedyet'] = "No Clients added yet";
+		/*$lang['Apps_clientphoto'] = "Client Photo";  repeated*/
+		/*$lang['Apps_client'] = "Client";				 repeated*/
+		/*$lang['Apps_action'] = "Action";				 repeated*/
+		/* $lang['Apps_noclientaddedyet'] = "No Clients added yet";  repeated*/
 		$lang['Apps_someonegmail'] = "someone@example.com";
 		/* client page end */
 		

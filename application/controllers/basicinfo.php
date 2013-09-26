@@ -84,7 +84,8 @@ class Basicinfo extends CI_Controller {
 		
 		if(isset($_GET['checkinfo'])){
 		$id=$this->basicinfo_model->insertBasicInfo();
-		redirect(businessProfile);
+		header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
+		//redirect(businessProfile);
 		}
 		$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/dash_navbar',$this->data);

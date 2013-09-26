@@ -99,8 +99,20 @@ class Bcalendar extends CI_Controller {
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
+	function checkfordelete(){
+	//print_r(date('d-m-Y',strtotime($this->input->post('date'))));
+	 // print_r($_POST); exit;
+	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	  print_r("yes");
+	  //echo 0;
+	  }else{ 
+	  print_r("no");
+	  //echo 1;
+	  }
+	  
+	}
 	
-	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){
+	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){  
 	  if(strtotime($date)<=strtotime(date("d-m-Y"))){
 		 $currentTime= date('H:i');
 		 $value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$business_id);
@@ -110,7 +122,6 @@ class Bcalendar extends CI_Controller {
 		  $bookbefore=$value->cancel_reschedule_before;
 		}
 		if(($startTime < $currentTime || strtotime($date) < strtotime(date("d-m-Y"))) || (($startTime >= $currentTime) && (($startTime-$currentTime) < $bookbefore)) ){
-		  //echo $startTime;
 		 //  echo -1;
 		   return false;
 			//echo "less time";
@@ -162,7 +173,7 @@ class Bcalendar extends CI_Controller {
 		$return = $time[0].':'.$time[1];
 		//if($this->input->post('date'))
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return);
+		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$this->input->post('eventId'));
 		}else{
 			echo 1;
 		}
@@ -440,24 +451,35 @@ function referal_url($url){
 		$return = $time[0].':'.$time[1];
 		//echo $return;
 		//exit;
-		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return);
+		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$this->input->post('eventId'));
 		}else{
 		  echo -1;
 		}
 	}
 	
-	function checkAvailable($date,$business_id,$staffid,$start_time,$end_time){
+	function checkAvailable($date,$business_id,$staffid,$start_time,$end_time,$eventId){
 	//print_r("here".$date); exit;
+	//print_r($end_time); exit;
 	    $where=1;
+		//$where1=1;
 	    $day = $this->checkweekendDayName($date);
 		if($staffid!=''){
 		$filter = array("users_id"=>$staffid,"name"=>$day,"type"=>'employee');
 		$where.=" AND employee_id=".$staffid;
+		$where1=' AND users_id="'.$staffid.'" and name="'.$day.'" and type="employee"';
 		}else{
-		$filter = array("user_business_details_id"=>$business_id,"name"=>$day); 
+		$filter = array("user_business_details_id"=>$business_id); 
 		$where.=" AND user_business_details_id=".$business_id;
+		$where1=' AND user_business_details_id="'.$business_id.'"';
 		}
+		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
+		//print_r($getEndtime->end_time);
 		$slots = $this->common_model->getAllslots($filter);
+		
+		if($eventId!=''){
+		  $where.=' AND id!='.$this->input->post('eventId');
+		}
 		
 		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
 		//print_r($booked_slots); exit;
@@ -481,7 +503,7 @@ function referal_url($url){
 		for( $i = $start; $i <= $end; $i += (60*15)){
 			$total_slotlist[] = date('g:iA', $i);
 		}
-	
+	//print_r($total_slotlist); exit;
 		$option = array();
 		foreach($total_slotlist as $single_total){
 			if(in_array($single_total,$booked_container)){
@@ -510,7 +532,7 @@ function referal_url($url){
 			$i++;
 			if($total==$i){
 				
-			}else{
+			}else{ 
 				if(in_array($single_slots,$booked_container)){
 					//echo "Break";
 					$returned = false;
@@ -518,9 +540,13 @@ function referal_url($url){
 				}
 			}	
 		}
-		
-		if($returned){
+		//print_r($returned); exit;
+		if($returned){ 		
+		  if(strtotime($end_time)>strtotime($getEndtime->end_time) || strtotime($start_time)<strtotime($getEndtime->start_time)){
+		   echo -1;
+		   }else{
 			echo $end_time;
+			}
 		}else{
 			echo 0;
 		}

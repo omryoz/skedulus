@@ -40,7 +40,7 @@
 			<input  type="text" class="span12" name="email"  placeholder="<?=(lang('Apps_email'))?>"  >
 			<input  type="password" class="span12" name="password" placeholder="<?=(lang('Apps_pwd'))?>" maxlength="20" >
 			<input type="submit" name="Login" value="<?=(lang('Apps_login'))?>" class="btn btn-success span4" />
-			<input type="text" name="referal_url" id="referal_url" value= <?=(!empty($url)?$url:'')  ?>  >
+			<input type="hidden" name="referal_url" id="referal_url" value= <?=(!empty($url)?$url:'')  ?>  >
 			
 			<a href="javascript:;" class="pull-right revert reveall" onClick="$('#form2').toggle();$('#form1').toggle();"><?=(lang('Apps_forgetpwd'))?></a>
 		  
