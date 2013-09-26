@@ -80,6 +80,7 @@
 		 
     </div>
 
+
 	
 	 <!-- Placed at the end of the document so the pages load faster -->
     <script src="<?php echo base_url(); ?>js/bootstrap-transition.js"></script>
@@ -106,8 +107,7 @@
 <!--<script type="text/javascript" src="<?php echo base_url(); ?>PIE-1.0.0/PIE.js"></script>--->	
 <!--Mouse over image slider for business_profile scripts end-->
 <!---Script for google map--->
-<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>--> 
+
 
 
 <?php if((lang('Apps_lang'))!=''): ?> 
@@ -123,12 +123,23 @@
 <?php endif; ?>
 
 
+<!-- for html5 support in ie8 end-->
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/modernizr-custom.js"></script>
+<!-- for html5 support in ie8 -->
+<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/polyfiller.js"></script>
+<script>
+    // Polyfill all unsupported features
+    $.webshims.polyfill();	
+</script>
+
 <!--<script>
 	/*$('.info').popover('hide')*/
 	$('.info').popover({html:true});
 </script>-->	
 
 
+<!---<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>--->
 
 
   </body>

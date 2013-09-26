@@ -49,7 +49,7 @@
 		$lang['Apps_enterlocation'] = "Enter a location";
 		$lang['Apps_search'] = "Search";
 		$lang['Apps_viewmore'] = "view more";  
-		$lang['Apps_offer'] = "Offers";
+		/* $lang['Apps_offer'] = "Offers"; repeated */
 		/* home end */
 		/* login page start*/ 
         $lang['Apps_newuser'] = "New user?";
@@ -213,8 +213,7 @@
 		
 		/* staffs page start */
 		$lang['Apps_mailsendtostaffmember'] = "Mail has been sent to the added staff member";
-		$lang['Apps_stafflist'] = "Staff";
-		$lang['Apps_staff'] = "Staff";
+		$lang['Apps_stafflist'] = "Staff List";
 		$lang['Apps_nostaffaddedyet'] = "No staffs added yet";
 		$lang['Apps_back'] = "Back";
 		$lang['Apps_availability'] = "Availability";
@@ -248,6 +247,8 @@
 		$lang['Apps_classsize'] = "Class Size";
 		$lang['Apps_asignstafftoclass'] = "Assign Staff to this class";
 		$lang['Apps_nostaffadded'] = "No staff added yet";
+		$lang['Apps_editclasses'] = "Edit Classes";
+		$lang['Apps_addclasses'] = "Add Classes";
 		/* classes page end */
 		
 		/* post class popup  start */
@@ -274,6 +275,32 @@
 		$lang['Apps_clientnotes'] = "Client Notes";
 		$lang['Apps_done'] = "Done";
 		/* post class popup  end */
+		
+		$lang['Apps_startdate'] = "Start Date";
+		$lang['Apps_starttime'] = "Start Time";
+		$lang['Apps_repeatedon'] = "Repeated On";
+		$lang['Apps_selectstaff'] = "Select Staff";
+		$lang['Apps_selectservice'] = "Select Service";
+		$lang['Apps_selectstate'] = "Select State";
+		$lang['Apps_selectcity'] = "Select City";
+		$lang['Apps_clientname'] = "Client Name";
+		$lang['Apps_addclient'] = "Add Client";
+		$lang['Apps_editclient'] = "Edit Client";
+		$lang['Apps_addphoto'] = "Add Photo";
+		$lang['Apps_photoname'] = "Photo Name";
+		$lang['Apps_uploadphoto'] = "Upload Photo";
+		$lang['Apps_specialoffer'] = "Special Offer";
+		$lang['Apps_staffname'] = "Staff Name";
+		$lang['Apps_editstaff'] = "Edit Staff";
+		$lang['Apps_addstaff'] = "Add Staff";
+		
+		/*service popup start */
+		$lang['Apps_editservice'] = "Edit Service";
+		$lang['Apps_addservice'] = "Add Service";
+		$lang['Apps_min'] = "min";
+		$lang['Apps_register'] = "register";
+		$lang['Apps_assignstafftothisservice'] = "Assign Staff to this Service";
+	
 		
 		
 		

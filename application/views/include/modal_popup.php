@@ -8,14 +8,14 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body row-fluid">
 		   <p class="message"></p>	
 		  
 		   <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_service'))?></label>
 			<div class="controls">
 			  <select class="services" name="services" id="services">
-				<option> <?=(lang('Apps_select'))?><?=(lang('Apps_service'))?></option>
+				<option> <?=(lang('Apps_selectservice'))?></option>
 			  </select>
 			 
 			</div>
@@ -26,7 +26,7 @@
 			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
 			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
 			  <select name="staff" class="staff"> 
-				<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
+				<option> <?=(lang('Apps_selectstaff'))?></option>
 			  </select>
 			</div>
 		  </div>
@@ -70,9 +70,9 @@
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app"/>
-	<input type="hidden" name="user_id" value="<?=$user_id?>" />
+	<input type="text" name="user_id" value="<?=$user_id?>" />
 	<!---<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />--->
-	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
+	<input type="text" name="end_time" id="end_time" class="end_time" value="" required/>
   </div>
   </form>
 </div>
@@ -85,7 +85,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
   </div>
-  <div class="modal-body">
+  <div class="modal-body row-fluid">
 		   <p class="message"></p>	
 		  
 		   <div class="control-group">
@@ -101,7 +101,7 @@
 			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
 			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
 			  <select name="staff" class="staff"> 
-				<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
+				<option> <?=(lang('Apps_selectstaff'))?></option>
 			  </select>
 			</div>
 		  </div>

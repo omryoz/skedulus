@@ -7,8 +7,8 @@
 			<table class="table">
         <thead>
           <tr>
-            <th><?=(lang('Apps_start'))?><?=(lang('Apps_date'))?>: <input type="text" class="span12 date_pick" value="" id="dpd1"></th>
-            <th><?=(lang('Apps_end'))?><?=(lang('Apps_date'))?> : <input type="text" class="span12 date_pick" value="" id="dpd2"></th>
+            <th><?=(lang('Apps_startdate'))?>: <input type="text" class="span12 date_pick" value="" id="dpd1"></th>
+            <th><?=(lang('Apps_enddate'))?> : <input type="text" class="span12 date_pick" value="" id="dpd2"></th>
           </tr>
         </thead>
       </table>

@@ -83,7 +83,7 @@
 									<label class="control-label">Staffs</label>
 									<div class="controls">
 										<select name="staff" class="staff" id="staffSelect"> 
-										<option> <?=(lang('Apps_select'))?><?=(lang('Apps_staff'))?></option>
+										<option> <?=(lang('Apps_selectstaff'))?></option>
 										</select>
 									</div>
 								</div>

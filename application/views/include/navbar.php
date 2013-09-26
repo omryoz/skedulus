@@ -22,7 +22,7 @@
 						</p></center>
 						</a>
 					</li>
-					<li class=""><a href="<?php echo base_url();?>clients/offers"><center><i class="icon-thumbs-up"></i><p><?=(lang('Apps_special'))?> <?=(lang('Apps_offer'))?>
+					<li class=""><a href="<?php echo base_url();?>clients/offers"><center><i class="icon-thumbs-up"></i><p><?=(lang('Apps_specialoffer'))?> 
 					</p></center>
 						</a>
 					</li>

@@ -78,14 +78,14 @@ function showSelected(){
                 <div class="row-fluid">
 					<div class="">
 						<h3><?=(lang('Apps_Classes'))?>
-						   <a href="#myModal1" class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
+						   <a href="#class-modal" class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
 						<table class="table table-striped table-staff table-hover" >
 						  <thead>
 							<tr >
 							  <th><h4>#</h4></th>
-						  <th><h4><?=(lang('Apps_class_name'))?> <?=(lang('Apps_name'))?></h4></th>
+						  <th><h4><?=(lang('Apps_class_name'))?> </h4></th>
 						  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
@@ -128,12 +128,12 @@ function showSelected(){
 
 <!--model for add Classes-->
 
-<div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="class-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">
-	<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_edit'))?> <?=(lang('Apps_classes'))?></h4>
-	<h4 class="staff1" id="add"><?=(lang('Apps_add'))?> <?=(lang('Apps_classes'))?></h4>
+	<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editclasses'))?> </h4>
+	<h4 class="staff1" id="add"><?=(lang('Apps_addclasses'))?></h4>
 	</h3>
   </div>
   <div class="modal-body">
@@ -146,7 +146,7 @@ function showSelected(){
               <div class="tab-pane fade in active" id="general">
                 <form class="form-horizontal" action="<?php echo base_url() ?>services/manage_classes/?insert" id="addclasses" method="POST">
 					  <div class="control-group">
-						<label class="control-label" for="Service Name"><?=(lang('Apps_class'))?>  <?=(lang('Apps_name'))?></label>
+						<label class="control-label" for="Service Name"><?=(lang('Apps_class_name'))?>  </label>
 						<div class="controls">
 						  <input type="text"  id="classname"  name="classname" placeholder="">						 
 						</div>
@@ -155,7 +155,7 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_length'))?></label>
 						<div class="controls">
-						 <input class="input-mini" type="text" id="length" name="length" maxlength="2" placeholder="">&nbsp;&nbsp;
+						 <input class="input-small" type="text" id="length" name="length" maxlength="2" placeholder="">&nbsp;&nbsp;
 						<select class="input-small" name="type" id="type">
 						  <option><?=(lang('Apps_minutes'))?></option>
 						  <option><?=(lang('Apps_hours'))?></option>
@@ -167,7 +167,7 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_padding'))?></label>
 						<div class="controls">
-						 <input class="input-mini" type="text" id="paddingTime" name="padding_time" maxlength="2" placeholder="">&nbsp;&nbsp;<?=(lang('Apps_minutes'))?>
+						 <input class="input-mini" type="text" id="paddingTime" name="padding_time" maxlength="2" placeholder="">&nbsp;<?=(lang('Apps_minutes'))?>
 						<select class="input-small" name="padding_time_type" id="padding_time_type">
 						  <option><?=(lang('Apps_before'))?></option>
 						  <option><?=(lang('Apps_after'))?></option>
@@ -185,7 +185,7 @@ function showSelected(){
 						  <option value="variable"><?=(lang('Apps_variable'))?></option>
 						  <option value="free"><?=(lang('Apps_free'))?></option>
 						  </select> <b>$</b>
-						  <input class="input-mini" type="text" name="price" id="price"  maxlength="4" placeholder="">
+						  <input class="input-small" type="text" name="price" id="price"  maxlength="4" placeholder="">
 						</div>
 					  </div>
 					  <div class="control-group">
@@ -198,20 +198,20 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_classsize'))?></label>
 						<div class="controls" >
-						  <input name="class_size" id="class_size" class="input-mini valid" />
+						  <input type="text" name="class_size" id="class_size" class=" valid" />
 						</div>
 					  </div>
 					  
 					  <input type="hidden" name="insert" value="insert" />
-					   <div class="modal-footer" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="Save" />
+					   <div class="" id="insert">
+					   <input type="submit" name="save" class="btn btn-success pull-right" value="Save" />
 					   </div> 
 					 <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
-					 <div class="modal-footer" style="display:none" id="update">
+					 <div class="" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
+					  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 					 </div> 
              
@@ -219,13 +219,15 @@ function showSelected(){
               <div class="tab-pane fade" id="staff1">
                 <h5 class="staff"><?=(lang('Apps_asignstafftoclass'))?></h5>
 				<?php if(isset($staffs) && $staffs!=""){ ?>
-				<div class="span6 offset1">
+				<div class="row-fluid">
+				<div class="span6 offset2">
 				<?php foreach($staffs as $staffname){  ?>
 							 <label class="checkbox">
 							 <input type="checkbox" name="staffs[]" value="<?php echo $staffname->users_id; ?>" id="<?php echo $staffname->users_id; ?>" />
 								<?php  echo $staffname->first_name." ".$staffname->last_name;?>
 							</label>
 					<?php } ?>		
+						 </div>
 						 </div>
 				<?php }else{?>
                 <p class="alert"><?=(lang('Apps_nostaffadded'))?></p>

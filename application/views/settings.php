@@ -270,7 +270,7 @@
 										  <label class="control-label" for="input"> <?=(lang('Apps_state'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
 											<select class="span12" >
-													<option> <?=(lang('Apps_select'))?> <?=(lang('Apps_state'))?> </option>
+													<option> <?=(lang('Apps_selectstate'))?> </option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>
@@ -280,7 +280,7 @@
 										  <label class="control-label" for="input"><?=(lang('Apps_city'))?> <b class="astrick">*</b>:</label>
 										  <div class="controls">
 											<select class="span12" >
-													<option><?=(lang('Apps_select'))?> <?=(lang('Apps_city'))?> </option>
+													<option><?=(lang('Apps_selectcity'))?>  </option>
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>

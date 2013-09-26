@@ -74,7 +74,7 @@
                 <div class="row-fluid">
 					<div class="">
 						<h3 >Services List
-						   <a href="#myModal1"  class="btn pull-right btn-primary" data-toggle="modal">+add</a>
+						   <a href="#"  class="btn pull-right btn-primary" data-toggle="modal">+add</a>
 						</h3>
 						<table class="table  table-striped table-staff table-hover" >
 						  <thead>
@@ -154,7 +154,7 @@
 
 
 <!--model for add service-->
-<div id="myModal1" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel"><h4 class="staff1">Add Service</h4></h3>

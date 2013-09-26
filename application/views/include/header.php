@@ -12,17 +12,12 @@
 <!--behavior: url(<?php echo base_url(); ?>/PIE-1.0.0/PIE.htc);-->
 <script>var baseUrl='<?php echo base_url();?>'</script>
 <script src="<?php echo base_url(); ?>js/libs/less-1.3.0.min.js"></script>
- <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/modernizr-custom.js"></script>
-<!-- for html5 support in ie8 -->
-<script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/polyfiller.js"></script>
-<script>
-    // Polyfill all unsupported features
-    $.webshims.polyfill();	
-</script>
+<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
 
-<!-- for html5 support in ie8 end-->
+<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
+
+
 <!------for edit/delete script ----->
 <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>functions/script.js"></script>
@@ -58,8 +53,15 @@ var base_url = "http://localhost/skedulus/";
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
                   		</a>
-						
-				 		<a class="brand pull-left" href="#"><h1>Skedulus</h1></a>
+						<?php 
+						$url=base_url().'home';
+						if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
+						 $url=base_url().'cprofile';
+						} 
+						if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
+						 $url="#";
+						} ?>
+				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
 						<!--<img src="images/share.png"  class="brand_img">-->
 						
 						<?php if(isset($this->session->userdata['id'])) { ?>

@@ -677,12 +677,21 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
+	function getserviceByfilter($filter){
+		if($filter){
+			$query = $this->db->query("SELECT distinct(users_id),first_name,last_name FROM `view_employee_services` where  ".$filter."");
+			// echo $this->db->last_query();
+			// exit;
+			if($query->num_rows()>0){
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	  }
+	}
 	
 	
-	
-	// function getClientlist(){
-	 
-	// }
 	
 }
 ?>

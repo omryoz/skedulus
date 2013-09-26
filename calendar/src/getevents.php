@@ -66,19 +66,31 @@ class getevents
 						// getting the difference in minutes
 						$difference_in_minutes = $difference / 60;
 						$event['servicetime']=$difference_in_minutes;
-						//$event['role']=$evVal->user_role;
-						//$event['eventDesc']=$evVal->event_description;
 						$event['startTime']=$evVal->start_time;
-						$event['endTime']=$evVal->end_time;
+						//$event['endTime']=$evVal->end_time;
 						$event['group']['groupId']=$evVal->services_id;
-						/*$allDayIndicator= $evVal->all_day;
-						if($allDayIndicator==0)
-						{
-							$event['allDay']=false;
-						}else
-						{
-							$event['allDay']=true;
-						}*/
+						
+						
+						// getend time for business calendar 
+						$total=0;
+						$endtime=date("H:i",strtotime($evVal->end_time)); 
+						$serviceid=explode(',',$evVal->services_id);
+						foreach($serviceid as $val){
+						if($val!='')
+							$res = $db->get_results("select * from user_business_services where id='".$val."'");  
+						if($res[0]->padding_time_type=="Before & After"){
+						  $twice=2;
+						}else{
+						  $twice=1;
+						}	
+						$total = $total + $res[0]->padding_time * $twice;						
+												
+					  }
+						
+						$time = $this->convertToHoursMins($total,'%d:%d');
+						$end_time = $this->addTime($endtime,$time);
+						$event['endTime']= date('Y-m-d',strtotime($evVal->end_time))." ".$end_time;
+						
 						$eventsarray[$evCount]=$event; 
 					
 				}
@@ -90,13 +102,53 @@ class getevents
 			$ax[$count]=$calendar;
 			
 		}
-		//print_r($ax);
+		//print_r($ax); exit;
 		return $ax; 
 	}
 	function is_authorized()
 	{
 		return true;
 	} 
+	
+	function convertToHoursMins($time, $format = '%d:%d') {
+		settype($time, 'integer');
+		if ($time < 1) {
+			return;
+		}
+		
+		$hours = floor($time/60);
+		$minutes = $time%60;
+		return sprintf($format, $hours, $minutes);
+	}
+	function addTime($a, $b)
+		{
+		   $sec=$min=$hr=0;
+		   $a = explode(':',$a);
+		   $b = explode(':',$b);
+
+		   if(($a[2]+$b[2])>= 60)
+		   {
+			 $sec=($a[2]+$b[2]) % 60;
+			 $min+=1;
+
+		   }
+		   else
+		   $sec=($a[2]+$b[2]);
+		   
+
+		   if(($a[1]+$b[1]+$min)>= 60)
+		   {
+			  $min=($a[1]+$b[1]+$min) % 60;
+			 $hr+=1;
+		   }
+		   else
+			$min=$a[1]+$b[1]+$min;
+			$hr=$a[0]+$b[0]+$hr;
+
+		   $added_time=$hr.":".$min.":".$sec;
+		   return $added_time;
+		}
+
 
 }
 

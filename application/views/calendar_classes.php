@@ -228,7 +228,7 @@ if(!isset($this->session->userdata['id'])){
 				<div id="demo" class="collapse ">
 					<form class="form-horizontal" id="clientform">
 						  <div class="control-group">
-							<label class="control-label" for="inputEmail"><?=(lang('Apps_client'))?> <?=(lang('Apps_name'))?></label>
+							<label class="control-label" for="inputEmail"><?=(lang('Apps_clientname'))?> </label>
 							<div class="controls">
 							 <!---<input id="tags" data-names="" />--->
 							  <input type="text"  class="input-large" name="name" id="name" required>

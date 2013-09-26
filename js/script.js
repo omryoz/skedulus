@@ -207,7 +207,7 @@ $(".time").live("change",function(){
 		//alert(date);
 		//alert(starttime);	
 		//alert(service_);
-		var myUrl = base_url+"bcalendar/getendtimeByservie";
+		var myUrl = base_url+"bcalendar/getendtimeByservice";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
@@ -278,7 +278,7 @@ function getserviceStaffs(checked,selected){
 
 }
  
-  $("#staffSelect").live('change',function(){ alert("here");
+  $("#staffSelect").live('change',function(){ //alert("here");
     //alert($(".staff").val());
 	if($(".staff").val()!='Select staff'){
 	$(".users_id").val($(".staff").val());

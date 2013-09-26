@@ -142,6 +142,7 @@ class Bcalendar extends CI_Controller {
 	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
+		$timeActual = "";
 		$conversion = "";
 		foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
 			$info = array("id"=>$id);	
@@ -160,20 +161,26 @@ class Bcalendar extends CI_Controller {
 			  $twice=1;
 			}
 			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
+			$totalActualtime = $times[0]->timelength * $conversion;
 			//$total = $times[0]->timelength * $conversion + $times[0]->padding_time;
 			$time = $time + $total;
+			$timeActual = $timeActual + $totalActualtime;
 			
 		}
 		$t_time = $this->convertToHoursMins($time,'%d:%d');
+		$t_timeActual = $this->convertToHoursMins($timeActual,'%d:%d');
 		$t_time = $t_time.':0';
+		$t_timeActual = $t_timeActual.':0';
 		$start_time = $this->input->post('starttime');
 		$t = $start_time.':0';
 		
 		$time = explode(":",$this->addTime($t_time,$t));
+		$timeActual = explode(":",$this->addTime($t_timeActual,$t));
 		$return = $time[0].':'.$time[1];
+		$returnActual = $timeActual[0].':'.$timeActual[1];
 		//if($this->input->post('date'))
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$this->input->post('eventId'));
+		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$returnActual,$this->input->post('eventId'));
 		}else{
 			echo 1;
 		}
@@ -252,27 +259,43 @@ function getstaffnameByfilter(){
 function getstaffnamesByfilter(){
 	if($this->input->post('service_id')){
 	$string = rtrim($this->input->post('service_id'), ',');
-	//$service = explode(",",$this->input->post('service_id'));
-	//print_r($service); exit;
-	//$filter = " 1 and";
-	// foreach($service as $val){
-	// if($val!=""){
-      	$filter = 'service_id  IN ('.$string.')'; 
-		// }
-	// } 
-	$resuls = $this->common_model->getserviceByfilter($filter);	
-	print_r(json_encode($resuls));
+    $filter = 'service_id  IN ('.$string.')'; 
+	 $this->load->model("bprofile_model");
+	$results = $this->bprofile_model->getserviceByfilter($filter);	
+	print_r(json_encode($results));
 	}else{
 		return false;
 	}
 }
 
+// function getstaffnamesByfilter1(){
+	// if($this->input->post('service_id')){
+	// $string = rtrim($this->input->post('service_id'), ',');
+	// $service = explode(",",$this->input->post('service_id'));
+	//print_r($service); exit;
+	// $resultsArr='';
+	// foreach($service as $val){
+	 // if($val!=''){
+	     // $filter = array('service_id'=>$val);
+		 // $results[] = $this->common_model->getserviceByfilter($filter); 
+	     // $resultsArr.=$results;
+		 // $resultsArr.=',';
+	 // }	
+	// }
+	// print_r($resultsArr); exit;
+	
+	
+// $result_array = array_intersect_assoc($results[0],$results[1]);
+      	// $filter = 'service_id  IN ('.$string.')'; 
+	
+	// $resuls = $this->common_model->getserviceByfilters($filter);	
+	// print_r(json_encode($resuls));
+	// }else{
+		// return false;
+	// }
+// }
+
 function getfreeslotsbydate(){
-   // if($this->input->post('date')==date("d-m-Y")){
-     // echo date('H:i');
-     // $this->common_model->checkSettings();
-      // echo "today"; exit;
-   // }else
    $where=1;
 	if($this->input->post('date')){
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
@@ -385,10 +408,11 @@ function referal_url($url){
 }
 /*Get End Time by Selected Services*/
 
-	function getendtimeByservie(){
+	function getendtimeByservice(){
 	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
+		$timeActual = "";
 		$conversion = "";
 		//foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
 		if($this->input->post('status')!=""){
@@ -421,8 +445,10 @@ function referal_url($url){
 			  $twice=1;
 			}
 			$total = $timeVal->timelength * $conversion + $timeVal->padding_time * $twice;
+			$totalActualtime = $timeVal->timelength * $conversion;
 			//$timeVals.=$total.',';
 			$time = $time + $total; 
+			$timeActual = $timeActual + $totalActualtime;
 		  }//print_r($time); exit;
 		}else{
 			if($times[0]->time_type=="minutes"){
@@ -438,26 +464,32 @@ function referal_url($url){
 			  $twice=1;
 			}
 			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
+			$totalActualtime = $times[0]->timelength * $conversion;
 			$time = $time + $total;
+			$timeActual = $timeActual + $totalActualtime;
 		}	
 		//}
 		
 		$t_time = $this->convertToHoursMins($time,'%d:%d'); 
+		$t_timeActual = $this->convertToHoursMins($timeActual,'%d:%d');
 		$t_time = $t_time.':0';
+		$t_timeActual = $t_timeActual.':0';
 		$start_time = $this->input->post('starttime');
 		$t = $start_time.':0';
 		
 		$time = explode(":",$this->addTime($t_time,$t));
+		$timeActual = explode(":",$this->addTime($t_timeActual,$t));
 		$return = $time[0].':'.$time[1];
+		$returnActual = $timeActual[0].':'.$timeActual[1];
 		//echo $return;
 		//exit;
-		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$this->input->post('eventId'));
+		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$returnActual,$this->input->post('eventId'));
 		}else{
 		  echo -1;
 		}
 	}
 	
-	function checkAvailable($date,$business_id,$staffid,$start_time,$end_time,$eventId){
+	function checkAvailable($date,$business_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId){
 	//print_r("here".$date); exit;
 	//print_r($end_time); exit;
 	    $where=1;
@@ -545,7 +577,8 @@ function referal_url($url){
 		  if(strtotime($end_time)>strtotime($getEndtime->end_time) || strtotime($start_time)<strtotime($getEndtime->start_time)){
 		   echo -1;
 		   }else{
-			echo $end_time;
+		    echo $actual_endtime;
+			//echo $end_time;
 			}
 		}else{
 			echo 0;

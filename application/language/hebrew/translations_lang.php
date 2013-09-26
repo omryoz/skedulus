@@ -49,7 +49,7 @@
 		$lang['Apps_enterlocation'] = "הזן מיקום";
 		$lang['Apps_search'] = "חיפוש";
 		$lang['Apps_viewmore'] = "הצג עוד";
-		$lang['Apps_offer'] = "מבצעים";
+		/* $lang['Apps_offer'] = "מבצעים";  repeated */
 		/* home end */  
 		/* login page start*/ 
         $lang['Apps_newuser'] = "משתמש חדש?";
@@ -89,6 +89,7 @@
 		
 		/* client navbar start*/ 
 		$lang['Apps_myappointments'] = "הפגישות שלי";
+		$lang['Apps_appointments'] = "Appointments";
 		$lang['Apps_favbusiness'] = "עסקים מועדפים";
 		$lang['Apps_special'] = "מבצעים";
 		/* client navbar end*/ 
@@ -246,6 +247,8 @@
 		$lang['Apps_classsize'] = "מספר מקומות";
 		$lang['Apps_asignstafftoclass'] = "Assign Staff to this class";
 		$lang['Apps_nostaffadded'] = "לא הוגדרו עובדים";
+		$lang['Apps_editclasses'] = "Edit Classes";
+		$lang['Apps_addclasses'] = "Add Classes";
 		/* classes page end */
 		
 		/* post class popup  start */
@@ -272,4 +275,34 @@
 		$lang['Apps_clientnotes'] = "Client Notes";
 		$lang['Apps_done'] = "Done";
 		/* post class popup  end */
+		
+		$lang['Apps_startdate'] = "Start Date";
+		$lang['Apps_starttime'] = "Start Time";
+		$lang['Apps_repeatedon'] = "Repeated On";
+		$lang['Apps_selectstaff'] = "Select Staff";
+		$lang['Apps_selectservice'] = "Select Service";
+		$lang['Apps_selectstate'] = "Select State";
+		$lang['Apps_selectcity'] = "Select City";
+		$lang['Apps_clientname'] = "Client Name";
+		$lang['Apps_addclient'] = "Add Client";
+		$lang['Apps_editclient'] = "Edit Client";
+		$lang['Apps_addphoto'] = "Add Photo";
+		$lang['Apps_photoname'] = "Photo Name";
+		$lang['Apps_uploadphoto'] = "Upload Photo";
+		$lang['Apps_specialoffer'] = "Special Offer";
+		$lang['Apps_staffname'] = "Staff Name";
+		$lang['Apps_editstaff'] = "Edit Staff";
+		$lang['Apps_addstaff'] = "Add Staff";
+		
+		/*service popup start */
+		$lang['Apps_editservice'] = "Edit Service";
+		$lang['Apps_addservice'] = "Add Service";
+		$lang['Apps_min'] = "min";
+		$lang['Apps_register'] = "register";
+		$lang['Apps_assignstafftothisservice'] = "Assign Staff to this Service";
+	
+		
+		
+		
+?>
 ?>

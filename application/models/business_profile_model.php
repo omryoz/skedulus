@@ -93,22 +93,24 @@ function getClasses(){
 		$i=0;
 		$values=''; 
 		if($data){
+		if($sql_num_rows<1){ 
+		$start_time=date('H',strtotime($data[0]->start_time));
+		}else{
 			foreach($data as $dataP){
 				$values[$i]= "'".$dataP->start_time."'";
 				$i++;
-			}
-			//print_r($values); exit;
+			}	
 			$val= implode(',',$values);
 			$sql1="Select LEAST(".$val.") As least";
 			$query1=$this->db->query($sql1);
 		    $data1= $query1->result(); 
-			
-			
+			$start_time=date('H',strtotime($data1[0]->least));	
+			}
 			$sql2="Select max(end_time) as end_time FROM `user_business_availability` WHERE ".$where;
 		    $query2=$this->db->query($sql2);
 		    $data2= $query2->result();
 			
-			return array('start_time'=>date('H',strtotime($data1[0]->least)),'end_time'=>date('H',strtotime($data2[0]->end_time)));
+			return array('start_time'=>$start_time,'end_time'=>date('H',strtotime($data2[0]->end_time)));
 		}
 	}
 	

@@ -59,8 +59,8 @@
 								
 						</div>
 					<?php } ?>
-					<div class="modal-footer" id="insert">
-					<input type="button" onClick="staffInsert('staffavail')" name="save" class="btn btn-success" value="Save" />
+					<div class="" id="insert">
+					<input type="button" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="Save" />
 					   
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>

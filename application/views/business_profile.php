@@ -388,19 +388,19 @@
                   <td id="price" ></td>
                 </tr>
                 <tr>
-                  <td><?=(lang('Apps_start'))?><?=(lang('Apps_date'))?></td>
+                  <td><?=(lang('Apps_startdate'))?></td>
                   <td id="startdate" ></td>
                 </tr>
 				<tr>
-                  <td> <?=(lang('Apps_end'))?><?=(lang('Apps_date'))?></td>
+                  <td> <?=(lang('Apps_enddate'))?></td>
                   <td id="enddate" ></td>
                 </tr>
 				<tr>
-                  <td> <?=(lang('Apps_start'))?><?=(lang('Apps_time'))?></td>
+                  <td> <?=(lang('Apps_starttime'))?></td>
                   <td id="starttime" ></td>
                 </tr>
 				<tr>
-                  <td> <?=(lang('Apps_end'))?><?=(lang('Apps_time'))?></td>
+                  <td> <?=(lang('Apps_endtime'))?></td>
                   <td id="endtime" ></td>
                 </tr>
 				<tr>
@@ -408,7 +408,7 @@
                   <td id="repeated" ></td>
                 </tr>
 				<tr id="repeatedDiv">
-                  <td><?=(lang('Apps_repeated'))?><?=(lang('Apps_on'))?></td>
+                  <td><?=(lang('Apps_repeatedon'))?></td>
                   <td id="repeatedon" ></td>
                 </tr>
 				<tr id="instructor_name">

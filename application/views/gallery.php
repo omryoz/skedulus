@@ -92,18 +92,18 @@
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editphoto'))?></h4>
-		<h4 class="staff1" id="add" ><?=(lang('Apps_add'))?> <?=(lang('Apps_photo'))?></h4>
+		<h4 class="staff1" id="add" ><?=(lang('Apps_addphoto'))?></h4>
 	  </div>
 	  <div class="modal-body">
 		<form name="addImage" id="addImage" class="bs-docs-example form-horizontal "  enctype="multipart/form-data"  action="<?php echo base_url();?>gallery/manage_gallery" method="POST">
 				<div class="control-group">
-				  <label class="control-label" for="firstname"><?=(lang('Apps_photo'))?>  <?=(lang('Apps_name'))?>:</label>
+				  <label class="control-label" for="firstname"><?=(lang('Apps_photoname'))?>  :</label>
 				  <div class="controls">
 					<input class="input-large " type="text" name="name" id="title" >
 				  </div>
 				</div>
 				<div class="control-group" id="showPhoto">
-				  <label class="control-label" for="lastname"> <?=(lang('Apps_upload'))?> <?=(lang('Apps_photo'))?>:</label>
+				  <label class="control-label" for="lastname"> <?=(lang('Apps_uploadphoto'))?> :</label>
 				  <div class="controls">
 				  <input type="file" name="userfile" size="20" />
 					<!--<input class="input-large " type="file" name="photo" id="photo">--->
@@ -130,12 +130,12 @@
 		</div>
 	  </div>  
 	  <input type="hidden" name="insert" value="<?=(lang('Apps_insert'))?>" >
-      <div class="modal-footer" id="insert">
-		<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success">
+      <div class="" id="insert">
+		<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success pull-right">
 	  </div>
-		<div class="modal-footer" style="display:none" id="update">
+		<div class="" style="display:none" id="update">
 			  <input type="hidden" name="id" id="id" value="" />
-			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
+			  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
 			  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 		</div> 		  
 	  </form>

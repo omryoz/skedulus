@@ -120,7 +120,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 									  <thead>
 										<tr >
 										  <th><h4>#</h4></th>
-										  <th><h4>Staff Name<?=(lang('Apps_staff'))?>  <?=(lang('Apps_name'))?></h4></th>
+										  <th><h4><?=(lang('Apps_staffname'))?>  </h4></th>
 										  <th><h4><?=(lang('Apps_action'))?> </h4></th>
 										</tr>
 									  </thead>
@@ -165,9 +165,9 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 	<!--model for add staff-->
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_edit'))?> <?=(lang('Apps_staff'))?> </h4>
-		<h3 ><h4 id="add"><?=(lang('Apps_add'))?>  <?=(lang('Apps_staff'))?></h4></h3>
+		
+		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+		<h4 id="add"><?=(lang('Apps_addstaff'))?>   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
 	  </div>
 	 
 	  <div class="modal-body">
@@ -210,17 +210,19 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 				  
 				    <input type="hidden" name="addstaffs" value="addstaffs" />
 				     <input type="hidden" name="insert" value="insert" />
-					   <div class="modal-footer" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="Save<?=(lang('Apps_save'))?> " />
+					   <div class="" id="insert">
+					   <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
 					   </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
-					 <div class="modal-footer" style="display:none" id="update">
+					 <div class="" style="display:none" id="update">
+						<div class="pull-right">
 					  <input type="hidden" name="id" id="id" value="" />
 					  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?> " />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?> </a>
 					 </div> 
+					 </div>
 				  </form>
 				  </div>
 				 <div class="tab-pane fade" id="add_service"><p class="alert" id="successassignstaffs" style="display:none"></p>
@@ -239,8 +241,9 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 				<?php }else{?>
                 <p class="alert"><?=(lang('Apps_noservicesaddedyet'))?> </p>
 				<?php } ?>
-				<div class="modal-footer" id="insert">
-					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="<?=(lang('Apps_save'))?> " />
+				</div>
+				<div class="" id="insert">
+					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
@@ -250,7 +253,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 					  <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Update" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
 					 </div>--->
-					 </div>
+					 
 					 <input type="hidden" name="insert" value="insert" />
 					 <input type="hidden" name="assignstaffs" value="assignstaffs" />
 					 
@@ -320,8 +323,8 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 								
 						</div>
 					<?php } ?>
-					<div class="modal-footer" id="insert">
-					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success" value="<?=(lang('Apps_save'))?> " />
+					<div class="" id="insert">
+					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
 					   
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
