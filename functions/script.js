@@ -146,6 +146,7 @@ function editclasses(id){
 			$("#update").show();
 			$("#insert").hide();
 			$("#edit").show();
+			$(".close").show();
 			$("#add").hide();
 			$(".close").hide();
 		})

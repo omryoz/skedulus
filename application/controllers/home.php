@@ -163,7 +163,7 @@ class Home extends CI_Controller {
 		  redirect('cprofile');
 	}
    $this->parser->parse('include/meta_tags',$this->data);
-   $this->load->view('general/signup',$this->data);
+   $this->parser->parse('general/signup',$this->data);
 }
 	
 	// public function account_activation($id){

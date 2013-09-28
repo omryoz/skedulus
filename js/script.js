@@ -30,6 +30,8 @@ $("#eventGroup").live("change",function(){
    }else{ 
 	var url = base_url+"bcalendar/getAllstaff";
 	$(".demo").html("");
+	var append = "<option value='' >Select staff</option>";
+	$(".demo").append(append);
 	$.post(url,{class_name:class_name}, function(data){
 		$.each(eval(data), function( key, value ) { 
 			var append_option = "<option id="+key+" value="+value.id+">"+value.name+"</option>";
@@ -47,6 +49,7 @@ $("#eventGroup").live("change",function(){
 //For rescheduling of appointments
 $("#reschedulebtn").live("click",function(){ 
   $("#reschedule").modal('hide');
+  $(".time").attr('booking','multi');
   $("#bookmultiServices").modal('show');
  // alert($("#eventId").html());
   var business_id = $("#business_id").html(); 
@@ -98,6 +101,7 @@ $("#reschedulebtn").live("click",function(){
 })
 
 $(".book_me").live("click",function(){  
+    $(".time").attr('booking','single');
     $(".time").attr('action','schedule');
     $(".message").removeClass("alert").html(" ");
 	var business_id = $("#business_id").html();
@@ -112,6 +116,7 @@ $(".book_me").live("click",function(){
 });
 
 $(".bookmultiServices").live("click",function(){ 
+$(".time").attr('booking','multi');
 $(".time").attr('action','schedule');
 $(".message").removeClass("alert").html(" ");
 $(".start_date").val(" ");
@@ -190,28 +195,39 @@ $(".staff").live("change",function(){
 
 
 $(".time").live("change",function(){
-		//alert("Hey");
 		$(".message").removeClass("alert").html(" ");
 		var starttime = $(this).val();
-		var service_ = $(".services").val();
-		var status="";
-		var date = $(".st_date").val(); //alert(service_);
-		if(service_=="SelectService"){
-		    // alert($("#services").val());
-			 service_ = $("#selectedService").val();
-			 status=1;
-			 date = $(".start_date").val();
-		}
 		
+		if($('.time').attr('booking')=='single'){
+			var service_ = $(".services").val();
+		    var status="";
+		    var date = $(".st_date").val();
+			var staffid = $(".staff").val(); 
+			if(staffid=='Select staff'){
+			     staffid =''; 
+			}else{
+				 staffid = $(".staff").val(); 
+			}
+		}else{
+		    var service_ = $("#selectedService").val();
+			var status=1;
+			var date = $(".start_date").val();
+			var staffid = $("#staffid").val(); 
+			if(staffid=='Select staff'){
+			 staffid = ''; 
+			}else{
+			 staffid = $("#staffid").val(); 
+			}
+		}
 		var business_id = $("#business_id").html();
-		//alert(date);
-		//alert(starttime);	
-		//alert(service_);
+		// alert(date);
+		// alert(starttime);	
+		// alert(service_); alert(staffid);
 		var myUrl = base_url+"bcalendar/getendtimeByservice";
 		$.ajax({
 			type: "POST",
 			url: myUrl,
-			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id ,status:status ,action:$('.time').attr('action'),eventId:$('.time').attr('eventId')},
+			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id ,status:status ,action:$('.time').attr('action'),eventId:$('.time').attr('eventId'),staffid:staffid},
 			success: function(data) {
 				if(data==-2){ 
 				 $(".message").addClass("alert").html("Select atleast one service");
@@ -419,14 +435,10 @@ $("#bookclass").live("click",function(){
 })
 
 $(".launch").on("click",function(){
-    // var selected= new Date($("#eventStartDate").val());
-	// var today=new Date();
-	// if(selected < today){
-	 // alert("Cannot book");
-	// }else{
+$(".message").removeClass("alert").html(" ");
 	$("#bookApp").modal('show');
 	$(".staff").val('');
-	$(".message").removeClass("alert").html(" ");
+	
 	//}
 })
 
@@ -436,6 +448,11 @@ $(".launch").on("click",function(){
 
 
 $(".launchClass").on("click",function(){ 
+$(".demo").html(" ");
+var append = "<option value='' >Select staff</option>";
+$(".demo").append(append);
+$("#eventGroup").val(" ");
+$(".message").removeClass("alert").html(" ");
 $.ajax({
 	    url:base_url+'bcalendar/getClients',
 		data:{businessid:$("#login_id").html()},

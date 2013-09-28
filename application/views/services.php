@@ -95,7 +95,7 @@ function showSelected(){
 							  <td><?php echo $i; ?></td>
 							  <td><?php echo $content['name']; ?></td>
 							  <td>
-							  <a href="#" data-toggle="modal"  onclick= editService(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="#service-modal" data-toggle="modal"  onclick= editService(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
 							  <a href="javascript:void(0);"  data-toggle="tooltip" class="tool" onclick= deleteService(<?php echo $content['id'] ?>); data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 							  </td>
 							  
@@ -126,7 +126,7 @@ function showSelected(){
 
 <div id="service-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">
 	<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editservice'))?></h4>
 	<h4 class="staff1" id="add"><?=(lang('Apps_addservice'))?></h4>
@@ -192,14 +192,14 @@ function showSelected(){
 					  </div>
 					  <input type="hidden" name="insert" value="insert" />
 					   <div class="" id="insert">
-					   <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_save'))?>" />
+					   <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?>" />
 					   </div> 
 					 <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value=" <?=(lang('Apps_register'))?>">
 					 <?php } ?>
-					 <div class="modal-footer" style="display:none" id="update">
+					 <div class="pull-right" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success" value=" <?=(lang('Apps_update'))?>" />
+					  <input type="submit" name="save" class="btn btn-success " value=" <?=(lang('Apps_update'))?>" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 					 </div> 
              
@@ -207,13 +207,15 @@ function showSelected(){
               <div class="tab-pane fade" id="staff1">
                 <h5 class="staff"> <?=(lang('Apps_assignstafftothisservice'))?></h5>
 				<?php if(isset($staffs) && $staffs!=""){ ?>
-				<div class="span6 offset1">
+				<div class="row-fluid">
+				<div class="span6 offset2">
 				<?php foreach($staffs as $staffname){  ?>
 							 <label class="checkbox">
 							 <input type="checkbox" name="staffs[]" value="<?php echo $staffname->users_id; ?>" id="<?php echo $staffname->users_id; ?>" />
 								<?php  echo $staffname->first_name." ".$staffname->last_name;?>
 							</label>
 					<?php } ?>		
+						 </div>
 						 </div>
 				<?php }else{?>
                 <p class="alert"> <?=(lang('Apps_nostaffadded'))?></p>

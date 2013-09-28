@@ -7,9 +7,9 @@
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
-  </div>
+  </div>  <p class="message"></p>	
   <div class="modal-body row-fluid">
-		   <p class="message"></p>	
+		 
 		  
 		   <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_service'))?></label>
@@ -47,7 +47,7 @@
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="" eventId="">
+					<select name="time" class="time" action="" eventId="" booking="">
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
@@ -70,9 +70,9 @@
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app"/>
-	<input type="text" name="user_id" value="<?=$user_id?>" />
+	<input type="hidden" name="user_id" value="<?=$user_id?>" />
 	<!---<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />--->
-	<input type="text" name="end_time" id="end_time" class="end_time" value="" required/>
+	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
   </div>
   </form>
 </div>
@@ -84,9 +84,9 @@
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
-  </div>
+  </div>  <p class="message"></p>	
   <div class="modal-body row-fluid">
-		   <p class="message"></p>	
+		 
 		  
 		   <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_service'))?></label>
@@ -100,7 +100,7 @@
 			<div class="controls">
 			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
 			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
-			  <select name="staff" class="staff"> 
+			  <select name="staff" class="staff" id="staffid"> 
 				<option> <?=(lang('Apps_selectstaff'))?></option>
 			  </select>
 			</div>
@@ -122,7 +122,7 @@
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="" eventId="">
+					<select name="time" class="time" action="" eventId="" booking="">
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
@@ -147,7 +147,7 @@
 	<input type="hidden" name="user_id" value="<?=$user_id?>" />
 	<input type="hidden" name="eventId" class="eventId" id="eventid" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/> 
-	<input type="hidden" name="services" id="selectedService" value="" />
+	<input type="hidden" name="services" class="services" id="selectedService" value="" />
   </div>
   </form>
 </div>

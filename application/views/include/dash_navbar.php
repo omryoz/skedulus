@@ -34,23 +34,16 @@ $(document).ready(function(){
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p>Overview</p></center></a>
 					</li>
 					<?php 
-					if($this->session->userdata['business_type']=="class"){
-							$link = "calendar_business";
-							
-						}else{	
+					if(isset($this->session->userdata['business_id'])){
 						$id=$this->session->userdata['business_id'];
-							$link = 'cal/'.$id;
-								
-						}
+						$link = 'cal/'.$id;		
+					}
 					?>
 					<li>
 						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
 					</li>
 					<?php 
-					if($this->session->userdata['business_type']=="class"){
-							$link = "calendar_business";
-							
-						}else{	
+					if(isset($this->session->userdata['business_id'])){
 						$id=$this->session->userdata['business_id'];
 							$link = '?id='.$id;
 								

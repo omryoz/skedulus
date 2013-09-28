@@ -90,7 +90,7 @@ session_start();
 	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
 	<li>
 	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
-	<a  class="websbutton btn btn-success" id="deleteApp" href="#" >Delete</a>
+	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Delete</a>
 	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
 	</li>
 	</ul>
@@ -142,6 +142,7 @@ session_start();
  	var activeEvent;
     function onPreview(evt, dataObj, html)
 	{ 
+	   $(".message").removeClass("alert").html(" ");
 	   $("#eventId").html($(evt).attr('eventid'));
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
@@ -288,14 +289,14 @@ session_start();
 		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
 		url:url,
 		type:'POST',
-		success:function(data){  alert(data);
-		if(data=='no'){ 
+		success:function(data){  //alert(data);
+		if(data==0){ 
 		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
 		return false;
-		}else if(data=='yes'){
+		}else if(data==1){
 		var str="?";
 			//str=str+"eventName="+activeEvent.name; 
-			str=str+"&eventId="+$("#eventId").html(); alert(str);
+			str=str+"&eventId="+$("#eventId").html(); //alert(str);
 			ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
 			$("#reschedule").modal('hide');
 		

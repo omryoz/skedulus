@@ -97,7 +97,7 @@ function showSelected(){
 							  <td><?php echo $i; ?></td>
 							  <td><?php echo $content['name']; ?></td>
 							  <td>
-							  <a href="#myModal1" data-toggle="modal"  onclick= editclasses(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="#class-modal" data-toggle="modal"  onclick= editclasses(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
 							  
 							  
 							  <a href="<?=base_url()?>services/manage_classes?id=<?php echo $content['id']; ?>&delete=delete"  data-toggle="tooltip" class="tool confirm"  data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
@@ -130,11 +130,11 @@ function showSelected(){
 
 <div id="class-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+   
     <h3 id="myModalLabel">
-	<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editclasses'))?> </h4>
-	<h4 class="staff1" id="add"><?=(lang('Apps_addclasses'))?></h4>
-	</h3>
+	<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editclasses'))?>   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+	<h4 class="staff1" id="add"><?=(lang('Apps_addclasses'))?>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+	 </h3>
   </div>
   <div class="modal-body">
     <div >
@@ -209,9 +209,9 @@ function showSelected(){
 					 <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
-					 <div class="" style="display:none" id="update">
+					 <div class="pull-right" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
+					  <input type="submit" name="save" class="btn btn-success " value="<?=(lang('Apps_update'))?>" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 					 </div> 
              

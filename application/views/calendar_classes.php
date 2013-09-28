@@ -32,7 +32,9 @@ if(!isset($this->session->userdata['id'])){
 	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
-<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
+<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
+<p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
+<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
 	
 </div>
 </div>
@@ -62,6 +64,7 @@ if(!isset($this->session->userdata['id'])){
 <!-- New Event Template -->
 <div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
+	<p class="message"></p>	
 <ul class="nav nav-tabs" id="postclasstab">
   <li class="active"><a href="#edit_class" id="addclass"><?=(lang('Apps_postclass'))?></a><a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
   <li><a href="#add_client"><?=(lang('Apps_clientlist'))?></a></li>
@@ -182,13 +185,7 @@ if(!isset($this->session->userdata['id'])){
 					     <input type="text" class=""  id="class_size">
 						 <input type="hidden" name="repeatstatus" id="repeatstatus">
 					  </td> 
-					</tr>
-					
-					
-					
-					
-					
-					
+					</tr>	
             </tbody>
         </table>
 			
@@ -286,6 +283,10 @@ if(!isset($this->session->userdata['id'])){
 	    
 </script>
 <script>
+$("#eventGroup").live("change",function(){
+$(".message").removeClass("alert").html(" ");
+})
+
 $("#repeat").click(function(){
  if($("#repeathtml").html()=="Add Repeat"){
  var removediv="Remove Repeat";
@@ -458,7 +459,8 @@ if($("#monthlylist").val()!=""){
 	
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{ 
+	{ alert("here");
+	 $(".message").removeClass("alert").html(" ");
 	 $("#editClass").modal("show");
 	 $("#eventId").html($(evt).attr('eventid'));
 	 $.ajax({
@@ -718,8 +720,16 @@ if($("#monthlylist").val()!=""){
      * Click of Add in add event box.
      */
     function rzAddEvent()
-    {	
-      if($("#eventGroup").val()==""){
+    {	//alert($("#StartDate").val());
+	  var todayDate= '<?php echo date("m/d/Y"); ?>';
+	  var today=new Date(todayDate);
+	  var start_date=new Date($("#StartDate").val());
+	 
+	  if(start_date <= today){
+	   $(".message").addClass("alert").html("Cannot post the classes for the past/todays date");
+	   return false;
+	  }else if($("#eventGroup").val()==""){
+	   $(".message").addClass("alert").html("Select atleast one service");
 	  return false;
 	  }else{
 		

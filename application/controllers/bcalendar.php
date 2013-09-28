@@ -103,11 +103,11 @@ class Bcalendar extends CI_Controller {
 	//print_r(date('d-m-Y',strtotime($this->input->post('date'))));
 	 // print_r($_POST); exit;
 	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
-	  print_r("yes");
-	  //echo 0;
+	  //print_r("yes");
+	  echo 1;
 	  }else{ 
-	  print_r("no");
-	  //echo 1;
+	 // print_r("no");
+	  echo 0;
 	  }
 	  
 	}
@@ -510,7 +510,7 @@ function referal_url($url){
 		$slots = $this->common_model->getAllslots($filter);
 		
 		if($eventId!=''){
-		  $where.=' AND id!='.$this->input->post('eventId');
+		  $where.=' AND id!='.$eventId;
 		}
 		
 		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
@@ -589,6 +589,7 @@ function referal_url($url){
 	if($id==""){
        $id=$this->session->userdata['business_id'];
     }
+	$this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 	if($id){
 	$this->parser->parse('include/header',$this->data);
 	$this->data['role']="";
@@ -611,7 +612,9 @@ function referal_url($url){
 		
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		  $this->data['businessId']=$id;
+		 
 		}
+		
 		if($this->session->userdata['role']=="client"){
 		$this->parser->parse('calendar_bookclass',$this->data);
 		}else{

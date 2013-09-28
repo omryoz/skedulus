@@ -1,4 +1,75 @@
-﻿
+﻿<script>
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            $("#sign_up").validate({
+                rules: {
+                    firstname: "required",
+					lastname: "required",
+					gender: "required",
+                    email: {
+                        required: true,
+                        email: true,
+						remote: {
+						  url: baseUrl+'home/checkEmail',
+						  type: "post",
+						  data: {
+							email: function(){ return $("#email").val(); }
+						  }
+                     }
+					},
+					phone_number: {
+						digits:true
+					},	
+					password:{ 
+					required: true,
+					minlength: "6",
+					}
+                    
+                },
+                messages: {
+                    firstname: "Please Fill in your first name",
+					lastname: "Please Fill in your last name",
+					gender: "Please Fill in your gender",
+                    email: {
+					required: "Please Fill in your email",
+					email: "Please enter a valid email address",
+					remote: "Email already exist"
+					},	
+					phone_number:{
+					digits: "Only numbers allowed",
+					},	
+					password: {
+					required:"Please Fill in your password",	
+					minlength:"Minimum 6 characters is required"
+					}				
+                },
+				
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+
+				},
+
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+</script>
+
 <div class="content container login_page">
 <?php if(isset($success)){ ?>
 	<p class="alert"><?=(lang('Apps_verificationlink'))?></p>
@@ -108,75 +179,6 @@
 
 
 <script>
-(function($,W,D)
-{
-    var JQUERY4U = {};
-    JQUERY4U.UTIL =
-    {
-        setupFormValidation: function()
-        {
-            $("#sign_up").validate({
-                rules: {
-                    firstname: "required",
-					lastname: "required",
-					gender: "required",
-                    email: {
-                        required: true,
-                        email: true,
-						remote: {
-						  url: baseUrl+'home/checkEmail',
-						  type: "post",
-						  data: {
-							email: function(){ return $("#email").val(); }
-						  }
-                     }
-					},
-					phone_number: {
-						digits:true
-					},	
-					password:{ 
-					required: true,
-					minlength: "6",
-					}
-                    
-                },
-                messages: {
-                    firstname: "Please Fill in your first name",
-					lastname: "Please Fill in your last name",
-					gender: "Please Fill in your gender",
-                    email: {
-					required: "Please Fill in your email",
-					email: "Please enter a valid email address",
-					remote: "Email already exist"
-					},	
-					phone_number:{
-					digits: "Only numbers allowed",
-					},	
-					password: {
-					required:"Please Fill in your password",	
-					minlength:"Minimum 6 characters is required"
-					}				
-                },
-				
-				errorPlacement: function(error, element) {
-				 error.insertAfter( element ); 
-
-				},
-
-                submitHandler: function(form) {
-                form.submit();
-                }
-            });
-        }
-		
-    }
-
-    //when the dom has loaded setup form validation rules
-    $(D).ready(function($) {
-        JQUERY4U.UTIL.setupFormValidation();
-    });
-
-})(jQuery, window, document);
 
 function passwordStrength(password)
 {
