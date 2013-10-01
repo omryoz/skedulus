@@ -40,7 +40,7 @@
 			//var groupDD=newevt.find("#eventGroup").get(0);
 			//console.log(groupDD);
 			//removeAllOptions(groupDD);
-			var string = '<div class="dropdown"><a class="dropdown-toggle btn input-block-level" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul" role="menu" aria-labelledby="dLabel" style="width:85%">';
+			var string = '<div class="dropdown"><a class="dropdown-toggle btn semi-large" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel" >';
 			var str = '';
 			for(var g in groups)
 			{	

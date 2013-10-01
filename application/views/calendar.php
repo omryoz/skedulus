@@ -30,6 +30,8 @@
 		<?php //print_r($this->session->userdata['profileid']);?>
 <h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
 <div id="calendarContainer" ></div>
+<input type="hidden" name="staffid" id="staffsid" value="">
+ <p id="profileid" class="hide"><?php print_r($buisness_details[0]->id) ?></p>											
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
@@ -39,24 +41,7 @@
   </div>
 </div>
 <!----Modal------>
-<!-- Modal -->
-  <!-- <div class="modal fade" id="bookApp">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Modal title</h4>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <a href="#" class="btn">Close</a>
-          <a href="#" class="btn btn-primary">Save changes</a>
-        </div>
-      </div>
-    </div>
-  </div> -->
+
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
@@ -178,8 +163,49 @@
  	var activeEvent;
     function onPreview(evt, dataObj, html)
 	{
-		activeEvent=dataObj;
-		ical.showPreview(evt, html);
+		 $(".message").removeClass("alert").html(" ");
+	   $("#eventId").html($(evt).attr('eventid'));
+	    $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:$(evt).attr('eventid')},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+			$("#business_name").html(v.business_name);
+			$("#business_id").html(v.business_details_id);
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#name").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#serviceprovider").css("display",'none');
+			}
+			if(v.type=='class'){
+			var type='Class';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			$("#reschedulebtn").hide();
+			}else{
+			var type='Services';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			$("#services_id").html(v.services_id);
+			$("#employee_id").html(v.employee_id);
+			$("#note").html(v.note);
+			if(v.status=='active'){
+			$("#reschedulebtn").show();
+			}else{
+			$("#reschedulebtn").hide();
+			}
+			}
+			$("#date").html(v.date);
+			$("#time").html(v.time);
+			$("#endtime").html(v.endtime);
+		  })
+	   }
+	   })
+	   
+	   $("#reschedule").modal('show');
+		//activeEvent=dataObj;
+		//ical.showPreview(evt, html);
 	}
     /*
      Method invoked when event is moved or resized

@@ -86,13 +86,13 @@
       </div>
 		<div class="social_buttons hidden-phone" >
         <div class="inset">
-            <a class="fb login_button" href="#">
+            <a class="fb login_button" href="<?php echo base_url();?>home/hybrid/Facebook">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
                 <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
-            <a class="tw login_button" href="#">
+            <a class="tw login_button" href="<?php echo base_url();?>home/hybrid/Twitter">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
                 <span><?=(lang('Apps_signtw'))?></span>
             </a>
@@ -111,9 +111,9 @@
 	<div class="row-fluid">
 		<div class="span6 offset4 login_form">
 		<form action="<?php echo base_url(); ?>common_functions/<?php echo $userRole ?>/?checkino" method="POST" name="sign_up" id="sign_up" >
-		  <input type="text" class="span8" placeholder="<?=(lang('Apps_firstname'))?>" name="firstname" value="" maxlength="15" />
+		  <input type="text" class="span8" placeholder="<?=(lang('Apps_firstname'))?>" name="firstname" value="<?php print_r($first_name);?>" maxlength="15" />
 		
-		  <input  type="text" class="span8"  placeholder="<?=(lang('Apps_lastname'))?>" name="lastname" value=""  maxlength="15" />
+		  <input  type="text" class="span8"  placeholder="<?=(lang('Apps_lastname'))?>" name="lastname" value="<?php print_r($last_name);?>"  maxlength="15" />
 		 
 		  <div class="row-fluid">
 		  <div class="span2">
@@ -154,11 +154,15 @@
 		'male'=>"Male",
 		'female'=>"Female"
 		);
-		 $selectedgender = "";
+		$selectedgender='';
+		if(isset($gender)){
+		 $selectedgender = $gender;
+		}
+		
 	     echo form_dropdown('Select your gender', $options, $selectedgender ,'class="span8 select-gender"');
 		?>
 		 
-		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_email'))?>" name="email" value="" id="email" /> 
+		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_email'))?>" name="email" value="<?php print_r($email);?>" id="email" /> 
 		 
 		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_phonenumber'))?>" name="phone_number" value="" id="phone_number" maxlength="15" /> 
 		

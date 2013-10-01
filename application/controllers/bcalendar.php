@@ -40,7 +40,7 @@ class Bcalendar extends CI_Controller {
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 		 
 		}
-		 //$this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -310,14 +310,19 @@ function getfreeslotsbydate(){
 			 }
 			 $this->data['slots'] = $this->common_model->getAllslots($filter);
 			 //$where=1;
-			 
+			 if($this->input->post('timeslot')!=''){
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			 }else{
+			  $this->data['selectedTimeSlot']='';
+			 }
 			 if($this->input->post('eventId')!=''){ 
 			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
 			  $where.=' AND id!='.$this->input->post('eventId');
-			 }else{
-			// $where='1';
-			 $this->data['selectedTimeSlot']='';
 			 }
+			 //else{
+			// $where='1';
+			
+			 //}
 			// print_r($this->data['selectedTimeSlot']); exit;
 			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
 			 //print_r($this->data['booked_slots']);
@@ -417,7 +422,8 @@ function referal_url($url){
 		//foreach(explode(",",rtrim($this->input->post('checked'),",")) as $id){
 		if($this->input->post('status')!=""){
 		
-		$str=rtrim($this->input->post('service_id'),',');
+		$str1=rtrim($this->input->post('service_id'),','); 
+		$str=rtrim($str1);
 		if($str!=''){
 		$info = 'id  IN ('.$str.')';
          }else{
@@ -751,6 +757,7 @@ function referal_url($url){
 		  $this->data['staff_details'] = $this->business_profile_model->getstaffDetailsByfilter($filter);
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'employee');
 		}
+		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('staffCalendar',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}

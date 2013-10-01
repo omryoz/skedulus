@@ -18,7 +18,7 @@
 // if(!isset($this->session->userdata['id'])){
  // redirect('home/clientlogin');
 // }
- 
+
 
 ?>
 <div class="content container">
@@ -26,8 +26,10 @@
 		<?php //print_r($this->session->userdata['profileid']);?>
 <h3><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>		
 <div id="calendarContainer" ></div>
-<input type="hidden" name="staffid" id="staffid" value="<?php print_r($staff_details[0]->users_id); ?>">
-<input type="hidden" name="businessid" id="businessid" value="<?php print_r($staff_details[0]->user_business_details_id); ?>" >
+<input type="hidden" name="staffid" id="staffsid" value="<?php print_r($staff_details[0]->users_id); ?>">
+<input type="hidden" name="businessid" id="bid" value="<?php print_r($staff_details[0]->user_business_details_id); ?>" >
+ <p id="profileid" class="hide"><?php print_r($staff_details[0]->user_business_details_id); ?></p>	
+ <p id="staffname" class="hide"><?php print_r($staff_details[0]->first_name."".$staff_details[0]->last_name); ?></p>	
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
@@ -186,8 +188,8 @@
     function loadCalendarEvents(startTime, endTime)
     {   
 	    var str="?"; 		
-		str=str+"&staffid="+$("#staffid").val();
-		str=str+"&businessid="+$("#businessid").val(); 
+		str=str+"&staffid="+$("#staffsid").val();
+		str=str+"&businessid="+$("#bid").val(); 
 		ajaxObj.call("action=getStaffevents"+str, function(list){ical.render(list);});
     }  
     
@@ -256,7 +258,7 @@
 		//alert(strtTime);
 		var str="?1=1";
 		str=str+"&eventName="+newev.find("#eventName").val();
-		str=str+"&employee_id="+$("#staffid").val();
+		str=str+"&employee_id="+$("#staffsid").val();
 		str=str+"&st="+stStr;
 		str=str+"&et="+edStr;
 		//alert(str);

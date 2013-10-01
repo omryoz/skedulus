@@ -95,7 +95,7 @@
 			
 			</div>
 		  </div>
-		  <div class="control-group">
+		  <div class="control-group" id="staffdiv">
 			<label class="control-label" > <?=(lang('Apps_staff'))?></label>
 			<div class="controls">
 			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
@@ -122,7 +122,7 @@
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="" eventId="" booking="">
+					<select name="time" class="time" id="timeSlot" action="" eventId="" booking="" staff="">
 						
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
@@ -134,7 +134,17 @@
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
 			  <textarea type="text" class=" messageNote" name="note" id="note" placeholder="Message"></textarea>
-			  <input type="hidden" name="businessid" id="businessid" value="<?php echo $_GET['id'] ?>"> 
+			  <?php  if(isset($_GET['id'])) { 
+			  $id=$_GET['id'];
+			  }else{
+			   $id='';
+			  } ?>
+			  <input type="hidden" name="businessid" id="businessid" class="business_id" value="<?php echo $id ?>"> 
+			<?php  if(isset($this->session->userdata['business_id'])) { ?>
+			<p id="business_id" class="hide"><?=$this->session->userdata('business_id')?></p>
+			<?php } else{ ?>
+			<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
+			<?php }?>
 			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			</div>
 		  </div>
