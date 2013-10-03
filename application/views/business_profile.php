@@ -54,7 +54,7 @@
 								?>
 								<div class="btn-group pull-left">
 								<!---<a href="#book"  class="btn btn-success left book_me" bookstatus="multi" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>--->
-								<a href="#bookmultiServices"  class="btn btn-success left bookmultiServices" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
+								<a href="#book"  class="btn btn-success left book_me" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
 								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
 							<?php }		?>
@@ -145,7 +145,7 @@
 								   $popup="#book";
 								   }
 								    ?>
-								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" bookstatus="single" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
+								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
 								   <?php } ?>
 								</tr>
 							<?php } ?>

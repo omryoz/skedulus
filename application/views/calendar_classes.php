@@ -724,14 +724,24 @@ if($("#monthlylist").val()!=""){
 	  var todayDate= '<?php echo date("m/d/Y"); ?>';
 	  var today=new Date(todayDate);
 	  var start_date=new Date($("#StartDate").val());
-	 
-	  if(start_date <= today){
-	   $(".message").addClass("alert").html("Cannot post the classes for the past/todays date");
-	   return false;
-	  }else if($("#eventGroup").val()==""){
+	  var last_date=new Date($("#enroll_last").val());
+	
+	 if($("#eventGroup").val()==""){
 	   $(".message").addClass("alert").html("Select atleast one service");
 	  return false;
-	  }else{
+	  }else if(start_date <= today){
+	   $(".message").addClass("alert").html("Cannot post the classes for the past/todays date");
+	   return false;
+	  }else if(last_date=='Invalid Date'){
+	   $(".message").addClass("alert").html("The last date to enroll is required");
+	   return false;
+	  }else if(last_date > start_date || last_date < today ){
+	   $(".message").addClass("alert").html("The last date to enroll should be after today");
+	   return false;
+	  }else if($("#class_size").val()==''){
+	   $(".message").addClass("alert").html("Class size is required");
+	   return false;
+	  }else {
 		
 	   var myVar='';
 	   var repeattype="daily";
@@ -760,7 +770,7 @@ if($("#monthlylist").val()!=""){
 		str=str+"&checked="+myVar;
 		str=str+"&tr_id="+trainer;  
 		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
-		window.location.href=base_url+'bcalendar/calendar_business';
+		//window.location.href=base_url+'bcalendar/calendar_business';
 		}
     } 
 	

@@ -103,6 +103,13 @@ class Staffs extends CI_Controller {
 			$val=$this->parser->parse('staff_availability',$this->data);
 			//echo($val); 
 		}
+		
+		if(isset($_GET['getbavailability'])){	
+			$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+			$this->data['isExistAvailability']=$this->basicinfo_model->getbAvailability();
+			$val=$this->parser->parse('staff_availability',$this->data);
+			//echo($val); 
+		}
 		 
 		 
 		 if(isset($_GET['delete'])){

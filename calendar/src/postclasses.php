@@ -71,9 +71,12 @@ class postclasses
 				case "daily":
 				    $check_date = $start_date;
 					while ($check_date <= $end_date) { 
-				    if(strtotime($check_date) <= strtotime($end_date)){				
+				    if(strtotime($check_date) <= strtotime($end_date)){	
+						
+						
+		                $date3 = strtolower(date("l", strtotime($check_date)));
+						print_r($date3); exit;
 					 $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
-					 
 					 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
 					}
 				   }
@@ -122,6 +125,12 @@ class postclasses
 		
 		
 	    
+	}
+	
+	function getworkingday($date){
+	   $resEvents = $db->get_results("select * from view_service_availablity where user_business_details_id='".$_SESSION['profileid']."' and name='".$date."'");   
+	   $eventsarray=array(); 
+	   $evCount=0;
 	}
 	
 	function is_authorized()

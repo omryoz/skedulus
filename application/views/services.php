@@ -70,6 +70,7 @@ function showSelected(){
  $("#price").removeAttr('disabled');
  }
 }
+
 </script>
             <div id="myTabContent" class="tab-content tabcontentbg">	  
 			  <!-- basic info start -->
@@ -124,7 +125,7 @@ function showSelected(){
 
 <!--model for add service-->
 
-<div id="service-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="service-modal" data-keyboard="false" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel">
@@ -211,7 +212,7 @@ function showSelected(){
 				<div class="span6 offset2">
 				<?php foreach($staffs as $staffname){  ?>
 							 <label class="checkbox">
-							 <input type="checkbox" name="staffs[]" value="<?php echo $staffname->users_id; ?>" id="<?php echo $staffname->users_id; ?>" />
+							 <input type="checkbox" name="staffs[]" class='staffs' value="<?php echo $staffname->users_id; ?>" id="<?php echo $staffname->users_id; ?>" />
 								<?php  echo $staffname->first_name." ".$staffname->last_name;?>
 							</label>
 					<?php } ?>		

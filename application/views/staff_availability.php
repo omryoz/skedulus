@@ -1,6 +1,6 @@
 <?php error_reporting(0); ?>
 					  
-						 <h5> Edit Staff Availability </h5>
+						 <h5>Assign Staffs Availability </h5>
 						  <?php 
 							 $start = strtotime('7:00');
 						     $end = strtotime('23:59');

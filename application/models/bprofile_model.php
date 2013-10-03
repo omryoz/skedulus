@@ -637,8 +637,11 @@ class bprofile_model extends CI_Model {
 				$values['business_details_id'] =$dataP->business_details_id;
 				$values['e_first_name'] =$dataP->employee_first_name;
 				$values['e_last_name']= $dataP->employee_last_name;
+				$values['c_first_name'] =$dataP->clients_first_name;
+				$values['c_last_name']= $dataP->clients_last_name;
 				$values['services_id']= $dataP->services_id;
 				$values['employee_id']= $dataP->employee_id;
+				$values['user_id']= $dataP->users_id;
 				$values['note']= $dataP->note;
 				$values['type']= $dataP->type;
 				if($dataP->type=='class'){

@@ -13,11 +13,7 @@
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php 
-// if(isset($this->session->userdata['profile_id'])){
-		  // $id=$this->session->userdata('profile_id');
-		// }else if(isset($this->session->userdata['business_id'])){
-		  // $id=$this->session->userdata('business_id');
-		// }
+
 @session_start();
 $_SESSION['profileid'] = $buisness_details[0]->id;
 if(!isset($this->session->userdata['id'])){

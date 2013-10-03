@@ -112,8 +112,8 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 						  <div class="tab-pane fade active in" id="staff">
 							  <div class="row-fluid">
 								<div class="">
-									<h3><?=(lang('Apps_stafflist'))?> 
-										<a href="#myModal" onclick="resetForm();"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
+									<h3><?=(lang('Apps_stafflist'))?>
+										<a href="#myModal" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
 									</h3>
 									<?php if(isset($tableList)) { ?>
 									<table class="table  table-staff table-hover  table-striped" >
@@ -163,7 +163,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 	
 	
 	<!--model for add staff-->
-	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div id="myModal" data-keyboard="false" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		
 		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>

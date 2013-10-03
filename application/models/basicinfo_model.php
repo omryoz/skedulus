@@ -90,6 +90,28 @@ class basicinfo_model extends CI_Model {
 		}
 	}
 	
+	function getbAvailability(){
+		$sql="Select * from user_business_availability where type='business' and user_business_details_id =".$_GET['businessid'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$week_id="";
+		if($data){
+			foreach($data as $dataP){
+				$values[$dataP->weekid]['weekid'] =$dataP->weekid;
+				$values[$dataP->weekid]['start_time']= date('H:i',strtotime($dataP->start_time));
+				$values[$dataP->weekid]['end_time']= date('H:i',strtotime($dataP->end_time));
+				$i++;
+				$week_id[] =$dataP->weekid;
+			}
+			//$week_id
+			$result['weekids']=$week_id;
+			$result['values']=$values;
+			//print_r($result); exit;
+			return $result;
+		}
+	}
+	
 	function insertsubscription(){
 	$insertSub=array();
 	//if(isset($_GET['subscription'])) $insertSub['subscription_id']=$_GET['subscription'];

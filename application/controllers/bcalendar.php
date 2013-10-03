@@ -114,15 +114,17 @@ class Bcalendar extends CI_Controller {
 	
 	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){  
 	  if(strtotime($date)<=strtotime(date("d-m-Y"))){
-		 $currentTime= date('H:i');
+		 $currentTime= date('H:i'); 
 		 $value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$business_id);
 		if($action=='schedule'){
-		  $bookbefore=$value->book_before;
+		  $bookbefore=$value->book_before.':00';
 		}else{
-		  $bookbefore=$value->cancel_reschedule_before;
-		}
-		if(($startTime < $currentTime || strtotime($date) < strtotime(date("d-m-Y"))) || (($startTime >= $currentTime) && (($startTime-$currentTime) < $bookbefore)) ){
-		 //  echo -1;
+		  $bookbefore=$value->cancel_reschedule_before.':00';
+		} 
+		$diff1=strtotime($startTime)-strtotime($currentTime); 
+		$diff=date ('H:i',$diff1);
+		
+		if((strtotime($startTime) < strtotime($currentTime) || strtotime($date) < strtotime(date("d-m-Y"))) || ((strtotime($startTime) >= strtotime($currentTime)) && ($diff <= date ('H:i',strtotime($bookbefore)))) ){
 		   return false;
 			//echo "less time";
  		}else{	 
@@ -257,12 +259,19 @@ function getstaffnameByfilter(){
 }
 
 function getstaffnamesByfilter(){
+//if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
 	if($this->input->post('service_id')){
 	$string = rtrim($this->input->post('service_id'), ',');
     $filter = 'service_id  IN ('.$string.')'; 
 	 $this->load->model("bprofile_model");
 	$results = $this->bprofile_model->getserviceByfilter($filter);	
-	print_r(json_encode($results));
+	
+	foreach($results as $res){ 
+	 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
+	     $results1[]=$res;
+	 } 
+	}//print_r($results1);exit;
+	print_r(json_encode($results1));
 	}else{
 		return false;
 	}
@@ -364,7 +373,7 @@ function checkweekendDayName($date=false){
 		return $date3;
 }
 
-function createappointment(){
+function createappointment(){ //print_r($_POST); exit;
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
@@ -387,7 +396,11 @@ function createappointment(){
 		$val=$this->common_model->createAppointment($input);
 		}
 		if($val){
+		   if($this->session->userdata['role']=='manager'){
+		    redirect("/bcalendar/cal/".$this->input->post('businessid'));
+		   }else{
 			redirect("bcalendar/mycalender");
+			}
 		}else{
 			redirect("");
 		}
@@ -621,10 +634,10 @@ function referal_url($url){
 		 
 		}
 		
-		if($this->session->userdata['role']=="client"){
-		$this->parser->parse('calendar_bookclass',$this->data);
+		if($this->session->userdata['role']=="manager"){
+		$this->parser->parse('calendar_classes',$this->data);
 		}else{
-		 $this->parser->parse('calendar_classes',$this->data);
+		$this->parser->parse('calendar_bookclass',$this->data);
 		}
 		 $this->parser->parse('include/footer',$this->data);
 	}

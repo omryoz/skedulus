@@ -25,23 +25,117 @@
 
 
 ?>
+<?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
+  $role='manager';
+ }else{
+  $role='none';
+ } ?>
+ <input type="hidden" name="userrole" value="<?php print_r($role);?>" id="userrole">
+ 
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
 <h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffsid" value="">
+<p class="hide" id="user_id"></p>
  <p id="profileid" class="hide"><?php print_r($buisness_details[0]->id) ?></p>											
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
+
 </div>
 </div>
   </div>
 </div>
 <!----Modal------>
-
+<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<p class="message"></p> 
+ <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">Appointment Details</h3>
+  </div>
+  <div class="modal-body">
+	<p id="eventid" class="hide"></p>
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<table class="table table-striped" >
+			<tbody>
+			<tr> 
+					  <td>
+					    Business Name 	
+					  </td>
+					  <td>
+					   <span id="business_name"></span>
+					   <p id="business_id" class="hide"></p>
+					   <p id="services_id" class="hide"></p>
+					   <p id="employee_id" class="hide"></p>
+					   <p id="note" class="hide"></p>
+					  </td>
+		   </tr>
+		   <tr> 
+					  <td>
+					    Client Name 	
+					  </td>
+					  <td>
+					   <span id="cname"></span>
+					  </td>
+		   </tr>
+		   <tr> 
+					  <td>
+					    <span id="type"></span> 	
+					  </td>
+					  <td>
+					   <span id="typeName"></span>
+					  </td>
+		   </tr>
+		    <tr id="serviceprovider"> 
+					  <td>
+					    Service Provider	
+					  </td>
+					  <td>
+					   <span id="name"></span>
+					  </td>
+		   </tr>
+			 <tr> 
+					  <td>
+					    Date	
+					  </td>
+					  <td>
+					   <span id="date"></span>
+					  </td>
+		     </tr>	
+			  <tr> 
+					  <td>
+					    Time	
+					  </td>
+					  <td>
+					   <span id="time"></span>
+					   <span id="endtime" class="hide"></span>
+					  </td>
+		      </tr>
+			</tbody>
+			</table>
+		</div>
+	
+	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
+	
+	<ul class="unstyled inline pull-right" style="margin: 0px;">
+	<li>
+	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
+	<li>
+	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
+	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Delete</a>
+	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
+	</li>
+	</ul>
+    
+	
+	
+	</div>
+  </div>
+</div>
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	
@@ -162,9 +256,11 @@
     }
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{
-		 $(".message").removeClass("alert").html(" ");
-	   $("#eventId").html($(evt).attr('eventid'));
+	{ 
+    if($("#userrole").val()=='manager'){
+	   $(".message").removeClass("alert").html(" ");
+	   $("#eventid").html($(evt).attr('eventid'));
+	   
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
 	   data:{eventID:$(evt).attr('eventid')},
@@ -172,6 +268,7 @@
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
 			$("#business_name").html(v.business_name);
+			$("#cname").html(v.c_first_name+" "+v.c_last_name);
 			$("#business_id").html(v.business_details_id);
 			if(v.e_first_name!="" || v.e_last_name!=""){
 			$("#name").html(v.e_first_name+" "+v.e_last_name);
@@ -190,6 +287,7 @@
 			$("#services_id").html(v.services_id);
 			$("#employee_id").html(v.employee_id);
 			$("#note").html(v.note);
+			$("#user_id").html(v.user_id);
 			if(v.status=='active'){
 			$("#reschedulebtn").show();
 			}else{
@@ -206,6 +304,7 @@
 	   $("#reschedule").modal('show');
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
+	 }
 	}
     /*
      Method invoked when event is moved or resized

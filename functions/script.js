@@ -14,13 +14,24 @@ var url=baseUrl+'basicinfo/insertData';
 
 
 
-function resetForm(){
+function resetForm(id){  
     $("#action").val('add');
     $("#userid").val(" ");
 	$("#addstaffs")[0].reset();
 	//$("#showadd").show();
 	//$("#showedited").hide();
 	$("#assignstaffs").find('input:checkbox').removeAttr('checked');
+	var url=baseUrl+'staffs/manage_staffs';
+	$.ajax({
+		data: {'businessid': id,'getbavailability':'getbavailability'},
+		url: url,
+		type:'GET',
+		success:function(data){
+		//$("#showadd").hide();
+		$("#showedited").html(data);
+		 }
+		
+	})
 	$("#edit").hide();
 	$("#add").show();
 	$("#update").hide();
@@ -30,6 +41,7 @@ function resetForm(){
 
 //Services
 function editService(id){
+$(".staffs").removeAttr('checked');
 	var url=baseUrl+'services/manage_services';
 	$.ajax({
 		data: {'id': id},
@@ -96,7 +108,6 @@ function deleteService(id){
 	})
 	}
 }
-
 
 
 
@@ -172,6 +183,7 @@ function editclasses(id){
 
 //Staff
 function editStaff(id){
+$("#assignstaffs").find('input:checkbox').removeAttr('checked');
 $(".alert").hide();
  $("#action").val('edit');
  $("#assignstaffsbtn").show();
@@ -219,42 +231,8 @@ $("#userid").val(id);
 		success:function(data){
 		//$("#showadd").hide();
 		$("#showedited").html(data);
-		//$("#showedited").show();
-		// var content = eval(data);
-		// var count=1;
-		 // while(count<=7){
-		     // $.each(content,function(i,v){
-			 // alert(v.weekid);alert("forloop"+count);
-			 
-			   /* if(v.weekid==count){
-				$("#"+v.weekid).attr('checked','checked');
-				$("#"+v.weekid+"from").val(v.start_time);
-				$("#"+v.weekid+"to").val(v.end_time);
-				  //alert(v.weekid+"here");
-				}else{
-				$("#"+v.weekid).removeAttr('checked');
-				//$("#"+v.weekid+"from").val(v.start_time);
-				//$("#"+v.weekid+"to").val(v.end_time);
-				 //alert(v.weekid+"there");
-				}*/
-				// })
-				// count++;
-			 // }
 		 }
-		// $.each(content,function(i,v){
-		// alert(v.weekids);
-		// $("#"+v.weekid).attr('checked','checked');
-		// $("#"+v.weekid+"from").val(v.start_time);
-		// $("#"+v.weekid+"to").val(v.end_time);
 		
-		// if(v.lunch_start_time!='00:00:00'){
-		// $("#L"+v.weekid).attr('checked','checked');
-		// $("#"+v.weekid+"Lfrom").val(v.lunch_start_time);
-		// $("#"+v.weekid+"Lto").val(v.lunch_end_time);
-		// }
-		
-		// })
-		// }
 	})
 }
 

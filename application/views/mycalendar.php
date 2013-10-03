@@ -29,7 +29,7 @@ session_start();
     <h3 id="myModalLabel">Appointment Details</h3>
   </div>
   <div class="modal-body">
-	<p id="eventId" class="hide"></p>
+	<p id="eventid" class="hide"></p>
 	<div class="row-fluid">
 		<div class="row-fluid">
 			<table class="table table-striped" >
@@ -84,7 +84,7 @@ session_start();
 		</div>
 	
 	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
-	<p id="eventId" class="hide"></p>
+	
 	<ul class="unstyled inline pull-right" style="margin: 0px;">
 	<li>
 	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
@@ -110,6 +110,7 @@ session_start();
 			<p class="role hide"><?=(!empty($role))?$role:''?></p>
 		<p id="Bstarttime" class="hide" ></p>
        <p id="Bendtime" class="hide"></p>
+	   <p class="hide" id="user_id"><?php print_r($user_id); ?></p>
 		</div>
 </div>
    </div></div>
@@ -143,7 +144,7 @@ session_start();
     function onPreview(evt, dataObj, html)
 	{ 
 	   $(".message").removeClass("alert").html(" ");
-	   $("#eventId").html($(evt).attr('eventid'));
+	   $("#eventid").html($(evt).attr('eventid'));
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
 	   data:{eventID:$(evt).attr('eventid')},
@@ -296,7 +297,7 @@ session_start();
 		}else if(data==1){
 		var str="?";
 			//str=str+"eventName="+activeEvent.name; 
-			str=str+"&eventId="+$("#eventId").html(); //alert(str);
+			str=str+"&eventId="+$("#eventid").html(); //alert(str);
 			ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
 			$("#reschedule").modal('hide');
 		

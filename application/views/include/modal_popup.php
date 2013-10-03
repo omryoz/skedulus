@@ -1,34 +1,18 @@
-
 <!----------book popup start------------>
-
-
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal book_appointment" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
+  <form class="form-horizontal book_appointment" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
   </div>  <p class="message"></p>	
   <div class="modal-body row-fluid">
-		 
-		  
 		   <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_service'))?></label>
 			<div class="controls">
-			  <select class="services" name="services" id="services">
-				<option> <?=(lang('Apps_selectservice'))?></option>
-			  </select>
+			<p id="checkbox"><p>
 			 
 			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_staff'))?></label>
-			<div class="controls">
-			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
-			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
-			  <select name="staff" class="staff"> 
-				<option> <?=(lang('Apps_selectstaff'))?></option>
-			  </select>
-			</div>
+		<input type="hidden" name="services" class="services" id="selectedService" value="" />
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_date'))?></label>
@@ -36,30 +20,36 @@
 				<div class="input-append date date_pick span8" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
 					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>">
 					<span class="add-on"><i class="icon-calendar"></i></span>
-				  </div>
-				  <!--<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-                                       <input class="span10 st_date" size="16" type="text" value="<?=date("d-m-Y")?>" >
-                                       <span class="add-on"><i class="icon-calendar"></i></span>
-                                 </div>-->
+				 </div>
+			</div>
+		  </div>
+		  <div class="control-group">
+			<label class="control-label" > <?=(lang('Apps_staff'))?></label>
+			<div class="controls">
+			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
+			 <input type="hidden" name="staffschedule" value="" id="staffschedule" ename="">
+			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
+			  <select name="staff" class="staff"> 
+				<!---<option> <?=(lang('Apps_selectstaff'))?></option>--->
+			  </select>
 			</div>
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_time'))?></label>
 			<div class="controls">
 					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" action="" eventId="" booking="">
-						
+					
+					<select name="time" class="time" id="timeSlot" action="" eventId="" booking="" staff="">	
 					</select>
 					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
 			</div>
 		  </div>
 		  
-		  
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
 			  <textarea type="text" class="span8" name="note" id="note" placeholder="Message"></textarea>
-			  <input type="hidden" name="businessid" value="<?php echo $_GET['id'] ?>"> 
+			  <input type="hidden" name="businessid" class="business_id" value="<?php echo $_GET['id'] ?>"> 
 			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			 
 			</div>
@@ -70,97 +60,16 @@
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app"/>
-	<input type="hidden" name="user_id" value="<?=$user_id?>" />
-	<!---<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />--->
+	<input type="hidden" name="user_id" id="users_id" value="<?=$user_id?>" />
+	<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
-  </div>
-  </form>
-</div>
-
-
-<!---pop up for multi select services--->
-<div id="bookmultiServices" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal book_appointment" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment1">	
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
-  </div>  <p class="message"></p>	
-  <div class="modal-body row-fluid">
-		 
-		  
-		   <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_service'))?></label>
-			<div class="controls">
-			<p id="checkbox"><p>
-			
-			</div>
-		  </div>
-		  <div class="control-group" id="staffdiv">
-			<label class="control-label" > <?=(lang('Apps_staff'))?></label>
-			<div class="controls">
-			 <input type="hidden" name="selectedstaff" value="" id="selectedstaff">
-			  <!--<input type="text" class="span6 staff" readonly="" placeholder="Staff">-->
-			  <select name="staff" class="staff" id="staffid"> 
-				<option> <?=(lang('Apps_selectstaff'))?></option>
-			  </select>
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_date'))?></label>
-			<div class="controls">
-				<div class="input-append date date_picker span8" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-					<input class="span10 start_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>" >
-					<span class="add-on"><i class="icon-calendar"></i></span>
-				  </div>
-				  <!--<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-                                       <input class="span10 st_date" size="16" type="text" value="<?=date("d-m-Y")?>" >
-                                       <span class="add-on"><i class="icon-calendar"></i></span>
-                                 </div>-->
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_time'))?></label>
-			<div class="controls">
-					<!--<input type="text" class="span6" readonly="" placeholder="Time">-->
-					<select name="time" class="time" id="timeSlot" action="" eventId="" booking="" staff="">
-						
-					</select>
-					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
-			</div>
-		  </div>
-		  
-		  
-		  <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_message'))?></label>
-			<div class="controls">
-			  <textarea type="text" class=" messageNote" name="note" id="note" placeholder="Message"></textarea>
-			  <?php  if(isset($_GET['id'])) { 
-			  $id=$_GET['id'];
-			  }else{
-			   $id='';
-			  } ?>
-			  <input type="hidden" name="businessid" id="businessid" class="business_id" value="<?php echo $id ?>"> 
-			<?php  if(isset($this->session->userdata['business_id'])) { ?>
-			<p id="business_id" class="hide"><?=$this->session->userdata('business_id')?></p>
-			<?php } else{ ?>
-			<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
-			<?php }?>
-			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
-			</div>
-		  </div>
-		  
 	
   </div>
-  <div class="modal-footer">
-    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_apps"/>
-	<input type="hidden" name="user_id" value="<?=$user_id?>" />
-	<input type="hidden" name="eventId" class="eventId" id="eventid" value="" />
-	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/> 
-	<input type="hidden" name="services" class="services" id="selectedService" value="" />
-  </div>
   </form>
 </div>
+
+
+
 
 <script>
 (function($,W,D)
@@ -211,55 +120,6 @@
 
 })(jQuery, window, document);
 
-
-(function($,W,D)
-{
-    var JQUERY4U = {};
-    JQUERY4U.UTIL =
-    {
-        setupFormValidation: function()
-        {
-            $("#book_appointment1").validate({
-                rules: {
-                    date: {
-					required: true,
-					//date: true
-					},
-					 //services: "required",
-					 time: "required",
-					
-                },
-                messages: {
-                    date: {
-					 required: 'required',
-					 //date: "invalid",
-					},
-					//services: "required",
-					time: "required",
-                   
-										
-                },
-				
-				 errorPlacement: function(error, element) {
-				 error.insertAfter( element ); 
-				 error.css({'position':'absolute','right':'5px'});
-				  
-				},
-
-                submitHandler: function(form) {
-                form.submit();
-                }
-            });
-        }
-		
-    }
-
-    //when the dom has loaded setup form validation rules
-    $(D).ready(function($) {
-        JQUERY4U.UTIL.setupFormValidation();
-    });
-
-})(jQuery, window, document);
 
 
 </script>

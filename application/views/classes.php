@@ -128,7 +128,7 @@ function showSelected(){
 
 <!--model for add Classes-->
 
-<div id="class-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="class-modal" class="modal hide fade" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
    
     <h3 id="myModalLabel">
