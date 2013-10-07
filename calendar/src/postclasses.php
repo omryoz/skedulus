@@ -29,6 +29,7 @@ class postclasses
 	  }
 	  
 	  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+	  //echo "delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'"; exit;
 	      $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
 	  }
 	  
@@ -72,11 +73,17 @@ class postclasses
 				    $check_date = $start_date;
 					while ($check_date <= $end_date) { 
 				    if(strtotime($check_date) <= strtotime($end_date)){	
-						
-						
 		                $date3 = strtolower(date("l", strtotime($check_date)));
-						print_r($date3); exit;
-					 $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+						
+						if($staff_id!=''){
+						   $staffid= $staff_id;
+						}else{
+						   $staffid='';
+						}
+						if($this->getworkingday($date3,$staffid)){
+						$db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+						}
+					 // $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
 					 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
 					}
 				   }
@@ -88,11 +95,19 @@ class postclasses
 					while ($check_date <= $end_date) { 
 					$day= date('N',strtotime($check_date));
 					if(in_array($day,$repeat_week_day)){
-				    //if(strtotime($check_date) <= strtotime($end_date)){				
-					 $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
-					 }
+				        $date3 = strtolower(date("l", strtotime($check_date)));
+						
+						if($staff_id!=''){
+						   $staffid= $staff_id;
+						}else{
+						   $staffid='';
+						}
+						if($this->getworkingday($date3,$staffid)){
+					    $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($check_date))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+					   }	
+					}
 					 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
-					//}
+					
 				   }
 				break;
 				
@@ -109,7 +124,17 @@ class postclasses
 					$repeat_month= explode(",",$rmonths);
 					foreach($repeat_month as $mon){
 					    $monthdate=$year.'-'.$mon.'-'.$day;
+						//$start_date=date("Y-m-d",strtotime($this->queryVars['sd']));
+						$date3 = strtolower(date("l", strtotime($monthdate)));
+						
+						if($staff_id!=''){
+						   $staffid= $staff_id;
+						}else{
+						   $staffid='';
+						}
+						if($this->getworkingday($date3,$staffid)){
 					    $db->query("insert into user_business_posted_class(user_business_classes_id,start_date,end_date, lastdate_enroll,start_time,end_time,instructor,repeat_type,repeat_all_day,repeat_week_days,repeat_months,class_size,availability,seriesid) VALUES ('".$class_id."', '".date("Y-m-d",strtotime($monthdate))."', '".date("Y-m-d",strtotime($monthdate))."', '".date("Y-m-d",strtotime($lastdate))."', '".$sTimeStr."','".$eTimeStr."','".$staff_id."','".$repeat."','".$repeat_all_day."','".$repeat_week_days."','".$repeat_months."','".$class_size."','".$class_size."','".$seriesid."')");
+					  }
 					}
 					
 					
@@ -127,10 +152,18 @@ class postclasses
 	    
 	}
 	
-	function getworkingday($date){
-	   $resEvents = $db->get_results("select * from view_service_availablity where user_business_details_id='".$_SESSION['profileid']."' and name='".$date."'");   
-	   $eventsarray=array(); 
-	   $evCount=0;
+	function getworkingday($date,$staffid){
+	   $db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
+	   if($staffid!=''){
+	   $res = $db->get_results("select * from view_service_availablity where users_id='".$staffid."' and type='employee' and name='".$date."'");   
+	   }else{
+	   $res = $db->get_results("select * from view_service_availablity where user_business_details_id='".$_SESSION['profileid']."' and type='business' and name='".$date."'");   
+	   }
+	   if($res){
+	   return true;	
+	   }else{
+			return false;
+	   }
 	}
 	
 	function is_authorized()

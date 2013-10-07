@@ -598,30 +598,36 @@ class bprofile_model extends CI_Model {
 		$id=mysql_insert_id();
 		$action = 'add';
 		}
+		$val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+		$new_avail=($val->availability);
 		if($id){
-		  $insertBArray['users_id']= $id;
-		  $insertBArray['user_business_posted_class_id']= $_POST['classid'];
-		  $insertBArray['date']= date('Y-m-d');
-		  if(isset($_POST['notes']))$insertBArray['note']= $_POST['notes'];
-		  $this->db->insert('client_class_booking',$insertBArray);
+		$date= date('Y-m-d');
+		$start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('time');	
+		$endtime =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');	
+	    if(isset($_POST['notes']))$note= $_POST['notes'];
+    	$input = array("users_id"=>$id,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('classid'),"employee_id"=>$this->input->post('trainer'),"note"=>$note,"status"=>"booked","appointment_date"=>$date,"type"=>'class',"user_business_details_id"=>$this->input->post('bookbusiness'));
 		  
-		  
+		    $this->db->insert('client_service_appointments',$input);
 		    $query=$this->db->query("select * from business_clients_list where user_business_details_id = '".$this->session->userdata['business_id']."' and users_id='".$id."'");
 			$data= $query->result();
 			if(empty($data)){
 			$this->db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$id."','".$this->session->userdata['business_id']."' )");
 			}
+		  // $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+		   $new_avail=($val->availability-1);
+		   $updateArray['availability']=$new_avail;
+		   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 		}
 		
 		if(isset($_POST['users_id']) && $_POST['users_id']!=""){
-		 $insertArray['users_id']= $_POST['users_id'];
-		  $insertArray['user_business_posted_class_id']= $_POST['classid'];
-		$this->db->update('view_client_class_booking',$insertArray,array('users_id' => $_POST['users_id']));
-		$action = 'update';
+		  $this->db->update('users',$insertArray,array('id'=>$_POST['users_id']));
+		   $insertComment['note']=$_POST['notes'];
+		  $this->db->update('client_service_appointments',$insertComment,array('users_id'=>$_POST['users_id'],'services_id'=>$_POST['classid']));
+		  $action = 'update';
 		}
 		
 		
-		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'"}]';
+		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'","avail":"'.$new_avail.'"}]';
 		print_r ($val);
 	}
 	

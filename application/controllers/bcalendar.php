@@ -112,6 +112,15 @@ class Bcalendar extends CI_Controller {
 	  
 	}
 	
+	function checkreschedule(){
+	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	  echo 1;
+	  }else{ 
+	  echo 0;
+	  }
+	  
+	}
+	
 	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){  
 	  if(strtotime($date)<=strtotime(date("d-m-Y"))){
 		 $currentTime= date('H:i'); 
@@ -355,7 +364,7 @@ function checkday($date=false,$business_id=false,$staffid=false){
 		$filter = array("users_id"=>$staffid,"name"=>$date,"type"=>'employee');
 		}else{
 		$filter = array("user_business_details_id"=>$business_id,"name"=>$date,"type"=>'business');
-		}
+		} 
 		if($this->common_model->getworkingday($filter)){
 			return true;	
 		}else{
@@ -525,7 +534,7 @@ function referal_url($url){
 		}
 		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
 		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
-		//print_r($getEndtime->end_time);
+		//print_r($getEndtime->end_time); exit;
 		$slots = $this->common_model->getAllslots($filter);
 		
 		if($eventId!=''){
@@ -675,8 +684,14 @@ function referal_url($url){
 	function getAllstaff(){
 		//echo "Demo";
 		$this->load->model("bprofile_model"); 
-		$this->data['tableList']=$this->bprofile_model->getStaffs();
-		print_r(json_encode($this->data['tableList']));
+		$results=$this->bprofile_model->getStaffs();  
+		foreach($results as $res){ 
+		 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res['id'])){
+			 $results1[]=$res;
+		 } 
+		}
+        print_r(json_encode($results1));		
+		//print_r(json_encode($this->data['tableList']));
 	}
 	
 	function getAllclasses(){
@@ -716,9 +731,147 @@ function referal_url($url){
 		}
 		
 	}
-
+	
+	function getClassfreeslotsbydate(){
+   $where=1;
+	if($this->input->post('date')){
+		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
+			 //echo "We work on selected day";
+			 $day = $this->checkweekendDayName($this->input->post('date'));
+			 if($this->input->post('staff_id')!=''){
+			 $filter = array("users_id"=>$this->input->post('staff_id'),"name"=>$day,"type"=>'employee'); 
+			 $where.=" AND instructor=".$this->input->post('staff_id');
+			 }else{
+			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day,"type"=>'business'); 
+			 $where.=" AND user_business_details_id=".$this->input->post('business_id');
+			 }
+			 $this->data['slots'] = $this->common_model->getAllslots($filter);
+			 //$where=1;
+			 if($this->input->post('timeslot')!=''){
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			 }else{
+			  $this->data['selectedTimeSlot']='';
+			 }
+			 if($this->input->post('eventId')!=''){ 
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			  $where.=' AND id!='.$this->input->post('eventId');
+			 }
+			 //else{
+			// $where='1';
+			
+			 //}
+			// print_r($this->data['selectedTimeSlot']); exit;
+			 $this->data['booked_slots'] = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
+			 //print_r($this->data['booked_slots']);
+			 //exit;	
+			 //print_r($this->data['slots']);
+			 $this->load->view("options",$this->data);
+			 
+		}else{
+			echo 0;
+		}
+	}else{
+		return false;
+	}
+	
+}
+	
+	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId){
+	    $where=1;
+		//$where1=1;
+	    $day = $this->checkweekendDayName($date);
+		if($staffid!=''){
+		$filter = array("users_id"=>$staffid,"name"=>$day,"type"=>'employee');
+		$where.=" AND instructor=".$staffid;
+		$where1=' AND users_id="'.$staffid.'" and name="'.$day.'" and type="employee"';
+		}else{
+		$filter = array("user_business_details_id"=>$business_id); 
+		$where.=" AND user_business_details_id=".$business_id;
+		$where1=' AND user_business_details_id="'.$business_id.'"';
+		}
+		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
+		//print_r($getEndtime->end_time); exit;
+		$slots = $this->common_model->getAllslots($filter);
+		if($eventId!=''){
+		  $where.=' AND id!='.$eventId;
+		}
+		
+		$booked_slots = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
+		
+		/*Get all empty slots*/
+		
+		$booked_container = array();
+		//$slots = array();
+		foreach($booked_slots as $key =>$booked){	
+			$start_booked = strtotime($booked->start_time);
+			$end_booked = strtotime($booked->end_time);
+			for( $i = $start_booked; $i < $end_booked; $i += (60*15)){
+				//$booked_container = date('g:iA', $i).",";
+				$booked_container[] = date('g:iA', $i);
+			}
+		}
+	
+		
+		$total_slotlist = array();
+		$start = strtotime($slots->start_time);
+		$end = strtotime($slots->end_time);
+		for( $i = $start; $i <= $end; $i += (60*15)){
+			$total_slotlist[] = date('g:iA', $i);
+		}
+	
+		$option = array();
+		foreach($total_slotlist as $single_total){
+			if(in_array($single_total,$booked_container)){
+				//echo "Not Availble Slots".$single_total;
+			}else{
+				$option[] = $single_total;
+			}
+		}
+		
+		
+		
+		
+		$time_needed = array();
+		$start = strtotime($start_time);
+		$end = strtotime($end_time);
+		for( $i = $start; $i <= $end; $i += (60*15)){
+			$time_needed[] = date('g:iA', $i);
+		}
+		//print_r($time_needed);
+		$returned = true;
+		$total = count($time_needed); 
+		$i=0;
+		foreach($time_needed as $single_slots){	
+			//echo $single_slots."Single Slots";
+			//print_r($time_needed);
+			$i++;
+			if($total==$i){
+				
+			}else{ 
+				if(in_array($single_slots,$booked_container)){
+					//echo "Break";
+					$returned = false;
+					break;
+				}
+			}	
+		}
+		//print_r($returned); exit;
+		if($returned){ 		
+		  if(strtotime($end_time)>strtotime($getEndtime->end_time) || strtotime($start_time)<strtotime($getEndtime->start_time)){
+		   echo -1;
+		   }else{ 
+		    echo $actual_endtime;
+			//echo $end_time;
+			}
+		}else{
+			echo 0;
+		}
+	}
+	
 	function endTimeClass(){
 		$time = "";
+		$Actualtime = "";
 		$conversion = "";
 			$info = array("id"=>$this->input->post('class_id'));	
 			$times = $this->common_model->getclassTime($info);
@@ -737,17 +890,24 @@ function referal_url($url){
 			  $twice=1;
 			}
 			$total = $times[0]->timelength * $conversion + $times[0]->padding_time * $twice;
+			$Actualtotal = $times[0]->timelength * $conversion;
 			$time = $time + $total;
+			$Actualtime = $Actualtime + $Actualtotal;
 			
 		//}
 		$t_time = $this->convertToHoursMins($time,'%d:%d');
+		$t_Actualtime = $this->convertToHoursMins($Actualtime,'%d:%d');
 		$t_time = $t_time.':0';
+		$t_Actualtime = $t_Actualtime.':0';
 		$start_time = $this->input->post('starttime');
 		$t = $start_time.':0';
 		
 		$time = explode(":",$this->addTime($t_time,$t));
+		$Actualtime = explode(":",$this->addTime($t_Actualtime,$t));
 		$endtime = $time[0].':'.$time[1];
-		echo $endtime;
+		$Actualendtime = $Actualtime[0].':'.$Actualtime[1];
+		$this->checkClassAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('class_id'),$this->input->post('staffid'),$this->input->post('starttime'),$endtime,$Actualendtime,$this->input->post('eventId'));
+		//echo $Actualtime;
 	}
 	
 	
@@ -791,13 +951,13 @@ function referal_url($url){
 	 
 	}
 	function clientlist(){
-	$val=$this->common_model->getAllRows("view_client_class_booking","user_business_posted_class_id",$_POST['classid']);
+	$val=$this->common_model->getAllRows("view_client_appoinment_details","services_id",$_POST['classid']);
 	 print_r (json_encode($val));
 	 //$this->bprofile_model->getClientlist();
 	}
 	
 	function getclientdetails(){
-	 $val=$this->common_model->getAllRows("view_client_class_booking","users_id",$_POST['userid']);
+	 $val=$this->common_model->getAllRows("view_client_appoinment_details","users_id",$_POST['userid']);
 	 print_r (json_encode($val));
 	}
 	

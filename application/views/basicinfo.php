@@ -134,6 +134,7 @@
 		 <textarea class="postcode" id="Postcode" name="address" placeholder="<?=(lang('Apps_country'))?>" value="<?php echo $add; ?>"><?php echo $add; ?></textarea>
 		
 		<br clear="left"/>
+		
 	<input  type="text" placeholder="Mobile<?=(lang('Apps_mobileapp'))?>" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
 	    
          <input id="hidLat" name="hidLat" type="hidden" value="<?php echo $map_latitude; ?>">

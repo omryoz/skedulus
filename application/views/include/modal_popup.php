@@ -17,8 +17,8 @@
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_date'))?></label>
 			<div class="controls">
-				<div class="input-append date date_pick span8" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-					<input class="span10 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>">
+				<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
+					<input class="span12 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>">
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				 </div>
 			</div>
@@ -48,7 +48,7 @@
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
-			  <textarea type="text" class="span8" name="note" id="note" placeholder="Message"></textarea>
+			  <textarea type="text" class="" name="note" id="note" placeholder="Message"></textarea>
 			  <input type="hidden" name="businessid" class="business_id" value="<?php echo $_GET['id'] ?>"> 
 			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			 

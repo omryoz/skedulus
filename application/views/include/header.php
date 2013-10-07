@@ -12,9 +12,11 @@
 <!--behavior: url(<?php echo base_url(); ?>/PIE-1.0.0/PIE.htc);-->
 <script>var baseUrl='<?php echo base_url();?>'</script>
 <script src="<?php echo base_url(); ?>js/libs/less-1.3.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<!--<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/jqueryui8.1.js"></script> 
 
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
 
 
 

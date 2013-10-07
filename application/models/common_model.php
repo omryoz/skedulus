@@ -265,6 +265,19 @@ public function mail($emailTo,$subject,$message){
 		
 	}
 	
+	function getClassBookedslotsByDate($date=false,$where){
+		if($date){
+			$query = $this->db->query("SELECT start_time ,end_time,start_date FROM `view_classes_posted_business` where ".$where."  HAVING start_date = '".$date."'");
+			// echo $this->db->last_query();
+			// print_r($query->result());
+			// exit;	
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
+	
 	function getclassTime($info=false){
 		if($info){
 			$query = $this->db->get_where("user_business_classes",$info);
