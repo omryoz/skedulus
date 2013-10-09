@@ -75,10 +75,10 @@ if(!isset($this->session->userdata['id'])){
 <div class="tab-content">
   <div class="tab-pane active" id="edit_class">
 		<div >
-		
+		<form id="classdetails">
         <table border="0" cellpadding="0" width="100%" class="class-table">  
             <tbody>  
-			<form id="classdetails">
+			
 			<tr height="40px;"> 
 					  <td >
 					    <div class="labelBlock">  <?=(lang('Apps_classes'))?></div>
@@ -109,11 +109,11 @@ if(!isset($this->session->userdata['id'])){
 						 <select name="time"  class="timeslot" id="eventStartTime">
 					     </select> 
 					     <input type="hidden" class="StartTime">
+						 <input type="hidden" name="today" id="today" value="<?php echo date("Y/m/d"); ?>">
 						 <a href="javascript:;" id="repeat" class="add-repeat"><p id="repeathtml" value="add"><?=(lang('Apps_addrepeat'))?></p></a>
 					  </td>
 					  
 					</tr>
-					</form>
 					<tr style="display:none" id="repeatdiv">
 					  <td>
 					   <div class="labelBlock">  <?=(lang('Apps_repeattype'))?></div>
@@ -137,18 +137,18 @@ if(!isset($this->session->userdata['id'])){
 						    
 							 <div class="btn-toolbar"  id="months" style="display:none">
 							  <div class="btn-group">
-								<button class="btn month " name="monthly" value="1" id="m1">Jan</button>
-								<button class="btn month " name="monthly" value="2" id="m2">Feb</button>
-								<button class="btn month " name="monthly" value="3" id="m3">Apr</button>
-								<button class="btn month " name="monthly" value="4" id="m4">Mar</button>
-								<button class="btn month " name="monthly" value="5" id="m5">May</button>
-								<button class="btn month " name="monthly" value="6" id="m6">Jun</button>
-								<button class="btn month " name="monthly" value="7" id="m7">Jul</button>
-								<button class="btn month " name="monthly" value="8" id="m8">Aug</button>
-								<button class="btn month " name="monthly" value="9" id="m9">Sep</button>
-								<button class="btn month " name="monthly" value="10" id="m10">Oct</button>
-								<button class="btn month " name="monthly" value="11" id="m11">Nov</button>
-								<button class="btn month " name="monthly" value="12" id="m12">Dec</button>
+								<button class="btn month " type="button" name="monthly" value="1" id="m1">Jan</button>
+								<button class="btn month "  type="button" name="monthly" value="2" id="m2">Feb</button>
+								<button class="btn month " type="button" name="monthly" value="3" id="m3">Apr</button>
+								<button class="btn month " type="button" name="monthly" value="4" id="m4">Mar</button>
+								<button class="btn month " type="button" name="monthly" value="5" id="m5">May</button>
+								<button class="btn month " type="button" name="monthly" value="6" id="m6">Jun</button>
+								<button class="btn month " type="button" name="monthly" value="7" id="m7">Jul</button>
+								<button class="btn month " type="button" name="monthly" value="8" id="m8">Aug</button>
+								<button class="btn month " type="button" name="monthly" value="9" id="m9">Sep</button>
+								<button class="btn month " type="button" name="monthly" value="10" id="m10">Oct</button>
+								<button class="btn month " type="button" name="monthly" value="11" id="m11">Nov</button>
+								<button class="btn month " type="button" name="monthly" value="12" id="m12">Dec</button>
 								 <input type="hidden" name="monthlylist"  id="monthlylist" value="" >
 								
 							  </div>
@@ -160,13 +160,13 @@ if(!isset($this->session->userdata['id'])){
 					    <td class="select-day">
 							 <div class="btn-toolbar"  id="weeks" style="display:none">
 							  <div class="btn-group">
-								<button class="btn weekly" name="week" value="1" id="w1">Mon</button>
-								<button class="btn weekly" name="week" value="2" id="w2">Tue</button>
-								<button class="btn weekly" name="week" value="3" id="w3">Wed</button>
-								<button class="btn weekly" name="week" value="4" id="w4">Thu</button>
-								<button class="btn weekly" name="week" value="5" id="w5">Fri</button>
-								<button class="btn weekly" name="week" value="6" id="w6">Sat</button>
-								<button class="btn weekly" name="week" value="7" id="w7">Sun</button>
+								<button class="btn weekly" type="button" name="week" value="1" id="w1">Mon</button>
+								<button class="btn weekly" type="button" name="week" value="2" id="w2">Tue</button>
+								<button class="btn weekly" type="button" name="week" value="3" id="w3">Wed</button>
+								<button class="btn weekly" type="button" name="week" value="4" id="w4">Thu</button>
+								<button class="btn weekly" type="button" name="week" value="5" id="w5">Fri</button>
+								<button class="btn weekly" type="button" name="week" value="6" id="w6">Sat</button>
+								<button class="btn weekly" type="button" name="week" value="7" id="w7">Sun</button>
 								 <input type="hidden" name="weeklist"  id="weeklist" value="" >
 							 </div>
 							</div>
@@ -200,6 +200,7 @@ if(!isset($this->session->userdata['id'])){
 					
             </tbody>
         </table>
+		</form>
 			<div class="pull-right">
 	    <ul class="unstyled inline" ><input type="hidden" name="action" id="action" value="">
 	        <li id="add">
@@ -215,7 +216,7 @@ if(!isset($this->session->userdata['id'])){
 	        </li>
 	    </ul>
 		</div>
-		<!---</form>--->
+		
 		</div>
 
   
@@ -243,7 +244,7 @@ if(!isset($this->session->userdata['id'])){
 						  <div class="control-group">
 							<label class="control-label" for="inputEmail"><?=(lang('Apps_clientname'))?> </label>
 							<div class="controls">
-							  <input type="text"  class="input-large" name="name" id="name" required>
+							  <input type="text"  class="input-large tags" name="name" id="name" required>
 							</div>
 						  </div>
 						  <div class="control-group">
@@ -274,6 +275,7 @@ if(!isset($this->session->userdata['id'])){
 							<div class="controls">
 							  <button type="button" class="btn btn-success pull-right" id="addClient"><?=(lang('Apps_done'))?></button>
 							  <input type="hidden" name="users_id" id="users_id" >
+							  <input type="hidden" name="actionVal" id="actionVal" value="">
 							  <input type="hidden" name="bookbusiness" value="<?php print_r($buisness_details[0]->id); ?>">
 							</div>
 						  </div>
@@ -634,6 +636,7 @@ if($("#monthlylist").val()!=""){
 		str=str+"&st="+$(".timeslot").val();
 		str=str+"&et="+$("#eventEndTime").val();
 		str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&repeatstatus="+$("#repeatstatus").val();
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
 		if(trainer!=''){
@@ -643,25 +646,42 @@ if($("#monthlylist").val()!=""){
 		}
 		 //exit;
 		
-		if($("#postclass").attr("data-val")=='single'){  alert(str);
-		str=str+"&status=single";
-		if($("#EndDate").val()!=""){
-		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		if($("#postclass").attr("data-val")=='single'){  //alert(str);
+		str=str+"&status=single";  
+		str=str+"&seriesid="+$("#postclass").attr("seriesid");
+		if($("#repeatstatus").val()=="Remove Repeat"){
+        $.ajax({
+	        url:base_url+'bcalendar/checkIfblocked',
+		   data:{date:$("#StartDate").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
+		   type:'POST',
+		   success:function(data){ 
+			// alert(data);
+			if(data==0){
+			 $(".message").addClass("alert").html("Time slot is already blocked.Kindly choose another time slot");
+			 return false;
+		  }else{
+		    ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		  }
+			
+		   }
+	    });		
+		
 		}else{
 		ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
 		}
 		}else if($("#postclass").attr("data-val")=='multi'){  
 		 str=str+"&status=multi";
-		 str=str+"&seriesid="+$("#postclass").attr("seriesid");  alert(str);
-		 ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
-		 //ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		 str=str+"&seriesid="+$("#postclass").attr("seriesid");  //alert(str);
+		// ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
+		 ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
 		}
 		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 	}
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(){ 	
+    function rzDeleteEvent(){ 
+   if(confirm("Are you sure you want to remove from list?")) {	
 		var str="?";
 		//str=str+"eventName="+activeEvent.name; 
 		str=str+"&class_id="+$("#updateid").val();
@@ -674,7 +694,7 @@ if($("#monthlylist").val()!=""){
 		ajaxObj.call("action=deleteclass"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});
         window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();		
     } 
-    
+  }  
     /**
      * Click of Add in add event box.
      */
@@ -727,7 +747,7 @@ if($("#monthlylist").val()!=""){
 		str=str+"&eden="+$("#enroll_last").val();
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
-		str=str+"&tr_id="+trainer;  alert(str);
+		str=str+"&tr_id="+trainer;  //alert(str);
 		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
 		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
@@ -780,15 +800,14 @@ $(".message").removeClass("alert").html("");
 	 url:base_url+'bcalendar/getclientdetails',
 	 type:'POST',
 	 data:{userid:userid},
-	 success:function(data){  //alert(data);
-	  //$(".client-form").show();
-	  //$("#demo").collapse('toggle');
+	 success:function(data){  
 	  $.each(eval(data),function(i,v){ 
 	   $("#name").val(v.clients_first_name);
 	   $("#note").val(v.note);
 	   $("#phone").val(v.clients_phonenumber);
 	   $("#email").val(v.clients_email);
 	   $("#users_id").val(v.users_id);
+	   $("#actionVal").val("edit");
 	  })
 	 }
 	})
@@ -799,40 +818,40 @@ $(".message").removeClass("alert").html("");
 	 $(".message").removeClass("alert").html(""); 
 	 //$(".client-form").show();
 	})
-// $(function() {
-    // var availableTags = [
-      // "ActionScript",
-      // "AppleScript",
-      // "Asp",
-      // "BASIC",
-      // "C",
-      // "C++",
-      // "Clojure",
-      // "COBOL",
-      // "ColdFusion",
-      // "Erlang",
-      // "Fortran",
-      // "Groovy",
-      // "Haskell",
-      // "Java",
-      // "JavaScript",
-      // "Lisp",
-      // "Perl",
-      // "PHP",
-      // "Python",
-      // "Ruby",
-      // "Scala",
-      // "Scheme"
-    // ];
-	//alert(availableTags);
-	// var  available= ["client C","eulogik e","aaa "];
-	// console.log($("#names").val());
-    // $( "#tags" ).autocomplete({
-	// source: available
-    //  source: $("#names").val()
-    // });
-  // }); 
+
 	
 	
+	$(function() {
+	var availableTags = '';
+	$.ajax({
+	url:base_url+'bcalendar/getClientsList',
+	//data:{businessid:'47'},
+	 type:'post',
+	 success:function(data){
+	  availableTags = eval(data); 
+	  $( ".tags" ).autocomplete({
+       source: availableTags,
+	   select: AutoCompleteSelectHandler,
+	   search: function() {
+		 //reset every time a search starts.
+		 $("#email").val('');
+		 $("#phone").val('');
+		 $("#users_id").val('');
+		 $("#actionVal").val('');
+		 }
+	  
+      });
+	 }
+	 
+	})
+  
+    function AutoCompleteSelectHandler(event, ui) {
+	$(".message").removeClass("alert").html("");
+	 $("#actionVal").val('add');
+     $("#email").val(ui.item.email);
+	 $("#phone").val(ui.item.phone); 
+	 $("#users_id").val(ui.item.id);
+     }
+  });
 
 </script>

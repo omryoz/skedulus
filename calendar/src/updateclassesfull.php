@@ -46,31 +46,31 @@ class updateclassesfull
 		$end_time=$eDate." ".$eTime;	
 		
 		
-		if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
-	      $db->query("update user_business_posted_class set user_business_classes_id='".$class."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."' where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
-		 // $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
-	    }
+		//if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+	    //  $db->query("update user_business_posted_class set user_business_classes_id='".$class."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."' where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
 		
-		 if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='single'){
-		   $db->query("update user_business_posted_class set user_business_classes_id='".$class."',  start_date='".$sDate."', end_date='".$eDate."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."',modifiedStatus=1  where id=".$class_id);
-		   $db->query("update client_service_appointments set start_time='".$start_time."',  end_time='".$end_time."' where type='class' and user_business_details_id='".$business_id."' and services_id='".$class_id."'");
-		}
+	   // }
 		
+		// if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='single'){
+		 //  $db->query("update user_business_posted_class set user_business_classes_id='".$class."',  start_date='".$sDate."', end_date='".$eDate."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."',modifiedStatus=1  where id=".$class_id);
+		 //  $db->query("update client_service_appointments set start_time='".$start_time."',  end_time='".$end_time."',instructor=".$trainer_id." where type='class' and user_business_details_id='".$business_id."' and services_id='".$class_id."'");
+		//}
 		
+		$db->query("update user_business_posted_class set user_business_classes_id='".$class."',  start_date='".$sDate."', end_date='".$eDate."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."',modifiedStatus=1  where id=".$class_id);
 		
-		$input=array();
-		$input['eventId']=$class_id;
+		//$input=array();
+		//$input['eventId']=$class_id;
 		//$input['startTime']=$sTime;
 		
-		$input['startTime'] = str_replace("/", "-", $sDate).' '.date("H:i:s", strtotime($sTime));
+		//$input['startTime'] = str_replace("/", "-", $sDate).' '.date("H:i:s", strtotime($sTime));
 		//$input['endTime']=$eTime;   	
-		$input['endTime']=str_replace("/", "-", $eDate).' '.date("H:i:s", strtotime($eTime));   	
+		//$input['endTime']=str_replace("/", "-", $eDate).' '.date("H:i:s", strtotime($eTime));   	
 		//$input['allDay']=($allday==1)?true:false; 
-		$input['group']['groupId']=1;
-		$input['eventName']="Demo";
+		//$input['group']['groupId']=1;
+		//$input['eventName']="Demo";
 		//$input['eventDesc']=$desc;
 			
-		return $input;
+		//return $input;
 	}
 	
 	function is_authorized()

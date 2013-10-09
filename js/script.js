@@ -7,8 +7,8 @@
 
 
 //Global variable 
-var base_url = "http://dev.eulogik.com/skedulus/";
-//var base_url = "http://localhost/skedulus/";
+//var base_url = "http://dev.eulogik.com/skedulus/";
+var base_url = "http://localhost/skedulus/";
 	
 $('.tool').tooltip('hide')
 
@@ -185,6 +185,20 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	$("#singleClass").click(function(){
 		var evId=$("#eventId").html();
 		$("#clientform")[0].reset();
+		$("#actionVal").val("");
+		$("#clientlist").html("");
+		$.ajax({
+	        url:base_url+'bcalendar/getSeriesid',
+		   data:{classId:evId},
+		   type:'POST',
+		   success:function(data){ 
+			 $.each(eval(data),function(i,v){
+			  enddate=v.enddate;
+			  $("#postclass").attr("seriesid",v.seriesid);
+			 })
+			
+		   }
+	    });
 	   $.ajax({
 	   url:base_url+'bcalendar/getClassDetails',
 	   data:{classId:evId},
@@ -201,7 +215,7 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 		   $("#repeatstatus").val(removediv);
 		   //$("#postclass").addClass("in");
 		   $("#postclass").attr("data-val","single");
-		   $("#postclass").attr("seriesid","");
+		   //$("#postclass").attr("seriesid","");
 		   $("#postclass").modal("show");
 		   $("#editClass").modal("hide");
 		   $("#action").val("javascript:rzUpdateEvent();");
@@ -221,6 +235,7 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 		   $("#enroll_last").val(v.lastdate_enroll);
 		   getClassStaffs(v.user_business_classes_id,v.start_date,$("#business_id").html(),v.instructor);
 		   getClassfreeslots(v.start_date,$("#business_id").html(),v.instructor,evId,v.start_time);
+
 		})
 	   }
 	  })
@@ -231,6 +246,8 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	$("#multiClass").click(function(){
 	  var evId=$("#eventId").html();
 	  $("#clientform")[0].reset();
+	  $("#clientlist").html("");
+	  $("#actionVal").val("");
       var enddate="";	  
 	  $.ajax({
 	        url:base_url+'bcalendar/getSeriesid',
@@ -777,6 +794,9 @@ function staffSchedule(staffid,staffname){
 
 $(".launchClass").on("click",function(){ 
 $(".demo").html(" ");
+$("#clientlist").html("");
+$("#actionVal").val("");
+$("#available").html("");
 var append = "<option value='' >Select staff</option>";
 $(".demo").append(append);
 $("#eventGroup").val(" ");
@@ -836,7 +856,12 @@ function getClassfreeslots(start_date,business_id,staff_id,eventId,timeslot){
 
 $("#addClient").on("click",function(){
 $(".message").removeClass("alert").html(""); 
+
+if($("#actionVal").val()==''){
+ $("#actionVal").val('add');
+}
  var data=$("#classdetails,#clientform").serialize()+'&classid='+$("#eventId").html();
+ if($("#name").val()!=""){
  $.ajax({
  url:base_url+"bcalendar/addClient",
  data:data,
@@ -854,12 +879,16 @@ $(".message").removeClass("alert").html("");
   
  }
  })
-
+}else{
+  $(".message").addClass("alert").html("Client name is required");
+  return false;
+}
 })
 
 $(".clientlist").click(function(){
  var data='&classid='+$("#eventId").html();
  $("#clientlist").html("");
+ $("#actionVal").val("");
  $.ajax({
  url:base_url+"bcalendar/clientlist",
  data:data,

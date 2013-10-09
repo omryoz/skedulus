@@ -775,6 +775,16 @@ function referal_url($url){
 	}
 	
 }
+
+function checkIfblocked(){
+   $where=" 1 AND user_business_details_id='".$this->input->post('business_id')."' and start_time='".$this->input->post('start_time')."'";
+  $booked_slots = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
+  if($booked_slots){
+  echo 0;
+  }else{
+  echo 1;
+  }
+}
 	
 	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId){
 	    $where=1;
@@ -936,13 +946,25 @@ function referal_url($url){
 	}
 	
 	function checkStatus(){
-	 $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classID']);
-	 print_r($val->modifiedStatus);
+	 $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classID']); 
+	// print_r($val); exit;
+	 $res=$this->common_model->getAllRows("user_business_posted_class","seriesid",$val->seriesid); 
+	 if(count($res)==1){
+	   echo 1;
+	 }else{
+	  print_r($val->modifiedStatus);
+	 } 
+	 
 	}
 	
 	function getClients(){ 
 	$this->bprofile_model->getClients();
 	 // $val=$this->common_model->getAllRows("view_business_clients","user_business_details_id",$_POST['businessid']);
+	  //print_r($val);
+	}
+	
+	function getclientsList(){ 
+	$this->bprofile_model->getclientsListauto();
 	  //print_r($val);
 	}
 	

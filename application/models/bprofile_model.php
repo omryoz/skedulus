@@ -380,6 +380,21 @@ class bprofile_model extends CI_Model {
 			return $values;
 		}
 	}
+	function getclientsListauto(){
+		$sql="Select * from view_business_clients where user_business_details_id =".$this->session->userdata['business_id'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$value='[';
+		//$value='';
+		if($data){
+			foreach($data as $dataP){
+			   $value.='{"label" : "'.$dataP->first_name.' '.$dataP->last_name.'" ,"id" : "'.$dataP->users_id.'" , "email": "'.$dataP->email.'" ,"phone": "'.$dataP->phone_number.'"},';
+			}
+			$value.="]";
+			echo $value;
+		}
+	}
 	
 	function getClientdetails(){
 		 $val= $this->common_model->getRow("view_business_clients",'users_id',$_GET['id']);
@@ -605,7 +620,7 @@ class bprofile_model extends CI_Model {
 		$start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');	
 	    if(isset($_POST['notes']))$note= $_POST['notes'];
-    	$input = array("users_id"=>$id,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('classid'),"employee_id"=>$this->input->post('trainer'),"note"=>$note,"status"=>"booked","appointment_date"=>$date,"type"=>'class',"user_business_details_id"=>$this->input->post('bookbusiness'));
+    	$input = array("users_id"=>$id,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('classid'),"employee_id"=>$this->input->post('trainer'),"note"=>$note,"status"=>"booked","appointment_date"=>$date,"type"=>'class',"user_business_details_id"=>$this->session->userdata['business_id']);
 		  
 		    $this->db->insert('client_service_appointments',$input);
 		    $query=$this->db->query("select * from business_clients_list where user_business_details_id = '".$this->session->userdata['business_id']."' and users_id='".$id."'");

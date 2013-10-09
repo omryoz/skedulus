@@ -25,26 +25,65 @@ class postclasses
 	 
 
 	  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='single'){
-	      $db->query("delete from user_business_posted_class  where id=".$this->queryVars['class_id']);
-	  }
-	  
-	  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
-	  //echo "delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'"; exit;
-	      $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
-	  }
-	  
-
-        $date= date("Y-m-d H:m:s"); 
-		$class_id=$this->queryVars['class'];
-		$db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$class_id."', '".$date."')");
+	      //$db->query("delete from user_business_posted_class  where id=".$this->queryVars['class_id']);
+		  //$start_date1=date("Y/m/d",strtotime($this->queryVars['sd']));
+		  $db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$this->queryVars['class_id']."', '".$date."')");
+	      $seriesid= mysql_insert_id();
+		  if($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="weekly"){
+			$repeat_week_days=$this->queryVars['checked'];
+			}elseif($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="monthly"){
+			$repeat_months=$this->queryVars['checked'];
+			}elseif($repeat=="daily"){
+			$repeat_all_day='1';
+			}
+		  $db->query("update user_business_posted_class set user_business_classes_id='".$this->queryVars['class']."',seriesid='".$seriesid."', lastdate_enroll='".date("Y-m-d",strtotime($this->queryVars['eden']))."',start_time='".$this->queryVars['st']."',end_time= '".$this->queryVars['et']."',instructor='".$this->queryVars['tr_id']."',repeat_type= '".$this->queryVars['repeat_type']."',repeat_all_day=='".$repeat_all_day."',repeat_week_days='".$repeat_week_days."',repeat_months='".$repeat_months."',class_size ='".$this->queryVars['class_size']."' where id='".$this->queryVars['class_id']."'");	
+		  $date1 = str_replace('-', '/', $this->queryVars['sd']);
+		  $start_date = date('Y-m-d',strtotime($date1 . "+1 days"));
+		  $end_date=date("Y-m-d",strtotime($this->queryVars['ed']));	
+		 // $seriesid= $this->queryVars['seriesid'];
+	  }elseif(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+	      $db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$this->queryVars['class_id']."', '".$date."')");
+	      $seriesid= mysql_insert_id();
+		   if($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="weekly"){
+			$repeat_week_days=$this->queryVars['checked'];
+			}elseif($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="monthly"){
+			$repeat_months=$this->queryVars['checked'];
+			}elseif($repeat=="daily"){
+			$repeat_all_day='1';
+			}
+		  $db->query("update user_business_posted_class set user_business_classes_id='".$this->queryVars['class']."',seriesid='".$seriesid."', lastdate_enroll='".date("Y-m-d",strtotime($this->queryVars['eden']))."',start_time='".$this->queryVars['st']."',end_time= '".$this->queryVars['et']."',instructor=".$this->queryVars['tr_id'].",repeat_type= '".$this->queryVars['repeat_type']."',repeat_all_day=='".$repeat_all_day."',repeat_week_days='".$repeat_week_days."',repeat_months='".$repeat_months."',class_size ='".$this->queryVars['class_size']."' where id='".$this->queryVars['class_id']."'");
+		  $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0' AND start_date >'".$this->queryVars['sd']."'");
+	      $date1 = str_replace('-', '/', $this->queryVars['sd']);
+		  $start_date = date('Y-m-d',strtotime($date1 . "+1 days"));	
+		 
+		 // $seriesid= $this->queryVars['seriesid'];
+		  if($this->queryVars['repeatstatus'] == 'Remove Repeat'){
+		  $end_date=date("Y-m-d",strtotime($this->queryVars['ed']));		
+		  }else{
+		  $end_date=date("Y-m-d",strtotime($this->queryVars['sd']));
+		  }
+	  }else{
+	    $db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$class_id."', '".$date."')");
 	    $seriesid= mysql_insert_id();
-		$class=$this->queryVars['class'];
 		$start_date=date("Y-m-d",strtotime($this->queryVars['sd']));
 		if($this->queryVars['repeatstatus'] == 'Remove Repeat'){
 		$end_date=date("Y-m-d",strtotime($this->queryVars['ed']));		
 		}else{
 		$end_date=date("Y-m-d",strtotime($this->queryVars['sd']));
 		}
+	  
+	  }
+	  
+	 // if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
+	  //echo "delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'"; exit;
+	     // $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
+	  //}
+	  
+
+        $date= date("Y-m-d H:m:s"); 
+		$class_id=$this->queryVars['class'];
+		$class=$this->queryVars['class'];
+		
 		$staff_id=$this->queryVars['tr_id'];
 		$sTimeStr=$this->queryVars['st'];
 		$eTimeStr=$this->queryVars['et'];
