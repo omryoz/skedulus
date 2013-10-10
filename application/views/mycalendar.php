@@ -153,6 +153,7 @@ session_start();
 	       $.each(eval(data),function( key, v ) {
 			$("#business_name").html(v.business_name);
 			$("#business_id").html(v.business_details_id);
+			$("#services_id").html(v.services_id);
 			if(v.e_first_name!="" || v.e_last_name!=""){
 			$("#name").html(v.e_first_name+" "+v.e_last_name);
 			}else{
@@ -167,7 +168,7 @@ session_start();
 			var type='Services';
 			$("#type").html(type);
 			$("#typeName").html(v.services);
-			$("#services_id").html(v.services_id);
+			
 			$("#employee_id").html(v.employee_id);
 			$("#note").html(v.note);
 			if(v.status=='active'){
@@ -290,16 +291,17 @@ session_start();
 		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
 		url:url,
 		type:'POST',
-		success:function(data){  //alert(data);
+		success:function(data){  
 		if(data==0){ 
 		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
 		return false;
 		}else if(data==1){
 		var str="?";
-			//str=str+"eventName="+activeEvent.name; 
-			str=str+"&eventId="+$("#eventid").html(); //alert(str);
-			ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
-			$("#reschedule").modal('hide');
+		str=str+"&type="+$("#type").html(); 
+        str=str+"&postedclassid="+$("#services_id").html();		
+		str=str+"&eventId="+$("#eventid").html(); 
+		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		$("#reschedule").modal('hide');
 		
 		}
 	 }

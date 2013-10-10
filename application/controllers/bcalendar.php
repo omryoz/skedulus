@@ -126,7 +126,7 @@ class Bcalendar extends CI_Controller {
 		 $currentTime= date('H:i'); 
 		 $value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$business_id);
 		if($action=='schedule'){
-		  $bookbefore=$value->book_before.':00';
+		  $bookbefore=$value->book_before.':00'; 
 		}else{
 		  $bookbefore=$value->cancel_reschedule_before.':00';
 		} 
@@ -701,7 +701,7 @@ function referal_url($url){
 	}
 	
 	function bookclass(){
-		if(isset($this->session->userdata['id']) && $this->session->userdata['id']!=""){
+	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('businessid'),$this->input->post('starttime'),$action='schedule')){
 		$val=$this->common_model->getRow("view_classes_posted_business","id",$this->input->post('classid')); 
 		$fav =array("users_id"=>$this->session->userdata['id'],"user_business_details_id"=>$val->user_business_details_id);
 		$where=" and users_id=".$this->session->userdata['id'];
@@ -709,8 +709,6 @@ function referal_url($url){
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
-		
-		
 		$where=" and services_id=".$this->input->post('classid');
 		$val=$this->common_model->getRow("client_service_appointments","users_id",$this->session->userdata['id'],$where);
 		if($val){
@@ -724,11 +722,13 @@ function referal_url($url){
 		$input = array("start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
 		$val=$this->bprofile_model->bookappointment($input);
 		}
-		}else{
-		$val=0;
-		 echo $val;
-		 //redirect('home/clientlogin');
-		}
+	 
+	  }else{ 
+	  echo 0;
+	  }
+	
+	
+		
 		
 	}
 	
@@ -972,6 +972,12 @@ function checkIfblocked(){
 	 $this->bprofile_model->addClient();
 	 
 	}
+	
+	function removeClient(){
+     $input = array("users_id"=>$this->input->post('clientid'),"services_id"=>$this->input->post('classid'),"type"=>$this->input->post('type'));
+	 $this->bprofile_model->removeClient($input);
+	}
+	
 	function clientlist(){
 	$val=$this->common_model->getAllRows("view_client_appoinment_details","services_id",$_POST['classid']);
 	 print_r (json_encode($val));

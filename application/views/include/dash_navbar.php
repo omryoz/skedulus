@@ -34,9 +34,12 @@ $(document).ready(function(){
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p>Overview</p></center></a>
 					</li>
 					<?php 
-					if(isset($this->session->userdata['business_id'])){
+					if($this->session->userdata['business_type']=="service"){
 						$id=$this->session->userdata['business_id'];
 						$link = 'cal/'.$id;		
+					}else{
+					     $id=$this->session->userdata['business_id'];
+						 $link = 'calendar_business/'.$id;	
 					}
 					?>
 					<li>

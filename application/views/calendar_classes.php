@@ -181,22 +181,22 @@ if(!isset($this->session->userdata['id'])){
 					  </td>
 					</tr>
 					<tr> 
-					  <td>
+					 <!---- <td>
 					    <div class="labelBlock"> <?=(lang('Apps_lastdateforenroll'))?></div>
 						<input type="text" class=" date_picker" value="" id="enroll_last">					   
-					   <!----<input type="text" class="inputboxblue"  id="endDateenrollment">---->
-					  </td> 
+					  </td> ---->
 					  <td>
 					    <div class="labelBlock"> <?=(lang('Apps_capacity'))?></div>
 					     <input type="text" class=""  id="class_size">
 						 <input type="hidden" name="repeatstatus" id="repeatstatus">
 					  </td> 
-					</tr>
-					<tr id="Classavailable">  
 					  <td>
 					    <?=(lang('Apps_available'))?>: <span id="available"></span>
 					  </td> 
-					</tr>					
+					</tr>
+					<!---<tr id="Classavailable">  
+					  
+					</tr>---->					
 					
             </tbody>
         </table>
@@ -272,8 +272,9 @@ if(!isset($this->session->userdata['id'])){
 							</div>
 						  </div>
 						  <div class="control-group">
-							<div class="controls">
-							  <button type="button" class="btn btn-success pull-right" id="addClient"><?=(lang('Apps_done'))?></button>
+							<div class="controls pull-right">
+							  <button type="button" class="btn btn-success" id="removeClient" value="" appid="" style="display:none;">Remove from class</button>
+							  <button type="button" class="btn btn-success" id="addClient"><?=(lang('Apps_done'))?></button>
 							  <input type="hidden" name="users_id" id="users_id" >
 							  <input type="hidden" name="actionVal" id="actionVal" value="">
 							  <input type="hidden" name="bookbusiness" value="<?php print_r($buisness_details[0]->id); ?>">
@@ -447,7 +448,7 @@ if($("#monthlylist").val()!=""){
     {
         newevt.find("#eventStartDate").datepicker();        
         newevt.find("#eventEndDate").datepicker();
-		newevt.find("#enroll_last").datepicker(); 	
+		//newevt.find("#enroll_last").datepicker(); 	
         newevt.find("#recurrenceRuleEndTimeDate").datepicker();
 		
         /*var alldaybox = newevt.find("#allDayEvent").get(0);
@@ -635,7 +636,8 @@ if($("#monthlylist").val()!=""){
 		str=str+"&ed="+$("#EndDate").val();
 		str=str+"&st="+$(".timeslot").val();
 		str=str+"&et="+$("#eventEndTime").val();
-		str=str+"&eden="+$("#enroll_last").val();
+		//str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&eden=";
 		str=str+"&repeatstatus="+$("#repeatstatus").val();
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
@@ -703,19 +705,13 @@ if($("#monthlylist").val()!=""){
 	  var todayDate= '<?php echo date("m/d/Y"); ?>';
 	  var today=new Date(todayDate);
 	  var start_date=new Date($("#StartDate").val());
-	  var last_date=new Date($("#enroll_last").val());
+	 // var last_date=new Date($("#enroll_last").val());
 	
 	 if($("#eventGroup").val()==""){
 	   $(".message").addClass("alert").html("Select atleast one service");
 	  return false;
 	  }else if(start_date <= today){
 	   $(".message").addClass("alert").html("Cannot post the classes for the past/todays date");
-	   return false;
-	  }else if(last_date=='Invalid Date'){
-	   $(".message").addClass("alert").html("The last date to enroll is required");
-	   return false;
-	  }else if(last_date > start_date || last_date < today ){
-	   $(".message").addClass("alert").html("The last date to enroll should be after today");
 	   return false;
 	  }else if($("#class_size").val()==''){
 	   $(".message").addClass("alert").html("Class size is required");
@@ -744,7 +740,8 @@ if($("#monthlylist").val()!=""){
 		str=str+"&ed="+$("#EndDate").val();
 		str=str+"&st="+$(".timeslot").val();
 		str=str+"&et="+$("#eventEndTime").val();
-		str=str+"&eden="+$("#enroll_last").val();
+		//str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&eden=";
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
 		str=str+"&tr_id="+trainer;  //alert(str);
@@ -794,28 +791,15 @@ if($("#monthlylist").val()!=""){
     });
 	
 	
-function editclient(userid){ 
-$(".message").removeClass("alert").html("");
-    $.ajax({
-	 url:base_url+'bcalendar/getclientdetails',
-	 type:'POST',
-	 data:{userid:userid},
-	 success:function(data){  
-	  $.each(eval(data),function(i,v){ 
-	   $("#name").val(v.clients_first_name);
-	   $("#note").val(v.note);
-	   $("#phone").val(v.clients_phonenumber);
-	   $("#email").val(v.clients_email);
-	   $("#users_id").val(v.users_id);
-	   $("#actionVal").val("edit");
-	  })
-	 }
-	})
-}	
+//function editclient(userid){ 
+
+
+//}	
 
 	$(".showform").click(function(){ //alert("form");
 	 $("#clientform")[0].reset();
 	 $(".message").removeClass("alert").html(""); 
+	 $("#removeClient").hide();
 	 //$(".client-form").show();
 	})
 

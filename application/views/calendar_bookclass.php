@@ -13,12 +13,16 @@
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php 
-
+// if(isset($this->session->userdata['profile_id'])){
+		  // $id=$this->session->userdata('profile_id');
+		// }else if(isset($this->session->userdata['business_id'])){
+		  // $id=$this->session->userdata('business_id');
+		// }
 @session_start();
 $_SESSION['profileid'] = $buisness_details[0]->id;
-if(!isset($this->session->userdata['id'])){
- redirect('home/clientlogin');
-}
+// if(!isset($this->session->userdata['id'])){
+ // redirect('home/clientlogin');
+// }
 
 ?>
 
@@ -28,9 +32,9 @@ if(!isset($this->session->userdata['id'])){
 	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
-<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
+<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
-<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
+<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
 	
 </div>
 </div>
@@ -50,7 +54,7 @@ if(!isset($this->session->userdata['id'])){
 	<div class="row-fluid">
 	
 	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
-    <button class="btn btn-success span6 clientlist" id="singleClass" ><?=(lang('Apps_viewdetails'))?></button>
+    <button class="btn btn-success span6 clientlist" id="singleBookClass" ><?=(lang('Apps_viewdetails'))?></button>
 	</div>
   </div>
 </div>
@@ -88,22 +92,22 @@ if(!isset($this->session->userdata['id'])){
 					  </td>
 		</tr>
 		<tr> 
-					  <td>
+					 <!--- <td>
 					    <div class="labelBlock">  <?=(lang('Apps_lastdateforenroll'))?>: <span id="lastdate"></span></div>
-					  </td> 
+					  </td> --->
 					  <td>
 					    <div class="labelBlock">  <?=(lang('Apps_capacity'))?>: <span id="class_size"></span></div>
 					  </td> 
-					</tr> 
-		<tr> 
-				<td>
+					  <td>
 					<div class="labelBlock">  <?=(lang('Apps_available'))?>: <span id="available"></span></div>
 						</td> 
+					</tr> 
+		<tr> 
 					<td>
 						<textarea name="note" id="note" placeholder="<?=(lang('Apps_note'))?>" style=
 						"width: 99%!important;"></textarea>
 					  </td> 
-					</tr> 
+		</tr> 
 		</tbody>
 		</table>
      
@@ -113,7 +117,14 @@ if(!isset($this->session->userdata['id'])){
 		        <input type="hidden" name="updateid"  id="updateid" value="">
 				<p class="hide" id="starttime"></p><p  class="hide" id="endtime"></p>
 				<p id="business_id" class="hide"><?php echo $businessId; ?></p>
+				 <?php
+				$url='';
+				 if(!isset($this->session->userdata['id'])){
+				  ?>
+				  <li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+				<?php }else{ ?>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
+				<?php }?>
 	        </li>
 	    </ul>
     </div>
@@ -129,7 +140,8 @@ if(!isset($this->session->userdata['id'])){
 	  e.preventDefault();
 	  $(this).tab('show');
 	})
-	    
+	
+    
 </script>
 <script>
     var ical; 
@@ -327,7 +339,8 @@ if(!isset($this->session->userdata['id'])){
     
 	
 	//function singleClass(){
-	$("#singleClass").click(function(){ 
+	$("#singleBookClass").click(function(){ 
+       $("#note").val("");	
 	   $("#booksuccess").hide();
 	  var evId=$("#eventId").html();
 	   $.ajax({
@@ -352,7 +365,11 @@ if(!isset($this->session->userdata['id'])){
 		   $("#lastdate").html(v.lastdate_enroll);
 		   $("#starttime").html(v.start_time);
 		   $("#endtime").html(v.end_time);
-		   
+		   if(v.availability==0){
+		      $("#bookClass").hide();
+		   }else{
+		     $("#bookClass").show();
+		   }
 		})
 	   }
 	  })

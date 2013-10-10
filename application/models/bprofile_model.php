@@ -396,6 +396,26 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
+	function removeClient($info){
+	   if($info)
+	   $query = $this->db->delete("client_service_appointments",$info);
+	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+	   $update_avail=($val->availability+1);
+	   if($update_avail<=$val->class_size){
+	   $updateArray['availability']=$update_avail;
+	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
+	   }
+	   if($this->db->affected_rows()>0){
+	          if($update_avail<=$val->class_size){
+				echo $update_avail; 
+				}else{
+				echo $val->class_size;
+				}
+			}else{
+				return false;
+			}
+	}
+	
 	function getClientdetails(){
 		 $val= $this->common_model->getRow("view_business_clients",'users_id',$_GET['id']);
 		 $value ='[{"firstname": "'.$val->first_name.'","lastname": "'.$val->last_name.'","email": "'.$val->email.'","id": "'.$val->users_id.'","phone": "'.$val->phone_number.'"}]';
@@ -602,15 +622,18 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
-	function addClient(){
+	function addClient(){ 
 	   $insertArray=array();
 		if(isset($_POST['name']))$insertArray['first_name']= $_POST['name'];
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
 		if(isset($_POST['phone']))$insertArray['phone_number']= $_POST['phone'];
 		
-		if($_POST['users_id']==""){
+		if($_POST['users_id']=="" && $_POST['actionVal']=='add'){
 		$this->db->insert('users',$insertArray);
 		$id=mysql_insert_id();
+		$action = 'add';
+		}elseif($_POST['users_id']!="" && $_POST['actionVal']=='add'){
+		$id=$_POST['users_id'];
 		$action = 'add';
 		}
 		$val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
@@ -634,7 +657,7 @@ class bprofile_model extends CI_Model {
 		   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 		}
 		
-		if(isset($_POST['users_id']) && $_POST['users_id']!=""){
+		if(isset($_POST['users_id']) && $_POST['users_id']!="" && $_POST['actionVal']=='edit'){
 		  $this->db->update('users',$insertArray,array('id'=>$_POST['users_id']));
 		   $insertComment['note']=$_POST['notes'];
 		  $this->db->update('client_service_appointments',$insertComment,array('users_id'=>$_POST['users_id'],'services_id'=>$_POST['classid']));
