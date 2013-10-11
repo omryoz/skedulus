@@ -69,9 +69,12 @@ var base_url = "http://localhost/skedulus/";
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
+							
 								<!---<li><a href="btn btn-success">	</li>--->
 								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual') { ?>
-								<li><div class="language_flag "> <a href="<?php echo base_url(); ?>common_functions/mydashboard/my">Mydashboard</a> <a href="<?php echo base_url(); ?>common_functions/mydashboard/business">Business Dashboard</a></div></li>
+								<li><div > 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" class="btn btn-inverse active btn-switch" >Personal</a> 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" class="btn btn-inverse  btn-switch">Business</a></div></li>
 								<?php } ?>
 								<li><div class="language_flag " ><a href="#" class="setting-icon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
 								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="#"><?php echo $this->session->userdata['username']; ?></a></div></li>

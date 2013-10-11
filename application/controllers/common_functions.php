@@ -145,7 +145,6 @@ class Common_functions extends CI_Controller {
 	}
 	
 	function mydashboard($type=false){
-	//print_r($type); print_r($this->session->userdata('role')); exit;
 	    if($type=='my'){
 		 $this->session->unset_userdata('role');
 			$sessionVal=array(
