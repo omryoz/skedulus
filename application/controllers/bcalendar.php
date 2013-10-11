@@ -719,7 +719,7 @@ function referal_url($url){
 		$date=date("Y-m-d h:m:s");
 		$starttime=$this->input->post('date')." ".$this->input->post('starttime');
 		$endtime=$this->input->post('date')." ".$this->input->post('endtime');
-		$input = array("start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
+		$input = array("employee_id"=>$this->input->post('employee_id'),"start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
 		$val=$this->bprofile_model->bookappointment($input);
 		}
 	 
@@ -777,7 +777,16 @@ function referal_url($url){
 }
 
 function checkIfblocked(){
-   $where=" 1 AND user_business_details_id='".$this->input->post('business_id')."' and start_time='".$this->input->post('start_time')."'";
+  if($this->input->post('employee_id')!=''){
+    $staff=$this->input->post('employee_id');
+  }else{
+    $staff=0;
+  }
+  $where=" 1 AND user_business_details_id='".$this->input->post('business_id')."' and start_time='".$this->input->post('start_time')."' AND instructor='".$staff."'";
+  
+    $date1 = str_replace('-', '/', $this->input->post('date'));
+    $date = date('Y-m-d',strtotime($date1 . "+1 days"));
+  
   $booked_slots = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
   if($booked_slots){
   echo 0;

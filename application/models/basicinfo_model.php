@@ -23,7 +23,7 @@ class basicinfo_model extends CI_Model {
 		$id=$isExist->id;
 		$business_type=$isExist->business_type;
 		$this->db->update('user_business_details',$insertArray,array('users_id' => $this->session->userdata['id']));
-		$sql=mysql_query("delete from user_business_availability where user_business_details_id= '".$id."' ");
+		$sql=mysql_query("delete from user_business_availability where user_business_details_id= '".$id."' and type='business' ");
 		
 		}else{
 		$this->db->insert('user_business_details',$insertArray);
@@ -47,7 +47,7 @@ class basicinfo_model extends CI_Model {
 	}
 	
 	function getAvailability(){
-		$sql="Select * from user_business_availability where user_business_details_id =".$this->session->userdata['business_id'];
+		$sql="Select * from user_business_availability where type='business' and user_business_details_id =".$this->session->userdata['business_id'];
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

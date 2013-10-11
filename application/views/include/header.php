@@ -70,6 +70,9 @@ var base_url = "http://localhost/skedulus/";
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
 								<!---<li><a href="btn btn-success">	</li>--->
+								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual') { ?>
+								<li><div class="language_flag "> <a href="<?php echo base_url(); ?>common_functions/mydashboard/my">Mydashboard</a> <a href="<?php echo base_url(); ?>common_functions/mydashboard/business">Business Dashboard</a></div></li>
+								<?php } ?>
 								<li><div class="language_flag " ><a href="#" class="setting-icon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
 								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="#"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>common_functions/logout"><?=(lang('Apps_logout'))?></a></li>
@@ -79,7 +82,7 @@ var base_url = "http://localhost/skedulus/";
 								<a href="<?=base_url();?>welcome/language/english" title="English" >
 									<img src="<?php echo base_url(); ?>images/bri12.png">
 								</a>
-				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+				                <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
 	   						</ul>
 							
                  		</div>

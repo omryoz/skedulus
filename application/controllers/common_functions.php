@@ -90,7 +90,7 @@ class Common_functions extends CI_Controller {
 		 //$this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 if($status){
-			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type);
+			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
 			  $this->session->set_userdata($sessionVal);
 			 redirect('overview'); 
 			 }else{
@@ -144,6 +144,24 @@ class Common_functions extends CI_Controller {
 		}
 	}
 	
+	function mydashboard($type=false){
+	//print_r($type); print_r($this->session->userdata('role')); exit;
+	    if($type=='my'){
+		 $this->session->unset_userdata('role');
+			$sessionVal=array(
+			 'role'=>'client'
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		 redirect('cprofile');
+		 }else if($type=='business'){
+		 $this->session->unset_userdata('role');
+		  $sessionVal=array(
+			 'role'=>'manager'
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		  redirect('overview');
+		 }
+	 }
 	
 	public function businessSignUp(){
 	$this->data['userRole']="businessSignUp";

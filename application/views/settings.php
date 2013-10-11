@@ -174,8 +174,9 @@
 										</div>
 							</div></div>
 						  <div class="tab-pane fade" id="Password">
-							  <div class="row-fluid"><p class="alert" id="successMessage" style="display:none"></p>
+							  <div class="row-fluid">
 								  <div class="span12 ">
+								  <p class="alert" id="successMessage" style="display:none"></p>
 									<strong><?=(lang('Apps_changepwd'))?></strong>
 									<hr/>
 								  <br/>

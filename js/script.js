@@ -964,7 +964,7 @@ $("#removeClient").show();
 $("#bookClass").click(function(){ 
  $.ajax({
   url:base_url+"bcalendar/bookclass",
-  data:{classid:$("#updateid").val(),note:$("#note").val(),starttime:$("#starttime").html(),endtime:$("#endtime").html(),date:$("#StartDate").html(),businessid:$("#business_id").html()},
+  data:{classid:$("#updateid").val(),employee_id:$("#employee_id").html(),note:$("#note").val(),starttime:$("#starttime").html(),endtime:$("#endtime").html(),date:$("#StartDate").html(),businessid:$("#business_id").html()},
   type:"POST",
   success:function(data){  
   var messg="";

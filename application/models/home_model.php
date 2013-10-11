@@ -11,7 +11,7 @@ function getBusiness(){
 				$values[$i]['business_id'] =$dataP->business_id;
 				$values[$i]['category_name']= $dataP->category_name;
 				$values[$i]['image']= $dataP->image;
-				$values[$i]['name']= $dataP->manager_firstname."".$dataP->manager_lastname;
+				$values[$i]['name']= $dataP->manager_firstname." ".$dataP->manager_lastname;
 				$i++;
 			}
 			return $values;

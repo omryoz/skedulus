@@ -526,7 +526,7 @@ class bprofile_model extends CI_Model {
 				 $weeknames= implode(",",$week);
 				 $values['repeat_week_days'] =$weeknames;
 				}
-				
+				$values['employee_id']= $dataP->instructor;
 				$values['instructor_lastname']= $dataP->instructor_lastname;
 				$values['instructor_firstname'] =$dataP->instructor_firstname;
 				$values['lastdate_enroll']= $dataP->lastdate_enroll;

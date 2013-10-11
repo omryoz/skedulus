@@ -654,15 +654,16 @@ if($("#monthlylist").val()!=""){
 		if($("#repeatstatus").val()=="Remove Repeat"){
         $.ajax({
 	        url:base_url+'bcalendar/checkIfblocked',
-		   data:{date:$("#StartDate").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
+		   data:{date:$("#StartDate").val(),employee_id:$(".demo").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
 		   type:'POST',
 		   success:function(data){ 
 			// alert(data);
 			if(data==0){
-			 $(".message").addClass("alert").html("Time slot is already blocked.Kindly choose another time slot");
+			 $(".message").addClass("alert").html("Selected time slot already blocked.Kindly choose another time slot");
 			 return false;
-		  }else{
+		  }else{ 
 		    ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+			window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		  }
 			
 		   }
@@ -670,14 +671,16 @@ if($("#monthlylist").val()!=""){
 		
 		}else{
 		ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
+		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
 		}else if($("#postclass").attr("data-val")=='multi'){  
 		 str=str+"&status=multi";
 		 str=str+"&seriesid="+$("#postclass").attr("seriesid");  //alert(str);
 		// ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
 		 ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		 window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
-		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
+		//window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 	}
     /**
      Clicking delete in Preview window

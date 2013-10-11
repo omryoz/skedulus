@@ -79,7 +79,7 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 					    <div class="labelBlock">  <?=(lang('Apps_classes'))?>: <span id="className"></span></div>	
 					  </td>
 					  <td>
-					   <div class="labelBlock">  <?=(lang('Apps_trainers'))?>: <span id="trainers"></span></div>
+					   <div class="labelBlock">  <?=(lang('Apps_trainers'))?>: <span id="trainers"></span><span id="employee_id" class="hide"></span></div>
 					   <p class="hide event_id"></p>
 					  </td>
 		</tr>
@@ -356,7 +356,8 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
            $("#update").show();$("#add").hide();
 		   $("#updateid").val(evId);
 		   $("#className").html(v.class);
-		   if(v.instructor!='0')
+		   $("#employee_id").html(v.employee_id);
+		   if(v.employee_id!='')
 			$("#trainers").html(v.instructor_firstname+' '+v.instructor_lastname);
 		   $("#StartDate").html(v.start_date);
 		   $("#StartTime").html(v.start_time);
