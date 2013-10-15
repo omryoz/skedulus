@@ -652,23 +652,24 @@ if($("#monthlylist").val()!=""){
 		str=str+"&status=single";  
 		str=str+"&seriesid="+$("#postclass").attr("seriesid");
 		if($("#repeatstatus").val()=="Remove Repeat"){
-        $.ajax({
-	        url:base_url+'bcalendar/checkIfblocked',
-		   data:{date:$("#StartDate").val(),employee_id:$(".demo").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
-		   type:'POST',
-		   success:function(data){ 
-			// alert(data);
-			if(data==0){
-			 $(".message").addClass("alert").html("Selected time slot already blocked.Kindly choose another time slot");
-			 return false;
-		  }else{ 
-		    ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
-			window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
-		  }
+        // $.ajax({
+	        // url:base_url+'bcalendar/checkIfblocked',
+		   // data:{date:$("#StartDate").val(),employee_id:$(".demo").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
+		   // type:'POST',
+		   // success:function(data){ 
+			//alert(data);
+			// if(data==0){
+			 // $(".message").addClass("alert").html("Selected time slot already blocked.Kindly choose another time slot");
+			 // return false;
+		  // }else{ 
+		    // ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+			// window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
+		  // }
 			
-		   }
-	    });		
-		
+		   // }
+	    // });		
+		      ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+			 window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}else{
 		ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
 		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();

@@ -308,16 +308,16 @@
 								  <strong> <?=(lang('Apps_notificationsetting'))?></strong>
 								  <hr/>
 								  <br/>
-									<form class="form-horizontal offset1" name="notification" id="notification">
+									<form class="form-horizontal offset1" name="notification" id="notification" action="notification_settings" method="post">
 										<div class="control-group">
 										  <label class="control-label " for="input"> <?=(lang('Apps_appointremainder'))?>: </label>
 												<div class="controls">
 													<label class="radio inline">
-														<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+														<input type="radio" name="appointment_reminder" id="oppintment_reminder_on" value="yes">
 														<?=(lang('Apps_on'))?> 
 													</label>
 													<label class="radio inline">
-														<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+														<input type="radio" name="appointment_reminder" id="oppintment_reminder_off" value="no">
 														<?=(lang('Apps_off'))?> 
 													</label>
 												</div>
@@ -326,12 +326,12 @@
 										<div class="control-group">
 										  <label class="control-label" for="input"> <?=(lang('Apps_sendremindr'))?>:</label>
 										  <div class="controls">
-											<select class="span3">
+											<select class="span3" id="send_reminder" disabled name="remind_before">
 												<option><?=(lang('Apps_days'))?></option>
-												<option>1 day notice</option>
-												<option>2 day notice</option>
-												<option>3 day notice</option>
-												<option>4 day notice</option>
+												<option value="1">1 day notice</option>
+												<option value="2">2 day notice</option>
+												<option value="3">3 day notice</option>
+												<option value="4">4 day notice</option>
 											</select>
 										  </div>
 										</div>
@@ -340,16 +340,16 @@
 										  <!-- <label class="control-label"  for="input">Send me text message : from business manager :  </label> -->
 										  <div class="controls">
 										  <label class="radio inline">
-										  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+										  <input type="radio" name="send_message" id="txt_msg_on" value="yes" disabled >
 										   <?=(lang('Apps_on'))?> 
 										</label>
 										<label class="radio inline">
-										  <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+										  <input type="radio" name="send_message" id="txt_msg_off" value="no" disabled>
 										   <?=(lang('Apps_off'))?> 
 										</label>
 										</div>
 										</div>
-										<a href="#" class="btn btn-success span2 pull-right" id="nSettings"><?=(lang('Apps_save'))?></a> 
+										 <input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success span2 pull-right"/>
 									</form>
 								  </div>
 							  </div>

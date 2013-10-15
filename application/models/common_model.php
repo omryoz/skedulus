@@ -293,7 +293,16 @@ public function mail($emailTo,$subject,$message){
 		}
 	}
 	
-	
+	function create_details_by_table($table=false,$filter=false){
+	//print_r($filter);
+		$this->db->insert($table,$filter);
+		//echo $this->db->last_query();die;
+		if($this->db->affected_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 	
 	
 }

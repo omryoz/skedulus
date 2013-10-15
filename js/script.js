@@ -12,7 +12,17 @@ var base_url = "http://localhost/skedulus/";
 	
 $('.tool').tooltip('hide')
 
+// $(".lang").click(function(){
+// alert("here"); alert($(this).attr('title'));
+// if($(this).attr('title')=='Hebrew'){
+  // $(".Elang").attr('href','http://localhost/skedulus/welcome/language/hebrew');
+  // $('img', ".Elang").attr("src",'http://localhost/skedulus/images/is13.png');
+// }else{
+     // $(".lang").attr('href','http://localhost/skedulus/welcome/language/english');
+     // $('img', ".lang").attr("src",'http://localhost/skedulus/images/is12.png');
+// }
 
+// })
 	
 
 function bookService(serviceid){ 
@@ -20,6 +30,7 @@ function bookService(serviceid){
 	$(".services").html("");
 	getservices(business_id,serviceid);
 }
+
 
 $(document).ready(function(){
 $(".dropdown-menu li").live("click",function(e) {
@@ -1263,3 +1274,18 @@ $(document).click(function(event) {
        }
    }        
 })
+/*********** function for notification settings ***************/
+$("#oppintment_reminder_on").click(function() {
+											
+			$("#send_reminder").attr("disabled", false);
+			$("#txt_msg_on").attr("disabled", false);
+			$("#txt_msg_off").attr("disabled", false);
+                        //$("#discountselection").show(); //To Show the dropdown
+                    });
+$("#oppintment_reminder_off").click(function() {
+											
+			$("#send_reminder").attr("disabled", true);
+			$("#txt_msg_on").attr("disabled", true);
+			$("#txt_msg_off").attr("disabled", true);
+                        //$("#discountselection").show(); //To Show the dropdown
+                    });

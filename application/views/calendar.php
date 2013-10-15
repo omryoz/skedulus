@@ -256,11 +256,11 @@
     }
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{ 
-    if($("#userrole").val()=='manager'){
+	{  //alert($("#userrole").val());
+	if($("#userrole").val()=='manager'){
 	   $(".message").removeClass("alert").html(" ");
 	   $("#eventid").html($(evt).attr('eventid'));
-	   
+	  
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
 	   data:{eventID:$(evt).attr('eventid')},
@@ -304,7 +304,7 @@
 	   $("#reschedule").modal('show');
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
-	 }
+		}
 	}
     /*
      Method invoked when event is moved or resized
@@ -398,12 +398,39 @@
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(event_id){ 	
+	 
+	  $("#deleteApp").live("click",function(){
+	 $(".message").removeClass("alert").html(" ");
+	if(confirm("Are you sure you want to remove from list?")) {
+	  var url = base_url+"bcalendar/checkfordelete";
+	  $.ajax({
+		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
+		url:url,
+		type:'POST',
+		success:function(data){  
+		if(data==0){ 
+		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		return false;
+		}else if(data==1){
 		var str="?";
+		str=str+"&type="+$("#type").html(); 
+        str=str+"&postedclassid="+$("#services_id").html();		
+		str=str+"&eventId="+$("#eventid").html(); 
+		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		$("#reschedule").modal('hide');
+		
+		}
+	 }
+	  })
+	 }
+ 
+})
+    // function rzDeleteEvent(event_id){ 	
+		// var str="?";
 		//str=str+"eventName="+activeEvent.name; 
-		str=str+"&eventId="+event_id;
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
-    } 
+		// str=str+"&eventId="+event_id;
+		// ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
+    // } 
     
 
     /**

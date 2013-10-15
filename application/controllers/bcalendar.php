@@ -383,6 +383,7 @@ function checkweekendDayName($date=false){
 }
 
 function createappointment(){ //print_r($_POST); exit;
+
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
@@ -392,7 +393,12 @@ function createappointment(){ //print_r($_POST); exit;
 		}else{
 		$id=0;
 		}
-		$input = array("users_id"=>$this->input->post('user_id'),"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
+		if($this->session->userdata['role']=='client'){
+		 $booked_by='client';
+		}else{
+		 $booked_by='manager';
+		}
+		$input = array("users_id"=>$this->input->post('user_id'),"booked_by"=>$booked_by,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
 		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
 		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
@@ -719,7 +725,12 @@ function referal_url($url){
 		$date=date("Y-m-d h:m:s");
 		$starttime=$this->input->post('date')." ".$this->input->post('starttime');
 		$endtime=$this->input->post('date')." ".$this->input->post('endtime');
-		$input = array("employee_id"=>$this->input->post('employee_id'),"start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
+		if($this->session->userdata['role']=='client'){
+		 $booked_by='client';
+		}else{
+		 $booked_by='manager';
+		}
+		$input = array("employee_id"=>$this->input->post('employee_id'),"booked_by"=>$booked_by,"start_time"=>$starttime,"end_time"=>$endtime,"users_id"=>$this->session->userdata['id'],"services_id"=>$this->input->post('classid'),"note"=>$this->input->post('note'),'status'=>'booked','type'=>'class','appointment_date'=>$date,'user_business_details_id'=>$this->input->post('businessid'));
 		$val=$this->bprofile_model->bookappointment($input);
 		}
 	 

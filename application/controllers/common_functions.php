@@ -147,6 +147,7 @@ class Common_functions extends CI_Controller {
 	function mydashboard($type=false){
 	    if($type=='my'){
 		 $this->session->unset_userdata('role');
+		 $this->session->unset_userdata('business_id');
 			$sessionVal=array(
 			 'role'=>'client'
 		    );
@@ -154,8 +155,10 @@ class Common_functions extends CI_Controller {
 		 redirect('cprofile');
 		 }else if($type=='business'){
 		 $this->session->unset_userdata('role');
+		 $res=$this->common_model->getRow('user_business_details','users_id',$this->session->userdata['id']);
 		  $sessionVal=array(
-			 'role'=>'manager'
+			 'role'=>'manager',
+			 'business_id'=>$res->id
 		    );
 		 $this->session->set_userdata($sessionVal);	
 		  redirect('overview');

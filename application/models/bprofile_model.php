@@ -543,6 +543,7 @@ class bprofile_model extends CI_Model {
 	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
 	   $new_avail=($val->availability-1);
 	   $updateArray['availability']=$new_avail;
+	   $updateArray['modifiedStatus']='1';
 	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 	   $this->db->insert("client_service_appointments",$input);
 	   if($this->db->affected_rows()>0){	   
@@ -654,6 +655,7 @@ class bprofile_model extends CI_Model {
 		  // $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
 		   $new_avail=($val->availability-1);
 		   $updateArray['availability']=$new_avail;
+		   $updateArray['modifiedStatus']='1';
 		   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 		}
 		

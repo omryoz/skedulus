@@ -22,7 +22,7 @@ class getMyevents
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		
 		
-		$res = $db->get_results("select * from view_client_appoinment_details where users_id=".$this->queryVars['id'].""); 
+		$res = $db->get_results("select * from view_client_appoinment_details where users_id=".$this->queryVars['id']." and booked_by='client'"); 
 		
 		$ax=array();
 		

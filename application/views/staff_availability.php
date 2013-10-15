@@ -1,3 +1,10 @@
+<script>
+$(document).ready(function(){ 
+$(".done").click(function(){ 
+  window.location.href=base_url+"staffs/list_staffs";
+}) 
+})
+</script>
 <?php error_reporting(0); ?>
 					  
 						 <h5>Assign Staffs Availability </h5>
@@ -61,7 +68,7 @@
 					<?php } ?>
 					<div class="" id="insert">
 					<input type="button" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="Save" />
-					   
+					<input type="button" name="done" value="Done" id="done" class="btn btn-success pull-right done" style="display:none;">     
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">

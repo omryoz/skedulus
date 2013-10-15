@@ -61,7 +61,7 @@
 						   }
 						   $("#successaddstaffs").html(success);
 						   $("#successaddstaffs").show();
-						   
+						   $('#serviceTab a[href="#add_service"]').tab('show');
 						  }
 					});
                 }
@@ -80,8 +80,19 @@
 
 
 
-function staffInsert(form){
-var url=baseUrl+'staffs/manage_staffs/?insert';
+function staffInsert(form){ 
+var url=baseUrl+'staffs/manage_staffs/?insert'; 
+if($("#userid").val()!=" "){
+ if(form=='assignstaffs'){
+    var action=validateform2();
+	var message="Kindly assign atleast one service";
+ }
+ if(form=='staffavail'){
+   var action=validateform3();
+   var message='Kindly assign the staffs availability';
+   
+ }
+ if(action){
   $.ajax({  
 		  type: 'POST',
 		  data: $("#"+form).serialize()+'&userid='+$("#userid").val(), 
@@ -97,12 +108,61 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 		   }
 		   $("#success"+form).html(success);
 		   $("#success"+form).show();
-		   $('#'+form)[0].reset();
+		   //$('#'+form)[0].reset();
+		   $('#serviceTab a[href="#add_availability"]').tab('show');
+		   if(form=='staffavail'){
+			 $("#done").show();
+		   }else{
+		   $("#done").hide();
+		   }
 		 }
 		  }
 	});
+  }else{ 
+     
+     $("#success"+form).html(message);
+     $("#success"+form).show();
+	 
+  }
+}else{
+   $('#serviceTab a[href="#add_staff"]').tab('show');
+   var message="Kindly fill in all the required details";
+    $("#successaddstaffs").html(message);
+	 $("#successaddstaffs").show();
+   $('#'+form)[0].reset();
+}
 }
 
+function validateform2(){ 
+  if ($('#assignstaffs :checkbox:checked').length > 0){
+	 return true;
+   }else{
+     return false;
+   }
+}
+function validateform3(){ 
+  if ($('#staffavail :checkbox:checked').length > 0){
+	 return true;
+   }else{
+     return false;
+   }
+}
+// function validateform1(){ 
+  // if ($("#userid").val()!=''){
+	 // return true;
+   // }else{
+     // return false;
+   // }
+// }
+
+$(document).ready(function(){ 
+$(".staffclose").click(function(){ 
+  window.location.href=base_url+"staffs/list_staffs";
+}) 
+})
+// $("#closeEdit").click(function(){ 
+  // window.location.href=base_url+"staffs/list_staffs";
+// })
 </script>
 <?php if(isset($success)){ ?>
 	<p class="alert"><?=(lang('Apps_mailsendtostaffmember'))?></p>
@@ -166,8 +226,8 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 	<div id="myModal" data-keyboard="false" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		
-		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?>  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
-		<h4 id="add"><?=(lang('Apps_addstaff'))?>   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?>  <button type="button" class="close staffclose" id="staffclose" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+		<h4 id="add"><?=(lang('Apps_addstaff'))?>   <button type="button" class="close staffclose" id="staffclose" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
 	  </div>
 	 
 	  <div class="modal-body">
@@ -325,7 +385,7 @@ var url=baseUrl+'staffs/manage_staffs/?insert';
 					<?php } ?>
 					<div class="" id="insert">
 					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
-					   
+					
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">

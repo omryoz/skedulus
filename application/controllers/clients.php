@@ -96,6 +96,23 @@ class Clients extends CI_Controller {
 	   $this->cprofile_model->updatePassword();
 	   echo "success";
 	}
+	function Notification_settings()
+	{
+		$notification=$this->input->post();
+		unset($notification['save']);
+		$notification=array_merge($notification,array('users_id'=>$this->session->userdata("id")));
+		//print_r($notification);
+		
+		if($this->common_model->create_details_by_table('user_notification_settings',$notification))
+		{
+		$this->session->set_flashdata('message', 'Notifications Settings Saved');
+		}
+	else
+	{
+		$this->session->set_flashdata('message', "Oop's some problem occured");
+	}
+		redirect('/clients/settings');
+	}
 	
 }
 ?>
