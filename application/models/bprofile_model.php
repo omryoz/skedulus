@@ -171,6 +171,22 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getStaffs(){
+		//$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
+		$sql="Select distinct(users_id),first_name,last_name from view_employee_classes where business_id ='".$this->session->userdata['business_id']."'  and service_id='".$_POST['class_name']."'";
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+				$values[$i]['id'] =$dataP->users_id;
+				$values[$i]['name']= $dataP->first_name." ".$dataP->last_name;
+				$i++;
+			}
+			return $values;
+		}
+	}
+	
+	function getStaffsList(){
 		$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
 		$query=$this->db->query($sql);
 		$data= $query->result();

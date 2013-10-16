@@ -179,7 +179,7 @@
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
-								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
+								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>/<?php echo $type; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
 							    <?php if($this->session->userdata['role']=="manager"){ ?>
 								<td>
 							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;

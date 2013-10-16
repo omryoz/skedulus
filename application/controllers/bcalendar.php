@@ -650,6 +650,7 @@ function referal_url($url){
 		}
 		
 		if($this->session->userdata['role']=="manager"){
+		$this->parser->parse('include/modal_classpopup',$this->data);
 		$this->parser->parse('calendar_classes',$this->data);
 		}else{
 		$this->parser->parse('calendar_bookclass',$this->data);
@@ -941,7 +942,7 @@ function checkIfblocked(){
 	}
 	
 	
-	function staffSchedule($id=false){
+	function staffSchedule($id=false,$type=false){ 
 	if($id){
 	$this->parser->parse('include/header',$this->data);
 	$this->data['role']="";
@@ -957,11 +958,31 @@ function checkIfblocked(){
 		  }
 		  
 		  $filter=array('users_id'=>$id);
-		  $this->data['staff_details'] = $this->business_profile_model->getstaffDetailsByfilter($filter);
+		  $staffdetails = $this->business_profile_model->getstaffDetailsByfilter($filter);
+		  $this->data['staff_details'] =$staffdetails;
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'employee');
 		}
+		if($type=='Classes'){
+		  $this->data['trainerid'] =$staffdetails[0]->users_id;
+		  $this->data['firstname'] =$staffdetails[0]->first_name;
+		  $this->data['lastname'] =$staffdetails[0]->last_name;
+		if($this->session->userdata['role']=="manager"){
+		  $where=" And business_id='".$staffdetails[0]->user_business_details_id."' and users_id='".$staffdetails[0]->users_id."'"; 
+		  $classes=$this->common_model->getDDArray("view_employee_classes","service_id","name",$where);
+		  $classes[""]=" Select";
+		  $this->data['classes']=$classes; 
+		 $this->parser->parse('include/modal_classpopup',$this->data);
+		 $this->parser->parse('staffClassCalendar',$this->data);
+		 }else{
+		 $this->data['businessId']=$staffdetails[0]->user_business_details_id;
+		 $this->data['type'] ='staffscalendar';
+		 $this->parser->parse('calendar_bookclass',$this->data);
+		 }
+		 }else{
+		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('staffCalendar',$this->data);
+		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
@@ -989,7 +1010,9 @@ function checkIfblocked(){
 	}
 	
 	function addClient(){
+	if($this->input->post('classid')!=''){
 	 $this->bprofile_model->addClient();
+	 }
 	 
 	}
 	

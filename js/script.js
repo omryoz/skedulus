@@ -12,17 +12,7 @@ var base_url = "http://localhost/skedulus/";
 	
 $('.tool').tooltip('hide')
 
-// $(".lang").click(function(){
-// alert("here"); alert($(this).attr('title'));
-// if($(this).attr('title')=='Hebrew'){
-  // $(".Elang").attr('href','http://localhost/skedulus/welcome/language/hebrew');
-  // $('img', ".Elang").attr("src",'http://localhost/skedulus/images/is13.png');
-// }else{
-     // $(".lang").attr('href','http://localhost/skedulus/welcome/language/english');
-     // $('img', ".lang").attr("src",'http://localhost/skedulus/images/is12.png');
-// }
 
-// })
 	
 
 function bookService(serviceid){ 
@@ -30,7 +20,6 @@ function bookService(serviceid){
 	$(".services").html("");
 	getservices(business_id,serviceid);
 }
-
 
 $(document).ready(function(){
 $(".dropdown-menu li").live("click",function(e) {
@@ -143,16 +132,21 @@ $("#eventGroup").live("change",function(){
    if(class_name==""){
     $(".demo").html("");
 	$("#eventEndTime").val("");
+   }else if($(".trainerid").html()!=''){
+	 staffClassSchedule($(".trainerid").html(),$(".trainername").html());
+	 getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$(".trainerid").html(),eventId='',$(".StartTime").val());
+	 getClassEndtime($("#eventStartTime").val(),class_name,$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
    }else{ 
 	getClassStaffs(class_name,$("#StartDate").val(),$("#business_id").html(),selected='');
 	getClassEndtime($("#eventStartTime").val(),class_name,$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
-	
   }
 });
 
 $("#trainer").live("change",function(){
  //if($(this).val()!=''){
    $(".message").removeClass("alert").html(" ");
+   $("#eventEndTime").val(" ");
+  // getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$(this).val(),eventId='',starttime='');
    getClassEndtime($("#eventStartTime").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
  //}
 });
@@ -804,7 +798,10 @@ function staffSchedule(staffid,staffname){
 	$(".staff").html(append_option);
 }
 
-
+function staffClassSchedule(staffid,staffname){
+	var append_option = "<option id="+staffid+" value="+staffid+" selected>"+staffname+"</option>";
+	$(".demo").html(append_option);
+}
 
 
 $(".launchClass").on("click",function(){ 
@@ -847,8 +844,13 @@ $("#postclass").modal("show");
 $("#removeClient").hide();
 $("#clientform")[0].reset();
 $("#action").val("javascript:rzAddEvent();");  
-$(".postclassbtn").attr("href",$("#action").val());
+$(".postclassbtn").attr("href",$("#action").val()); 
+if($(".trainerid").html()!=''){
+ staffClassSchedule($(".trainerid").html(),$(".trainername").html());
+ getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$(".trainerid").html(),eventId='',$(".StartTime").val());
+}else{
 getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$("#trainer").val(),eventId='',$(".StartTime").val());
+}
 	//$("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
 })
 
@@ -1274,18 +1276,3 @@ $(document).click(function(event) {
        }
    }        
 })
-/*********** function for notification settings ***************/
-$("#oppintment_reminder_on").click(function() {
-											
-			$("#send_reminder").attr("disabled", false);
-			$("#txt_msg_on").attr("disabled", false);
-			$("#txt_msg_off").attr("disabled", false);
-                        //$("#discountselection").show(); //To Show the dropdown
-                    });
-$("#oppintment_reminder_off").click(function() {
-											
-			$("#send_reminder").attr("disabled", true);
-			$("#txt_msg_on").attr("disabled", true);
-			$("#txt_msg_off").attr("disabled", true);
-                        //$("#discountselection").show(); //To Show the dropdown
-                    });

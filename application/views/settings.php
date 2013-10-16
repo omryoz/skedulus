@@ -1,3 +1,21 @@
+<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
+<script type="text/javascript">
+    function initialize() {
+        var input = document.getElementById('searchTextField');
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+            var place = autocomplete.getPlace();
+            document.getElementById('city2').value = place.name;
+            document.getElementById('cityLat').value = place.geometry.location.lat();
+            document.getElementById('cityLng').value = place.geometry.location.lng();
+            //alert("This function is working!");
+            //alert(place.name);
+           // alert(place.address_components[0].long_name);
+
+        });
+    }
+    google.maps.event.addDomListener(window, 'load', initialize); 
+</script>
 <div class="content container">
 	<div class="content container">
 		<div class="row-fluid business_profile">	
@@ -43,10 +61,12 @@
 											  <dd><?php echo($personalInfo->email)?></dd>
 											  <dt><?=(lang('Apps_phonenumber'))?></dt>
 											  <dd><?php echo($personalInfo->phone_number); ?></dd>
-											  <dt><?=(lang('Apps_city'))?></dt>
+											  <dt><?=(lang('Apps_address'))?></dt>
+											  <dd><?php echo($personalInfo->address); ?></dd>
+											  <!---<dt><?=(lang('Apps_city'))?></dt>
 											  <dd></dd>
 											  <dt><?=(lang('Apps_country'))?></dt>
-											  <dd></dd>
+											  <dd></dd>--->
 											</dl>
 										</div>
 										</div><br/>
@@ -155,10 +175,12 @@
 											  <dd class="style-margin-b"><?php echo $personalInfo->email?></dd>
 											  <dt><?=(lang('Apps_phonenumber'))?></dt>
 											  <dd ><input type="text" name="phone" value=<?php echo $personalInfo->phone_number; ?> maxlength=15 class="span9"></dd>
-											  <dt><?=(lang('Apps_city'))?></dt>
+											  <dt><?=(lang('Apps_address'))?></dt>
+											  <dd class="style-margin-b"><textarea  name="address" id="searchTextField"  class="span9 " size="50" autocomplete="on" runat="server"><?php echo $personalInfo->address;?></textarea></dd>
+											  <!---<dt><?=(lang('Apps_city'))?></dt>
 											  <dd class="style-margin-b"></dd>
 											  <dt><?=(lang('Apps_country'))?></dt>
-											  <dd></dd>
+											  <dd></dd>--->
 											</dl>
 										</div>
 										</div><br/>

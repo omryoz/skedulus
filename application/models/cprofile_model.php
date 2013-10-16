@@ -3,6 +3,7 @@ class cprofile_model extends CI_Model {
  
 	function insertinfo(){
 		$insertArray=array();
+		if(isset($_POST['address']))$insertArray['address']= $_POST['address'];
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];
 		if(isset($_POST['month']) && isset($_POST['year']) && isset($_POST['day']) && $_POST['day']!=0){

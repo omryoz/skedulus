@@ -66,9 +66,9 @@ $(".done").click(function(){
 								
 						</div>
 					<?php } ?>
-					<div class="" id="insert">
-					<input type="button" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="Save" />
-					<input type="button" name="done" value="Done" id="done" class="btn btn-success pull-right done" style="display:none;">     
+					<div class="pull-right" id="insert">
+					<input type="button" onClick="staffInsert('staffavail')" name="save" class="btn btn-success " value="Save" />
+					<input type="button" name="done" value="Done" id="done" class="btn btn-success  done" style="display:none;">     
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">

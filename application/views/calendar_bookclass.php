@@ -19,7 +19,11 @@
 		  // $id=$this->session->userdata('business_id');
 		// }
 @session_start();
+if(isset($type) && $type=='staffscalendar'){
+$_SESSION['profileid'] = $staff_details[0]->user_business_details_id;
+}else{
 $_SESSION['profileid'] = $buisness_details[0]->id;
+}
 // if(!isset($this->session->userdata['id'])){
  // redirect('home/clientlogin');
 // }
@@ -28,9 +32,14 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 
 <div class="content container">
 <div class="row-fluid business_profile">
-<h3><a   href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
-	
+
+<?php if(isset($type) && $type=='staffscalendar'){ ?>
+<h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>
+<?php  }else{?>
+<h3><a  href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<?php }?>	
 <div id="calendarContainer" ></div>
+<p class="role hide" id="instructor_id"><?=(!empty($type))?$staff_details[0]->users_id:''?></p>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
@@ -103,7 +112,7 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 						</td> 
 					</tr> 
 		<tr> 
-					<td>
+					<td colspan="2">
 						<textarea name="note" id="note" placeholder="<?=(lang('Apps_note'))?>" style=
 						"width: 99%!important;"></textarea>
 					  </td> 
@@ -302,6 +311,7 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 	    var str="?1=1"; 
 	    str=str+"&st="+stStr;
 		str=str+"&et="+edStr; 
+		str=str+"&instructor="+$("#instructor_id").html(); 
 		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
 		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  

@@ -24,11 +24,16 @@ class getclasses
 		// }elseif(isset($this->session->userdata['business_id'])){
 		  // $id=$this->session->userdata['business_id'];
 		// }
+		if(isset($this->queryVars['instructor']) && $this->queryVars['instructor']!=''){
+		 $where=" instructor= ".$this->queryVars['instructor'];
+		}else{
+		 $where=1;
+		}
 		
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		
 		
-		$res = $db->get_results("select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id=".$_SESSION['profileid']);   
+		$res = $db->get_results("select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id='".$_SESSION['profileid']."' and ".$where);   
 		$ax=array();
 		//return count($res);
 		//
@@ -45,7 +50,7 @@ class getclasses
 			$condition=array();
 			$condition['calendar_id']=$calendarId;
 			
-			$resEvents = $db->get_results("select * from view_classes_posted_business where user_business_classes_id=".$calendarId);   
+			$resEvents = $db->get_results("select * from view_classes_posted_business where user_business_classes_id='".$calendarId."' and ".$where);   
 			$eventsarray=array(); 
 			$evCount=0;
 			  
