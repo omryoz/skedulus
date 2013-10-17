@@ -887,9 +887,12 @@ if($("#actionVal").val()==''){
  type:'POST',
  success:function(data){ 
   $.each(eval(data),function(i,v){
+  var clientids=$("#clientids").val();
   if(v.action=='add'){
    var clientHtml='<li><a href="javascript:;"  class="editclient" clientid='+v.id+'  >'+v.name+'</a></li>';
    $("#clientlist").append(clientHtml);
+    clientids+=v.id+','; 
+   $("#clientids").val(clientids);
    $("#available").html(v.avail);
    $("#clientform")[0].reset();
    }else{
@@ -942,11 +945,13 @@ function clientlist(classid){
  data:data,
  type:'POST',
  success:function(data){ 
+ var clientids="";
   $.each(eval(data),function(i,v){ 
    var clientHtml='<li><a href="javascript:;" class="editclient" clientid='+v.users_id+'>'+v.clients_first_name+' '+v.clients_last_name+'</a></li>';
    $("#clientlist").append(clientHtml);
+   clientids+=v.users_id+',';
   })
-  
+  $("#clientids").val(clientids);
  }
  })
 

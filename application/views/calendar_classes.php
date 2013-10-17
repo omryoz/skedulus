@@ -384,7 +384,8 @@ if($("#monthlylist").val()!=""){
 		var class_size=$("#class_size").val();
 		str=str+"&business_id="+$("#business_id").html();
 		str=str+"&class_id="+$("#updateid").val(); 
-		str=str+"&class_size="+class_size; 
+		str=str+"&class_size="+class_size;
+        str=str+"&available="+$("#available").html();		
 		str=str+"&class="+$("#eventGroup").val();
 		str=str+"&sd="+$("#StartDate").val();
 		str=str+"&ed="+$("#EndDate").val();
@@ -563,37 +564,6 @@ if($("#monthlylist").val()!=""){
 
 	
 	
-	$(function() {
-	var availableTags = '';
-	$.ajax({
-	url:base_url+'bcalendar/getClientsList',
-	//data:{businessid:'47'},
-	 type:'post',
-	 success:function(data){
-	  availableTags = eval(data); 
-	  $( ".tags" ).autocomplete({
-       source: availableTags,
-	   select: AutoCompleteSelectHandler,
-	   search: function() {
-		 //reset every time a search starts.
-		 $("#email").val('');
-		 $("#phone").val('');
-		 $("#users_id").val('');
-		 $("#actionVal").val('');
-		 }
-	  
-      });
-	 }
-	 
-	})
-  
-    function AutoCompleteSelectHandler(event, ui) {
-	$(".message").removeClass("alert").html("");
-	 $("#actionVal").val('add');
-     $("#email").val(ui.item.email);
-	 $("#phone").val(ui.item.phone); 
-	 $("#users_id").val(ui.item.id);
-     }
-  });
+	
 
 </script>

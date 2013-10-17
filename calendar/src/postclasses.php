@@ -29,15 +29,24 @@ class postclasses
 		  //$start_date1=date("Y/m/d",strtotime($this->queryVars['sd']));
 		  $db->query("insert into posted_class_series(user_business_classes_id,date_added) VALUES ('".$this->queryVars['class_id']."', '".$date."')");
 	      $seriesid= mysql_insert_id();
-		  if($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="weekly"){
+		  if($this->queryVars['repeatstatus'] == 'Remove Repeat' && $this->queryVars['repeat_type']=="weekly"){
 			$repeat_week_days=$this->queryVars['checked'];
-			}elseif($this->queryVars['repeatstatus'] == 'Remove Repeat' && $repeat=="monthly"){
+			}elseif($this->queryVars['repeatstatus'] == 'Remove Repeat' && $this->queryVars['repeat_type']=="monthly"){
 			$repeat_months=$this->queryVars['checked'];
-			}elseif($repeat=="daily"){
+			}elseif($this->queryVars['repeat_type']=="daily"){
 			$repeat_all_day='1';
 			}
-			
-		  $db->query("update user_business_posted_class set user_business_classes_id='".$this->queryVars['class']."',seriesid='".$seriesid."', lastdate_enroll='".date("Y-m-d",strtotime($this->queryVars['eden']))."',start_time='".$this->queryVars['st']."',end_time='".$this->queryVars['et']."',instructor='".$this->queryVars['tr_id']."',repeat_type='".$this->queryVars['repeat_type']."',repeat_all_day='".$repeat_all_day."',repeat_week_days='".$repeat_week_days."',repeat_months='".$repeat_months."',class_size='".$this->queryVars['class_size']."' where id='".$this->queryVars['class_id']."'");	
+		  
+		$res=$db->get_results("select * from user_business_posted_class where id='".$this->queryVars['class_id']."'");   
+		$diff=($res[0]->class_size-$res[0]->availability);
+		if($diff==0){
+		$available=$this->queryVars['class_size'];
+		}else{
+		$available=$this->queryVars['class_size']-$diff;
+		}
+		
+		 
+		  $db->query("update user_business_posted_class set user_business_classes_id='".$this->queryVars['class']."',seriesid='".$seriesid."', lastdate_enroll='".date("Y-m-d",strtotime($this->queryVars['eden']))."',start_time='".$this->queryVars['st']."',end_time='".$this->queryVars['et']."',instructor='".$this->queryVars['tr_id']."',repeat_type='".$this->queryVars['repeat_type']."',repeat_all_day='".$repeat_all_day."',repeat_week_days='".$repeat_week_days."',repeat_months='".$repeat_months."',class_size='".$this->queryVars['class_size']."',availability='".$available."' where id='".$this->queryVars['class_id']."'");	
 		  $date1 = str_replace('-', '/', $this->queryVars['sd']);
 		  $start_date = date('Y-m-d',strtotime($date1 . "+1 days"));
 		  //$end_date=date("Y-m-d",strtotime($this->queryVars['ed']));	

@@ -56,7 +56,16 @@ class updateclassesfull
 		 //  $db->query("update client_service_appointments set start_time='".$start_time."',  end_time='".$end_time."',instructor=".$trainer_id." where type='class' and user_business_details_id='".$business_id."' and services_id='".$class_id."'");
 		//}
 		
-		$db->query("update user_business_posted_class set user_business_classes_id='".$class."',  start_date='".$sDate."', end_date='".$eDate."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."',modifiedStatus=1  where id=".$class_id);
+		$res=$db->get_results("select * from user_business_posted_class where id='".$class_id."'");   
+		$diff=($res[0]->class_size-$res[0]->availability);
+		if($diff==0){
+		$available=$class_size;
+		}else{
+		$available=$class_size-$diff;
+		}
+		
+		
+		$db->query("update user_business_posted_class set user_business_classes_id='".$class."',  start_date='".$sDate."', end_date='".$eDate."', lastdate_enroll='".date("Y-m-d",strtotime($lastDate))."',start_time='".$sTime."',end_time= '".$eTime."',instructor=".$trainer_id.",repeat_type= '".$repeat."',class_size ='".$class_size."',availability='".$available."',modifiedStatus=1  where id=".$class_id);
 		
 		//$input=array();
 		//$input['eventId']=$class_id;

@@ -397,7 +397,14 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	function getclientsListauto(){
-		$sql="Select * from view_business_clients where user_business_details_id =".$this->session->userdata['business_id'];
+	if($_POST['clientids']!=''){
+	$list=rtrim($_POST['clientids'],',');
+	 $where= ' users_id NOT IN ('.$list.')';
+	}else{
+	  $where= 1;
+	} 
+	
+		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and ".$where;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -416,7 +423,11 @@ class bprofile_model extends CI_Model {
 	   if($info)
 	   $query = $this->db->delete("client_service_appointments",$info);
 	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
-	   $update_avail=($val->availability+1);
+ 	   if($val->availability!=0){ 
+       $update_avail=($val->availability+1);
+	   }else{
+	   $update_avail==0;
+	   }
 	   if($update_avail<=$val->class_size){
 	   $updateArray['availability']=$update_avail;
 	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
@@ -670,7 +681,9 @@ class bprofile_model extends CI_Model {
 			}
 		  // $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
 		   $new_avail=($val->availability-1);
+		   if($new_avail>=0){
 		   $updateArray['availability']=$new_avail;
+		   }
 		   $updateArray['modifiedStatus']='1';
 		   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 		}
@@ -681,9 +694,14 @@ class bprofile_model extends CI_Model {
 		  $this->db->update('client_service_appointments',$insertComment,array('users_id'=>$_POST['users_id'],'services_id'=>$_POST['classid']));
 		  $action = 'update';
 		}
+		if($new_avail<=0){
+		 $totalavail=0;
+		}else{
+		  $totalavail=$new_avail;
+		}
 		
 		
-		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'","avail":"'.$new_avail.'"}]';
+		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'","avail":"'.$totalavail.'"}]';
 		print_r ($val);
 	}
 	
