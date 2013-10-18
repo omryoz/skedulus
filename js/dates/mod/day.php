@@ -10,7 +10,12 @@ if (!empty($_GET['year']) && !empty($_GET['month'])) {
 	$out .= '<option value="">Day</option>';
 	for($i = 1; $i <= $days; $i++) { 
 		$i = strlen($i) < 2 ? "0{$i}" : $i;
-		$out .= '<option value="'.$i.'">';
+		if(isset($_GET['date']) && $_GET['date']!='' && $i==$_GET['date']){
+		  $selected="selected";
+		}else{
+			  $selected="";
+		}
+		$out .= '<option value="'.$i.'" '.$selected.'>';
 		$out .= $i;
 		$out .= '</option>';
 	}

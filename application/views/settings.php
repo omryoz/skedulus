@@ -14,7 +14,8 @@
 
         });
     }
-    google.maps.event.addDomListener(window, 'load', initialize); 
+    google.maps.event.addDomListener(window, 'load', initialize);
+	
 </script>
 <div class="content container">
 	<div class="content container">
@@ -26,7 +27,7 @@
 					  </li>
 					  <li><a href="#Password" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
 					  <li><a href="#Credit" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
-					  <li><a href="#Notification" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
+					  <li><a href="#Notification" id="NotificationSet" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
 					  </a> </li>
 					</ul>
 				</div>
@@ -98,6 +99,8 @@
 											</li>
 										</ul>
 									</div>
+									
+									<div class="row-fluid">
 									<div class="span12" id="editProfile" style="display:none">
 									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post">
 									  <strong><?=(lang('Apps_personal_details'))?></strong>
@@ -148,6 +151,7 @@
 												$day[]="Day";
 												echo form_dropdown('day', $day, $sDay,'id="day" class="span12 inline select-date"');
 												?>
+												<input type="hidden" name="DOBday" id="DOBdate" value=<?php print_r($sDay); ?> >
 												 </div>
 											  
 											  
@@ -193,7 +197,7 @@
 										<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success pull-right span2" >
 										<!---<a href="#" >Save</a>--->
 										</form>
-										</div>
+										</div></div>
 							</div></div>
 						  <div class="tab-pane fade" id="Password">
 							  <div class="row-fluid">
@@ -259,11 +263,23 @@
 										<div class="control-group">
 										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?> <b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<select class="span6" >
+										  
+										     <?php 
+												$month[" "]="Month";
+												for($i = 1; $i <= 12; $i++) {$i = strlen($i) < 2 ? "0{$i}" : $i;
+													
+												$month[$i]= date('M', mktime(0, 0, 0, $i)); 
+												}
+												$sMonth='';
+												 echo form_dropdown('month', $month, $sMonth,'id="month" class="span6"');
+												?>
+										  
+										  
+											<!---<select class="span6" >
 													<option><?=(lang('Apps_month'))?></option>
 													<option>xyz</option>
 													<option>Abc</option>
-											</select>
+											</select>--->
 											<select class="span6" >
 													<option><?=(lang('Apps_year'))?></option>
 													<option>xyz</option>
@@ -327,6 +343,7 @@
 						  <div class="tab-pane fade" id="Notification">
 							  <div class="row-fluid">
 								  <div class="span12">
+								   <p  id="message" class="message" style="display:none"></p>
 								  <strong> <?=(lang('Apps_notificationsetting'))?></strong>
 								  <hr/>
 								  <br/>
@@ -334,12 +351,23 @@
 										<div class="control-group">
 										  <label class="control-label " for="input"> <?=(lang('Apps_appointremainder'))?>: </label>
 												<div class="controls">
+												<?php
+												if($settings->appointment_reminder=='yes'){
+												 $ychck='checked';
+												 $nchck='';
+												}else{
+												 $ychck='';
+												 $nchck='checked';
+												}
+												?>
 													<label class="radio inline">
-														<input type="radio" name="appointment_reminder" id="oppintment_reminder_on" value="yes">
+													<?php echo form_radio('appointment_reminder', 'yes',$ychck , 'id="oppintment_reminder_on"'); ?>
+														<!---<input type="radio" name="appointment_reminder" id="oppintment_reminder_on" value="yes">--->
 														<?=(lang('Apps_on'))?> 
 													</label>
 													<label class="radio inline">
-														<input type="radio" name="appointment_reminder" id="oppintment_reminder_off" value="no">
+														<?php echo form_radio('appointment_reminder','no', $nchck, 'id="oppintment_reminder_off"'); ?>
+														<!---<input type="radio" name="appointment_reminder" id="oppintment_reminder_off" value="no">--->
 														<?=(lang('Apps_off'))?> 
 													</label>
 												</div>
@@ -348,30 +376,68 @@
 										<div class="control-group">
 										  <label class="control-label" for="input"> <?=(lang('Apps_sendremindr'))?>:</label>
 										  <div class="controls">
-											<select class="span3" id="send_reminder" disabled name="remind_before">
+										  
+										   <?php  
+										   if($settings->appointment_reminder=='no'){
+										    $disabled='disabled';
+										   }elseif($settings->appointment_reminder=='yes'){
+										    $disabled='';
+										   }else{
+										    $disabled='disabled';
+										   }
+											  $options=array(
+											//""=>lang('Apps_days'),
+											'1'=>"1 day notice",
+											'2'=>"2 day notice",
+											'3'=>"3 day notice",
+											'4'=>"4 day notice"
+											);
+											 $selected = "$settings->remind_before";
+											  echo form_dropdown('remind_before', $options, $selected ,'class=" span3" id="send_reminder"'.$disabled); ?>
+											  
+										  
+											<!---<select class="span3" id="send_reminder" disabled name="remind_before">
 												<option><?=(lang('Apps_days'))?></option>
 												<option value="1">1 day notice</option>
 												<option value="2">2 day notice</option>
 												<option value="3">3 day notice</option>
 												<option value="4">4 day notice</option>
-											</select>
+											</select>--->
 										  </div>
 										</div>
 										<div class="control-group">
 										  <label class="control-label"  for="input"> <?=(lang('Apps_sendmetextmsg'))?>: </label>
 										  <!-- <label class="control-label"  for="input">Send me text message : from business manager :  </label> -->
 										  <div class="controls">
+										  <?php
+										  //if($settings->appointment_reminder=='no'){
+										   // $disabled='disabled';
+										  // }elseif($settings->appointment_reminder=='yes'){
+										    $disabled='';
+										  // }else{
+										  // $disabled='disabled';
+										  // }
+												if($settings->send_message=='yes'){
+												 $ychck='checked';
+												 $nchck='';
+												}else{
+												 $ychck='';
+												 $nchck='checked';
+												}
+												?>
 										  <label class="radio inline">
-										  <input type="radio" name="send_message" id="txt_msg_on" value="yes" disabled >
+										  <?php echo form_radio('send_message', 'yes',$ychck , 'id="txt_msg_on"'.$disabled); ?>
+										  <!---<input type="radio" name="send_message" id="txt_msg_on" value="yes" disabled >--->
 										   <?=(lang('Apps_on'))?> 
 										</label>
 										<label class="radio inline">
-										  <input type="radio" name="send_message" id="txt_msg_off" value="no" disabled>
+										 <?php echo form_radio('send_message', 'no',$nchck , 'id="txt_msg_off"'.$disabled); ?>
+										  <!---<input type="radio" name="send_message" id="txt_msg_off" value="no" disabled>--->
 										   <?=(lang('Apps_off'))?> 
 										</label>
 										</div>
 										</div>
-										 <input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success span2 pull-right"/>
+										 <input type="button" name="save" id="Usernotification" value="<?=(lang('Apps_save'))?>" class="btn btn-success span2 pull-right"/>
 									</form>
 								  </div>
 							  </div>

@@ -1265,7 +1265,39 @@ e.preventDefault();
 apprise('Are you sure want to delete?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	
 });
+  
+  
+  /********* function for notification settings *************/
+$("#oppintment_reminder_on").click(function() {
+                                                                                       
+   $("#send_reminder").attr("disabled", false);
+   //$("#txt_msg_on").attr("disabled", false);
+  // $("#txt_msg_off").attr("disabled", false);
+  
+});
+$("#oppintment_reminder_off").click(function() {
+                                                                                       
+	   $("#send_reminder").attr("disabled", true);
+	  // $("#txt_msg_on").attr("disabled", true);
+	  // $("#txt_msg_off").attr("disabled", true);
+	 
+   });
 
+  $("#Usernotification").click(function(){
+  $(".message").removeClass("alert").html(" ").css('display','none');
+	var data=$("#notification").serialize(); 
+	var url=base_url+'clients/Notification_settings';
+	$.post(url,data,function(data){ 
+	  if(data==0){
+	  $(".message").addClass("alert").html("Settings inserted successfully").css('display','block');
+	  }else{
+	  $(".message").addClass("alert").html("Settings updated successfully").css('display','block');
+	  }
+	})
+  })
+  $("#NotificationSet").click(function(){
+   $(".message").removeClass("alert").html(" ").css('display','none');
+  })
 });
 
 
@@ -1273,6 +1305,8 @@ $('#postclass,#bookApp').modal({
   backdrop: 'static',
   show:false
 })
+
+
 
 $(document).click(function(event) {
    if($(event.target).parents().index($('#defaultNewEventTemplate')) == -1) {

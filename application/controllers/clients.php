@@ -76,6 +76,7 @@ class Clients extends CI_Controller {
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
 		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
+		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
 		$this->load->view('settings',$this->data);
 		$this->load->view('include/footer',$this->data);
 	}
@@ -97,21 +98,21 @@ class Clients extends CI_Controller {
 	   echo "success";
 	}
 	function Notification_settings()
-	{
+	{ 
 		$notification=$this->input->post();
 		unset($notification['save']);
 		$notification=array_merge($notification,array('users_id'=>$this->session->userdata("id")));
-		//print_r($notification);
-		
-		if($this->common_model->create_details_by_table('user_notification_settings',$notification))
-		{
-		$this->session->set_flashdata('message', 'Notifications Settings Saved');
+		//print_r($notification); exit;
+		 $chck=$this->common_model->getRow('user_notification_settings','users_id',$this->session->userdata("id"));
+		// print_r($chck);exit;
+		if($chck!=''){
+		 $notifyid=$chck->id;
+		}else{
+		 $notifyid='';
 		}
-	else
-	{
-		$this->session->set_flashdata('message', "Oop's some problem occured");
-	}
-		redirect('/clients/settings');
+		$this->common_model->create_details_by_table('user_notification_settings',$notification,$notifyid);
+		
+	
 	}
 	
 }

@@ -293,12 +293,17 @@ public function mail($emailTo,$subject,$message){
 		}
 	}
 	
-	function create_details_by_table($table=false,$filter=false){
-	//print_r($filter);
+	function create_details_by_table($table=false,$filter=false,$notifyid=false){
+	if($notifyid!=''){
+	 $this->db->update($table,$filter,array('id' => $notifyid));
+	 $val=1;
+	}else{
 		$this->db->insert($table,$filter);
+		$val=0;
+	}
 		//echo $this->db->last_query();die;
 		if($this->db->affected_rows()>0){
-			return true;
+			echo $val;
 		}else{
 			return false;
 		}
