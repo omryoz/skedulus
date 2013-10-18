@@ -1298,6 +1298,10 @@ $("#oppintment_reminder_off").click(function() {
   $("#NotificationSet").click(function(){
    $(".message").removeClass("alert").html(" ").css('display','none');
   })
+  
+  $("#changeimage").click(function(){
+  $("#uploadbtn").show();
+  })
 });
 
 

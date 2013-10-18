@@ -44,6 +44,15 @@ class cprofile_model extends CI_Model {
 		return true;
 		}
 	}
+	function updateImage(){
+	  $insertArray=array();
+	  $data=$this->common_model->uploadFile("photo");
+	  if(isset($data))$insertArray['image']= $data['upload_data']['file_name'];
+	 if($data['upload_data']['file_name']!=''){
+	  $sql=mysql_query("update users set image='".$data['upload_data']['file_name']."' where id='".$this->session->userdata['id']."'");
+	  }
+	}
+	
 	
 	function updateUser(){
 	$sql=mysql_query("update users set status='active' where activationkey='$_GET[activation_link]'");

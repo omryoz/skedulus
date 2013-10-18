@@ -84,20 +84,25 @@
 	</i>
 									</a></p>
 												<br/>
+												<form name="addImage" id="addImage" class="bs-docs-example form-horizontal "  enctype="multipart/form-data"  action="<?php echo base_url();?>clients/changepicture" method="POST">
+												<!---<form name="profilepic" id="profilepic" enctype="multipart/form-data"  action="<?php echo base_url();?>clients/changepicture" method="POST">--->
 										<ul class="photo_gallery unstyled pull-right">
 											<li class=" thumb-image">
 												<div class="thumbnail">
 													<a href="#">
 														<img src="<?php echo base_url();?>uploads/photo/<?=(!empty($personalInfo->image)?$personalInfo->image:'default.jpg'); ?>"  style="width: 100px;">
 													</a>
-													<h5 >
-													<center style="margin-bottom: -30px; color: white;"> <?=(lang('Apps_changeimage'))?> </center>
-													<input type="file" name="file" style="opacity:0">
-														<!---<center><a href="#">Photo Name</a></center>--->
-													</h5>
+													<h5>
+													<center style="margin-bottom: -30px; color: white;" > <?=(lang('Apps_changeimage'))?> </center>
+													<!---<input type="file" name="userfile" style="opacity:0; max-width:100%;" id="changeimage">--->	
+													<input type="file" name="userfile" style="opacity:0; max-width:100%;"  size="20" id="changeimage"/>
+													 </h5>
+													
 												</div>
+												<input class="btn btn-success btn-block" type="submit" name="fileupload" value="upload" id="uploadbtn" style="display:none; padding: 0px; border-radius: 0px !important;">
 											</li>
 										</ul>
+										</form>
 									</div>
 									
 									<div class="row-fluid">
@@ -271,7 +276,7 @@
 												$month[$i]= date('M', mktime(0, 0, 0, $i)); 
 												}
 												$sMonth='';
-												 echo form_dropdown('month', $month, $sMonth,'id="month" class="span6"');
+												 echo form_dropdown('month', $month, $sMonth,'id="expmonth" class="span6"');
 												?>
 										  
 										  
@@ -280,11 +285,23 @@
 													<option>xyz</option>
 													<option>Abc</option>
 											</select>--->
-											<select class="span6" >
+											 <?php
+												
+												$expyear[" "]="Year";
+												for($i = date('Y'); $i <= date('Y') +  20; $i++) { 
+												$expyear[$i]= $i; //print_r($year);
+												}
+												//print_r($year);
+												$sYear='';
+												 echo form_dropdown('year', $expyear, $sYear,'id="expyear" class="span6"');
+												
+												
+												?>
+											<!---<select class="span6" >
 													<option><?=(lang('Apps_year'))?></option>
 													<option>xyz</option>
 													<option>Abc</option>
-											</select>
+											</select>--->
 										  </div>
 										</div>
 										<div class="control-group">

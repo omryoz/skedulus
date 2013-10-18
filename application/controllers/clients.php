@@ -8,7 +8,6 @@ class Clients extends CI_Controller {
 		$this->load->model('bprofile_model');
 		$this->load->model('cprofile_model');
 		$this->load->model('common_model');
-		$this->load->library('upload');
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
 		CI_Controller::get_instance()->load->helper('language');
@@ -79,6 +78,11 @@ class Clients extends CI_Controller {
 		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
 		$this->load->view('settings',$this->data);
 		$this->load->view('include/footer',$this->data);
+	}
+	
+	function changepicture(){
+	 $this->cprofile_model->updateImage();
+	 redirect('/clients/settings');
 	}
 	
 	function offers(){
