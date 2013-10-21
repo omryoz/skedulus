@@ -164,6 +164,17 @@ class Common_functions extends CI_Controller {
 		  redirect('overview');
 		 }
 	 }
+	 
+	 function mysettings(){
+		 $this->session->unset_userdata('role');
+		 $this->session->unset_userdata('business_id');
+			$sessionVal=array(
+			 'role'=>'client'
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		 redirect('clients/settings');
+		
+	 }
 	
 	public function businessSignUp(){
 	$this->data['userRole']="businessSignUp";

@@ -83,9 +83,14 @@ var base_url = "http://localhost/skedulus/";
 								<li><div > 
 								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn btn-inverse  btn-switch <?php echo $Cclass ?>" >Personal</a> 
 								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" name="business" id="business_selected" class="btn btn-inverse btn-switch <?php echo $Bclass ?>">Business</a></div></li>
+								<li><div class="language_flag " ><a href="<?php echo base_url(); ?>common_functions/mysettings" class="setting-icon" id="settingsicon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
 								<?php } ?>
-								<li><div class="language_flag " ><a href="#" class="setting-icon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
-								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="#"><?php echo $this->session->userdata['username']; ?></a></div></li>
+								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual'){
+								 $url='common_functions/mysettings';
+								}else{
+								 $url='clients/settings';
+								}?>
+								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="<?php echo base_url(); ?><?php echo $url ?>"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>common_functions/logout"><?=(lang('Apps_logout'))?></a></li>
 								<li>
 								<div class="language_flag">
@@ -105,11 +110,14 @@ var base_url = "http://localhost/skedulus/";
 								<li><a href="<?php echo base_url();?>home/clientlogin"><?=(lang('Apps_login'))?></a></li>
 								<li>
 								<div class="language_flag">
-								
 								<a href="<?=base_url();?>welcome/language/english" title="English" >
 									<img src="<?php echo base_url(); ?>images/bri12.png">
 								</a>
-				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+				              <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew">
+							       <img src="<?php echo base_url(); ?>images/is13.png">
+							   </a>
+							 </div>
+							 </li>
 	   						</ul>
 							
                  		</div><!-- /.nav-collapse -->
@@ -117,8 +125,8 @@ var base_url = "http://localhost/skedulus/";
 						
                 	</div>
 				 </div>
-				<div class="language_flag1"><a href="#" title="English" ><img src="<?php echo base_url(); ?>images/bri12.png"></a>
-			  <a href="#" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div>
+				<!---<div class="language_flag1"><a href="#" title="English" ><img src="<?php echo base_url(); ?>images/bri12.png"></a>
+			  <a href="#" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div>--->
 			  
 			  
 			  

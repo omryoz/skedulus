@@ -25,9 +25,9 @@
 					<ul class="nav nav-tabs notify setting-tab" id="myTab">
 					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_personal_details'))?></h4></a>
 					  </li>
-					  <li><a href="#Password" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
-					  <li><a href="#Credit" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
-					  <li><a href="#Notification" id="NotificationSet" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
+					  <li><a href="#Password" class="hidealerttab" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
+					  <li><a href="#Credit"  class="hidealerttab" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
+					  <li><a href="#Notification"  class="hidealerttab" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
 					  </a> </li>
 					</ul>
 				</div>
@@ -242,114 +242,98 @@
 						  <div class="tab-pane fade" id="Credit">
 							<div class="row-fluid">
 								  <div class="span12 ">
+								   <p  id="message" class="message" style="display:none"></p>
 									<strong> <?=(lang('Apps_creditcard'))?></strong>
-									<a href="#" class="pull-right btn btn-mini"><i class="icon-edit" title="edit"></i></a>
+									<a href="javascript:;" id="editicon" onclick="showeditDetails();" class="pull-right btn btn-mini"><i class="icon-edit" title="edit"></i></a>
 									<hr/>
 								  <br/>
-									<form class="form-horizontal">
+								  <form class="form-horizontal" id="showDetails">
+										<div class="control-group">
+										  <label class="control-label" for="inputName"> <?=(lang('Apps_nameoncard'))?><b class="astrick">*</b>:</label>
+										  
+											<span id="card_name"><?php print_r($cardDetails->card_name); ?></span>
+										 
+										</div>
+										<div class="control-group">
+										  <label class="control-label" for="inputNumber"> <?=(lang('Apps_creditcardno'))?><b class="astrick">*</b>:</label>
+										  <!---<div class="controls">--->
+											<span id="card_number"><?php print_r($cardDetails->credit_card_number); ?></span>
+										  <!---</div>--->
+										</div>
+										<div class="control-group">
+										  <label class="control-label" for="input"> <?=(lang('Apps_cvv'))?>:</label>
+										  <!---<div class="controls">--->
+											<span id="verification_number"><?php print_r($cardDetails->verification_number); ?></span>
+										  <!---</div>--->
+										</div>
+										<div class="control-group">
+										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?>:</label>
+										  <div class="controls">
+										  <?php
+										  $monthName='';
+										  $year='';
+											if($cardDetails->expiration_month!=0){
+											$monthName=date("F", mktime(0, 0, 0, $cardDetails->expiration_month, 10));
+											}
+											if($cardDetails->expiration_year!=0){
+											$year=$cardDetails->expiration_year;
+											}
+										    ?>
+										     <span id="expirydate"><?php print_r($monthName." ".$year); ?></span>
+										  </div>
+										</div>
+										<!---- <a href="#" class="btn btn-success pull-right "><?=(lang('Apps_storecreditcard'))?></a>
+										 <br clear="all"/><small class="pull-right"><b class="astrick">*</b> <?=(lang('Apps_fieldsmandatory'))?> </small>--->
+									 </form>
+									<form class="form-horizontal" id="editDetails" style='display:none' action="<?php echo base_url(); ?>clients/cardDetails" method="post">
 										<div class="control-group">
 										  <label class="control-label" for="inputName"> <?=(lang('Apps_nameoncard'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword1" placeholder="<?=(lang('Apps_name'))?>" class="span12" >
+											<input type="text" id="inputPassword1" name="card_name" value="<?php  echo $cardDetails->card_name;?>" placeholder="<?=(lang('Apps_name'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
 										  <label class="control-label" for="inputNumber"> <?=(lang('Apps_creditcardno'))?><b class="astrick">*</b>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword2" placeholder="<?=(lang('Apps_number'))?>" class="span12" >
+											<input type="text" id="inputPassword2"  name="card_number"  value="<?php  echo $cardDetails->credit_card_number;?>" placeholder="<?=(lang('Apps_number'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
 										  <label class="control-label" for="input"> <?=(lang('Apps_cvv'))?>:</label>
 										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_cvv'))?>" class="span12" >
+											<input type="text" id="inputPassword3" name="cvv" value="<?php  echo $cardDetails->verification_number;?>" placeholder="<?=(lang('Apps_cvv'))?>" class="span12" >
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?> <b class="astrick">*</b>:</label>
+										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?>:</label>
 										  <div class="controls">
 										  
 										     <?php 
-												$month[" "]="Month";
+											  $expMonth=$cardDetails->expiration_month;
+												$month[""]="Month";
 												for($i = 1; $i <= 12; $i++) {$i = strlen($i) < 2 ? "0{$i}" : $i;
 													
 												$month[$i]= date('M', mktime(0, 0, 0, $i)); 
 												}
 												$sMonth='';
-												 echo form_dropdown('month', $month, $sMonth,'id="expmonth" class="span6"');
+												 echo form_dropdown('month', $month, $expMonth,'id="expmonth" class="span6"');
 												?>
 										  
-										  
-											<!---<select class="span6" >
-													<option><?=(lang('Apps_month'))?></option>
-													<option>xyz</option>
-													<option>Abc</option>
-											</select>--->
 											 <?php
-												
-												$expyear[" "]="Year";
+												$expYear=$cardDetails->expiration_year;
+												$xpyear[""]="Year";
 												for($i = date('Y'); $i <= date('Y') +  20; $i++) { 
-												$expyear[$i]= $i; //print_r($year);
+												$xpyear[$i]= $i; //print_r($year);
 												}
 												//print_r($year);
 												$sYear='';
-												 echo form_dropdown('year', $expyear, $sYear,'id="expyear" class="span6"');
-												
-												
+												 echo form_dropdown('year', $xpyear, $expYear,'id="expyear" class="span6"');
 												?>
-											<!---<select class="span6" >
-													<option><?=(lang('Apps_year'))?></option>
-													<option>xyz</option>
-													<option>Abc</option>
-											</select>--->
+											
 										  </div>
 										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"><?=(lang('Apps_firstname'))?> :</label>
-										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_firstname'))?>" class="span12">
-										  </div>
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"><?=(lang('Apps_lastname'))?> <b class="astrick">*</b>:</label>
-										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_lastname'))?>" class="span12" >
-										  </div>
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"> <?=(lang('Apps_address'))?><b class="astrick">*</b>:</label>
-										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_address'))?>" class="span12" >
-										  </div>
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"> <?=(lang('Apps_state'))?><b class="astrick">*</b>:</label>
-										  <div class="controls">
-											<select class="span12" >
-													<option> <?=(lang('Apps_selectstate'))?> </option>
-													<option>xyz</option>
-													<option>Abc</option>
-											</select>
-										  </div>
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"><?=(lang('Apps_city'))?> <b class="astrick">*</b>:</label>
-										  <div class="controls">
-											<select class="span12" >
-													<option><?=(lang('Apps_selectcity'))?>  </option>
-													<option>xyz</option>
-													<option>Abc</option>
-											</select>
-										  </div>
-										</div><div class="control-group">
-										  <label class="control-label" for="input"> <?=(lang('Apps_zip'))?><b class="astrick">*</b>:</label>
-										  <div class="controls">
-											<input type="text" id="inputPassword3" placeholder="<?=(lang('Apps_zip'))?>" class="span12"  >
-										  </div>
-										</div>
-										
-										
-										 <a href="#" class="btn btn-success pull-right "><?=(lang('Apps_storecreditcard'))?></a>
+										 <!---<a href="#" class="btn btn-success pull-right "><?=(lang('Apps_storecreditcard'))?></a>--->
+										 <input type="submit" name="save" id="creditCardDetails" value="<?=(lang('Apps_storecreditcard'))?>" class="btn btn-success pull-right "/>
 										 <br clear="all"/><small class="pull-right"><b class="astrick">*</b> <?=(lang('Apps_fieldsmandatory'))?> </small>
 									 </form>
 									
@@ -472,6 +456,11 @@
 	$("#action").hide();
 	$("#editProfile").show();
  }
+ function showeditDetails(){
+    $("#showDetails").hide();
+	$("#editicon").hide();
+	$("#editDetails").show();
+ }
 </script>
 <script>
 (function($,W,D)
@@ -582,7 +571,88 @@
     });
 
 })(jQuery, window, document);
+(function($,W,D)
+{
+    var JQUERY4U = {};
 
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        { 
+            $("#editDetails").validate({
+                rules: {
+                    card_number: "required",
+                    card_name: "required",
+					 // month: "required",
+					  // year: "required",
+                },
+                messages: {
+                    card_number: "required",
+                    card_name: "required",
+                   // month: "required",
+					  // year: "required",
+                },
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+				 error.css('padding-left', '10px');
+				},
+                submitHandler: function(form) {
+				var url=base_url+'clients/cardDetails';
+				var data=$("#editDetails").serialize();
+				 $.ajax({
+				   url:base_url+'clients/cardDetails',
+				   data:$("#editDetails").serialize(),
+				   type:'POST',
+				   success:function(data){  
+						$.each(eval(data),function(i,v){
+						  $("#card_name").html(v.card_name);
+						  $("#card_number").html(v.credit_card_number);
+						  $("#verification_number").html(v.verification_number);
+						 
+						  if(v.expiration_month!=0){
+						  var month=new Array(12);
+							month[1]="January";
+							month[2]="February";
+							month[3]="March";
+							month[4]="April";
+							month[5]="May";
+							month[6]="June";
+							month[7]="July";
+							month[8]="August";
+							month[9]="September";
+							month[10]="October";
+							month[11]="November";
+							month[12]="December";
+							
+						 var expmonth=month[v.expiration_month];
+						 }else{
+						   var expmonth='';
+						 }
+						 if(v.expiration_year==0){
+						   var expyear='';
+						 }else{
+						   var expyear=v.expiration_year;
+						 }
+						 $("#expirydate").html(expmonth+' '+expyear);
+						});
+						 $(".message").addClass("alert").html("Details saved successfully").css('display','block');
+						  $("#showDetails").show();
+						  $("#editicon").show();
+						  $("#editDetails").hide();
+ 				   }
+				 })	
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
 </script>
 
 <script src="<?php echo base_url(); ?>js/dates/core.js" type="text/javascript"></script>

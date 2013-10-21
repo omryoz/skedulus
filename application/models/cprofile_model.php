@@ -65,5 +65,21 @@ class cprofile_model extends CI_Model {
 	 $sql=mysql_query("update users set password='".$password."' where id='".$id."'");
 	 return true;
 	}
+	
+	function insertCardDetails($table=false,$filter=false,$notifyid=false){
+	if($notifyid!=''){
+	 $this->db->update($table,$filter,array('id' => $notifyid));
+	 //$val=1;
+	}else{
+		$this->db->insert($table,$filter);
+		//$val=0;
+	}
+		//echo $this->db->last_query();die;
+		if($this->db->affected_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 ?>

@@ -76,6 +76,7 @@ class Clients extends CI_Controller {
 		$this->load->view('include/navbar',$this->data);
 		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
 		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
+		$this->data['cardDetails']= $this->common_model->getRow("credit_card_details","users_id",$this->session->userdata("id"));
 		$this->load->view('settings',$this->data);
 		$this->load->view('include/footer',$this->data);
 	}
@@ -117,6 +118,22 @@ class Clients extends CI_Controller {
 		$this->common_model->create_details_by_table('user_notification_settings',$notification,$notifyid);
 		
 	
+	}
+	function cardDetails(){ 
+	
+		$notification=array('card_name'=>$this->input->post('card_name'),'credit_card_number'=>$this->input->post('card_number'),'verification_number'=>$this->input->post('cvv'),'expiration_month'=>$this->input->post('month'),'expiration_year'=>$this->input->post('year'));
+		$notification=array_merge($notification,array('users_id'=>$this->session->userdata("id")));
+		
+		$chck=$this->common_model->getRow('credit_card_details','users_id',$this->session->userdata("id"));
+		if($chck!=''){
+		 $notifyid=$chck->id;
+		}else{
+		 $notifyid='';
+		}
+		$val=$this->cprofile_model->insertCardDetails('credit_card_details',$notification,$notifyid);
+		$value=$this->common_model->getAllRows('credit_card_details','users_id',$this->session->userdata("id"));
+		print_r (json_encode($value));
+		
 	}
 	
 }
