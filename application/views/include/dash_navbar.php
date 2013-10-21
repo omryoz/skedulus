@@ -90,9 +90,9 @@ $(document).ready(function(){
 					</center></a>
 					</li>
 					
-					<li><a href="<?php echo base_url() ?>offers/list_offers"><center><i class="icon-thumbs-up"></i><p>Offers</p>
+					<!-- <li><a href="<?php echo base_url() ?>offers/list_offers"><center><i class="icon-thumbs-up"></i><p>Offers</p>
 					</center></a>
-					</li>
+					</li> -->
 				</ul>
 			</div>
 		  </div>

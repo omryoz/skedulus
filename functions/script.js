@@ -331,7 +331,7 @@ function editClient(id){
 			$("#insert").hide();
 			$("#edit").show();
 			$("#add").hide();
-			$(".close").hide();
+			//$(".close").hide();
 		})
 		}
 	})

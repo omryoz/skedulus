@@ -62,7 +62,7 @@
 		
 			<div class="row-fluid" >
 			<!--code for left nav start from here-->
-				<div class="span9 left-nav">
+				<div class="span12 left-nav">
 				<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
 				<h3><?=(lang('Apps_searchbusiness'))?></h3>
@@ -124,7 +124,7 @@
 				<!--code for left nav end  here-->
 				
 				<!--code for right nav start from here-->
-				<div class="span3 right-nav" >
+				<!-- <div class="span3 right-nav" >
 					<div class="row-fluid Wrap">
 						<div class="wrap_inner">
 							<h3><?=(lang('Apps_offer'))?></h3>
@@ -185,7 +185,7 @@
 							<a  href="offer.php" class="pull-right"><?=(lang('Apps_viewmore'))?>..</a>					
 						</div>
 					</div>  							
-				</div>
+				</div> -->
 				<!--code for right nav end  here-->
 			</div><!--row  fluid ends here-->
 		</div>	
@@ -194,26 +194,26 @@
 <!-- Modal -->
 <div id="create-user-modal" class="modal hide fade modal-bigger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
-<h3 id="myModalLabel">Create Account</h3>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+<h3 id="myModalLabel"> <?=(lang('Apps_createacc'))?></h3>
 </div>
-<div class="modal-body">
+<div class="modal-body ">
   <form class="form-horizontal" action="<?php echo base_url(); ?>common_functions/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
  	   <div class="rule_connect">
-        <strong >Connect with</strong>
+        <strong ><?=(lang('Apps_connectwith'))?></strong>
       </div>
   
  	  <div class="social_buttons hidden-phone" >
         <div class="inset">
             <a class="fb login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
-                <span>Signup with Facebook</span>
+                <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
             <a class="tw login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
-                <span>Signup with Twitter</span>
+                <span><?=(lang('Apps_signtw'))?></span>
             </a>
         </div>
 </div>
@@ -224,29 +224,30 @@
 			</ul>
 	   </div>
 	   <br/>
+	   <div class="login_form">
 	  <div class="row-fluid">
-    <input type="text" class="offset3 span6"  placeholder="First Name" name="firstname" value="" maxlength="15">
+    <input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_firstname'))?>" name="firstname" value="" maxlength="15">
 	</div>
   	 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
+		<input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_lastname'))?>" name="lastname" value=""  maxlength="15">
 		</div> 
 		 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6" placeholder="Email" name="email" value="" id="email">
+		<input type="text" class="offset3 span6" placeholder=" <?=(lang('Apps_email'))?>" name="email" value="" id="email">
 		</div> 
 		 <br />
 		<div class="row-fluid">
-		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder="Password" maxlength="20">
+		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder=" <?=(lang('Apps_pwd'))?>" maxlength="20">
 		</div> 
 		  <br />
 		<div class="row-fluid">
 		<input type="hidden" class="offset3 span6" name="usertype" value="businessSignUp" /> 
 		</div>
 		<div class="row-fluid">
-    <button type="submit" class="btn btn-success offset3 span6">Sign up</button>
+    <button type="submit" class="btn btn-success offset3 span6"> <?=(lang('Apps_signup'))?></button>
    </div>
-  
+  </div>
     </form>
 	</div>
 </div>

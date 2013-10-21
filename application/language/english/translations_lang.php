@@ -60,7 +60,7 @@
 		$lang['Apps_backtologin'] = "Back to login?";
 		$lang['Apps_login'] = "Log In";
 		$lang['Apps_email'] = "Email";
-		$lang['Apps_pwd'] = "password";
+		$lang['Apps_pwd'] = "Password";
 		$lang['Apps_emailaddress'] = "Email address";
 		$lang['Apps_reset'] = "Reset";
 		$lang['Apps_emailpwdnotmatch'] = "Email and password does not match. Please try again.";
@@ -300,7 +300,8 @@
 		$lang['Apps_min'] = "min";
 		$lang['Apps_register'] = "register";
 		$lang['Apps_assignstafftothisservice'] = "Assign Staff to this Service";
-	
+		$lang['Apps_removeimg'] = "Remove image";
+		$lang['Apps_changeprofileimg'] = "Change Profile Image";
 		
 		
 		

@@ -23,6 +23,14 @@ class Clients extends CI_Controller {
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
+	function profile($id=false){
+	 $this->parser->parse('include/header',$this->data);
+	 $this->parser->parse('include/dash_navbar',$this->data);
+	 $this->data['details']=$this->common_model->getRow('users','id',$id);
+	 $this->parser->parse('client_profile',$this->data);
+	 $this->parser->parse('include/footer',$this->data);
+	}
+	
 	public function manage_clients(){
 		if(isset($_POST['insert'])){ 
 			$this->bprofile_model->insertClient();

@@ -181,7 +181,7 @@
 					  		<a href="my_appointments.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
 				</div>
 				</div>
-				<div class="row-fluid Wrap">
+				<!-- <div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 						<h3><?=(lang('Apps_offer'))?></h3>
 						<div class="offer" >
@@ -222,7 +222,7 @@
 							</div>	
 							<a href="offer.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>							
 				</div>
-				</div> 
+				</div>  -->
 				
 				
 				 							

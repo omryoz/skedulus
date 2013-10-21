@@ -35,7 +35,13 @@
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
-<h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<!-- <h3><a  href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3> -->	
+
+<ul class="breadcrumb">
+  <li><a href="#">Business Owner Name</a> <span class="divider">/</span></li>
+  <li class="active">Business Name</li>
+</ul>
+	
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffsid" value="">
 <p class="hide" id="user_id"></p>

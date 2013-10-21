@@ -146,7 +146,7 @@ $("#trainer").live("change",function(){
  //if($(this).val()!=''){
    $(".message").removeClass("alert").html(" ");
    $("#eventEndTime").val(" ");
-  // getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$(this).val(),eventId='',starttime='');
+   getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$(this).val(),eventId='',$("#eventStartTime").val());
    getClassEndtime($("#eventStartTime").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
  //}
 });
@@ -476,7 +476,7 @@ var append_option = "<option id='-1' >Select staff</option>";
 	
 });
 
-$(".staff").live("change",function(){ 
+$(".staff").live("change",function(){  
 	 $("#selectedstaff").val($(this).val());
 	var business_id =$(".business_id").val();
 	if($(".staff").val()!='Select staff'){
@@ -485,7 +485,17 @@ $(".staff").live("change",function(){
 	var staff_id ='';
 	}
 	var eventId='';
+	if($("#eventid").html()!=''){
+	var eventId=$("#eventid").html();
+	}
+	var services = $("#selectedService").val();
+	if($(".time").val()!=''){
+	var timeslot=$(".time").val();
+	var action=$('.time').attr('action');
+	getendtime(services,$(".time").val(),$(".st_date").val(),business_id,staff_id,eventId,action);
+	}else{
 	var timeslot='';
+	}
 	var selected='';
 	//getserviceStaffs($("#selectedService").val(),selected,business_id); 
 	gettimeslots($(".st_date").val(),business_id,staff_id,eventId,timeslot);
@@ -631,7 +641,7 @@ $(".message").removeClass("alert").html(" ");
   
  }
  
-/*Time Calculation*/
+/*Time Calculation for booking services*/
 $(".eventGroup").live("click",function(){   
     $(".message").removeClass("alert").html(" ");
 	//$(".start_date").val(" ");
@@ -643,7 +653,17 @@ $(".eventGroup").live("click",function(){
 			checked = checked  + $(this).val() +',';	
 		}	
 	});	
-	selected='';
+	var selected='';
+	var staffid='';
+	if($(".staff").val()!='' && $(".staff").val()!='Select staff'){
+	var selected=$(".staff").val();
+	var staffid=$(".staff").val();
+	}
+	if($(".staff").val()=='Select staff'){
+	var selected='';
+	var staffid='';
+	}
+	
 	//var starttime = $("#eventStartTime").val();
 	var starttime = $("#timeSlot").val();
 	//var date= $("#eventStartDate").val();
@@ -654,8 +674,8 @@ $(".eventGroup").live("click",function(){
 	if($("#eventId").val()!=''){
 	  eventId=$("#eventId").val();
 	}
-	var staffid='';
-	$(".staff").val("");
+	
+	//$(".staff").val("");
 	
 	
 	if($("#staffschedule").val()!=''){
@@ -1014,7 +1034,7 @@ var nowTemp = new Date();
 					}
 			})
 			
-			.on('changeDate', function(ev){
+			.on('changeDate', function(ev){ 
 				//alert("hello")
 				$('.date_pick').datepicker('hide');
 				var business_id =$(".business_id").val();
@@ -1022,6 +1042,22 @@ var nowTemp = new Date();
 				var eventId='';
 				var timeslot='';
 				var selected='';
+				var action=$('.time').attr('action');
+				if($(".time").val()!=''){
+				 var timeslot=$(".time").val();
+				}
+				//alert($(".staff").val());
+				if($(".staff").val()!='' && $(".staff").val()!='Select staff'){
+				var selected=$(".staff").val();
+				var staff_id=$(".staff").val();
+				}
+				if($(".staff").val()=='Select staff'){
+				var selected='';
+				var staff_id='';
+				}
+				// if($(".staff").val()=='Select staff'){
+				// var selected='';
+				// }
 				if($("#staffschedule").val()!=''){
 					var staff_id=$("#staffschedule").val();
 					staffSchedule($("#staffschedule").val(),$("#staffname").html());
@@ -1029,6 +1065,10 @@ var nowTemp = new Date();
 				getserviceStaffs($("#selectedService").val(),selected,business_id); 
 				}
 				gettimeslots($(".st_date").val(),business_id,staff_id,eventId,timeslot);	
+				if(timeslot!=''){
+				var services=$("#selectedService").val();
+				getendtime(services,$(".time").val(),$(".st_date").val(),business_id,staff_id,eventId,action);
+				}
 			});
 			
 			
@@ -1057,9 +1097,17 @@ var nowTemp = new Date();
 			.on('changeDate', function(ev){
 			    $(".message").removeClass("alert").html("");
 				$('.date_picker').datepicker('hide');
-				$(".demo").html("");
+				//$(".demo").html("");
+				
+				if($(".trainerid").html()!=''){
+				 staffClassSchedule($(".trainerid").html(),$(".trainername").html());
+				 getClassfreeslots($("#StartDate").val(),$("#business_id").html(),$(".trainerid").html(),eventId='',$(".StartTime").val());
+				 getClassEndtime($(".timeslot").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
+			   }else{
 				getClassStaffs($("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),selected='');
-				getClassEndtime($("#eventStartTime").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');	
+				 getClassfreeslots($("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventId='',$(".StartTime").val());
+				getClassEndtime($(".timeslot").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');	
+				}		
 			});
 			
 
@@ -1072,7 +1120,7 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 			//$("#book").attr("href","javascript:;");
 			$(".book_appointment").attr("onsubmit","return false;");
 			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
-			$(".time").html(""); 
+			//$(".time").html(""); 
 			}
 			else{
 			$(".book_appointment").attr("onsubmit","return true");	
@@ -1295,7 +1343,6 @@ $("#oppintment_reminder_off").click(function() {
 	  }
 	})
   })
-  
   $(".hidealerttab").click(function(){
    $(".message").removeClass("alert").html(" ").css('display','none');
   })
@@ -1303,8 +1350,6 @@ $("#oppintment_reminder_off").click(function() {
   $("#changeimage").click(function(){
   $("#uploadbtn").show();
   })
-  
-  
 });
 
 

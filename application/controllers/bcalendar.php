@@ -271,9 +271,22 @@ function getstaffnamesByfilter(){
 //if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
 	if($this->input->post('service_id')){
 	$string = rtrim($this->input->post('service_id'), ',');
-    $filter = 'service_id  IN ('.$string.')'; 
-	 $this->load->model("bprofile_model");
+   $filter = 'service_id  IN ('.$string.')'; 
+	$this->load->model("bprofile_model");
 	$results = $this->bprofile_model->getserviceByfilter($filter);	
+	
+	// $serviceid = explode(',', $this->input->post('service_id'));
+	// $list = array();
+	// foreach($serviceid as $val){
+	// if($val!=''){
+	   // $filter = 'service_id='.$val;
+	   // $list[] = $this->bprofile_model->getserviceByfilter($filter);	
+	   // }
+	// }
+	 
+	// $intersect = call_user_func_array('array_intersect', $list);
+	// print_r($intersect); exit;
+	
 	
 	foreach($results as $res){ 
 	 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
@@ -531,11 +544,11 @@ function referal_url($url){
 	    $day = $this->checkweekendDayName($date);
 		if($staffid!=''){
 		$filter = array("users_id"=>$staffid,"name"=>$day,"type"=>'employee');
-		$where.=" AND employee_id=".$staffid;
+		$where.=" AND employee_id=".$staffid."  AND user_business_details_id=".$business_id;
 		$where1=' AND users_id="'.$staffid.'" and name="'.$day.'" and type="employee"';
 		}else{
-		$filter = array("user_business_details_id"=>$business_id); 
-		$where.=" AND user_business_details_id=".$business_id;
+		$filter = array("user_business_details_id"=>$business_id,"name"=>$day,"type"=>'business'); 
+		$where.=" AND user_business_details_id=".$business_id." AND employee_id=0";
 		$where1=' AND user_business_details_id="'.$business_id.'"';
 		}
 		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 

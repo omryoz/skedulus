@@ -1,3 +1,4 @@
+<script type="text/javascript" src="<?php echo $this->config->item('base_url'); ?>js/jquery.form.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
 <script type="text/javascript">
     function initialize() {
@@ -15,7 +16,7 @@
         });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
-	
+
 </script>
 <div class="content container">
 	<div class="content container">
@@ -89,17 +90,21 @@
 										<ul class="photo_gallery unstyled pull-right">
 											<li class=" thumb-image">
 												<div class="thumbnail">
-													<a href="#">
-														<img src="<?php echo base_url();?>uploads/photo/<?=(!empty($personalInfo->image)?$personalInfo->image:'default.jpg'); ?>"  style="width: 100px;">
+												<div class="profile-image">
+													<a href="javascript:;">
+														<img src="<?php echo base_url();?>uploads/photo/<?=(!empty($personalInfo->image)?$personalInfo->image:'default.jpg'); ?>"  >
 													</a>
-													<h5>
-													<center style="margin-bottom: -30px; color: white;" > <?=(lang('Apps_changeimage'))?> </center>
-													<!---<input type="file" name="userfile" style="opacity:0; max-width:100%;" id="changeimage">--->	
-													<input type="file" name="userfile" style="opacity:0; max-width:100%;"  size="20" id="changeimage"/>
+													<!-- <a href="javascript:;" class="btn btn-mini btn-danger btn-flat">
+													<i class="icon-trash"></i>
+													</a> -->
+													<!-- <h5>
+													<center > <?=(lang('Apps_changeimage'))?> </center>
+														
+													<input type="file" name="userfile"   size="20" id="changeimage"/>
 													 </h5>
-													
+													</div> -->
 												</div>
-												<input class="btn btn-success btn-block" type="submit" name="fileupload" value="upload" id="uploadbtn" style="display:none; padding: 0px; border-radius: 0px !important;">
+												<!-- <input class="btn btn-inverse btn-block btn-flat" type="submit" name="fileupload" value="upload" id="uploadbtn" > -->
 											</li>
 										</ul>
 										</form>
@@ -108,6 +113,27 @@
 									<div class="row-fluid">
 									<div class="span12" id="editProfile" style="display:none">
 									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post">
+									
+									<strong><?=(lang('Apps_changeprofileimg'))?></strong>
+									  <hr class="style-margin-b"> 
+									  <div class="row-fluid">
+										<div class="span10 offset1">
+											<div class="row-fluid">
+												<div class="thumbnail span4">
+												<img src="http://localhost/skedulus/uploads/photo/5_(3)4.jpg">
+												</div>
+												<div class=" span7 offset1">
+												<ul class="unstyled">
+													<li><a href="javascript" class="muted"><?=(lang('Apps_changeimage'))?></a></li>
+													<li><a href="javascript" class="text-error"><?=(lang('Apps_removeimg'))?></a></li>
+												
+												</div>
+											</div>
+										</div>
+									  </div>
+									
+									
+									<br/>
 									  <strong><?=(lang('Apps_personal_details'))?></strong>
 									  <hr>  
 									  <div class="row-fluid">
@@ -199,6 +225,7 @@
 										<div class="span10 offset1">
 										<textarea name="about_me" rows="4" value="" class="span10"><?php echo $personalInfo->about_me;?></textarea>
 										</div></div>
+										
 										<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success pull-right span2" >
 										<!---<a href="#" >Save</a>--->
 										</form>
@@ -243,33 +270,23 @@
 							<div class="row-fluid">
 								  <div class="span12 ">
 								   <p  id="message" class="message" style="display:none"></p>
+								   
 									<strong> <?=(lang('Apps_creditcard'))?></strong>
 									<a href="javascript:;" id="editicon" onclick="showeditDetails();" class="pull-right btn btn-mini"><i class="icon-edit" title="edit"></i></a>
 									<hr/>
 								  <br/>
 								  <form class="form-horizontal" id="showDetails">
-										<div class="control-group">
-										  <label class="control-label" for="inputName"> <?=(lang('Apps_nameoncard'))?><b class="astrick">*</b>:</label>
-										  
-											<span id="card_name"><?php print_r($cardDetails->card_name); ?></span>
-										 
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="inputNumber"> <?=(lang('Apps_creditcardno'))?><b class="astrick">*</b>:</label>
-										  <!---<div class="controls">--->
-											<span id="card_number"><?php print_r($cardDetails->credit_card_number); ?></span>
-										  <!---</div>--->
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"> <?=(lang('Apps_cvv'))?>:</label>
-										  <!---<div class="controls">--->
-											<span id="verification_number"><?php print_r($cardDetails->verification_number); ?></span>
-										  <!---</div>--->
-										</div>
-										<div class="control-group">
-										  <label class="control-label" for="input"><?=(lang('Apps_expiration'))?>:</label>
-										  <div class="controls">
-										  <?php
+										
+										<!---<div class="control-group">--->
+										<dl class="dl-horizontal pesonal_info">
+										<dt><?=(lang('Apps_nameoncard'))?></dt> 
+										<dd id="card_name"><?php print_r($cardDetails->card_name); ?></dd>
+										<dt><?=(lang('Apps_creditcardno'))?></dt> 
+										<dd id="card_number"><?php print_r($cardDetails->credit_card_number); ?></dd>
+										<dt><?=(lang('Apps_cvv'))?></dt> 
+										<dd id="verification_number"><?php print_r($cardDetails->verification_number); ?></dd>
+										<dt><?=(lang('Apps_expiration'))?></dt> 
+										<?php
 										  $monthName='';
 										  $year='';
 											if($cardDetails->expiration_month!=0){
@@ -279,11 +296,10 @@
 											$year=$cardDetails->expiration_year;
 											}
 										    ?>
-										     <span id="expirydate"><?php print_r($monthName." ".$year); ?></span>
-										  </div>
-										</div>
-										<!---- <a href="#" class="btn btn-success pull-right "><?=(lang('Apps_storecreditcard'))?></a>
-										 <br clear="all"/><small class="pull-right"><b class="astrick">*</b> <?=(lang('Apps_fieldsmandatory'))?> </small>--->
+										<dd id="expirydate"><?php print_r($monthName." ".$year); ?></dd>
+										</dl>
+										 
+									
 									 </form>
 									<form class="form-horizontal" id="editDetails" style='display:none' action="<?php echo base_url(); ?>clients/cardDetails" method="post">
 										<div class="control-group">

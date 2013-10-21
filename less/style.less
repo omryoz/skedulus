@@ -622,8 +622,11 @@ border-top:1px solid #ccc;
 }
 .general_setting{
 	box-shadow: inset 0px 0px 0px 2px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-	min-height:400px
+	min-height:400px;
 	}
+/* .btn.btn-flat{display:none; padding: 0px; border-radius: 0px !important;} */
+.profile-image{ overflow: hidden; width: 150px; max-height: 120px;   
+		}
 /* ----------------business_profile css end------------------ */
 /* ---wrap for home page start--- */
 .Wrap{
@@ -657,7 +660,7 @@ border-top:1px solid #ccc;
 		display:none;
 		 background: rgba(0,0,0,0.4); 
 		 position: absolute;
-		bottom: 3px; padding:1.5%;
+		bottom: 3px; padding:0.5%;
 		width:93.8%;margin:0;
 		}
 		&:hover{h5{display:block;}}
@@ -1016,6 +1019,7 @@ a:not(.btn){margin: 5px 0;
 	&:hover{color: @red;}
 	}
 }
+#create-user-modal .rule_connect{margin:0 auto 10px;}
 .rule_connect{
 	background: url(../img/rule.png) no-repeat center center;
 	color: #888;
@@ -1155,14 +1159,15 @@ display:block;
 .navbar-inverse .client-navbar{
 	width:100%;
 	li{
-	width:20%;
+	width:25%;
 	 /* box-shadow: 1px 1px 1px #CCCCCC; */
 	}
 }
 .navbar-inverse .business-navbar{
 	width:100%;
 	li{
-	width:11.1111111115%;
+	/* width:11.1111111115%; */
+	width:12.5%;
 		a{
 		padding: 10px 1px !important;
 		}
@@ -1441,3 +1446,8 @@ min-height:350px;
 	background-color: #fff;
 	box-shadow: 1px 1px #333;
 }
+.breadcrumb{
+background-color: transparent;
+padding: 8px 0px;
+ li{font-size: 20px;}
+ }

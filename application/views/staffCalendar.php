@@ -24,7 +24,15 @@
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
-<h3><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>		
+<!-- <h3><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3> -->	
+
+<ul class="breadcrumb">
+  <li><a href="#">Business Owner Name</a> <span class="divider">/</span></li>
+  <!-- <li><a href="#">Business Name</a> <span class="divider">/</span></li> -->
+  <li class="active">Staff Name</li>
+  <li class="pull-right"><select> <option>select staff</option> <option>staff 1</option> <option> staff 1</option> <option> staff 1</option></select></li>
+</ul>
+
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffsid" value="<?php print_r($staff_details[0]->users_id); ?>">
 <input type="hidden" name="businessid" id="bid" value="<?php print_r($staff_details[0]->user_business_details_id); ?>" >

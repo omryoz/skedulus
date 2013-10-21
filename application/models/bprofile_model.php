@@ -391,6 +391,7 @@ class bprofile_model extends CI_Model {
 			foreach($data as $dataP){
 				$values[$i]['id'] =$dataP->users_id;
 				$values[$i]['name']= $dataP->first_name." ".$dataP->last_name;
+				$values[$i]['image']= $dataP->image;
 				$i++;
 			}
 			return $values;
