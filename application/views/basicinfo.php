@@ -195,6 +195,11 @@ for($i=1;$i<=7;$i++) {
 		$disabled="disabled=disabled";
 		$checked="";
 		$Sselected='08:00';
+		$Eselected='19:00';
+		}else if($i==6){
+		$disabled="";
+		$checked="checked";
+		$Sselected='08:00';
 		$Eselected='15:00';
 		}else{
 		$disabled="";

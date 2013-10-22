@@ -202,7 +202,7 @@
 						</table>
 					  </div>
 					</div>
-				  </div><br/>
+				  </div><!---<br/>
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#offer">
@@ -235,7 +235,7 @@
 						</div>
 					  </div>
 					</div>
-				  </div>
+				  </div>--->
 </div>
 			
 				
@@ -247,7 +247,7 @@
 				<dl class="dl-horizontal days_dl">
 				<?php foreach($availability as $available) { ?>
 				<dt><?php echo $available->name ?></dt>
-				<dd><?php echo date('h:i',strtotime($available->start_time)) ?> - <?php echo date('h:i',strtotime($available->end_time)) ?>  </dd>
+				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
 				  <!---<dt>Sunday</dt>

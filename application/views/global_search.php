@@ -27,8 +27,8 @@
 						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="Business are you looking for?">
 					</div>
 					<div class="span3">
-					  <input id="searchTextField" type="text" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
-                      <input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />
+					  <input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
+                      <!----<input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />--->
 						<!---<input type="text" class="span12 " placeholder="Location" name="location" value="<?php //echo $_GET['location'] ?>">	--->
 					</div>
 					<div class="span3">	

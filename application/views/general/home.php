@@ -72,8 +72,8 @@
 						<input type="text" class="span12 " name="manager_name" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
-					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
-                    <input type="hidden" id="city2" name="location" />
+					<input id="searchTextField" type="text" name="location"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
+                    <!--<input type="hidden" id="city2" name="location" />--->
 					<!---<input type="hidden" id="cityLat" name="cityLat" />
                     <input type="hidden" id="cityLng" name="cityLng" /> --> 
 					<!---<input type="text" class="span12 " name="location" placeholder="Location">	--->

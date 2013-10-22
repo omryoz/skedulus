@@ -21,16 +21,33 @@
 
 
 ?>
+<?php
+//print_r($staff_details);
+$bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
+$bname='My business profile';
+}else{
+$bname=$bname->name;
+}
+  $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
+ ?>
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
 <!-- <h3><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3> -->	
 
 <ul class="breadcrumb">
-  <li><a href="#">Business Owner Name</a> <span class="divider">/</span></li>
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
   <!-- <li><a href="#">Business Name</a> <span class="divider">/</span></li> -->
-  <li class="active">Staff Name</li>
-  <li class="pull-right"><select> <option>select staff</option> <option>staff 1</option> <option> staff 1</option> <option> staff 1</option></select></li>
+  <li class="active"><?php print_r($crumb); ?></li>
+  <li class="pull-right">
+  <?php 
+  $options=array();
+  foreach($staffs as $val){
+  $options[$val->users_id]=$val->first_name."".$val->last_name;
+  } ?>
+   <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>						
+  <!--<select> <option>select staff</option> <option>staff 1</option> <option> staff 1</option> <option> staff 1</option></select></li>--->
 </ul>
 
 <div id="calendarContainer" ></div>
@@ -326,5 +343,7 @@
 	
     });
 	
-	
+$("#staffCal").change(function(){
+window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Services';
+})	
 </script>

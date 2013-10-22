@@ -27,8 +27,10 @@
 ?>
 <?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
   $role='manager';
+  $crumb='My business profile';
  }else{
   $role='none';
+  $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
  } ?>
  <input type="hidden" name="userrole" value="<?php print_r($role);?>" id="userrole">
  
@@ -38,10 +40,11 @@
 <!-- <h3><a  href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3> -->	
 
 <ul class="breadcrumb">
-  <li><a href="#">Business Owner Name</a> <span class="divider">/</span></li>
-  <li class="active">Business Name</li>
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php print_r($crumb); ?></a> <span class="divider">/</span></li>
+  <li class="active">Business calendar</li>
 </ul>
-	
+
+
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffsid" value="">
 <p class="hide" id="user_id"></p>

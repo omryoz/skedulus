@@ -287,10 +287,19 @@ function getstaffnamesByfilter(){
 	// $intersect = call_user_func_array('array_intersect', $list);
 	// print_r($intersect); exit;
 	
-	
+	$day = $this->checkweekendDayName($this->input->post('date'));
+	//date('H:i', strtotime($this->input->post('timeslot')
+	$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
 	foreach($results as $res){ 
 	 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
-	     $results1[]=$res;
+	 $where1=' AND users_id="'.$res->users_id.'" and name="'.$day.'" and type="employee"';
+	 $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+	 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
+	    $results1[]=$res;
+	 }else{
+	   $results1[]=$res;
+	 }
+	     
 	 } 
 	}//print_r($results1);exit;
 	print_r(json_encode($results1));
@@ -992,6 +1001,7 @@ function checkIfblocked(){
 		 $this->parser->parse('calendar_bookclass',$this->data);
 		 }
 		 }else{
+		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
 		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('staffCalendar',$this->data);

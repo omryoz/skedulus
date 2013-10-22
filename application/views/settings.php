@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo $this->config->item('base_url'); ?>js/jquery.form.js"></script>
+
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
 <script type="text/javascript">
     function initialize() {
@@ -16,6 +16,25 @@
         });
     }
     google.maps.event.addDomListener(window, 'load', initialize);
+	
+function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+						$("#tempimg").val('1');
+						$("#actualImg").hide();
+						$('#blah').show();
+						$("#status").val('1');
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
 </script>
 <div class="content container">
@@ -112,7 +131,7 @@
 									
 									<div class="row-fluid">
 									<div class="span12" id="editProfile" style="display:none">
-									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post">
+									<form action="<?php echo base_url(); ?>clients/editClient" name="userProfile" id="userProfile" method="post" enctype="multipart/form-data">
 									
 									<strong><?=(lang('Apps_changeprofileimg'))?></strong>
 									  <hr class="style-margin-b"> 
@@ -120,13 +139,20 @@
 										<div class="span10 offset1">
 											<div class="row-fluid">
 												<div class="thumbnail span4">
-												<img src="http://localhost/skedulus/uploads/photo/5_(3)4.jpg">
+												<img id="blah"  src="#" alt="your image" style="display:none" />
+												<img id="actualImg" src="<?php echo base_url();?>uploads/photo/<?=(!empty($personalInfo->image)?$personalInfo->image:'default.jpg'); ?>">
 												</div>
 												<div class=" span7 offset1">
 												<ul class="unstyled">
-													<li><a href="javascript" class="muted"><?=(lang('Apps_changeimage'))?></a></li>
-													<li><a href="javascript" class="text-error"><?=(lang('Apps_removeimg'))?></a></li>
-												
+													<li>
+													<input type='file' name="userfile" onchange="readURL(this);" />
+                                                    
+													<!---<a href="javascript" class="muted"><?=(lang('Apps_changeimage'))?></a>-->
+													</li>
+													<li><a href="javascript:;" class="text-error" id="removeimg"><?=(lang('Apps_removeimg'))?></a></li>
+												<input type="hidden" name="status" value="" id="status" />
+												<input type="hidden" name="img" value="<?=$personalInfo->image; ?>" id="img" />
+												<input type="hidden" name="tempimg" value="" id="tempimg" />
 												</div>
 											</div>
 										</div>
@@ -669,6 +695,16 @@
     });
 
 })(jQuery, window, document);
+
+$("#removeimg").click(function(){ 
+if($("#tempimg").val()!=1){
+   $("#img").val('default.jpg');
+   $("#actualImg").attr('src',base_url+'uploads/photo/default.jpg');
+} 
+  $("#actualImg").show();
+  $('#blah').hide();
+  $("#status").val('0');
+})
 </script>
 
 <script src="<?php echo base_url(); ?>js/dates/core.js" type="text/javascript"></script>

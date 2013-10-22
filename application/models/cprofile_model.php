@@ -3,6 +3,19 @@ class cprofile_model extends CI_Model {
  
 	function insertinfo(){
 		$insertArray=array();
+		
+		//print_r($_FILE); exit;
+		if(isset($_POST['status']) && $_POST['status']=='1'){
+		 $data=$this->common_model->uploadFile("photo");
+	     if(isset($data)){ 
+		 $insertArray['image']= $data['upload_data']['file_name'];
+		 }
+		 }else if(isset($_POST['status']) && $_POST['status']=='0'){
+		 $insertArray['image']=$_POST['img'];
+		 // $img=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+		 // $insertArray['image']=$img->image;
+		 }
+				
 		if(isset($_POST['address']))$insertArray['address']= $_POST['address'];
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];

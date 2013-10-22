@@ -101,7 +101,7 @@ class Clients extends CI_Controller {
 		$this->load->view('include/footer',$this->data);
 	}
 	
-	function editClient(){
+	function editClient(){ 
 	   $this->cprofile_model->insertinfo();
 	   redirect('/clients/settings');
 	}
