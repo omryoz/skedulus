@@ -696,8 +696,11 @@ function readURL(input) {
 
 })(jQuery, window, document);
 
-$("#removeimg").click(function(){ 
+$("#removeimg").click(function(){ //alert($("#tempimg").val());
 if($("#tempimg").val()!=1){
+   $("#img").val('default.jpg');
+   $("#actualImg").attr('src',base_url+'uploads/photo/default.jpg');
+}if($("#status").val()==0 && $("#tempimg").val()==1){
    $("#img").val('default.jpg');
    $("#actualImg").attr('src',base_url+'uploads/photo/default.jpg');
 } 

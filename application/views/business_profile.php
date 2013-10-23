@@ -82,7 +82,7 @@
 		foreach($photoGallery as $gallery){
 		?>
 			<li class="">
-				<a href="#" ><i class="icon-heart heart"></i></a><a href="#" ><i class="icon-comment comment "></i></a><a href="#" onClick="showPhoto(<?php echo $gallery->photo; ?>)" role="button"  data-toggle="modal"><img src="<?php  echo base_url();?>uploads/gallery/<?php echo $gallery->photo; ?>" alt="" ></a>
+				<a href="#" ><i class="icon-heart heart"></i></a><a href="#" ><i class="icon-comment comment "></i></a><a href="#" onClick="showPhoto(<?php echo $gallery->photo; ?>)" role="button"  data-toggle="modal"><img src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/200/200/1/gallery" alt="" ></a>
 			</li>
 		<?php } ?>
 	</ul>

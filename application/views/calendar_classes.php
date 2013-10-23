@@ -25,10 +25,20 @@ if(!isset($this->session->userdata['id'])){
 }
 
 ?>
-
+<?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
+  $role='manager';
+  $crumb='My business profile';
+ }else{
+  $role='none';
+  $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
+ } ?>
 <div class="content container">
 <div class="row-fluid business_profile">
-<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<!----<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		--->
+<ul class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php print_r($crumb); ?></a> <span class="divider">/</span></li>
+  <li class="active">Business calendar</li>
+</ul>
 	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
@@ -234,9 +244,13 @@ if($("#monthlylist").val()!=""){
 	 $(".message").removeClass("alert").html(" ");
 	 $("#editClass").modal("show");
 	 $("#eventId").html($(evt).attr('eventid'));
-	 $.ajax({
+	 showoptions($(evt).attr('eventid'));
+	}
+	
+	function showoptions(eventid){
+	  $.ajax({
 	  url:base_url+"bcalendar/checkStatus",
-	  data:{classID:$(evt).attr('eventid')},
+	  data:{classID:eventid},
 	  type:'POST',
 	  success:function(data){
 	   if(data==1){
@@ -247,9 +261,18 @@ if($("#monthlylist").val()!=""){
 	   
 	  }
 	 })
-		//activeEvent=dataObj;
-		//ical.showPreview(evt, html);
 	}
+	
+	function agendaShowEventDetail(startTime){  
+	 // $(".message").removeClass("alert").html(" ");
+	 // $("#editClass").modal("show");
+	 // $("#eventId").html(eventid);
+	 // $("#multiClass").hide();
+	 var startTime= new Date();
+	 loadCalendarEvents(startTime, endTime);
+	 //showoptions(eventid);
+	}
+	
     /*
      Method invoked when event is moved or resized
      @param event object containing eventID and newly updated Times

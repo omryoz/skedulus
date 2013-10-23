@@ -14,7 +14,8 @@
 <script src="<?php echo base_url(); ?>js/libs/less-1.3.0.min.js"></script>
 <!--<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/jqueryui8.1.js"></script> 
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.js">
+</script>
 
 
 
@@ -110,14 +111,11 @@ var base_url = "http://localhost/skedulus/";
 								<li><a href="<?php echo base_url();?>home/clientlogin"><?=(lang('Apps_login'))?></a></li>
 								<li>
 								<div class="language_flag">
+								
 								<a href="<?=base_url();?>welcome/language/english" title="English" >
 									<img src="<?php echo base_url(); ?>images/bri12.png">
 								</a>
-				              <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew">
-							       <img src="<?php echo base_url(); ?>images/is13.png">
-							   </a>
-							 </div>
-							 </li>
+				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
 	   						</ul>
 							
                  		</div><!-- /.nav-collapse -->
@@ -125,8 +123,8 @@ var base_url = "http://localhost/skedulus/";
 						
                 	</div>
 				 </div>
-				<!---<div class="language_flag1"><a href="#" title="English" ><img src="<?php echo base_url(); ?>images/bri12.png"></a>
-			  <a href="#" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div>--->
+				<div class="language_flag1"><a href="#" title="English" ><img src="<?php echo base_url(); ?>images/bri12.png"></a>
+			  <a href="#" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div>
 			  
 			  
 			  

@@ -339,7 +339,8 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getImages(){
-		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
+		// $sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
+		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']."" ;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

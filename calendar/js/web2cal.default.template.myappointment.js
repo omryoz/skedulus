@@ -291,7 +291,7 @@
 					+'					<tr>'
 					+'						<td >'
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> ${business_name}</span> </a>'
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}\')"><span style="font-weight:bold; "> ${business_name}</span> </a>'
 					
 					+'						</td>'
 				

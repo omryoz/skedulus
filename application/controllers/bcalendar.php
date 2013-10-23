@@ -121,6 +121,7 @@ class Bcalendar extends CI_Controller {
 	  
 	}
 	
+		
 	function checkdateTime($date=false,$business_id=false,$startTime=false,$action=false){  
 	  if(strtotime($date)<=strtotime(date("d-m-Y"))){
 		 $currentTime= date('H:i'); 
@@ -377,6 +378,19 @@ function getfreeslotsbydate(){
 		return false;
 	}
 	
+}
+
+function checkfordate(){ 
+if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
+		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
+		  echo 0;
+		}else{
+		  echo 1;
+		}
+	}else{
+	   echo -1;
+	}	
+		
 }
 
 function checkday($date=false,$business_id=false,$staffid=false){
@@ -985,6 +999,7 @@ function checkIfblocked(){
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'employee');
 		}
 		if($type=='Classes'){
+		$this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
 		  $this->data['trainerid'] =$staffdetails[0]->users_id;
 		  $this->data['firstname'] =$staffdetails[0]->first_name;
 		  $this->data['lastname'] =$staffdetails[0]->last_name;

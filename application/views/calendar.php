@@ -264,15 +264,19 @@
         ical.build();
     }
  	var activeEvent;
-    function onPreview(evt, dataObj, html)
-	{  //alert($("#userrole").val());
-	if($("#userrole").val()=='manager'){
+    function onPreview(evt, dataObj, html) 
+	{  
+	  Appdetails($(evt).attr('eventid'));
+	}
+	
+	function Appdetails(eventid){
+		if($("#userrole").val()=='manager'){
 	   $(".message").removeClass("alert").html(" ");
-	   $("#eventid").html($(evt).attr('eventid'));
+	   $("#eventid").html(eventid);
 	  
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
-	   data:{eventID:$(evt).attr('eventid')},
+	   data:{eventID:eventid},
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
@@ -314,6 +318,10 @@
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
 		}
+	}
+	
+	function agendaShowEventDetail(evt){ 
+	    Appdetails(evt);
 	}
     /*
      Method invoked when event is moved or resized

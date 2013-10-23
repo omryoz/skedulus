@@ -302,6 +302,7 @@
 		$lang['Apps_assignstafftothisservice'] = "Assign Staff to this Service";
 		$lang['Apps_removeimg'] = "Remove image";
 		$lang['Apps_changeprofileimg'] = "Change Profile Image";
+		$lang['Apps_meetinghistory'] = "Meeting History";
 	
 		
 		

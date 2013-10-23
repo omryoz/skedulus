@@ -29,8 +29,14 @@ $bname='My business profile';
 }else{
 $bname=$bname->name;
 }
-  $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
+$crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
  ?>
+ <?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
+  $role='manager';
+ }else{
+  $role='none';
+ } ?>
+ <input type="hidden" name="userrole" value="<?php print_r($role);?>" id="userrole">
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
@@ -38,7 +44,6 @@ $bname=$bname->name;
 
 <ul class="breadcrumb">
   <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
-  <!-- <li><a href="#">Business Name</a> <span class="divider">/</span></li> -->
   <li class="active"><?php print_r($crumb); ?></li>
   <li class="pull-right">
   <?php 
@@ -47,7 +52,6 @@ $bname=$bname->name;
   $options[$val->users_id]=$val->first_name."".$val->last_name;
   } ?>
    <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>						
-  <!--<select> <option>select staff</option> <option>staff 1</option> <option> staff 1</option> <option> staff 1</option></select></li>--->
 </ul>
 
 <div id="calendarContainer" ></div>
@@ -57,6 +61,7 @@ $bname=$bname->name;
  <p id="staffname" class="hide"><?php print_r($staff_details[0]->first_name."".$staff_details[0]->last_name); ?></p>	
 <p class="hide" id="login_id"><?php if(isset($user_id))print_r($user_id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
+<p class="hide" id="user_id"></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
 	
@@ -64,7 +69,93 @@ $bname=$bname->name;
 </div>
   </div>
 </div>
-
+<!----Modal------>
+<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<p class="message"></p> 
+ <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">Appointment Details</h3>
+  </div>
+  <div class="modal-body">
+	<p id="eventid" class="hide"></p>
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<table class="table table-striped" >
+			<tbody>
+			<tr> 
+					  <td>
+					    Business Name 	
+					  </td>
+					  <td>
+					   <span id="business_name"></span>
+					   <p id="business_id" class="hide"></p>
+					   <p id="services_id" class="hide"></p>
+					   <p id="employee_id" class="hide"></p>
+					   <p id="note" class="hide"></p>
+					  </td>
+		   </tr>
+		   <tr> 
+					  <td>
+					    Client Name 	
+					  </td>
+					  <td>
+					   <span id="cname"></span>
+					  </td>
+		   </tr>
+		   <tr> 
+					  <td>
+					    <span id="type"></span> 	
+					  </td>
+					  <td>
+					   <span id="typeName"></span>
+					  </td>
+		   </tr>
+		    <tr id="serviceprovider"> 
+					  <td>
+					    Service Provider	
+					  </td>
+					  <td>
+					   <span id="name"></span>
+					  </td>
+		   </tr>
+			 <tr> 
+					  <td>
+					    Date	
+					  </td>
+					  <td>
+					   <span id="date"></span>
+					  </td>
+		     </tr>	
+			  <tr> 
+					  <td>
+					    Time	
+					  </td>
+					  <td>
+					   <span id="time"></span>
+					   <span id="endtime" class="hide"></span>
+					  </td>
+		      </tr>
+			</tbody>
+			</table>
+		</div>
+	
+	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
+	
+	<ul class="unstyled inline pull-right" style="margin: 0px;">
+	<li>
+	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
+	<li>
+	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
+	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Delete</a>
+	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
+	</li>
+	</ul>
+    
+	
+	
+	</div>
+  </div>
+</div>
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> <p class="message"></p>		
 								<div class="acalclosebtn topright closeNewEvent"></div>	
@@ -160,10 +251,64 @@ $bname=$bname->name;
         ical.build();
     }
  	var activeEvent;
-    function onPreview(evt, dataObj, html)
-	{
-		activeEvent=dataObj;
-		ical.showPreview(evt, html);
+    function onPreview(evt, dataObj, html) 
+	{  
+	  Appdetails($(evt).attr('eventid'));
+	}
+	
+	function Appdetails(eventid){
+		if($("#userrole").val()=='manager'){
+	   $(".message").removeClass("alert").html(" ");
+	   $("#eventid").html(eventid);
+	  
+	    $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:eventid},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+			$("#business_name").html(v.business_name);
+			$("#cname").html(v.c_first_name+" "+v.c_last_name);
+			$("#business_id").html(v.business_details_id);
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#name").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#serviceprovider").css("display",'none');
+			}
+			if(v.type=='class'){
+			var type='Class';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			$("#reschedulebtn").hide();
+			}else{
+			var type='Services';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			$("#services_id").html(v.services_id);
+			$("#employee_id").html(v.employee_id);
+			$("#note").html(v.note);
+			$("#user_id").html(v.user_id);
+			if(v.status=='active'){
+			$("#reschedulebtn").show();
+			}else{
+			$("#reschedulebtn").hide();
+			}
+			}
+			$("#date").html(v.date);
+			$("#time").html(v.time);
+			$("#endtime").html(v.endtime);
+		  })
+	   }
+	   })
+	   
+	   $("#reschedule").modal('show');
+		//activeEvent=dataObj;
+		//ical.showPreview(evt, html);
+		}
+	}
+	
+	function agendaShowEventDetail(evt){ 
+	    Appdetails(evt);
 	}
     /*
      Method invoked when event is moved or resized

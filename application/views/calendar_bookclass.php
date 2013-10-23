@@ -13,23 +13,36 @@
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php 
-// if(isset($this->session->userdata['profile_id'])){
-		  // $id=$this->session->userdata('profile_id');
-		// }else if(isset($this->session->userdata['business_id'])){
-		  // $id=$this->session->userdata('business_id');
-		// }
+
 @session_start();
 if(isset($type) && $type=='staffscalendar'){
 $_SESSION['profileid'] = $staff_details[0]->user_business_details_id;
+$bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+$bname=$bname->name;
+$crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
+$url=$staff_details[0]->user_business_details_id;
 }else{
+$bname=$this->common_model->getRow('user_business_details','id',$buisness_details[0]->id);
+$bname=$bname->name;
+$crumb='Business calendar';
 $_SESSION['profileid'] = $buisness_details[0]->id;
+$url=$buisness_details[0]->id;
 }
-// if(!isset($this->session->userdata['id'])){
- // redirect('home/clientlogin');
-// }
-
 ?>
 
+<ul class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($url) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
+  <li class="active"><?php print_r($crumb); ?></li>
+ <?php if(isset($type) && $type=='staffscalendar'){ ?>
+ <li class="pull-right">
+  <?php 
+  $options=array();
+  foreach($staffs as $val){
+  $options[$val->users_id]=$val->first_name."".$val->last_name;
+  } ?>
+   <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>	
+<?php } ?>   
+</ul>
 <div class="content container">
 <div class="row-fluid business_profile">
 
@@ -508,7 +521,9 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 	
     });
 	
-
+$("#staffCal").change(function(){
+window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
+})
 
 	
 	

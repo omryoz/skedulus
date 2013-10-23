@@ -96,25 +96,34 @@
 					
 					<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-					 <?php $i=0; ?>
+					 <?php $i=1; ?>
 					 
 							<ul class="thumbnails business_logo">
 							<?php foreach($contentList as $content) {
-							if($i%4==0){
-								echo '</ul><ul class="thumbnails business_logo">';
-							}
+							
 							?>
 								<li class="thumbnail span3 trans">
-									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>">
-										<div class="caption">
-											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
-											<small> <?php echo $content['category_name']; ?> </small>
-										</div>
+									<div class="inblock"><a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
+										<!-- <img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>"> -->
+										
+										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>/280/1/1/business_logo">
+										
+										
+										
 									</a>
+									</div>
+									<div class="caption">
+											<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>"><p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
+											<small> <?php echo $content['category_name']; ?> </small>
+											</a>
+										</div>
+									
 								</li>
 								
-							<?php $i++; } ?>
+							<?php if($i%4==0){
+								echo '</ul><ul class="thumbnails business_logo">';
+							}
+							$i++; } ?>
 								</ul>
 							
 						

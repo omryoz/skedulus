@@ -506,17 +506,6 @@ $(".time").live("change",function(){
 		$(".message").removeClass("alert").html(" ");
 		var starttime = $(this).val();
 		
-		// if($('.time').attr('booking')=='single'){
-			// var service_ = $(".services").val();
-		    // var status="";
-		    // var date = $(".st_date").val();
-			// var staffid = $(".staff").val(); 
-			// if(staffid=='Select staff'){
-			     // staffid =''; 
-			// }else{
-				 // staffid = $(".staff").val(); 
-			// }
-		// }else{
 		    var service_ = $("#selectedService").val();
 			var status=1;
 			var date = $(".st_date").val();
@@ -524,16 +513,9 @@ $(".time").live("change",function(){
 			if($(".staff").val()!='Select staff'){
 				staffid=$(".staff").val();
 			}
-			// if(staffid=='Select staff'){
-			 // staffid = ''; 
-			// }else{
-			 // staffid = $("#staffid").val(); 
-			// }
-		//}
+			
 		var business_id = $(".business_id").val();
-		// alert(date);
-		// alert(starttime);	
-		// alert(service_); alert(staffid);
+		getserviceStaffs(service_,staffid,business_id,$(".time").val());
 		var myUrl = base_url+"bcalendar/getendtimeByservice";
 		$.ajax({
 			type: "POST",
@@ -770,12 +752,28 @@ $("#bookclass").live("click",function(){
 })
 
 $(".launch").on("click",function(){ 
-$(".message").removeClass("alert").html(" ");
-	//$("#bookApp").modal('show');
+    $(".message").removeClass("alert").html(" ");
 	var businessid = $("#profileid").html();
-	
-	//$("#bookmultiServices").modal('show');
-	$("#book").modal('show');
+	var staffid='';
+	if($("#staffsid").val()!=''){
+	    //$(".time").attr('staff','1');
+	  var staffid=$("#staffsid").val();
+	}
+     var d=new Date($("#eventStartDate").val());
+	 var curr_date = d.getDate();
+	 var curr_month = d.getMonth() + 1; 
+     var curr_year = d.getFullYear();
+	 var date = curr_date+"-"+curr_month+"-"+curr_year;
+	 var url=base_url+"bcalendar/checkfordate";
+    $.post(url,{date:date,business_id:businessid,staffid:staffid},function(data){
+	 if(data==-1){
+	 apprise('Its a non working day.Kindly book on another day', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 // alert("Its a non working day.Kindly book on another day");
+	 }else if(data==0){
+	 apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	  //alert("Cannot book for past days");
+	 }else{
+	    $("#book").modal('show');
 	$("#note").val('');
 	var append_option = "<option id='-1' >Select staff</option>";
 	$(".staff").html(append_option);
@@ -790,11 +788,6 @@ $(".message").removeClass("alert").html(" ");
 	 $(".services").html("");
 	// $("#business_id").html(businessid);
 	 $(".business_id").val(businessid);
-	 var d=new Date($("#eventStartDate").val());
-	 var curr_date = d.getDate();
-	 var curr_month = d.getMonth() + 1; 
-     var curr_year = d.getFullYear();
-	 var date = curr_date+"-"+curr_month+"-"+curr_year;
 	 $(".st_date").val(date); 
 	 var staffid='';
 	 
@@ -810,6 +803,10 @@ $(".message").removeClass("alert").html(" ");
 	var eventId='';
 	var  timeslot=$("#eventStartTime").val();
 	gettimeslots(date,businessid,staffid,eventId,timeslot)
+	 }
+	})
+	
+	
 	
 })
 
@@ -1344,6 +1341,12 @@ $("#oppintment_reminder_off").click(function() {
 	})
   })
   $(".hidealerttab").click(function(){
+  $("#showDetails").show();
+  $("#editDetails").hide();
+  $("#editicon").show();
+  $("#showProfile").show();
+  $("#action").show();
+  $("#editProfile").hide();
    $(".message").removeClass("alert").html(" ").css('display','none');
   })
   

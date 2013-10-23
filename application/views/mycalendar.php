@@ -127,7 +127,7 @@ session_start();
             onUpdateEvent: updateEvent,
             onNewEvent: onNewEvent,  
 			onPreview: onPreview, 
-            views: "day, month, week, agenda",
+            views: "day, week, agenda",
 			'readOnly':true
         });
 
@@ -142,12 +142,15 @@ session_start();
 	}
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{ 
+	{
+		Appdetails($(evt).attr('eventid'));	
+	}
+	function Appdetails(eventid){
 	   $(".message").removeClass("alert").html(" ");
-	   $("#eventid").html($(evt).attr('eventid'));
+	   $("#eventid").html(eventid);
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
-	   data:{eventID:$(evt).attr('eventid')},
+	   data:{eventID:eventid},
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
@@ -187,6 +190,9 @@ session_start();
 	   $("#reschedule").modal('show');
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
+	}
+	function agendaShowEventDetail(evt){ 
+	    Appdetails(evt);
 	}
     /*
      Method invoked when event is moved or resized
