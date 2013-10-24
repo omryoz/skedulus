@@ -653,13 +653,13 @@ h3{small{line-height: 0; display: inline-block;font-size: 82%;}
 }
 .thumb-image{
 .thumbnail{
-	position:relative;
+	.inblock{position:relative;}
 		h5{a{color:white;}
 		display:none;
 		 background: rgba(0,0,0,0.4); 
 		 position: absolute;
-		bottom: 3px; padding:0.5%;
-		width:93.8%;margin:0;
+		bottom:0px; padding:0.5%;
+		width:100%;margin:0;
 		}
 		&:hover{h5{display:block;}}
 	}
@@ -767,7 +767,6 @@ h3{small{line-height: 0; display: inline-block;font-size: 82%;}
 	.simply-scroll .simply-scroll-list li {
 	float: left; /* Horizontal scroll only */
 	width: 290px;
-	height: 200px;
 	}
 }
 	
@@ -1478,3 +1477,10 @@ font-weight: normal;
 .inblock{overflow:hidden;  height:150px;}
 .inblock-logo{overflow:hidden;  height:120px;}
 .img-noresponsive{ max-width:none; }
+.figcaption{
+display: inline-block;
+position: absolute;
+bottom: 0px;
+background: rgba(0,0,0,0.5);
+width: 100%;
+height: 25px;}

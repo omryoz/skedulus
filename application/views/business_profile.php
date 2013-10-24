@@ -82,8 +82,11 @@
 		//print_r($photoGallery);
 		foreach($photoGallery as $gallery){
 		?>
-			<li class="">
-				<a href="#" ><i class="icon-heart heart"></i></a><a href="#" ><i class="icon-comment comment "></i></a><a href="#" onClick="showPhoto(<?php echo $gallery->photo; ?>)" role="button"  data-toggle="modal"><img src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/200/200/1/gallery" alt="" ></a>
+			<li class="inblock">
+				<figcaption class="figcaption">
+				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
+				</figcaption>
+				<a href="#theater_view"  role="button"  data-toggle="modal"><img class="img-noresponsive" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="" ></a>
 			</li>
 		<?php } ?>
 	</ul>
@@ -455,7 +458,7 @@
    <?php  include('example.php')?>
   </div>
   <div class="modal-footer">
-  <br/>
+  
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
@@ -466,7 +469,7 @@
 	</div>
 	
   </div>
- <br/><a href="javascript:;" class="btn btn-success btn-mini">Comment</a>
+ <a href="javascript:;" class="btn btn-success btn-mini">Comment</a>
    </form>
   </div>
   

@@ -69,6 +69,8 @@
                                                </li>
                                                <li><a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title=" <?=(lang('Apps_delete'))?>"></i></a>
                                                </li>
+											   
+
                           </ul>
 						<a href="#">
 							<!-- <img src="<?php  echo base_url();?>uploads/gallery/<?php echo $content['photo']; ?>" > -->
@@ -139,9 +141,9 @@
       <div class="" id="insert">
 		<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success pull-right">
 	  </div>
-		<div class="" style="display:none" id="update">
+		<div class=" pull-right" style="display:none" id="update" >
 			  <input type="hidden" name="id" id="id" value="" />
-			  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
+			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
 			  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 		</div> 		  
 	  </form>
