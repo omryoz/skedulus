@@ -72,9 +72,13 @@
                           </ul>
 						<a href="#">
 							<!-- <img src="<?php  echo base_url();?>uploads/gallery/<?php echo $content['photo']; ?>" > -->
+						<!-- 	<?php echo $content['photo']; ?> -->
+							
+							 <img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/<?php echo $content['photo']; ?>/280/1/1/gallery"> 
+							
+							<!-- <img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/1.jpg/280/1/1/gallery"> -->
 							
 							
-							<img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/<?php echo $content['photo']; ?>/280/1/1/gallery">
 							
 						</a>
 							<h5>

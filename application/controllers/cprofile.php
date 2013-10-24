@@ -26,6 +26,8 @@ class Cprofile extends CI_Controller {
 		 $this->data['contentList']=$this->home_model->getBusiness();
 		 $this->parser->parse('include/header',$this->data);
 		 $this->parser->parse('include/navbar',$this->data);
+		 $where=' users_id= "'.$this->session->userdata('id').'"  and DATE(start_time)>="'.date('Y-m-d').'" ORDER by start_time ASC LIMIT 0,2';
+		 $this->data['appDetails']=$this->cprofile_model->getAllStartDates($where);
 		 $this->parser->parse('business_home',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 	}

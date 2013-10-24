@@ -73,12 +73,13 @@
 					</div>
 			</div>
 		</div>
-		<?php if(isset($gallery)) { ?>
+		<?php if(isset($photoGallery)) { ?>
 		<hr >
 		<div class="row-fluid">
 			<div class="filmstrip">
 	<ul class="thumbnails scroller image_popup">
 		<?php //for($i=1;$i<=$countPhoto;$i++){
+		//print_r($photoGallery);
 		foreach($photoGallery as $gallery){
 		?>
 			<li class="">

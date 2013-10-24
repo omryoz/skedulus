@@ -26,7 +26,12 @@ class Clients extends CI_Controller {
 	function profile($id=false){
 	 $this->parser->parse('include/header',$this->data);
 	 $this->parser->parse('include/dash_navbar',$this->data);
+	 $this->data['userid']=$id;
 	 $this->data['details']=$this->common_model->getRow('users','id',$id);
+	 $where=' users_id= "'.$id.'" and user_business_details_id="'.$this->session->userdata['business_id'].'" ORDER by start_time ASC';
+	//$this->data['appDetails']=$this->common_model->getAllRows('view_client_appoinment_details','users_id',$id,$where);
+	 $this->data['appDetails']=$this->cprofile_model->getAllStartDates($where);
+    
 	 $this->parser->parse('client_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}

@@ -94,5 +94,17 @@ class cprofile_model extends CI_Model {
 			return false;
 		}
 	}
+	
+	function getAllStartDates($where){
+		$sql='select start_time from view_client_appoinment_details where 1 and'.$where;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		foreach($data as $dataP){
+		  $startdates[]=date('Y-m-d',strtotime($dataP->start_time));
+		}
+		if(isset($startdates)!=''){
+		return array_unique($startdates);
+		}
+	}
 }
 ?>

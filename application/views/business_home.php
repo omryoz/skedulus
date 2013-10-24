@@ -96,31 +96,53 @@
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 				<h3> <?=(lang('Apps_appointments'))?></h3>
+				<?php if(isset($appDetails)) { ?>
+						<?php foreach($appDetails as $val){ 
+						//if(date('Y-m-d',strtotime($val))>=date('Y-m-d')){
+						?>
+						<div class="appoint-date"><?php echo date("F j, Y ",strtotime(date('Y-m-d',strtotime($val)))); ?></div>
+						<?php 
+						$where=' and users_id= "'.$this->session->userdata('id').'" ';
+						$res=$this->common_model->getAllRows("view_client_appoinment_details","DATE(start_time)",$val,$where); 
 						
-						<div class="appoint-date">August 26, 2013</div>
-					<div class="" >	
+						foreach($res as $resval){ ?>
+						<div class="" >	
 						<table >					
 							<tbody>
 								<tr>						
 									<td class="appoint-time">						
-									( 13:00 - 15:00 ) <br clear="left"/>  							
+									(  <?php echo date('H:i',strtotime($resval->start_time)) ?> -  <?php echo date('H:i',strtotime($resval->end_time)) ?> ) <br clear="left"/>  							
 									<a href="javascript:void(0)" >
-									<span > Service with Staff 5</span> 
+									<span > Service with <?php echo $resval->business_name ?></span> 
 									</a>						
 									</td>
 								</tr> 
 								<tr>						
 									<td class="appoint-detail">			
 									<ul class="inline unstyled">
-									<li><i class=" icon-time"></i> 180 min </li>			<li> <i class=" icon-user"></i> staff1 1 </li>			<li> <i class=" icon-map-marker"></i> Hair style </li>
+									<?php
+									  $difference = strtotime(date('H:i',strtotime($resval->end_time))) - strtotime(date('H:i',strtotime($resval->start_time)));
+									  $difference_in_minutes = $difference / 60;
+									?>
+									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> min</li>
+									<?php if($resval->employee_id!=0){ ?>									
+									<li> <i class=" icon-user"></i><?php print_r( $resval->employee_first_name." ".$resval->employee_last_name); ?></li>			
+									<?php }?>	
+									<li> <i class=" icon-map-marker"></i><?php echo $resval->category_name; ?> </li>
 									</ul>						
 									</td>					
 								</tr>				
 							</tbody>
 						</table>		
 					</div>
-						
-					  		<a href="my_appointments.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
+						<?php } 
+						} 
+						?>
+							<a href="<?php echo base_url() ?>bcalendar/mycalender" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
+						<?php }else{
+						 echo "No upcoming appointments";
+						}	
+						?>
 				</div>
 				</div>
 				<!-- <div class="row-fluid Wrap">

@@ -22,6 +22,9 @@ function bookService(serviceid){
 }
 
 $(document).ready(function(){
+
+
+
 $(".dropdown-menu li").live("click",function(e) {
        e.stopPropagation();
    });
@@ -1370,3 +1373,10 @@ $(document).click(function(event) {
        }
    }        
 })
+ // $(window).load(function(){
+	 // alert("dfdf");
+// alert("dfdfsdsd222");
+// });
+// $(window).on(load, function(){ 
+// $(".centermsg").text(" pankaj ");
+// });

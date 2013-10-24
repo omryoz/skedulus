@@ -98,9 +98,10 @@ class common_model extends CI_Model{
 			$config['upload_path'] = './uploads/'.$foldername.'/'; 
 			$config['allowed_types'] = 'gif|jpg|png';
 			$config['max_size'] = '100000';
+			$config['file_name']="img".$this->session->userdata('id').'_'.time();
 			//$config['max_width'] = '5000';
 			//$config['max_height'] = '5000';
-
+			
 			$this->load->library('upload', $config);
 			if ( ! $this->upload->do_upload("userfile"))
 			{
@@ -109,7 +110,6 @@ class common_model extends CI_Model{
 			else
 			{
 				$data = array('upload_data' => $this->upload->data());
-				
 				return $data;
 			}
 		}
