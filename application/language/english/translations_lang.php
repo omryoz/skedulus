@@ -53,7 +53,7 @@
 		/* home end */
 		/* login page start*/ 
         $lang['Apps_newuser'] = "New user?";
-		$lang['Apps_signup'] = "Sign Up!"; 
+		$lang['Apps_signup'] = "Sign Up";
 		$lang['Apps_loginfb'] = "Login with Facebook";
 		$lang['Apps_logintw'] = "Login with Twitter";
 		$lang['Apps_forgetpwd'] = "Forgot Your Password ?";
