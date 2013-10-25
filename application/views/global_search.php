@@ -27,8 +27,8 @@
 						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="Business are you looking for?">
 					</div>
 					<div class="span3">
-					  <input id="searchTextField" type="text" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
-                      <input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />
+					  <input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
+                      <!----<input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />--->
 						<!---<input type="text" class="span12 " placeholder="Location" name="location" value="<?php //echo $_GET['location'] ?>">	--->
 					</div>
 					<div class="span3">	
@@ -46,11 +46,11 @@
 		<div class="row-fluid global_page">
 					<ul class="inline unstyled g-search">
 						
-						<li>
+						<!-- <li>
 							<label class="checkbox ">
 							<input type="checkbox"> Open now  <i class="icon-time"></i>
 							</label>
-						</li>
+						</li> -->
 						<li>
 							<label class="checkbox ">
 							<input type="checkbox"> House call <i class="icon-road"></i>
@@ -61,7 +61,7 @@
 		</div>
 		<div class="row-fluid global-block">
 		
-			<div class="span9 ">
+			<div class="span12 ">
 				
 					<ul class="inline unstyled g-search">
 						<li>Sort By:</li>
@@ -78,7 +78,13 @@
 					<div class=" global-div">
 						<div class="row-fluid ">
 								<div class="thumbnail span3">
-									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($result->image)?$result->image:'default.png'); ?>"></a>
+									<div class="inblock">
+									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>">
+									
+									<img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($result->image)?$result->image:'default.png'); ?>/280/1/1/business_logo">
+									
+									</a>
+									</div>
 								</div>
 								<div class="span9">
 								<?php  
@@ -105,7 +111,8 @@
 									
 								<ul class="unstyled inline pull-right ul-rating">
 								<li><div id="star" class="star-rate"> </div></li>		
-								<li><a href="javascript:;"><i class="icon-time icon-large" title="open now"></i></a></li>
+								<!-- <li><a href="javascript:;"><i class="icon-time icon-large" title="open now"></i></a></li> -->
+								
 								</ul>
 									
 								</div>
@@ -122,7 +129,7 @@
 				
 			
 			</div>
-			<div class="span3 right-nav">
+			<!-- <div class="span3 right-nav">
 			<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 						<h3>Offers</h3>
@@ -166,7 +173,7 @@
 						
 				</div>
 				<br/>
-				</div>
+				</div> -->
 </div>
 </div>
 </div></div>

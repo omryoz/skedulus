@@ -59,7 +59,15 @@
     });
 
 })(jQuery, window, document);
+function resetCForm(){
+  $("#addClients")[0].reset();
+    $("#update").hide();
+	$("#insert").show();
+	$("#edit").hide();
+	$("#add").show();
+	$("input").removeClass('error');
 
+}
 </script>
             <div id="myTabContent" class="tab-content tabcontentbg">	  
 			  <!-- basic info start -->
@@ -67,7 +75,7 @@
                 <div class="row-fluid">
 					<div class="">
 						<h3 ><?=(lang('Apps_clientlist'))?> 
-						   <a href="#client" class="btn pull-right btn-success" data-toggle="modal" onclick= resetForm("addClients");>+<?=(lang('Apps_add'))?></a>
+						   <a href="#client" class="btn pull-right btn-success" data-toggle="modal" onclick= resetCForm();>+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php if(isset($tableList)) { ?>
 						<table class="table table-striped  table-staff table-hover " >
@@ -81,11 +89,11 @@
 									  </thead>
 									  <?php
 									 $i=1;	
-									 foreach($tableList as $content){ ?>
+									 foreach($tableList as $content){  ?>
 										<tr>
 										  <td><?php echo $i; ?></td>
-										  <td ><center><img src="images/thumbss/11.jpg" class="thumbnail"></center></td>
-										  <td><?php echo $content['name']; ?></td>
+										  <td class="profile-image"><center><img src="<?php echo base_url();?>uploads/photo/<?=(!empty($content['image'])?$content['image']:'default.jpg'); ?>" class="thumbnail" style="height: 50px;"></center></td>
+										  <td><a href="<?php echo base_url(); ?>clients/profile/<?php echo $content['id'] ?>"><?php echo $content['name']; ?></a></td>
 										  <td>
 										  <a href="#client" data-toggle="modal" onclick= editClient(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
 										  
@@ -151,7 +159,7 @@
 		<div class="" style="display:none" id="update">
 			  <input type="hidden" name="id" id="id" value="" />
 			  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
-			  <a href="" onclick=submit(); name="save" class="btn btn-success pull-right" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
+			  <!---<a href="" onclick=submit(); name="save" class="btn btn-success pull-right" value="Cancel" /><?=(lang('Apps_cancel'))?></a>--->
 		</div> 			
 	  </form>
 	  </div>

@@ -61,7 +61,12 @@ class getStaffevents
 						$event='';
 						$event["eventId"]=$evVal->id;
 						$event['eventName']=$evVal->note;
+						$event['business_name']=$evVal->business_name;
+						$event['category_name']=$evVal->category_name;
 						$event['role']=$evVal->user_role;
+						if($evVal->employee_id!=0){
+						   $event['serviceProvider']=$evVal->employee_first_name." ".$evVal->employee_last_name;
+						}
 						//$event['eventDesc']=$evVal->event_description;
 						$event['startTime']=$evVal->start_time;
 						$event['clientname']=$evVal->clients_first_name." ".$evVal->clients_last_name;

@@ -63,15 +63,25 @@
 				
 					<li class="span3  thumb-image">
 						<div class="thumbnail">
-						
+							<div class="inblock">
 						 <ul class="inline unstyled icon">
                                                <li><a href="#gallery" data-toggle="modal" class="btn  btn-mini" onclick= editPhoto(<?php echo $content['id']; ?>)><i class="icon-edit" title=" <?=(lang('Apps_edit'))?>"></i></a>
                                                </li>
                                                <li><a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title=" <?=(lang('Apps_delete'))?>"></i></a>
                                                </li>
+											   
+
                           </ul>
 						<a href="#">
-							<img src="<?php  echo base_url();?>uploads/gallery/<?php echo $content['photo']; ?>" >
+							<!-- <img src="<?php  echo base_url();?>uploads/gallery/<?php echo $content['photo']; ?>" > -->
+						<!-- 	<?php echo $content['photo']; ?> -->
+							
+							 <img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/<?php echo $content['photo']; ?>/280/1/1/gallery"> 
+							
+							<!-- <img class="img-noresponsive" src="<?php echo base_url(); ?>common_functions/display_image/1.jpg/280/1/1/gallery"> -->
+							
+							
+							
 						</a>
 							<h5>
 								<center><a href="#"><?php echo $content['title'] ?></a></center>
@@ -83,9 +93,7 @@
 				<?php }else{ ?>
 				<p class="alert"><?=(lang('Apps_noimagesaddedyet'))?></p>
 				<?php } ?>
-				
-				
-				
+				</div>
 		</div>
 	
 		<div id="gallery" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -133,9 +141,9 @@
       <div class="" id="insert">
 		<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success pull-right">
 	  </div>
-		<div class="" style="display:none" id="update">
+		<div class=" pull-right" style="display:none" id="update" >
 			  <input type="hidden" name="id" id="id" value="" />
-			  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
+			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
 			  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 		</div> 		  
 	  </form>

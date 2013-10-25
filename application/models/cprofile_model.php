@@ -3,6 +3,20 @@ class cprofile_model extends CI_Model {
  
 	function insertinfo(){
 		$insertArray=array();
+		
+		//print_r($_FILE); exit;
+		if(isset($_POST['status']) && $_POST['status']=='1'){
+		 $data=$this->common_model->uploadFile("photo");
+	     if(isset($data)){ 
+		 $insertArray['image']= $data['upload_data']['file_name'];
+		 }
+		 }else if(isset($_POST['status']) && $_POST['status']=='0'){
+		 $insertArray['image']=$_POST['img'];
+		 // $img=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+		 // $insertArray['image']=$img->image;
+		 }
+				
+		if(isset($_POST['address']))$insertArray['address']= $_POST['address'];
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];
 		if(isset($_POST['month']) && isset($_POST['year']) && isset($_POST['day']) && $_POST['day']!=0){
@@ -43,6 +57,15 @@ class cprofile_model extends CI_Model {
 		return true;
 		}
 	}
+	function updateImage(){
+	  $insertArray=array();
+	  $data=$this->common_model->uploadFile("photo");
+	  if(isset($data))$insertArray['image']= $data['upload_data']['file_name'];
+	 if($data['upload_data']['file_name']!=''){
+	  $sql=mysql_query("update users set image='".$data['upload_data']['file_name']."' where id='".$this->session->userdata['id']."'");
+	  }
+	}
+	
 	
 	function updateUser(){
 	$sql=mysql_query("update users set status='active' where activationkey='$_GET[activation_link]'");
@@ -54,6 +77,34 @@ class cprofile_model extends CI_Model {
 	$id=$this->session->userdata['id'];
 	 $sql=mysql_query("update users set password='".$password."' where id='".$id."'");
 	 return true;
+	}
+	
+	function insertCardDetails($table=false,$filter=false,$notifyid=false){
+	if($notifyid!=''){
+	 $this->db->update($table,$filter,array('id' => $notifyid));
+	 //$val=1;
+	}else{
+		$this->db->insert($table,$filter);
+		//$val=0;
+	}
+		//echo $this->db->last_query();die;
+		if($this->db->affected_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	function getAllStartDates($where){
+		$sql='select start_time from view_client_appoinment_details where 1 and'.$where;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		foreach($data as $dataP){
+		  $startdates[]=date('Y-m-d',strtotime($dataP->start_time));
+		}
+		if(isset($startdates)!=''){
+		return array_unique($startdates);
+		}
 	}
 }
 ?>

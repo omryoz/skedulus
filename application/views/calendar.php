@@ -27,15 +27,24 @@
 ?>
 <?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
   $role='manager';
+  $crumb='My business profile';
  }else{
   $role='none';
+  $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
  } ?>
  <input type="hidden" name="userrole" value="<?php print_r($role);?>" id="userrole">
  
 <div class="content container">
 		<div class="row-fluid business_profile">
 		<?php //print_r($this->session->userdata['profileid']);?>
-<h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<!-- <h3><a  href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3> -->	
+
+<ul class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php print_r($crumb); ?></a> <span class="divider">/</span></li>
+  <li class="active">Business calendar</li>
+</ul>
+
+
 <div id="calendarContainer" ></div>
 <input type="hidden" name="staffid" id="staffsid" value="">
 <p class="hide" id="user_id"></p>
@@ -255,15 +264,19 @@
         ical.build();
     }
  	var activeEvent;
-    function onPreview(evt, dataObj, html)
-	{ 
-    if($("#userrole").val()=='manager'){
+    function onPreview(evt, dataObj, html) 
+	{  
+	  Appdetails($(evt).attr('eventid'));
+	}
+	
+	function Appdetails(eventid){
+		if($("#userrole").val()=='manager'){
 	   $(".message").removeClass("alert").html(" ");
-	   $("#eventid").html($(evt).attr('eventid'));
-	   
+	   $("#eventid").html(eventid);
+	  
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
-	   data:{eventID:$(evt).attr('eventid')},
+	   data:{eventID:eventid},
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
@@ -304,7 +317,11 @@
 	   $("#reschedule").modal('show');
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
-	 }
+		}
+	}
+	
+	function agendaShowEventDetail(evt){ 
+	    Appdetails(evt);
 	}
     /*
      Method invoked when event is moved or resized
@@ -398,12 +415,39 @@
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(event_id){ 	
+	 
+	  $("#deleteApp").live("click",function(){
+	 $(".message").removeClass("alert").html(" ");
+	if(confirm("Are you sure you want to remove from list?")) {
+	  var url = base_url+"bcalendar/checkfordelete";
+	  $.ajax({
+		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
+		url:url,
+		type:'POST',
+		success:function(data){  
+		if(data==0){ 
+		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		return false;
+		}else if(data==1){
 		var str="?";
+		str=str+"&type="+$("#type").html(); 
+        str=str+"&postedclassid="+$("#services_id").html();		
+		str=str+"&eventId="+$("#eventid").html(); 
+		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		$("#reschedule").modal('hide');
+		
+		}
+	 }
+	  })
+	 }
+ 
+})
+    // function rzDeleteEvent(event_id){ 	
+		// var str="?";
 		//str=str+"eventName="+activeEvent.name; 
-		str=str+"&eventId="+event_id;
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
-    } 
+		// str=str+"&eventId="+event_id;
+		// ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});		
+    // } 
     
 
     /**

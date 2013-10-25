@@ -90,7 +90,7 @@ class Common_functions extends CI_Controller {
 		 //$this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 if($status){
-			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type);
+			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
 			  $this->session->set_userdata($sessionVal);
 			 redirect('overview'); 
 			 }else{
@@ -144,6 +144,37 @@ class Common_functions extends CI_Controller {
 		}
 	}
 	
+	function mydashboard($type=false){
+	    if($type=='my'){
+		 $this->session->unset_userdata('role');
+		 $this->session->unset_userdata('business_id');
+			$sessionVal=array(
+			 'role'=>'client'
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		 redirect('cprofile');
+		 }else if($type=='business'){
+		 $this->session->unset_userdata('role');
+		 $res=$this->common_model->getRow('user_business_details','users_id',$this->session->userdata['id']);
+		  $sessionVal=array(
+			 'role'=>'manager',
+			 'business_id'=>$res->id
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		  redirect('overview');
+		 }
+	 }
+	 
+	 function mysettings(){
+		 $this->session->unset_userdata('role');
+		 $this->session->unset_userdata('business_id');
+			$sessionVal=array(
+			 'role'=>'client'
+		    );
+		 $this->session->set_userdata($sessionVal);	
+		 redirect('clients/settings');
+		
+	 }
 	
 	public function businessSignUp(){
 	$this->data['userRole']="businessSignUp";
@@ -223,6 +254,11 @@ class Common_functions extends CI_Controller {
 		redirect('home');
 	}
 	
+	/* Function to  display image in requird dimensions*/
+		public function display_image($photo_id=false,$width = false,$height = false,$ratio=false,$file=false)
+		{
+			$this->photos_actions->display_image($photo_id,$width,$height,$ratio,$file);
+		}	
 	
 	
 }

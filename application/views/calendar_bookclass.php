@@ -15,22 +15,48 @@
 <?php 
 
 @session_start();
+if(isset($type) && $type=='staffscalendar'){
+$_SESSION['profileid'] = $staff_details[0]->user_business_details_id;
+$bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+$bname=$bname->name;
+$crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
+$url=$staff_details[0]->user_business_details_id;
+}else{
+$bname=$this->common_model->getRow('user_business_details','id',$buisness_details[0]->id);
+$bname=$bname->name;
+$crumb='Business calendar';
 $_SESSION['profileid'] = $buisness_details[0]->id;
-if(!isset($this->session->userdata['id'])){
- redirect('home/clientlogin');
+$url=$buisness_details[0]->id;
 }
-
 ?>
 
+<ul class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($url) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
+  <li class="active"><?php print_r($crumb); ?></li>
+ <?php if(isset($type) && $type=='staffscalendar'){ ?>
+ <li class="pull-right">
+  <?php 
+  $options=array();
+  foreach($staffs as $val){
+  $options[$val->users_id]=$val->first_name."".$val->last_name;
+  } ?>
+   <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>	
+<?php } ?>   
+</ul>
 <div class="content container">
 <div class="row-fluid business_profile">
-<h3><a   href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
-	
+
+<?php if(isset($type) && $type=='staffscalendar'){ ?>
+<h3><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>
+<?php  }else{?>
+<h3><a  href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<?php }?>	
 <div id="calendarContainer" ></div>
+<p class="role hide" id="instructor_id"><?=(!empty($type))?$staff_details[0]->users_id:''?></p>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
-<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>	
+<p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
-<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>
+<p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
 	
 </div>
 </div>
@@ -50,7 +76,7 @@ if(!isset($this->session->userdata['id'])){
 	<div class="row-fluid">
 	
 	<!---<button class="btn span6 clientlist" id="multiClass">All Classes</button>--->
-    <button class="btn btn-success span6 clientlist" id="singleClass" ><?=(lang('Apps_viewdetails'))?></button>
+    <button class="btn btn-success span6 clientlist" id="singleBookClass" ><?=(lang('Apps_viewdetails'))?></button>
 	</div>
   </div>
 </div>
@@ -75,7 +101,7 @@ if(!isset($this->session->userdata['id'])){
 					    <div class="labelBlock">  <?=(lang('Apps_classes'))?>: <span id="className"></span></div>	
 					  </td>
 					  <td>
-					   <div class="labelBlock">  <?=(lang('Apps_trainers'))?>: <span id="trainers"></span></div>
+					   <div class="labelBlock">  <?=(lang('Apps_trainers'))?>: <span id="trainers"></span><span id="employee_id" class="hide"></span></div>
 					   <p class="hide event_id"></p>
 					  </td>
 		</tr>
@@ -88,22 +114,22 @@ if(!isset($this->session->userdata['id'])){
 					  </td>
 		</tr>
 		<tr> 
-					  <td>
+					 <!--- <td>
 					    <div class="labelBlock">  <?=(lang('Apps_lastdateforenroll'))?>: <span id="lastdate"></span></div>
-					  </td> 
+					  </td> --->
 					  <td>
 					    <div class="labelBlock">  <?=(lang('Apps_capacity'))?>: <span id="class_size"></span></div>
 					  </td> 
-					</tr> 
-		<tr> 
-				<td>
+					  <td>
 					<div class="labelBlock">  <?=(lang('Apps_available'))?>: <span id="available"></span></div>
 						</td> 
-					<td>
+					</tr> 
+		<tr> 
+					<td colspan="2">
 						<textarea name="note" id="note" placeholder="<?=(lang('Apps_note'))?>" style=
 						"width: 99%!important;"></textarea>
 					  </td> 
-					</tr> 
+		</tr> 
 		</tbody>
 		</table>
      
@@ -113,7 +139,14 @@ if(!isset($this->session->userdata['id'])){
 		        <input type="hidden" name="updateid"  id="updateid" value="">
 				<p class="hide" id="starttime"></p><p  class="hide" id="endtime"></p>
 				<p id="business_id" class="hide"><?php echo $businessId; ?></p>
+				 <?php
+				$url='';
+				 if(!isset($this->session->userdata['id'])){
+				  ?>
+				  <li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+				<?php }else{ ?>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
+				<?php }?>
 	        </li>
 	    </ul>
     </div>
@@ -129,7 +162,8 @@ if(!isset($this->session->userdata['id'])){
 	  e.preventDefault();
 	  $(this).tab('show');
 	})
-	    
+	
+    
 </script>
 <script>
     var ical; 
@@ -290,6 +324,7 @@ if(!isset($this->session->userdata['id'])){
 	    var str="?1=1"; 
 	    str=str+"&st="+stStr;
 		str=str+"&et="+edStr; 
+		str=str+"&instructor="+$("#instructor_id").html(); 
 		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
 		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  
@@ -327,7 +362,8 @@ if(!isset($this->session->userdata['id'])){
     
 	
 	//function singleClass(){
-	$("#singleClass").click(function(){ 
+	$("#singleBookClass").click(function(){ 
+       $("#note").val("");	
 	   $("#booksuccess").hide();
 	  var evId=$("#eventId").html();
 	   $.ajax({
@@ -343,7 +379,8 @@ if(!isset($this->session->userdata['id'])){
            $("#update").show();$("#add").hide();
 		   $("#updateid").val(evId);
 		   $("#className").html(v.class);
-		   if(v.instructor!='0')
+		   $("#employee_id").html(v.employee_id);
+		   if(v.employee_id!='')
 			$("#trainers").html(v.instructor_firstname+' '+v.instructor_lastname);
 		   $("#StartDate").html(v.start_date);
 		   $("#StartTime").html(v.start_time);
@@ -352,7 +389,11 @@ if(!isset($this->session->userdata['id'])){
 		   $("#lastdate").html(v.lastdate_enroll);
 		   $("#starttime").html(v.start_time);
 		   $("#endtime").html(v.end_time);
-		   
+		   if(v.availability==0){
+		      $("#bookClass").hide();
+		   }else{
+		     $("#bookClass").show();
+		   }
 		})
 	   }
 	  })
@@ -480,7 +521,9 @@ if(!isset($this->session->userdata['id'])){
 	
     });
 	
-
+$("#staffCal").change(function(){
+window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
+})
 
 	
 	

@@ -73,16 +73,20 @@
 					</div>
 			</div>
 		</div>
-		<?php if(isset($gallery)) { ?>
+		<?php if(isset($photoGallery)) { ?>
 		<hr >
 		<div class="row-fluid">
 			<div class="filmstrip">
 	<ul class="thumbnails scroller image_popup">
 		<?php //for($i=1;$i<=$countPhoto;$i++){
+		//print_r($photoGallery);
 		foreach($photoGallery as $gallery){
 		?>
-			<li class="">
-				<a href="#" ><i class="icon-heart heart"></i></a><a href="#" ><i class="icon-comment comment "></i></a><a href="#" onClick="showPhoto(<?php echo $gallery->photo; ?>)" role="button"  data-toggle="modal"><img src="<?php  echo base_url();?>uploads/gallery/<?php echo $gallery->photo; ?>" alt="" ></a>
+			<li class="inblock">
+				<figcaption class="figcaption">
+				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
+				</figcaption>
+				<a href="#theater_view"  role="button"  data-toggle="modal"><img class="img-noresponsive" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="" ></a>
 			</li>
 		<?php } ?>
 	</ul>
@@ -179,7 +183,7 @@
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
-								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
+								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>/<?php echo $type; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
 							    <?php if($this->session->userdata['role']=="manager"){ ?>
 								<td>
 							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
@@ -202,7 +206,7 @@
 						</table>
 					  </div>
 					</div>
-				  </div><br/>
+				  </div><!---<br/>
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#offer">
@@ -235,7 +239,7 @@
 						</div>
 					  </div>
 					</div>
-				  </div>
+				  </div>--->
 </div>
 			
 				
@@ -247,7 +251,7 @@
 				<dl class="dl-horizontal days_dl">
 				<?php foreach($availability as $available) { ?>
 				<dt><?php echo $available->name ?></dt>
-				<dd><?php echo date('h:i',strtotime($available->start_time)) ?> - <?php echo date('h:i',strtotime($available->end_time)) ?>  </dd>
+				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
 				  <!---<dt>Sunday</dt>
@@ -454,7 +458,7 @@
    <?php  include('example.php')?>
   </div>
   <div class="modal-footer">
-  <br/>
+  
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
@@ -465,7 +469,7 @@
 	</div>
 	
   </div>
- <br/><a href="javascript:;" class="btn btn-success btn-mini">Comment</a>
+ <a href="javascript:;" class="btn btn-success btn-mini">Comment</a>
    </form>
   </div>
   

@@ -8,7 +8,6 @@ class Clients extends CI_Controller {
 		$this->load->model('bprofile_model');
 		$this->load->model('cprofile_model');
 		$this->load->model('common_model');
-		$this->load->library('upload');
 		$this->load->library('form_validation');
 		$this->data['bodyclass']='index';
 		CI_Controller::get_instance()->load->helper('language');
@@ -21,6 +20,19 @@ class Clients extends CI_Controller {
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	 $this->data['tableList']=$this->bprofile_model->getclientsList();
 	 $this->parser->parse('clients',$this->data);
+	 $this->parser->parse('include/footer',$this->data);
+	}
+	
+	function profile($id=false){
+	 $this->parser->parse('include/header',$this->data);
+	 $this->parser->parse('include/dash_navbar',$this->data);
+	 $this->data['userid']=$id;
+	 $this->data['details']=$this->common_model->getRow('users','id',$id);
+	 $where=' users_id= "'.$id.'" and user_business_details_id="'.$this->session->userdata['business_id'].'" ORDER by start_time ASC';
+	//$this->data['appDetails']=$this->common_model->getAllRows('view_client_appoinment_details','users_id',$id,$where);
+	 $this->data['appDetails']=$this->cprofile_model->getAllStartDates($where);
+    
+	 $this->parser->parse('client_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
@@ -76,8 +88,15 @@ class Clients extends CI_Controller {
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
 		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
+		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
+		$this->data['cardDetails']= $this->common_model->getRow("credit_card_details","users_id",$this->session->userdata("id"));
 		$this->load->view('settings',$this->data);
 		$this->load->view('include/footer',$this->data);
+	}
+	
+	function changepicture(){
+	 $this->cprofile_model->updateImage();
+	 redirect('/clients/settings');
 	}
 	
 	function offers(){
@@ -87,7 +106,7 @@ class Clients extends CI_Controller {
 		$this->load->view('include/footer',$this->data);
 	}
 	
-	function editClient(){
+	function editClient(){ 
 	   $this->cprofile_model->insertinfo();
 	   redirect('/clients/settings');
 	}
@@ -95,6 +114,39 @@ class Clients extends CI_Controller {
 	function changePassword(){
 	   $this->cprofile_model->updatePassword();
 	   echo "success";
+	}
+	function Notification_settings()
+	{ 
+		$notification=$this->input->post();
+		unset($notification['save']);
+		$notification=array_merge($notification,array('users_id'=>$this->session->userdata("id")));
+		//print_r($notification); exit;
+		 $chck=$this->common_model->getRow('user_notification_settings','users_id',$this->session->userdata("id"));
+		// print_r($chck);exit;
+		if($chck!=''){
+		 $notifyid=$chck->id;
+		}else{
+		 $notifyid='';
+		}
+		$this->common_model->create_details_by_table('user_notification_settings',$notification,$notifyid);
+		
+	
+	}
+	function cardDetails(){ 
+	
+		$notification=array('card_name'=>$this->input->post('card_name'),'credit_card_number'=>$this->input->post('card_number'),'verification_number'=>$this->input->post('cvv'),'expiration_month'=>$this->input->post('month'),'expiration_year'=>$this->input->post('year'));
+		$notification=array_merge($notification,array('users_id'=>$this->session->userdata("id")));
+		
+		$chck=$this->common_model->getRow('credit_card_details','users_id',$this->session->userdata("id"));
+		if($chck!=''){
+		 $notifyid=$chck->id;
+		}else{
+		 $notifyid='';
+		}
+		$val=$this->cprofile_model->insertCardDetails('credit_card_details',$notification,$notifyid);
+		$value=$this->common_model->getAllRows('credit_card_details','users_id',$this->session->userdata("id"));
+		print_r (json_encode($value));
+		
 	}
 	
 }

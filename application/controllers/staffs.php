@@ -23,7 +23,7 @@ class Staffs extends CI_Controller {
 	 }else{
 	  $this->parser->parse('include/dash_navbar',$this->data);
 	 }
-	 $this->data['tableList']=$this->bprofile_model->getStaffs();
+	 $this->data['tableList']=$this->bprofile_model->getStaffsList();
 	 if($this->session->userdata['business_type']=='class'){
 	 $this->data['services']=$this->common_model->getAllRows("user_business_classes","user_business_details_id",$this->session->userdata['business_id']);
 	 }else{

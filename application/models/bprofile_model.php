@@ -171,6 +171,22 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getStaffs(){
+		//$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
+		$sql="Select distinct(users_id),first_name,last_name from view_employee_classes where business_id ='".$this->session->userdata['business_id']."'  and service_id='".$_POST['class_name']."'";
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+				$values[$i]['id'] =$dataP->users_id;
+				$values[$i]['name']= $dataP->first_name." ".$dataP->last_name;
+				$i++;
+			}
+			return $values;
+		}
+	}
+	
+	function getStaffsList(){
 		$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
 		$query=$this->db->query($sql);
 		$data= $query->result();
@@ -323,7 +339,8 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getImages(){
-		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
+		// $sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
+		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']."" ;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -375,10 +392,57 @@ class bprofile_model extends CI_Model {
 			foreach($data as $dataP){
 				$values[$i]['id'] =$dataP->users_id;
 				$values[$i]['name']= $dataP->first_name." ".$dataP->last_name;
+				$values[$i]['image']= $dataP->image;
 				$i++;
 			}
 			return $values;
 		}
+	}
+	function getclientsListauto(){
+	if($_POST['clientids']!=''){
+	$list=rtrim($_POST['clientids'],',');
+	 $where= ' users_id NOT IN ('.$list.')';
+	}else{
+	  $where= 1;
+	} 
+	
+		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and ".$where;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$value='[';
+		//$value='';
+		if($data){
+			foreach($data as $dataP){
+			   $value.='{"label" : "'.$dataP->first_name.' '.$dataP->last_name.'" ,"id" : "'.$dataP->users_id.'" , "email": "'.$dataP->email.'" ,"phone": "'.$dataP->phone_number.'"},';
+			}
+			$value.="]";
+			echo $value;
+		}
+	}
+	
+	function removeClient($info){
+	   if($info)
+	   $query = $this->db->delete("client_service_appointments",$info);
+	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+ 	   if($val->availability!=0){ 
+       $update_avail=($val->availability+1);
+	   }else{
+	   $update_avail==0;
+	   }
+	   if($update_avail<=$val->class_size){
+	   $updateArray['availability']=$update_avail;
+	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
+	   }
+	   if($this->db->affected_rows()>0){
+	          if($update_avail<=$val->class_size){
+				echo $update_avail; 
+				}else{
+				echo $val->class_size;
+				}
+			}else{
+				return false;
+			}
 	}
 	
 	function getClientdetails(){
@@ -491,7 +555,7 @@ class bprofile_model extends CI_Model {
 				 $weeknames= implode(",",$week);
 				 $values['repeat_week_days'] =$weeknames;
 				}
-				
+				$values['employee_id']= $dataP->instructor;
 				$values['instructor_lastname']= $dataP->instructor_lastname;
 				$values['instructor_firstname'] =$dataP->instructor_firstname;
 				$values['lastdate_enroll']= $dataP->lastdate_enroll;
@@ -508,6 +572,7 @@ class bprofile_model extends CI_Model {
 	   $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
 	   $new_avail=($val->availability-1);
 	   $updateArray['availability']=$new_avail;
+	   $updateArray['modifiedStatus']='1';
 	   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 	   $this->db->insert("client_service_appointments",$input);
 	   if($this->db->affected_rows()>0){	   
@@ -587,41 +652,58 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
-	function addClient(){
+	function addClient(){ 
 	   $insertArray=array();
 		if(isset($_POST['name']))$insertArray['first_name']= $_POST['name'];
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
 		if(isset($_POST['phone']))$insertArray['phone_number']= $_POST['phone'];
 		
-		if($_POST['users_id']==""){
+		if($_POST['users_id']=="" && $_POST['actionVal']=='add'){
 		$this->db->insert('users',$insertArray);
 		$id=mysql_insert_id();
 		$action = 'add';
+		}elseif($_POST['users_id']!="" && $_POST['actionVal']=='add'){
+		$id=$_POST['users_id'];
+		$action = 'add';
 		}
+		$val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+		$new_avail=($val->availability);
 		if($id){
-		  $insertBArray['users_id']= $id;
-		  $insertBArray['user_business_posted_class_id']= $_POST['classid'];
-		  $insertBArray['date']= date('Y-m-d');
-		  if(isset($_POST['notes']))$insertBArray['note']= $_POST['notes'];
-		  $this->db->insert('client_class_booking',$insertBArray);
+		$date= date('Y-m-d');
+		$start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('time');	
+		$endtime =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');	
+	    if(isset($_POST['notes']))$note= $_POST['notes'];
+    	$input = array("users_id"=>$id,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('classid'),"employee_id"=>$this->input->post('trainer'),"note"=>$note,"status"=>"booked","appointment_date"=>$date,"type"=>'class',"user_business_details_id"=>$this->session->userdata['business_id']);
 		  
-		  
+		    $this->db->insert('client_service_appointments',$input);
 		    $query=$this->db->query("select * from business_clients_list where user_business_details_id = '".$this->session->userdata['business_id']."' and users_id='".$id."'");
 			$data= $query->result();
 			if(empty($data)){
 			$this->db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$id."','".$this->session->userdata['business_id']."' )");
 			}
+		  // $val=$this->common_model->getRow("user_business_posted_class","id",$this->input->post('classid')); 
+		   $new_avail=($val->availability-1);
+		   if($new_avail>=0){
+		   $updateArray['availability']=$new_avail;
+		   }
+		   $updateArray['modifiedStatus']='1';
+		   $this->db->update('user_business_posted_class',$updateArray,array('id' => $this->input->post('classid')));
 		}
 		
-		if(isset($_POST['users_id']) && $_POST['users_id']!=""){
-		 $insertArray['users_id']= $_POST['users_id'];
-		  $insertArray['user_business_posted_class_id']= $_POST['classid'];
-		$this->db->update('view_client_class_booking',$insertArray,array('users_id' => $_POST['users_id']));
-		$action = 'update';
+		if(isset($_POST['users_id']) && $_POST['users_id']!="" && $_POST['actionVal']=='edit'){
+		  $this->db->update('users',$insertArray,array('id'=>$_POST['users_id']));
+		   $insertComment['note']=$_POST['notes'];
+		  $this->db->update('client_service_appointments',$insertComment,array('users_id'=>$_POST['users_id'],'services_id'=>$_POST['classid']));
+		  $action = 'update';
+		}
+		if($new_avail<=0){
+		 $totalavail=0;
+		}else{
+		  $totalavail=$new_avail;
 		}
 		
 		
-		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'"}]';
+		$val='[{"id":"'.$id.'","name":"'.$_POST['name'].'","action":"'.$action.'","avail":"'.$totalavail.'"}]';
 		print_r ($val);
 	}
 	

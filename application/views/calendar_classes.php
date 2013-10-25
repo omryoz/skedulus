@@ -25,13 +25,24 @@ if(!isset($this->session->userdata['id'])){
 }
 
 ?>
-
+<?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
+  $role='manager';
+  $crumb='My business profile';
+ }else{
+  $role='none';
+  $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
+ } ?>
 <div class="content container">
 <div class="row-fluid business_profile">
-<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		
+<!----<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		--->
+<ul class="breadcrumb">
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php print_r($crumb); ?></a> <span class="divider">/</span></li>
+  <li class="active">Business calendar</li>
+</ul>
 	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
+
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
@@ -44,236 +55,6 @@ if(!isset($this->session->userdata['id'])){
 <!--<p id="Demo">Demosas<p>-->
 
 
-<div id="editClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 id="myModalLabel"><?=(lang('Apps_clientaddedperclassbasis'))?></h4>
-  </div>
-  <div class="modal-body">
-	<p id="eventId" class="hide"></p>
-	<div class="row-fluid">
-	
-	<button class="btn span6 clientlist" id="multiClass"><?=(lang('Apps_allclasses'))?></button>
-    <button class="btn btn-success span6 clientlist" id="singleClass" ><?=(lang('Apps_onlythisclass'))?></button>
-	</div>
-  </div>
-</div>
-
-
-
-<!-- New Event Template -->
-<div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="aPointer  " style="display: block; z-index: 2; "></div>
-	<p class="message"></p>	
-<ul class="nav nav-tabs" id="postclasstab">
-  <li class="active"><a href="#edit_class" id="addclass"><?=(lang('Apps_postclass'))?></a><a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
-  <li><a href="#add_client"><?=(lang('Apps_clientlist'))?></a></li>
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button>
-</ul>
- <hr/>
-<div class="tab-content">
-  <div class="tab-pane active" id="edit_class">
-		<div >
-        <table border="0" cellpadding="0" width="100%" class="class-table">  
-            <tbody>  
-			<tr height="40px;"> 
-					  <td >
-					    <div class="labelBlock">  <?=(lang('Apps_classes'))?></div>
-						<?php 
-						$select="";
-						echo form_dropdown('eventGroup',$classes,$select,' id=eventGroup')   ?>						
-					  </td>
-					  
-					  <td>
-					   <div class="labelBlock"> <?=(lang('Apps_trainers'))?></div>
-					   <select name="trainer"   id="trainer" class="demo">
-					   </select> 
-					   <p class="hide event_id"></p>
-					   
-						
-					  </td>
-					</tr>
-
-					<tr>
-					  <td>
-					     <div class="labelBlock"><?=(lang('Apps_date'))?></div>
-						 <input type="text" class=" date_pick" value="" id="StartDate">
-					    <!--- <input type="text" class="inputboxblue" id="StartDate">--->
-					  </td>
-
-					  <td style="position:relative;">
-					     <div class="labelBlock"><?=(lang('Apps_time'))?></div>
-					     <a href="#"><input type="text" class="StartTime" id="eventStartTime"></a>
-						 <a href="javascript:;" id="repeat" class="add-repeat"><p id="repeathtml" value="add"><?=(lang('Apps_addrepeat'))?></p></a>
-					  </td>
-					  
-					</tr>
-					<tr style="display:none" id="repeatdiv">
-					  <td>
-					   <div class="labelBlock">  <?=(lang('Apps_repeattype'))?></div>
-					       <select name="repeat_type" id="repeat_type">
-						  <option id="daily" value="daily"><?=(lang('Apps_daily'))?></option>
-						  <option id="weekly" value="weekly"><?=(lang('Apps_weekly'))?></option>
-						  <option id="monthly" value="monthly"><?=(lang('Apps_monthly'))?></option>
-						  </select>
-					  </td>
-					  <td>
-					    <div class="labelBlock"> <?=(lang('Apps_enddate'))?></div>
-						<input type="text" class=" date_pick" value="" id="EndDate">
-					  </td>
-						<td>
-							
-			
-						</td>
-					</tr>
-					<tr id="monthRep">
-					    <td class="select-month">
-						    
-							 <div class="btn-toolbar"  id="months" style="display:none">
-							  <div class="btn-group">
-								<button class="btn month " name="monthly" value="1" id="m1">Jan</button>
-								<button class="btn month " name="monthly" value="2" id="m2">Feb</button>
-								<button class="btn month " name="monthly" value="3" id="m3">Apr</button>
-								<button class="btn month " name="monthly" value="4" id="m4">Mar</button>
-								<button class="btn month " name="monthly" value="5" id="m5">May</button>
-								<button class="btn month " name="monthly" value="6" id="m6">Jun</button>
-								<button class="btn month " name="monthly" value="7" id="m7">Jul</button>
-								<button class="btn month " name="monthly" value="8" id="m8">Aug</button>
-								<button class="btn month " name="monthly" value="9" id="m9">Sep</button>
-								<button class="btn month " name="monthly" value="10" id="m10">Oct</button>
-								<button class="btn month " name="monthly" value="11" id="m11">Nov</button>
-								<button class="btn month " name="monthly" value="12" id="m12">Dec</button>
-								 <input type="hidden" name="monthlylist"  id="monthlylist" value="" >
-								
-							  </div>
-							</div>
-						</td>
-					</tr>
-					
-					<tr id="weekRep">
-					    <td class="select-day">
-							 <div class="btn-toolbar"  id="weeks" style="display:none">
-							  <div class="btn-group">
-								<button class="btn weekly" name="week" value="1" id="w1">Mon</button>
-								<button class="btn weekly" name="week" value="2" id="w2">Tue</button>
-								<button class="btn weekly" name="week" value="3" id="w3">Wed</button>
-								<button class="btn weekly" name="week" value="4" id="w4">Thu</button>
-								<button class="btn weekly" name="week" value="5" id="w5">Fri</button>
-								<button class="btn weekly" name="week" value="6" id="w6">Sat</button>
-								<button class="btn weekly" name="week" value="7" id="w7">Sun</button>
-								 <input type="hidden" name="weeklist"  id="weeklist" value="" >
-							 </div>
-							</div>
-						</td>
-					</tr>
-					
-					<tr style="display:block; margin-top: 50px;">
-					  
-					  <td>
-					    <div class="labelBlock"> <?=(lang('Apps_endtime'))?></div>
-					     <input type="text" class=""  id="eventEndTime">
-					  </td>
-					</tr>
-					<tr> 
-					  <td>
-					    <div class="labelBlock"> <?=(lang('Apps_lastdateforenroll'))?></div>
-						<input type="text" class=" date_pick" value="" id="enroll_last">					   
-					   <!----<input type="text" class="inputboxblue"  id="endDateenrollment">---->
-					  </td> 
-					  <td>
-					    <div class="labelBlock"> <?=(lang('Apps_capacity'))?></div>
-					     <input type="text" class=""  id="class_size">
-						 <input type="hidden" name="repeatstatus" id="repeatstatus">
-					  </td> 
-					</tr>	
-            </tbody>
-        </table>
-			
-	    <ul class="unstyled inline" >
-	        <li id="add">
-	            <a class="websbutton btn btn-success pull-right" href="javascript:rzAddEvent();"><?=(lang('Apps_save'))?></a>
-	        </li>
-	       <!-- <li>
-	            <a  href="javascript:void(0)" class="websbutton"  onclick="return closeAddEvent();">Cancel</a>
-	        </li>--->
-	        <li id="update" style="display:none" class="pull-right">
-			    <input type="hidden" name="updateid"  id="updateid" value="">
-				 <a class="websbutton btn btn-success " href="javascript:rzDeleteEvent();"><?=(lang('Apps_delete'))?></a>
-	             <a class="websbutton btn btn-success " href="javascript:rzUpdateEvent();"><?=(lang('Apps_update'))?></a>
-	        </li>
-	    </ul>
-    </div>
-
-  
-  </div>
-  <div class="tab-pane" id="add_client">
-		<div class="row-fluid">
-			<div class="span3">
-				<span class="pull-right"><?=(lang('Apps_client'))?>
-				<a href="javascript:;" data-toggle="collapse" data-target="#demo" class="showform">
-				<!---<a href="javascript:;" class="showform">--->
-					<i class="icon-plus"></i>
-				</a>
-				<div>
-				<ul id="clientlist" class="unstyled">
-				 
-				</ul>
-				</div>
-				</span>
-			</div>
-			<div class="span9 client-form">
-				<div id="demo" class="collapse ">
-					<form class="form-horizontal" id="clientform">
-						  <div class="control-group">
-							<label class="control-label" for="inputEmail"><?=(lang('Apps_clientname'))?> </label>
-							<div class="controls">
-							 <!---<input id="tags" data-names="" />--->
-							  <input type="text"  class="input-large" name="name" id="name" required>
-	
-							</div>
-						  </div>
-						  <div class="control-group">
-							<label class="control-label" for="inputPassword"><?=(lang('Apps_email'))?></label>
-							<div class="controls">
-							  <input type="text"  class="input-large" name="email" id="email">
-							</div>
-						  </div>
-						   <div class="control-group">
-							<label class="control-label" for="inputPassword"><?=(lang('Apps_phonenumber'))?></label>
-							<div class="controls">
-							  <input type="text" class="input-large" name="phone" id="phone">
-							</div>
-						  </div>
-						   <div class="control-group">
-							<label class="control-label" for="inputPassword"><?=(lang('Apps_price'))?></label>
-							<div class="controls">
-							  <input type="text"  class="input-large" name="price" id="price">
-							</div>
-						  </div>
-						   <div class="control-group">
-							<label class="control-label" for="inputPassword"><?=(lang('Apps_clientnotes'))?></label>
-							<div class="controls">
-							<textarea name="notes" id="note"></textarea>
-							  <!---<input type="text" id="inputPassword"  class="input-large">--->
-							</div>
-						  </div>
-						  <div class="control-group">
-							<div class="controls">
-							  <button type="button" class="btn btn-success pull-right" id="addClient"><?=(lang('Apps_done'))?></button>
-							  <input type="hidden" name="users_id" id="users_id" >
-							</div>
-						  </div>
-					</form>
-				</div>	
-			</div>
-		</div>
-			
-  </div>
- 
-</div>
-	
-
-	</div>
 <!-- END CALENDAR TEMPLATES -->
 <script>
 	$('#postclasstab a').click(function (e) {
@@ -330,7 +111,7 @@ $("#repeat").click(function(){
  })
  
  var myVar="";
- $(".weekly").click(function(e){ 
+ $(".weekly").click(function(e){  
  if($("#weeklist").val()!=""){
  myVar=$("#weeklist").val();
  }
@@ -431,7 +212,7 @@ if($("#monthlylist").val()!=""){
     {
         newevt.find("#eventStartDate").datepicker();        
         newevt.find("#eventEndDate").datepicker();
-		newevt.find("#enroll_last").datepicker(); 	
+		//newevt.find("#enroll_last").datepicker(); 	
         newevt.find("#recurrenceRuleEndTimeDate").datepicker();
 		
         /*var alldaybox = newevt.find("#allDayEvent").get(0);
@@ -459,13 +240,17 @@ if($("#monthlylist").val()!=""){
 	
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{ alert("here");
+	{ 
 	 $(".message").removeClass("alert").html(" ");
 	 $("#editClass").modal("show");
 	 $("#eventId").html($(evt).attr('eventid'));
-	 $.ajax({
+	 showoptions($(evt).attr('eventid'));
+	}
+	
+	function showoptions(eventid){
+	  $.ajax({
 	  url:base_url+"bcalendar/checkStatus",
-	  data:{classID:$(evt).attr('eventid')},
+	  data:{classID:eventid},
 	  type:'POST',
 	  success:function(data){
 	   if(data==1){
@@ -476,9 +261,18 @@ if($("#monthlylist").val()!=""){
 	   
 	  }
 	 })
-		//activeEvent=dataObj;
-		//ical.showPreview(evt, html);
 	}
+	
+	function agendaShowEventDetail(startTime){  
+	 // $(".message").removeClass("alert").html(" ");
+	 // $("#editClass").modal("show");
+	 // $("#eventId").html(eventid);
+	 // $("#multiClass").hide();
+	 var startTime= new Date();
+	 loadCalendarEvents(startTime, endTime);
+	 //showoptions(eventid);
+	}
+	
     /*
      Method invoked when event is moved or resized
      @param event object containing eventID and newly updated Times
@@ -586,68 +380,7 @@ if($("#monthlylist").val()!=""){
 		ical.showEditEventTemplate(jQuery("#defaultNewEventTemplate"), evObj.eventId);
 		ical.hidePreview();
     }
-    
-	
-	//function singleClass(){
-	$("#singleClass").click(function(){
-		var evId=$("#eventId").html();
-	   $.ajax({
-	   url:base_url+'bcalendar/getClassDetails',
-	   data:{classId:evId},
-	   type:'POST',
-	   success:function(data){
-	    //alert(data);
-		$.each(eval(data),function( key, v ) {
-		    $("#editpost").show();$("#postnew").hide();
-            var removediv="Add Repeat";
-		   $("#repeatdiv").hide();
-		   $("#weeks").css("display",'none');
-		   $("#months").css("display",'none');
-		   $("#repeathtml").html(removediv);
-		   $("#repeatstatus").val(removediv);
-		   //$("#postclass").addClass("in");
-		   $("#postclass").attr("data-val","single");
-		   $("#postclass").attr("seriesid","");
-		   $("#postclass").modal("show");
-		   $("#editClass").modal("hide");
-	       //$("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
-           $("#update").show();$("#add").hide();
-		  // $("#updateclass").show();$("#addclass").hide();
-		   $("#updateid").val(evId);
-           document.getElementById("eventGroup").value = v.user_business_classes_id;		  
-		   var url = base_url+"bcalendar/getAllstaff";
-			$(".demo").html("");
-		   var selected="";
-			$.post(url,{class_name:v.user_business_classes_id}, function(data){
-				$.each(eval(data), function( key, value ) { 
-				if(v.instructor==value.id){
-				  selected="selected=selected";
-				}else{
-				  selected="";
-				}
-					var append_option = "<option id="+key+" value="+value.id+" "+selected+" >"+value.name+"</option>";
-					$("#postclass .demo").append(append_option);
-				});
-			});
-		   
-		   $(".eventStartTime").val(v.start_time);
-		   $("#StartDate").val(v.start_date);
-		   $(".StartTime").val(v.start_time);
-		   $("#EndDate").val("");
-		   $("#eventEndTime").val(v.end_time);
-		   
-		   $("#class_size").val(v.class_size);
-		   $("#enroll_last").val(v.lastdate_enroll);
-		   
-		})
-	   }
-	  })
-	   
-	})
-	
-	
-	
-	
+   
 	
     function rzUpdateEvent()
 	{ 
@@ -672,37 +405,67 @@ if($("#monthlylist").val()!=""){
 		var str="?1=1";
 		var trainer = $(".demo").val();
 		var class_size=$("#class_size").val();
+		str=str+"&business_id="+$("#business_id").html();
 		str=str+"&class_id="+$("#updateid").val(); 
-		str=str+"&class_size="+class_size; 
+		str=str+"&class_size="+class_size;
+        str=str+"&available="+$("#available").html();		
 		str=str+"&class="+$("#eventGroup").val();
 		str=str+"&sd="+$("#StartDate").val();
 		str=str+"&ed="+$("#EndDate").val();
-		str=str+"&st="+$(".StartTime").val();
+		str=str+"&st="+$(".timeslot").val();
 		str=str+"&et="+$("#eventEndTime").val();
-		str=str+"&eden="+$("#enroll_last").val();
+		//str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&eden=";
+		str=str+"&repeatstatus="+$("#repeatstatus").val();
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
-		str=str+"&tr_id="+trainer;   
+		if(trainer!=''){
+		str=str+"&tr_id="+trainer;
+		}else{
+		str=str+"&tr_id=0";
+		}
 		 //exit;
 		
-		if($("#postclass").attr("data-val")=='single'){ alert(str);
-		str=str+"&status=single";
-		if($("#EndDate").val()!=""){
-		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		if($("#postclass").attr("data-val")=='single'){  //alert(str);
+		str=str+"&status=single";  
+		str=str+"&seriesid="+$("#postclass").attr("seriesid");
+		if($("#repeatstatus").val()=="Remove Repeat"){
+        // $.ajax({
+	        // url:base_url+'bcalendar/checkIfblocked',
+		   // data:{date:$("#StartDate").val(),employee_id:$(".demo").val(),business_id:$("#business_id").html(),start_time:$(".timeslot").val()},
+		   // type:'POST',
+		   // success:function(data){ 
+			//alert(data);
+			// if(data==0){
+			 // $(".message").addClass("alert").html("Selected time slot already blocked.Kindly choose another time slot");
+			 // return false;
+		  // }else{ 
+		    // ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+			// window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
+		  // }
+			
+		   // }
+	    // });		
+		      ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+			 window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}else{
 		ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
+		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
-		}else if($("#postclass").attr("data-val")=='multi'){ 
+		}else if($("#postclass").attr("data-val")=='multi'){  
 		 str=str+"&status=multi";
 		 str=str+"&seriesid="+$("#postclass").attr("seriesid");  //alert(str);
+		// ajaxObj.call("action=updateclassesfull"+str, function(ev){ical.addEvent(ev);});
 		 ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
+		 window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
-		window.location.href=base_url+'bcalendar/calendar_business';
+		//window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 	}
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(){ 	
+    function rzDeleteEvent(){ 
+   if(confirm("Are you sure you want to remove from list?")) {	
 		var str="?";
 		//str=str+"eventName="+activeEvent.name; 
 		str=str+"&class_id="+$("#updateid").val();
@@ -713,9 +476,9 @@ if($("#monthlylist").val()!=""){
 		 str=str+"&seriesid="+$("#postclass").attr("seriesid");
 		}
 		ajaxObj.call("action=deleteclass"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});
-        window.location.href=base_url+'bcalendar/calendar_business';		
+        window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();		
     } 
-    
+  }  
     /**
      * Click of Add in add event box.
      */
@@ -724,19 +487,13 @@ if($("#monthlylist").val()!=""){
 	  var todayDate= '<?php echo date("m/d/Y"); ?>';
 	  var today=new Date(todayDate);
 	  var start_date=new Date($("#StartDate").val());
-	  var last_date=new Date($("#enroll_last").val());
+	 // var last_date=new Date($("#enroll_last").val());
 	
 	 if($("#eventGroup").val()==""){
 	   $(".message").addClass("alert").html("Select atleast one service");
 	  return false;
 	  }else if(start_date <= today){
 	   $(".message").addClass("alert").html("Cannot post the classes for the past/todays date");
-	   return false;
-	  }else if(last_date=='Invalid Date'){
-	   $(".message").addClass("alert").html("The last date to enroll is required");
-	   return false;
-	  }else if(last_date > start_date || last_date < today ){
-	   $(".message").addClass("alert").html("The last date to enroll should be after today");
 	   return false;
 	  }else if($("#class_size").val()==''){
 	   $(".message").addClass("alert").html("Class size is required");
@@ -763,115 +520,20 @@ if($("#monthlylist").val()!=""){
 		str=str+"&class="+$("#eventGroup").val();
 		str=str+"&sd="+$("#StartDate").val();
 		str=str+"&ed="+$("#EndDate").val();
-		str=str+"&st="+$(".StartTime").val();
+		str=str+"&st="+$(".timeslot").val();
 		str=str+"&et="+$("#eventEndTime").val();
-		str=str+"&eden="+$("#enroll_last").val();
+		//str=str+"&eden="+$("#enroll_last").val();
+		str=str+"&eden=";
 		str=str+"&repeat_type="+repeattype;
 		str=str+"&checked="+myVar;
-		str=str+"&tr_id="+trainer;  
+		str=str+"&tr_id="+trainer;  //alert(str);
 		ajaxObj.call("action=postclasses"+str, function(ev){ical.addEvent(ev);});
-		//window.location.href=base_url+'bcalendar/calendar_business';
+		window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
 		}
     } 
 	
   
-	$("#multiClass").click(function(){
-	  var evId=$("#eventId").html();
-      var enddate="";	  
-	  $.ajax({
-	        url:base_url+'bcalendar/getSeriesid',
-		   data:{classId:evId},
-		   type:'POST',
-		   success:function(data){ 
-			 $.each(eval(data),function(i,v){
-			  enddate=v.enddate;
-			  $("#postclass").attr("seriesid",v.seriesid);
-			 })
-			
-		   }
-	    });
-	   //if(enddate!=""){
-	   $.ajax({
-	   url:base_url+'bcalendar/getClassDetails',
-	   data:{classId:evId},
-	   type:'POST',
-	   success:function(data){
-		$.each(eval(data),function( key, v ) {
-		    $("#editpost").show();$("#postnew").hide();
-			//alert(v.repeat_type);
-			document.getElementById("repeat_type").value = v.repeat_type;
-			if(v.repeat_type== 'weekly'){
-			 var removediv="Remove Repeat";
-			 $("#repeatdiv").show();
-		     $("#weeks").css("display",'block');
-		     $("#months").css("display",'none');
-			 $("#weeklist").val(v.repeat_week_days);
-			 var myString = v.repeat_week_days, splitted = myString.split(","), i;
-				for(i = 0; i < splitted.length; i++){ 
-				$("#w"+splitted[i]).attr("class","btn weekly active");
-				}
-			}
-			
-			if(v.repeat_type== 'monthly'){
-			 var removediv="Remove Repeat";
-			 $("#repeatdiv").show();
-		     $("#weeks").css("display",'none');
-		     $("#months").css("display",'block');
-			  $("#monthlylist").val(v.repeat_months);
-			 var myString = v.repeat_months, splitted = myString.split(","), i;
-				for(i = 0; i < splitted.length; i++){ 
-				$("#m"+splitted[i]).attr("class","btn monthly active");
-				}
-			}
-			
-			if(v.repeat_type== 'daily'){
-			 var removediv="Remove Repeat";
-			 $("#repeatdiv").show();
-		     $("#weeks").css("display",'none');
-		     $("#months").css("display",'none');
-			}
-            //var removediv="Add Repeat";
-		  
-		   $("#repeathtml").html(removediv);
-		   $("#repeatstatus").val(removediv);
-		   $("#postclass").addClass("in");
-		   $("#editClass").modal("hide");
-           $("#postclass").modal("show");
-		  // $("#postclass").addClass("in");
-		   $("#postclass").attr("data-val","multi");
-	      // $("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
-           $("#update").show();$("#add").hide();
-		  // $("#updateclass").show();$("#addclass").hide();
-		   $("#updateid").val(evId);
-           document.getElementById("eventGroup").value = v.user_business_classes_id;		  
-		   var url = base_url+"bcalendar/getAllstaff";
-			$(".demo").html("");
-		   var selected="";
-			$.post(url,{class_name:v.user_business_classes_id}, function(data){
-				$.each(eval(data), function( key, value ) { 
-				if(v.instructor==value.id){
-				  selected="selected=selected";
-				}else{
-				  selected="";
-				}
-					var append_option = "<option id="+key+" value="+value.id+" "+selected+" >"+value.name+"</option>";
-					$("#postclass .demo").append(append_option);
-				});
-			});
-		   
-		   $(".eventStartTime").val(v.start_time);
-		   $("#StartDate").val(v.start_date);
-		   $(".StartTime").val(v.start_time);
-		   $("#EndDate").val(enddate);
-		   $("#eventEndTime").val(v.end_time);
-		   
-		   $("#class_size").val(v.class_size);
-		   $("#enroll_last").val(v.lastdate_enroll);
-		   
-		})
-	   }
-	  })
-	})
+	
 	
 	// }
 	//}
@@ -911,62 +573,19 @@ if($("#monthlylist").val()!=""){
     });
 	
 	
-function editclient(userid){ 
-    $.ajax({
-	 url:base_url+'bcalendar/getclientdetails',
-	 type:'POST',
-	 data:{userid:userid},
-	 success:function(data){  //alert(data);
-	  //$(".client-form").show();
-	  $("#demo").collapse('toggle');
-	  $.each(eval(data),function(i,v){ 
-	   $("#name").val(v.first_name);
-	   $("#notes").val(v.note);
-	   $("#phone").val(v.phone_number);
-	   $("#email").val(v.email);
-	   $("#users_id").val(v.users_id);
-	  })
-	 }
-	})
-}	
+//function editclient(userid){ 
+
+
+//}	
 
 	$(".showform").click(function(){ //alert("form");
 	 $("#clientform")[0].reset();
+	 $(".message").removeClass("alert").html(""); 
+	 $("#removeClient").hide();
 	 //$(".client-form").show();
 	})
-// $(function() {
-    // var availableTags = [
-      // "ActionScript",
-      // "AppleScript",
-      // "Asp",
-      // "BASIC",
-      // "C",
-      // "C++",
-      // "Clojure",
-      // "COBOL",
-      // "ColdFusion",
-      // "Erlang",
-      // "Fortran",
-      // "Groovy",
-      // "Haskell",
-      // "Java",
-      // "JavaScript",
-      // "Lisp",
-      // "Perl",
-      // "PHP",
-      // "Python",
-      // "Ruby",
-      // "Scala",
-      // "Scheme"
-    // ];
-	//alert(availableTags);
-	// var  available= ["client C","eulogik e","aaa "];
-	// console.log($("#names").val());
-    // $( "#tags" ).autocomplete({
-	// source: available
-    //  source: $("#names").val()
-    // });
-  // }); 
+
+	
 	
 	
 

@@ -45,7 +45,7 @@ Web2CalLanguage_EN={
 	,MSG_VIEW_NOTFOUND:"View '{0}' Not found. \nCheck your settings. The Default View may not be in the selected views"
 }
 $(document).ready(function(){
-var start_time=0;
+var start_time=7;
 var end_time=24;
 if($("#Bstarttime").html()!=''){
  start_time=$("#Bstarttime").html();

@@ -55,25 +55,33 @@
 					
 					<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-						 <?php $i=0; ?>
+						 <?php $i=1; ?>
 					 
 							<ul class="thumbnails business_logo">
 							<?php foreach($contentList as $content) {
+							// if($i%4==0){
+								// echo '</ul><ul class="thumbnails business_logo">';
+							// }
+							?>
+								<li class="thumbnail span3 trans">
+								<div class="inblock-logo">
+									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
+										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>/220/1/1/business_logo">
+									</a>
+								</div>
+									<div class="caption">
+									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
+											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
+											<small> <?php echo $content['category_name']; ?> </small>
+											</a>
+										</div>
+								</li>
+								
+							<?php 
 							if($i%4==0){
 								echo '</ul><ul class="thumbnails business_logo">';
 							}
-							?>
-								<li class="thumbnail span3 trans">
-									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>">
-										<div class="caption">
-											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
-											<small> <?php echo $content['category_name']; ?> </small>
-										</div>
-									</a>
-								</li>
-								
-							<?php $i++; } ?>
+							$i++; } ?>
 								</ul>
 							
 							
@@ -88,100 +96,56 @@
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 				<h3> <?=(lang('Apps_appointments'))?></h3>
-						<br/>
-						<div class="row-fluid appointment_list">
-						<div class="span4">
-						<div class="behave">
-						<strong>Thursday</strong>
+				<?php if(isset($appDetails)) { ?>
+						<?php foreach($appDetails as $val){ 
+						//if(date('Y-m-d',strtotime($val))>=date('Y-m-d')){
+						?>
+						<div class="appoint-date"><?php echo date("F j, Y ",strtotime(date('Y-m-d',strtotime($val)))); ?></div>
+						<?php 
+						$where=' and users_id= "'.$this->session->userdata('id').'" ';
+						$res=$this->common_model->getAllRows("view_client_appoinment_details","DATE(start_time)",$val,$where); 
 						
-						</div>
-						</div>
-						<div class="span8">
-						<div class="behave behave-hover switch" id="1">
-						<a href="javascript:;">
-						<span class="label label-inverse ">25</span>
-						<strong class=""><i> 1  appointment</i></strong>
-						</a>
-						</div>
-						</div>
-						<div class="bordered 1 ">
-						<div class="behave">
-						<Strong class=""><!--11:30 Hair Color  Loreal Hilton-->
-						<ul class="unstyled inline timing">
-						<li><small>11:30 </small></li>
-						<li><small>Hair Color</small></li>
-						<li><small>Loreal Hilton</small></li>
-						
-						</ul>
-						</Strong>
-						
-						</div>
-						</div>
-						</div>
-						<br/>
-						<div class="row-fluid appointment_list">
-						<div class="span4">
-						<div class="behave">
-						<strong>Friday</strong>
-						
-						</div>
-						</div>
-						<div class="span8">
-						<div class="behave behave-hover switch" id="2">
-						<a href="javascript:;">
-						<span class="label label-inverse ">26</span>
-						<strong class=""><i> 1  appointment</i></strong>
-						</a>
-						</div>
-						</div>
-						<div class="bordered 2 ">
-						<div class="behave">
-						<Strong class=""><!--11:30 Hair Color  Loreal Hilton-->
-						<ul class="unstyled inline timing">
-						<li><small>11:30 </small></li>
-						<li><small>Hair Color</small></li>
-						<li><small>Loreal Hilton</small></li>
-						
-						</ul>
-						</Strong>
-						
-						</div>
-						</div>
-						</div>
-						<br/>
-						<div class="row-fluid appointment_list">
-						<div class="span4">
-						<div class="behave">
-						<strong>Saturday</strong>
-						
-						</div>
-						</div>
-						<div class="span8">
-						<div class="behave behave-hover switch" id="3">
-						<a href="javascript:;">
-						<span class="label label-inverse ">27</span>
-						<strong class=""><i> 1  appointment</i></strong>
-						</a>
-						</div>
-						</div>
-						<div class="bordered 3 ">
-						<div class="behave">
-						<Strong class=""><!--11:30 Hair Color  Loreal Hilton-->
-						<ul class="unstyled inline timing">
-						<li><small>11:30 </small></li>
-						<li><small>Hair Color</small></li>
-						<li><small>Loreal Hilton</small></li>
-						
-						</ul>
-						</Strong>
-						
-						</div>
-						</div>
-						</div>
-					  		<a href="my_appointments.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
+						foreach($res as $resval){ ?>
+						<div class="" >	
+						<table >					
+							<tbody>
+								<tr>						
+									<td class="appoint-time">						
+									(  <?php echo date('H:i',strtotime($resval->start_time)) ?> -  <?php echo date('H:i',strtotime($resval->end_time)) ?> ) <br clear="left"/>  							
+									<a href="javascript:void(0)" >
+									<span > Service with <?php echo $resval->business_name ?></span> 
+									</a>						
+									</td>
+								</tr> 
+								<tr>						
+									<td class="appoint-detail">			
+									<ul class="inline unstyled">
+									<?php
+									  $difference = strtotime(date('H:i',strtotime($resval->end_time))) - strtotime(date('H:i',strtotime($resval->start_time)));
+									  $difference_in_minutes = $difference / 60;
+									?>
+									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> min</li>
+									<?php if($resval->employee_id!=0){ ?>									
+									<li> <i class=" icon-user"></i><?php print_r( $resval->employee_first_name." ".$resval->employee_last_name); ?></li>			
+									<?php }?>	
+									<li> <i class=" icon-map-marker"></i><?php echo $resval->category_name; ?> </li>
+									</ul>						
+									</td>					
+								</tr>				
+							</tbody>
+						</table>		
+					</div>
+						<?php } 
+						} 
+						?>
+							<a href="<?php echo base_url() ?>bcalendar/mycalender" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
+						<?php }else{
+						 echo "No upcoming appointments";
+						}	
+						?>
 				</div>
 				</div>
-				<div class="row-fluid Wrap">
+				<!-- <div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 						<h3><?=(lang('Apps_offer'))?></h3>
 						<div class="offer" >
@@ -222,7 +186,7 @@
 							</div>	
 							<a href="offer.php" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>							
 				</div>
-				</div> 
+				</div>  -->
 				
 				
 				 							

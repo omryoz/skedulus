@@ -97,10 +97,11 @@ class common_model extends CI_Model{
 	function uploadFile($foldername){
 			$config['upload_path'] = './uploads/'.$foldername.'/'; 
 			$config['allowed_types'] = 'gif|jpg|png';
-			$config['max_size'] = '100';
-			$config['max_width'] = '1024';
-			$config['max_height'] = '768';
-
+			$config['max_size'] = '100000';
+			$config['file_name']="img".$this->session->userdata('id').'_'.time();
+			//$config['max_width'] = '5000';
+			//$config['max_height'] = '5000';
+			
 			$this->load->library('upload', $config);
 			if ( ! $this->upload->do_upload("userfile"))
 			{
@@ -265,6 +266,19 @@ public function mail($emailTo,$subject,$message){
 		
 	}
 	
+	function getClassBookedslotsByDate($date=false,$where){
+		if($date){
+			$query = $this->db->query("SELECT start_time ,end_time,start_date FROM `view_classes_posted_business` where ".$where."  HAVING start_date = '".$date."'");
+			// echo $this->db->last_query();
+			// print_r($query->result());
+			// exit;	
+			return $query->result();
+		}else{
+			return false;
+		}
+		
+	}
+	
 	function getclassTime($info=false){
 		if($info){
 			$query = $this->db->get_where("user_business_classes",$info);
@@ -279,7 +293,21 @@ public function mail($emailTo,$subject,$message){
 		}
 	}
 	
-	
+	function create_details_by_table($table=false,$filter=false,$notifyid=false){
+	if($notifyid!=''){
+	 $this->db->update($table,$filter,array('id' => $notifyid));
+	 $val=1;
+	}else{
+		$this->db->insert($table,$filter);
+		$val=0;
+	}
+		//echo $this->db->last_query();die;
+		if($this->db->affected_rows()>0){
+			echo $val;
+		}else{
+			return false;
+		}
+	}
 	
 	
 }

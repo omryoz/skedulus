@@ -134,6 +134,7 @@
 		 <textarea class="postcode" id="Postcode" name="address" placeholder="<?=(lang('Apps_country'))?>" value="<?php echo $add; ?>"><?php echo $add; ?></textarea>
 		
 		<br clear="left"/>
+		
 	<input  type="text" placeholder="Mobile<?=(lang('Apps_mobileapp'))?>" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
 	    
          <input id="hidLat" name="hidLat" type="hidden" value="<?php echo $map_latitude; ?>">
@@ -193,6 +194,11 @@ for($i=1;$i<=7;$i++) {
 		if($i==7){
 		$disabled="disabled=disabled";
 		$checked="";
+		$Sselected='08:00';
+		$Eselected='19:00';
+		}else if($i==6){
+		$disabled="";
+		$checked="checked";
 		$Sselected='08:00';
 		$Eselected='15:00';
 		}else{

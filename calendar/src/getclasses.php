@@ -24,11 +24,16 @@ class getclasses
 		// }elseif(isset($this->session->userdata['business_id'])){
 		  // $id=$this->session->userdata['business_id'];
 		// }
+		if(isset($this->queryVars['instructor']) && $this->queryVars['instructor']!=''){
+		 $where=" instructor= ".$this->queryVars['instructor'];
+		}else{
+		 $where=1;
+		}
 		
 		$db = new db(EZSQL_DB_USER, EZSQL_DB_PASSWORD, EZSQL_DB_NAME, EZSQL_DB_HOST);
 		
 		
-		$res = $db->get_results("select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id=".$_SESSION['profileid']);   
+		$res = $db->get_results("select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id='".$_SESSION['profileid']."' and ".$where);   
 		$ax=array();
 		//return count($res);
 		//
@@ -45,7 +50,7 @@ class getclasses
 			$condition=array();
 			$condition['calendar_id']=$calendarId;
 			
-			$resEvents = $db->get_results("select * from view_classes_posted_business where user_business_classes_id=".$calendarId);   
+			$resEvents = $db->get_results("select * from view_classes_posted_business where user_business_classes_id='".$calendarId."' and ".$where);   
 			$eventsarray=array(); 
 			$evCount=0;
 			  
@@ -59,7 +64,18 @@ class getclasses
 						$event["classname"]=$evVal->name;
 						$event["category_name"]=$evVal->category_name;
 						$event['startTime']=$evVal->start_date." ".$evVal->start_time;
-						$event['endTime']=$evVal->end_date." ".$evVal->end_time;
+						//$event['endTime']=$evVal->end_date." ".$evVal->end_time;
+						$endtime=$evVal->end_time;
+						if($evVal->padding_time_type=="Before & After"){
+						  $twice=2;
+						}else{
+						  $twice=1;
+						}	
+						$Totalpaddingtime = $evVal->padding_time * $twice;	
+						$time = $this->convertToHoursMins($Totalpaddingtime,'%d:%d');
+						$end_time = $this->addTime($endtime,$time);
+						$event['endTime']= $evVal->end_date." ".$end_time;
+						
 						
 						$classSize=$evVal->class_size - $evVal->availability;
 						if($classSize==1){
@@ -85,8 +101,50 @@ class getclasses
 			$ax[$count]=$calendar;
 			
 		}
+		
 		return $ax; 
 	}
+	
+	function convertToHoursMins($time, $format = '%d:%d') {
+		settype($time, 'integer');
+		if ($time < 1) {
+			return;
+		}
+		
+		$hours = floor($time/60);
+		$minutes = $time%60;
+		return sprintf($format, $hours, $minutes);
+	}
+	function addTime($a, $b)
+		{
+		   $sec=$min=$hr=0;
+		   $a = explode(':',$a);
+		   $b = explode(':',$b);
+
+		   if(($a[2]+$b[2])>= 60)
+		   {
+			 $sec=($a[2]+$b[2]) % 60;
+			 $min+=1;
+
+		   }
+		   else
+		   $sec=($a[2]+$b[2]);
+		   
+
+		   if(($a[1]+$b[1]+$min)>= 60)
+		   {
+			  $min=($a[1]+$b[1]+$min) % 60;
+			 $hr+=1;
+		   }
+		   else
+			$min=$a[1]+$b[1]+$min;
+			$hr=$a[0]+$b[0]+$hr;
+
+		   $added_time=$hr.":".$min.":".$sec;
+		   return $added_time;
+		}
+
+		
 	function is_authorized()
 	{
 		return true;

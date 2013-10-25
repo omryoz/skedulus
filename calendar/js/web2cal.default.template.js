@@ -40,7 +40,7 @@
 			//var groupDD=newevt.find("#eventGroup").get(0);
 			//console.log(groupDD);
 			//removeAllOptions(groupDD);
-			var string = '<div class="dropdown"><a class="dropdown-toggle btn semi-large" data-toggle="dropdown" href="javascript:;">Select Services</a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel" >';
+			var string = '<div class="dropdown"><a class="dropdown-toggle btn-service semi-large" data-toggle="dropdown" href="javascript:;">Select Services <b class="caret pull-right"></b></a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel" >';
 			var str = '';
 			for(var g in groups)
 			{	
@@ -332,7 +332,7 @@
 					+'						<td >'
 					//+'							<div class="arrowExpand //evtDtlArrowIcon" //id="eventIcon${eventId}${_localId}"></div>'
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}${_localId}\')"><span style="font-weight:bold; "> Service with ${clientname}</span> </a>'
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}\')"><span style="font-weight:bold; "> Service with ${clientname}</span> </a>'
 					+'						</td>'
 				
 					+'					</tr>'

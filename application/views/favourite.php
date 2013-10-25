@@ -22,17 +22,21 @@
 							  }*/ ?>
 								 <!-- <li class="thumbnail span3 trans"> -->
 								<li class="thumbnail span3 trans fav-blocks">
-                                    <!--<a href="javascript:;" onclick= deleteFav(<?php echo $content->client_list_id ?>); class="btn btn-mini btn-danger trash"> <i class="icon-trash"></i> </a>-->
+                                  
+									<div class="inblock">
 									<a href="<?php echo base_url(); ?>clients/deleteFav?id=<?php echo $content->client_list_id ?> " class="btn btn-mini btn-danger confirm trash"> <i class="icon-trash"></i> </a>
 									
 									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content->user_business_details_id ?>">
-										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content->business_logo)?$content->business_logo:'default.png'); ?>">
-										<div class="caption">
+										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content->business_logo)?$content->business_logo:'default.png'); ?>/280/1/1/business_logo">
 										
+									</a>
+									</div>
+									<div class="caption">
+									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content->user_business_details_id ?>">
 										<p class="text-left"><strong><?php echo $content->manager_firstname." ".$content->manager_lastname ?></strong></p>
 										<small> <?php echo $content->category_name; ?> </small>
-										</div>
-									</a>
+										</a>
+									</div>
 								</li>
 							<?php //$i++; 
 							} ?>

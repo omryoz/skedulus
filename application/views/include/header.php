@@ -12,9 +12,12 @@
 <!--behavior: url(<?php echo base_url(); ?>/PIE-1.0.0/PIE.htc);-->
 <script>var baseUrl='<?php echo base_url();?>'</script>
 <script src="<?php echo base_url(); ?>js/libs/less-1.3.0.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+<!--<script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.js">
+</script>
 
-<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+
 
 
 
@@ -67,9 +70,28 @@ var base_url = "http://localhost/skedulus/";
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
+							
 								<!---<li><a href="btn btn-success">	</li>--->
-								<li><div class="language_flag " ><a href="#" class="setting-icon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
-								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="#"><?php echo $this->session->userdata['username']; ?></a></div></li>
+								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual') {
+									if($this->session->userdata['role']=='client'){
+									 $Cclass='active';
+									 $Bclass="";
+									}else{
+									 $Cclass='';
+									 $Bclass="active";
+									}
+								?>
+								<li><div > 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn btn-inverse  btn-switch <?php echo $Cclass ?>" >Personal</a> 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" name="business" id="business_selected" class="btn btn-inverse btn-switch <?php echo $Bclass ?>">Business</a></div></li>
+								<li><div class="language_flag " ><a href="<?php echo base_url(); ?>common_functions/mysettings" class="setting-icon" id="settingsicon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
+								<?php } ?>
+								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual'){
+								 $url='common_functions/mysettings';
+								}else{
+								 $url='clients/settings';
+								}?>
+								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="<?php echo base_url(); ?><?php echo $url ?>"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>common_functions/logout"><?=(lang('Apps_logout'))?></a></li>
 								<li>
 								<div class="language_flag">
@@ -77,7 +99,7 @@ var base_url = "http://localhost/skedulus/";
 								<a href="<?=base_url();?>welcome/language/english" title="English" >
 									<img src="<?php echo base_url(); ?>images/bri12.png">
 								</a>
-				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+				                <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
 	   						</ul>
 							
                  		</div>

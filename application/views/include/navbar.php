@@ -22,10 +22,10 @@
 						</p></center>
 						</a>
 					</li>
-					<li class=""><a href="<?php echo base_url();?>clients/offers"><center><i class="icon-thumbs-up"></i><p><?=(lang('Apps_specialoffer'))?> 
+					<!-- <li class=""><a href="<?php echo base_url();?>clients/offers"><center><i class="icon-thumbs-up"></i><p><?=(lang('Apps_specialoffer'))?> 
 					</p></center>
 						</a>
-					</li>
+					</li> -->
 					<li class="borderless"><a href="<?php echo base_url();?>clients/settings"><center><i class="icon-wrench"></i><p><?=(lang('Apps_settings'))?></p>
 						</center></a>
 					</li>

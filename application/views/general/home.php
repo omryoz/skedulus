@@ -62,7 +62,7 @@
 		
 			<div class="row-fluid" >
 			<!--code for left nav start from here-->
-				<div class="span9 left-nav">
+				<div class="span12 left-nav">
 				<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
 				<h3><?=(lang('Apps_searchbusiness'))?></h3>
@@ -72,8 +72,8 @@
 						<input type="text" class="span12 " name="manager_name" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
-					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
-                    <input type="hidden" id="city2" name="location" />
+					<input id="searchTextField" type="text" name="location"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
+                    <!--<input type="hidden" id="city2" name="location" />--->
 					<!---<input type="hidden" id="cityLat" name="cityLat" />
                     <input type="hidden" id="cityLng" name="cityLng" /> --> 
 					<!---<input type="text" class="span12 " name="location" placeholder="Location">	--->
@@ -96,25 +96,34 @@
 					
 					<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-					 <?php $i=0; ?>
+					 <?php $i=1; ?>
 					 
 							<ul class="thumbnails business_logo">
 							<?php foreach($contentList as $content) {
-							if($i%4==0){
-								echo '</ul><ul class="thumbnails business_logo">';
-							}
+							
 							?>
 								<li class="thumbnail span3 trans">
-									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-										<img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>">
-										<div class="caption">
-											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
-											<small> <?php echo $content['category_name']; ?> </small>
-										</div>
+									<div class="inblock"><a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
+										<!-- <img src="<?php echo base_url(); ?>uploads/business_logo/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>"> -->
+										
+										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>/280/1/1/business_logo">
+										
+										
+										
 									</a>
+									</div>
+									<div class="caption">
+											<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>"><p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
+											<small> <?php echo $content['category_name']; ?> </small>
+											</a>
+										</div>
+									
 								</li>
 								
-							<?php $i++; } ?>
+							<?php if($i%4==0){
+								echo '</ul><ul class="thumbnails business_logo">';
+							}
+							$i++; } ?>
 								</ul>
 							
 						
@@ -124,7 +133,7 @@
 				<!--code for left nav end  here-->
 				
 				<!--code for right nav start from here-->
-				<div class="span3 right-nav" >
+				<!-- <div class="span3 right-nav" >
 					<div class="row-fluid Wrap">
 						<div class="wrap_inner">
 							<h3><?=(lang('Apps_offer'))?></h3>
@@ -185,7 +194,7 @@
 							<a  href="offer.php" class="pull-right"><?=(lang('Apps_viewmore'))?>..</a>					
 						</div>
 					</div>  							
-				</div>
+				</div> -->
 				<!--code for right nav end  here-->
 			</div><!--row  fluid ends here-->
 		</div>	
@@ -194,26 +203,26 @@
 <!-- Modal -->
 <div id="create-user-modal" class="modal hide fade modal-bigger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 <div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">�</button>
-<h3 id="myModalLabel">Create Account</h3>
+<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times</button>
+<h3 id="myModalLabel"> <?=(lang('Apps_createacc'))?></h3>
 </div>
-<div class="modal-body">
+<div class="modal-body ">
   <form class="form-horizontal" action="<?php echo base_url(); ?>common_functions/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
  	   <div class="rule_connect">
-        <strong >Connect with</strong>
+        <strong ><?=(lang('Apps_connectwith'))?></strong>
       </div>
   
  	  <div class="social_buttons hidden-phone" >
         <div class="inset">
             <a class="fb login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
-                <span>Signup with Facebook</span>
+                <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
             <a class="tw login_button" href="#">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
-                <span>Signup with Twitter</span>
+                <span><?=(lang('Apps_signtw'))?></span>
             </a>
         </div>
 </div>
@@ -224,29 +233,30 @@
 			</ul>
 	   </div>
 	   <br/>
+	   <div class="login_form">
 	  <div class="row-fluid">
-    <input type="text" class="offset3 span6"  placeholder="First Name" name="firstname" value="" maxlength="15">
+    <input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_firstname'))?>" name="firstname" value="" maxlength="15">
 	</div>
   	 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
+		<input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_lastname'))?>" name="lastname" value=""  maxlength="15">
 		</div> 
 		 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6" placeholder="Email" name="email" value="" id="email">
+		<input type="text" class="offset3 span6" placeholder=" <?=(lang('Apps_email'))?>" name="email" value="" id="email">
 		</div> 
 		 <br />
 		<div class="row-fluid">
-		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder="Password" maxlength="20">
+		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder=" <?=(lang('Apps_pwd'))?>" maxlength="20">
 		</div> 
 		  <br />
 		<div class="row-fluid">
 		<input type="hidden" class="offset3 span6" name="usertype" value="businessSignUp" /> 
 		</div>
 		<div class="row-fluid">
-    <button type="submit" class="btn btn-success offset3 span6">Sign up</button>
+    <button type="submit" class="btn btn-success offset3 span6"> <?=(lang('Apps_signup'))?></button>
    </div>
-  
+  </div>
     </form>
 	</div>
 </div>

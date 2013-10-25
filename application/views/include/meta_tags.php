@@ -52,5 +52,17 @@ $(document).click(function (e) {
 
 </head>
 
-<body>
+<body class="ie6 ie7 ie8 <?=(lang('Apps_lang'))?>">
+
+<?php if((lang('Apps_lang'))!=''): ?> 
+<script type="text/javascript">
+                       var stylesheetFile = '<?=base_url()?>less/hebrew.less';
+                       var link  = document.createElement('link');
+                       link.rel  = "stylesheet";
+                       link.type = "text/less";
+                       link.href = stylesheetFile;
+                       less.sheets.push(link);
+                       less.refresh();
+</script>
+<?php endif; ?>
 
