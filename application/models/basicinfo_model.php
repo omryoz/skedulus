@@ -91,7 +91,12 @@ class basicinfo_model extends CI_Model {
 	}
 	
 	function getbAvailability(){
-		$sql="Select * from user_business_availability where type='business' and user_business_details_id =".$_GET['businessid'];
+	if(isset($_GET['businessid'])){
+	$id=$_GET['businessid'];
+	}else{
+	$id=$this->session->userdata('business_id');
+	}
+		$sql="Select * from user_business_availability where type='business' and user_business_details_id =".$id;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

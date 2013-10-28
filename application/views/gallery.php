@@ -67,7 +67,9 @@
 						 <ul class="inline unstyled icon">
                                                <li><a href="#gallery" data-toggle="modal" class="btn  btn-mini" onclick= editPhoto(<?php echo $content['id']; ?>)><i class="icon-edit" title=" <?=(lang('Apps_edit'))?>"></i></a>
                                                </li>
-                                               <li><a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title=" <?=(lang('Apps_delete'))?>"></i></a>
+                                               <li>
+											   <a href="<?=base_url()?>gallery/manage_gallery?id=<?php echo $content['id']; ?>&delete=delete"  class="tool confirm btn btn-mini"><i class="icon-trash"></i></a>
+											   <!---<a href="javascript:void(0);" class="btn  btn-mini" onclick= deletePhoto(<?php echo $content['id']; ?>)><i class="icon-trash" title=" <?=(lang('Apps_delete'))?>"></i></a>---->
                                                </li>
 											   
 
@@ -96,7 +98,7 @@
 				</div>
 		</div>
 	
-		<div id="gallery" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div id="gallery" class="modal hide fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editphoto'))?></h4>

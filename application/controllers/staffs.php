@@ -72,21 +72,22 @@ class Staffs extends CI_Controller {
 		 // }
 	// }	
 	
-	public function manage_staffs(){
+	public function manage_staffs(){ 
 		if(isset($_POST['insert'])){ 
-			if(isset($_POST['addstaffs'])){
-			$id=$this->bprofile_model->insertStaffs();
-			//$this->send_email($id);
-			echo($id);
-			}
-			if(isset($_POST['assignstaffs']) && $_POST['userid']!=" "){
-			$id=$this->bprofile_model->assignStaffs();
-			echo($id);
-			}  
-			if(isset($_POST['staffavail']) && $_POST['userid']!=" "){
-			$id=$this->bprofile_model->staffAvail();
-			echo($id);
-			}
+		$id=$this->bprofile_model->insertStaffs();
+		redirect("staffs/list_staffs");
+			// if(isset($_POST['addstaffs'])){
+			// $id=$this->bprofile_model->insertStaffs();
+			// echo($id);
+			// }
+			// if(isset($_POST['assignstaffs']) && $_POST['userid']!=" "){
+			// $id=$this->bprofile_model->assignStaffs();
+			// echo($id);
+			// }  
+			// if(isset($_POST['staffavail']) && $_POST['userid']!=" "){
+			// $id=$this->bprofile_model->staffAvail();
+			// echo($id);
+			// }
 		 }
 		 if(isset($_GET['id']) && $_GET['id']!="" && !isset($_GET['delete'])){
 			$val= $this->bprofile_model->getStaffdetails();
@@ -99,6 +100,7 @@ class Staffs extends CI_Controller {
 		 
 		if(isset($_GET['getavailability'])){	
 			$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+			$this->data['isExistBAvailability']=$this->basicinfo_model->getbAvailability();
 			$this->data['isExistAvailability']=$this->basicinfo_model->getStaffAvailability();
 			$val=$this->parser->parse('staff_availability',$this->data);
 			//echo($val); 
@@ -107,6 +109,7 @@ class Staffs extends CI_Controller {
 		if(isset($_GET['getbavailability'])){	
 			$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 			$this->data['isExistAvailability']=$this->basicinfo_model->getbAvailability();
+			$this->data['isExistBAvailability']=$this->basicinfo_model->getbAvailability();
 			$val=$this->parser->parse('staff_availability',$this->data);
 			//echo($val); 
 		}

@@ -15,12 +15,20 @@ var url=baseUrl+'basicinfo/insertData';
 
 
 function resetForm(id){  
+$(".tab").attr('data-toggle','');
     $("#action").val('add');
     $("#userid").val(" ");
 	$("#addstaffs")[0].reset();
 	//$("#showadd").show();
 	//$("#showedited").hide();
-	$("#assignstaffs").find('input:checkbox').removeAttr('checked');
+	 //$('#myModal a:first').tab('show');
+ $("#myModal li:eq(1) ").removeClass("active in");
+ $("#myModal li:eq(2) ").removeClass("active in");
+ $("#myModal #add_staff").addClass("active in");
+ $("#myModal li:eq(0)").addClass("active"); $("#myModal #add_availability , #add_service ").removeClass("active in");
+ $("#assignstaff").val('');
+ $("#showavail").val('');
+	$(".assign").removeAttr('checked');
 	var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
 		data: {'businessid': id,'getbavailability':'getbavailability'},
@@ -183,6 +191,14 @@ function editclasses(id){
 
 //Staff
 function editStaff(id){
+$("#myModal li:eq(1) ").removeClass("active in");
+ $("#myModal li:eq(2) ").removeClass("active in");
+ $("#myModal #add_staff").addClass("active in");
+ $("#myModal li:eq(0)").addClass("active"); $("#myModal #add_availability , #add_service ").removeClass("active in");
+$(".tab").attr('data-toggle','tab');
+$("#assignstaff").val("1");
+$("#showavail").val("1");
+$(".assign").removeAttr('checked');
 $("#assignstaffs").find('input:checkbox').removeAttr('checked');
 $(".alert").hide();
  $("#action").val('edit');

@@ -54,6 +54,9 @@ class Services extends CI_Controller {
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("user_business_services",$_GET['id']);
+		 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Service deleted successfully !');
+		 redirect("services/list_services");
 		 echo $val;
 		 }
 	}

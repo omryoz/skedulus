@@ -34,7 +34,10 @@ class Gallery extends CI_Controller {
 		
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("user_business_photogallery",$_GET['id']);
-		 echo $val;
+		// echo $val;
+		$this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Photo deleted successfully !');
+		 redirect("gallery/list_gallery");
 		 }
 	}	
 	

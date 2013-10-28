@@ -8,21 +8,21 @@
 								<i class="icon-mobile-phone icon-white icon-3x"></i></center><span><?=(lang('Apps_mobileapp'))?></span></a>
 							</li>
 							<li class="aboutus">
-								<a href="#"><center>
+								<a href="<?php echo base_url(); ?>content/about_us"><center>
 								<i class="icon-home icon-white icon-large"></i></center><span><?=(lang('Apps_aboutus'))?></span></a>
 							</li>
 							<li class="contactus">
-								<a href="#"><center>
+								<a href="<?php echo base_url(); ?>content/contact_us"><center>
 								<i class="icon-envelope icon-white icon-large"></i></center><span><?=(lang('Apps_contactus'))?></span></a>
 							</li>
 							
 							<li class="privacy">
-								<a href="#"><center>
+								<a href="<?php echo base_url(); ?>content/privacy"><center>
 								<i class="icon-ban-circle icon-white icon-large"></i></center><span><?=(lang('Apps_privacy'))?></span></a>
 							</li>
 							
 							<li>
-								<a href="#"><center>
+								<a href="<?php echo base_url(); ?>content/help"><center>
 								<i class="icon-question-sign icon-white icon-large"></i></center><span><?=(lang('Apps_help'))?></span></a>
 							</li>
 							<?php if($this->session->userdata('role')=="manager") { ?>

@@ -497,6 +497,7 @@ $('.star-rate').raty({
 <script src="../js/jquery.tn3lite.min.js" type="text/javascript"></script>
 
 <script>
+
 $(".image_popup").click(function(){		
 							   
 		var tn1 = $('.mygallery').tn3({

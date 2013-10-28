@@ -56,7 +56,7 @@ class getevents
 						$evCount=$evCount+1;
 						$event='';
 						$event["eventId"]=$evVal->id;
-						$event['eventName']=$evVal->note;
+						//$event['eventName']=$evVal->note;
 						$event['business_name']=$evVal->business_name;
 						$event['category_name']=$evVal->category_name;
 						if($evVal->employee_id!=0){

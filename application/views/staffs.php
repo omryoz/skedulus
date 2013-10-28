@@ -13,7 +13,7 @@
                     firstname: "required",
                     lastname: "required",
                      email: {
-                        required: true,
+                        //required: true,
                         email: true,
 						remote: {
 						  url: baseUrl+'staffs/checkEmail',
@@ -33,7 +33,7 @@
                     firstname: "First name is required",
                     lastname: "Last name is required",
                     email: {
-					required: "Email is required",
+					//required: "Email is required",
 					email: "Please enter a valid email address",
 					remote: "Email already exist"
 					},
@@ -46,25 +46,17 @@
 				 error.insertAfter( element ); 
 				 error.css('padding-left', '10px');
 				},
-                submitHandler: function(form) {
-				var url=baseUrl+'staffs/manage_staffs/?insert';
-				  $.ajax({  
-						  type: 'POST',
-						  data: $("#addstaffs").serialize()+'&userid='+$("#userid").val(), 
-						  url:url,
-						  success: function(data){
-						  $("#userid").val(data);
-						  if($("#action").val()=="add"){
-						   var success="Inserted successfully";
-						   }else{
-							var success="Updated successfully";
-						   }
-						   $("#successaddstaffs").html(success);
-						   $("#successaddstaffs").show();
-						   $('#serviceTab a[href="#add_service"]').tab('show');
-						  }
-					});
-                }
+                submitHandler: function(form) { 
+				if($("#assignstaff").val()==1 && $("#showavail").val()==1){
+				form.submit();
+				}else if($("#assignstaff").val()==''){
+				$('#serviceTab a[href="#add_service"]').tab('show');
+				//$("#assignstaff").val('1');
+                }else{
+				$('#serviceTab a[href="#add_availability"]').tab('show');
+				$("#showavail").val('1');
+				}
+				}
             });
         }
 		
@@ -77,6 +69,12 @@
 
 })(jQuery, window, document);
 
+
+// $('.assign').click (function(){
+  
+  // $("#assignstaff").val('1');
+  
+// });
 
 
 
@@ -223,186 +221,99 @@ $(".staffclose").click(function(){
 	
 	
 	<!--model for add staff-->
-	<div id="myModal" data-keyboard="false" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
-		
-		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?>  <button type="button" class="close staffclose" id="staffclose" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
-		<h4 id="add"><?=(lang('Apps_addstaff'))?>   <button type="button" class="close staffclose" id="staffclose" data-dismiss="modal" aria-hidden="true">&times;</button></h4>
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h4 class="staff1" id="edit" style="display:none">Edit Staff</h4>
+		<h3 ><h4 id="add"> Add Staff</h4></h3>
 	  </div>
-	 
 	  <div class="modal-body">
-	  <div> <input type="hidden" name="userid" id="userid" value="" /> <input type="hidden" name="action" id="action">
+	  <div>
             <ul id="serviceTab" class="nav nav-tabs">
-              <li class="active"><a href="#add_staff" data-toggle="tab"><b><?=(lang('Apps_staff'))?> </b></a></li>
-              <li><a href="#add_service" data-toggle="tab"><b><?=(lang('Apps_services'))?> </b></a></li>
-			  <li><a href="#add_availability" data-toggle="tab"><b><?=(lang('Apps_availability'))?> </b></a></li>
+              <li class="active"><a href="#add_staff" data-toggle="" class="tab"><b>Staff</b></a></li>
+              <li><a href="#add_service" data-toggle="" class="tab"><b>Services</b></a></li>
+			  <li><a href="#add_availability" data-toggle="" class="tab"><b>Availability</b></a></li>
             </ul>
-	  		<div id="serviceTabContent" class="tab-content">
-				  <div class="tab-pane fade in active" id="add_staff"><p class="alert" id="successaddstaffs" style="display:none"></p>
-					<form class="form-horizontal"  id="addstaffs" method="POST">
+			<form class="form-horizontal" action="<?php echo base_url() ?>staffs/manage_staffs/?insert" id="addstaffs" method="POST">
+	  		<div id="serviceTabContent" class="tab-content"> <p class="alert" id="successaddstaffs" style="display:none"></p>
+				  <div class="tab-pane fade in active" id="add_staff">
+					
 							<div class="control-group">
-							  <label class="control-label" for="firstname"> <?=(lang('Apps_firstname'))?> :</label>
+							  <label class="control-label" for="firstname">First Name :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="firstname" name="firstname" placeholder="<?=(lang('Apps_firstname'))?>">
+								<input class="input-large radi" type="text" id="firstname" name="firstname" placeholder="First Name">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="lastname"> <?=(lang('Apps_lastname'))?> :</label>
+							  <label class="control-label" for="lastname">Last Name :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="lastname" name="lastname" placeholder="<?=(lang('Apps_lastname'))?>">
+								<input class="input-large radi" type="text" id="lastname" name="lastname" placeholder="Last Name">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="firstname"> <?=(lang('Apps_email'))?> :</label>
+							  <label class="control-label" for="firstname">Email :</label>
 							  <div class="controls">
-								<input class="input-large radi" type="text" id="email" name="email" placeholder="<?=(lang('Apps_someonegmail'))?>">
+								<input class="input-large radi" type="text" id="email" name="email" placeholder="someone@example.com">
 							  </div>
 							</div>
 							  <div class="control-group">
-								<label class="control-label" for="inputPassword"><?=(lang('Apps_mobilenumber'))?> :</label>
+								<label class="control-label" for="inputPassword">Mobile Number :</label>
 								<div class="controls">
 								  <input class="input-large radi" type="text" id="phone_number" name="phonenumber" placeholder="" maxlength="15">
 								
 								</div>
 							  </div> 
-						 							  
-				  
-				  
-				    <input type="hidden" name="addstaffs" value="addstaffs" />
-				     <input type="hidden" name="insert" value="insert" />
-					   <div class="" id="insert">
-					   <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
-					   </div> 
-					  <?php if(isset($_GET['register'])){ ?>
-					 <input type="hidden" name="register" value="register">
-					 <?php } ?>
-					 <div class="" style="display:none" id="update">
-						<div class="pull-right">
-					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?> " />
-					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?> </a>
-					 </div> 
-					 </div>
-				  </form>
 				  </div>
-				 <div class="tab-pane fade" id="add_service"><p class="alert" id="successassignstaffs" style="display:none"></p>
-				 <form class="form-horizontal"  id="assignstaffs" method="POST">
+				 <div class="tab-pane fade" id="add_service">
 					 <div class="row-fluid">
-					  <h5><?=(lang('Apps_assignservicetostaff'))?> </h5>
+					  <h5>Assign services to staff</h5>
 					 <?php if(isset($services) && $services!=""){ ?>
 				<div class="span6 offset1">
 				<?php foreach($services as $servicename){  ?>
 							 <label class="checkbox">
-							  <input type="checkbox" name="services[]" value="<?php echo $servicename->id; ?>" id="<?php echo $servicename->id; ?>" />
+							  <input type="checkbox" class="assign" name="services[]" value="<?php echo $servicename->id; ?>" id="<?php echo $servicename->id; ?>" />
 							<?php  echo $servicename->name;?>
 							</label>
 					<?php } ?>		
-			     </div>
+						 </div>
 				<?php }else{?>
-                <p class="alert"><?=(lang('Apps_noservicesaddedyet'))?> </p>
+                <p class="alert">No services added yet</p>
 				<?php } ?>
-				</div>
-				<div class="" id="insert">
-					   <input type="button" id="assignstaffsbtn" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
-					 </div> 
-					  <?php if(isset($_GET['register'])){ ?>
-					 <input type="hidden" name="register" value="register">
-					 <?php } ?>
-					 <!---<div class="modal-footer" style="display:none" id="update">
-					  <input type="hidden" name="id" id="id" value="" />
-					  <input type="button" onClick="staffInsert('assignstaffs')" name="save" class="btn btn-success" value="Update" />
-					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
-					 </div>--->
-					 
-					 <input type="hidden" name="insert" value="insert" />
-					 <input type="hidden" name="assignstaffs" value="assignstaffs" />
-					 
-					 </form>
+					 </div>
 				 </div>
-				  
-				 
-				  <div class="tab-pane fade" id="add_availability"><p class="alert" id="successstaffavail" style="display:none"></p>
-					 <form class="form-horizontal"  id="staffavail" method="POST">
-					  <!---<div class="row-fluid" id="showedited" style="display:none;"></div>--->
-					 <div class="row-fluid" id="showedited">
-						<h5>  <?=(lang('Apps_addstaffavailability'))?> </h5>
-						  <?php 
-							 $start = strtotime('7:00');
-						     $end = strtotime('23:59');
-							for( $i = $start; $i <= $end; $i += (60*15)) 
-							{
-								$value=date('H:i', $i);
-								$slotlist[$value] = date('H:i', $i); 
-								
-							}
-							for($i=1;$i<=7;$i++) { 
-							if($i%2==0){
-							$class="row-fluid no-background";
-							}else{
-							$class="row-fluid background";
-							}
-						
-						    if(in_array($i,$isExistAvailability['weekids'])){
-							     $checked="checked";
-							     $Sselected=$isExistAvailability['values'][$i]['start_time'];
-								 $Eselected=$isExistAvailability['values'][$i]['end_time'];
-								  $disabled="";
-							}else{
-							      $checked="";
-							      $Sselected='08:00';
-								  $Eselected='15:00';
-								  $disabled="disabled=disabled";
-							}
-						
-								
-						  ?>
-							<div class="<?php echo $class; ?>">
-								<div class="span3"> <label class="checkbox">
-								<input type="checkbox" <?php echo $checked;?> id="<?php echo $i; ?>" onclick="getchecked(this,<?php echo $i ?>);"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
-							
-								<div class="span3">
-									
-									<?php 
-										$starttime=$i.'from';
-										$id='divO'.$i;
-										echo form_dropdown($starttime,$slotlist,$Sselected,'id="'.$id.'" class="span12"'.$disabled) 
-										
-									?>
-									
-									
-								</div>
-								<div class="span3">
-									
-									<?php 
-									$endtime=$i.'to';
-									$id='divC'.$i;
-									echo form_dropdown($endtime,$slotlist,$Eselected,'id="'.$id.'" class="span12"'.$disabled) 
-									?>
-									
-								</div>
-								
-						</div>
-					<?php } ?>
-					<div class="" id="insert">
-					<input type="button" id="staffavailbtn" onClick="staffInsert('staffavail')" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?> " />
+				  <div class="tab-pane fade" id="add_availability">				
+						<div class="row-fluid" id="showedited">
 					
+						</div>	
+				 </div>
+					
+				</div>
+					 </div>
+				 </div>
+				   <input type="hidden" name="insert" value="insert" />
+				   <input type="hidden" name="assignstaff" value="" id="assignstaff" />
+				   <input type="hidden" name="showavail" value="" id="showavail" />
+				   
+					  <div class="modal-footer" id="insert">
+					   <input type="submit" name="save" class="btn btn-success" value="Save" />
 					 </div> 
 					  <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
-				</div>
-			        <input type="hidden" name="insert" value="insert" />
-					<input type="hidden" name="staffavail" value="staffavail" />
-				</form>
-				 </div>
-				 </div>
+					 <div class="modal-footer" style="display:none" id="update">
+					  <input type="hidden" name="id" id="id" value="" />
+					  <input type="hidden" name="id" id="userid" value="" />
+					  <input type="submit" name="save" class="btn btn-success" value="Update" />
+					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
+					 </div> 
+				 </form> 
 			</div> 
 			  
 	  </div>
 	  <!--<div class="modal-footer">
 		 <button class="btn btn-success">Save changes</button>
 	  </div>--->
-	</div>	
+	</div>		
 	 </div>
 </div>
 <style>
@@ -422,6 +333,19 @@ function getchecked(status,id){
    }
 }
 
+
+
+$(".assign").click(function(){
+if($(".assign").is(":checked")){
+$("#successaddstaffs").hide();
+  $("#assignstaff").val('1');
+}else{
+  $("#assignstaff").val('');
+  var message="Kindly assign atleast one service";
+  $("#successaddstaffs").html(message);
+  $("#successaddstaffs").show();
+}
+})
 
 // window.onload= function getavailability(){
     // var url=baseUrl+'basicinfo/availability';

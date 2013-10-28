@@ -1377,6 +1377,11 @@ $(document).click(function(event) {
 	 // alert("dfdf");
 // alert("dfdfsdsd222");
 // });
-// $(window).on(load, function(){ 
-// $(".centermsg").text(" pankaj ");
-// });
+ // $(document).ready(function(){ 
+ // $(".centermsg").text(" pankaj ");
+ // });
+ 
+ 
+ $(document).ready(function(){ 
+ $("#3C96BDEF-1F01-17A7-C12B-1D852ABD9302grid").text(" No Appointments ");
+ });

@@ -97,7 +97,8 @@ function showSelected(){
 							  <td><?php echo $content['name']; ?></td>
 							  <td>
 							  <a href="#service-modal" data-toggle="modal"  onclick= editService(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-							  <a href="javascript:void(0);"  data-toggle="tooltip" class="tool" onclick= deleteService(<?php echo $content['id'] ?>); data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+							   <a href="<?=base_url()?>services/manage_services?id=<?php echo $content['id']; ?>&delete=delete"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+							  <!---<a href="javascript:void(0);"  data-toggle="tooltip" class="tool" onclick= deleteService(<?php echo $content['id'] ?>); data-original-title="Delete"><i class="icon-trash icon-large"></i></a>---->
 							  </td>
 							  
 						</tr>

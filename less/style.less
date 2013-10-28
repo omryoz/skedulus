@@ -60,9 +60,10 @@ body {
 			border-radius:@borderRadiusLarge;
 			behavior: url(../PIE-1.0.0/PIE.htc);
 		}
-		h3 {
+		h3 ,.text {
 		color:@colorA;
 		}
+		
 		.strip
 			{
 			select,.btn
@@ -1436,13 +1437,23 @@ min-height:350px;
 .modal form{ margin:0px; }
 #ssTimeControleventStartTime{    display:none!important;  }
 .btn-switch{ 
-	border: none;
-	border-radius: 0; 
+	border: none !important;
+	border-radius: 0 !important;
+	background: rgba(0,0,0,0.1);
+	color: #fff !important;
+	text-shadow: none !important;
+	background-image: none !important;
+background-color: rgba(0,0,0,0.1) !important;
+	
+&:hover{background: rgba(0,0,0,0.1);
+	color: #fff; }	
 }
-.btn-switch.btn-inverse.active{ 
-	color: #333;
-	background-color: #fff;
-	box-shadow: 1px 1px #333;
+.btn-switch.active{ 
+	color: #333 !important;
+	background-color: #fff !important;
+	box-shadow: 0px 0px 1px #fff !important;
+	padding-top:3px;
+	padding-bottom:3px;
 }
 .breadcrumb{
 background-color: transparent;

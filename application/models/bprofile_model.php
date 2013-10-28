@@ -82,12 +82,12 @@ class bprofile_model extends CI_Model {
 		}
 		//echo "here";
 		//print_r($_POST['userid']); exit;
-		if($_POST['userid']!=" "){
-		$this->db->update('users',$insertArray,array('id' => $_POST['userid']));
-		//mysql_query("delete from employee_services where users_id=".$_POST['id']);
-		//mysql_query("delete from user_business_availability where users_id=".$_POST['id']);
-		$id = $_POST['userid'];
-		}else{
+		if(isset($_POST['id']) && $_POST['id']!=" "){
+		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
+		mysql_query("delete from employee_services where users_id=".$_POST['id']);
+		mysql_query("delete from user_business_availability where users_id=".$_POST['id']);
+		$id = $_POST['id'];
+		}else{ 
 		$this->db->insert('users',$insertArray);
 		$id=mysql_insert_id();
 		$insertEmployee=array();
@@ -98,39 +98,39 @@ class bprofile_model extends CI_Model {
 		}
 		
 		//to insert/update the staffs availability
-		// for($i=1;$i<=7;$i++){
-				// if(isset($_POST[$i])) {
-				// $available['user_business_details_id']= $this->session->userdata['business_id'];
-				// $available['users_id']=$id;
-				// $available['type']='employee';
-				// $available['weekid']= $i;
-				// $available['start_time']= $_POST[$i."from"];
-				// $available['end_time']= $_POST[$i."to"];
-				// if(isset($_POST['L'.$i])){
-				// $available['lunch_start_time']= $_POST[$i."Lfrom"];
-				// $available['lunch_end_time']= $_POST[$i."Lto"];
-				// }else{
-				// $available['lunch_start_time']= "0";
-				// $available['lunch_end_time']="0";
-				// }
-				// $this->db->insert('user_business_availability',$available);
-				// }
-			// }
+		for($i=1;$i<=7;$i++){
+				if(isset($_POST[$i])) {
+				$available['user_business_details_id']= $this->session->userdata['business_id'];
+				$available['users_id']=$id;
+				$available['type']='employee';
+				$available['weekid']= $i;
+				$available['start_time']= $_POST[$i."from"];
+				$available['end_time']= $_POST[$i."to"];
+				if(isset($_POST['L'.$i])){
+				$available['lunch_start_time']= $_POST[$i."Lfrom"];
+				$available['lunch_end_time']= $_POST[$i."Lto"];
+				}else{
+				$available['lunch_start_time']= "0";
+				$available['lunch_end_time']="0";
+				}
+				$this->db->insert('user_business_availability',$available);
+				}
+			}
 		
 		//to insert/update assigned services 
-		// if(isset($_POST['services'])){
-		// $assignService=array();
-		// $i=0;
-		// foreach($_POST['services'] as $val){
-			// $assignService['users_id']=$id;
-			// $assignService['business_id']=$this->session->userdata['business_id'];
-			// $assignService['service_id']=$val;
-			// $this->db->insert("employee_services",$assignService);
-			// $i++;
-		// }
-		// }
-		//echo($id);
-		return $id;
+		if(isset($_POST['services'])){
+		$assignService=array();
+		$i=0;
+		foreach($_POST['services'] as $val){
+			$assignService['users_id']=$id;
+			$assignService['business_id']=$this->session->userdata['business_id'];
+			$assignService['service_id']=$val;
+			$this->db->insert("employee_services",$assignService);
+			$i++;
+		}
+		}
+		echo($id);
+		//return $id;
 	}
 	
 	function assignStaffs(){
