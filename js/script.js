@@ -23,7 +23,39 @@ function bookService(serviceid){
 
 $(document).ready(function(){
 
+$(".favourite").click(function(){
+	var id=$(this).attr('data-val');
+	var action=$(this).attr('action');
+	if($(this).attr('action')=='remove'){
+	apprise('Are you sure you want to unfavourite this business?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ 
+	if(r){ 
+	addRemoveFav(id,action);
+	}else{ 
+	return false; 
+	} 
+	});
+	}else{
+	addRemoveFav(id,action);
+	}
+})
 
+function addRemoveFav(id,action){ 
+$.ajax({
+   url:baseUrl+'search/addtoFav',
+   data: {'id': id,'action':action},
+   type:'POST',
+   success:function(data){
+   if(action=="add"){
+	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","Remove to Favourite");
+	$("#star"+data).attr("action","remove");
+    }else{
+	$("#star"+data).attr("class","icon-star-empty icon-2x pull-right tool").attr("data-original-title","add to Favourite");
+	$("#star"+data).attr("action","add");
+	}
+	
+   }
+  })
+}
 
 $(".dropdown-menu li").live("click",function(e) {
        e.stopPropagation();

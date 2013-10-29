@@ -44,6 +44,7 @@ class BusinessProfile extends CI_Controller {
 	 }else{
 		$id=$this->session->userdata['business_id'];
 	 }
+	 $this->data['id']=$id;
 	 if(isset($this->session->userdata['id'])){
 	 $this->data['user_id'] = $this->session->userdata['id'];
 	 }else{
@@ -56,7 +57,7 @@ class BusinessProfile extends CI_Controller {
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
 	 $this->data['type']="Classes";
-	 $this->data['services']=$this->business_profile_model->getClasses();
+	 $this->data['services']=$this->business_profile_model->getClasses($id);
 	 //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
 	 }else if($this->data['content']->business_type=='service'){
      $this->data['type']="Services";	 

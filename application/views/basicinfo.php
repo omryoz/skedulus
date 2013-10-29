@@ -17,12 +17,30 @@
 					description: "required",
 					address: "required",
                     calendar: "required",
+					username: {
+                        //required: true,
+						remote: {
+						  url: baseUrl+'basicinfo/checkusername',
+						  type: "post",
+						  data: {
+							username: function(){ 
+							var name=$("#username").val().split(' ').join('');
+							var url=base_url+name;
+							$("#business_url").html(url);
+							return name;
+							},
+							id: function(){ return $("#business_id").val(); }
+							//id: function(){ return $("#id").val(); }
+						  }
+                     }
+					},
 					mobile :{
 					required: true,
 					digits: true
 					}
                 },
                 messages: {
+				    username: "User name  already exist.Kindly choose another one",
                     category: "Category is required",
                     name: "Business name is required",
                     description: "Description is required",
@@ -115,6 +133,16 @@
 					  <input type="text" placeholder="<?=(lang('Apps_businessname'))?>" class="span4 " name="name" id="name" value="<?php echo $name ?>">
 					<br clear="all"/> 
 					 <textarea rows="3" placeholder="<?=(lang('Apps_description'))?>" class="span8 " name="description" id="description" value="<?php echo $description ?>"><?php echo $description ?></textarea>
+				    <br clear="all"/>
+					<p><small class="muted"><? echo "Provide a unique username for generating your own business url"?></small></p>
+				 	  <input type="text" placeholder="" class="span4" name="username" id="username" value="<?php echo $username ?>">
+				    <?php  if(isset($this->session->userdata['business_id']) && $this->session->userdata['business_id']!=''){
+					     $id=$this->session->userdata('business_id');
+						}else{
+						 $id='';
+						}?>
+					<input type="hidden" name="business_id" id="business_id" value="<?php print_r($id);?>" />
+					<p id="business_url"><?php echo $businessurl; ?></p>
 				 </div>
 			 </div>
 

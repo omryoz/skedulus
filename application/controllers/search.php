@@ -68,7 +68,7 @@ class Search extends CI_Controller {
 	  $id=$_POST['id'];
 	  if(isset($this->session->userdata['id']))
 	  {
-	  $this->search_model->insertFav($id);
+	  $this->search_model->insertFav($id,$_POST['action']);
 	  }else{
 	  echo "false";
 	  }

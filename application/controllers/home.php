@@ -270,7 +270,7 @@ function hybrid($provider1){
 
 		echo "<hr /><h3>Trace</h3> <pre>" . $e->getTraceAsString() . "</pre>";  
 	}
-   print_r($user_data); exit;
+   //print_r($user_data); exit;
  if(isset($user_data->firstName)){
 			   $this->data['first_name']=$user_data->firstName;
 			   }else{

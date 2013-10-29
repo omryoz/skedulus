@@ -49,7 +49,12 @@
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
 			  <textarea type="text" class="" name="note" id="note" placeholder="Message"></textarea>
-			  <input type="hidden" name="businessid" class="business_id" value="<?php echo $_GET['id'] ?>"> 
+			  <?php if(isset($_GET['id'])){
+			   $id=$_GET['id'];
+			  }else{
+			   $id='';
+			  } ?>
+			  <input type="hidden" name="businessid" class="business_id" value="<?php echo $id ?>"> 
 			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			 
 			</div>

@@ -7,6 +7,7 @@ class basicinfo_model extends CI_Model {
 		$insertArray=array();
 		$available=array();
 		$insertArray['users_id']= $this->session->userdata['id']; 
+		if(isset($_POST['username']))$insertArray['username']= $_POST['username']; 
 		if(isset($_POST['business_type']))$insertArray['business_type']= $_POST['business_type'];
 		if(isset($_POST['category']))$insertArray['category_id']= $_POST['category'];
 		if(isset($_POST['name']))$insertArray['name']= $_POST['name']; 

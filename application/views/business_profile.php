@@ -18,15 +18,18 @@
 						</li>
 						<li>
 						<small class="pull-right">
+						<?php if(!isset($this->session->userdata['id'])) { ?>
+							<a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" ><i class="icon-star-empty icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	
+						<?php }else{?>	
 						<?php if(isset($this->session->userdata['business_id'])){ ?>
 						 <a href="<?php echo base_url(); ?>basicinfo/editinfo"><i class="icon-edit icon-large"></i></a>
 						<?php }else{
 						if(isset($isFav)){	
 						?>
-						<a href="<?php echo base_url(); ?>clients/favourite"><i class="icon-star icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="added to Favourite "></i></a>
+						<a href="javascript:void(0)"><i class="icon-star icon-2x pull-right tool favourite" data-toggle="tooltip"  data-val="<?php echo $_GET['id'] ?>" action="remove"   data-original-title="remove from Favourite" id="star<?php echo $_GET['id'] ?>"></i></a>
 						<?php }else{?>
-						<a href="javascript:void(0)" id="addfav<?php echo $_GET['id'] ?>" onclick="addfav(<?php echo $_GET['id'] ?>);" ><i class="icon-star-empty icon-2x  tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $_GET['id'] ?>"></i></a>
-						<?php } } ?>
+						<a href="javascript:void(0)" id="addfav<?php echo $_GET['id'] ?>" ><i class="icon-star-empty icon-2x  tool favourite" data-toggle="tooltip"  data-original-title="add to Favourite " data-val="<?php echo $_GET['id'] ?>" action="add"  data-original-title="add to Favourite " id="star<?php echo $_GET['id'] ?>"></i></a>
+						<?php } } }?>
 						</small>
 						</li>
 					</ul>
@@ -73,7 +76,7 @@
 					</div>
 			</div>
 		</div>
-		<?php if(isset($photoGallery)) { ?>
+		<?php if(isset($photoGallery) && $photoGallery!='') { ?>
 		<hr >
 		<div class="row-fluid">
 			<div class="filmstrip">
@@ -99,7 +102,7 @@
 		<?php  if(isset($this->session->userdata['business_id'])) { ?>
 		<p id="business_id" class="hide"><?=$this->session->userdata('business_id')?></p>
 		<?php } else{ ?>
-		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:'')?></p>
+		<p id="business_id" class="hide"><?=(!empty($_GET['id'])?$_GET['id']:$id)?></p>
 		<?php }?>
 		<div class="row-fluid">
 			<div class="span9">
@@ -552,22 +555,3 @@ function minutesToHours($minutes)
 }
 
 ?>
-<script>
- function addfav(id){
-   $.ajax({
-   url:baseUrl+'search/addtoFav',
-   data: {'id': id},
-   type:'POST',
-   success:function(data){
-   if(data!="false"){
-	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","added to Favourite");
-	$("#addfav"+data).attr("href","<?php echo base_url() ?>clients/favourite");
-	$("#addfav"+data).removeAttr('onclick');
-    }else{
-	window.location.href="<?php echo base_url() ?>home/clientlogin";
-	}
-	
-   }
-  })
- }
-</script>

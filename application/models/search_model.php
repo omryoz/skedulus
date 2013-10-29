@@ -13,8 +13,12 @@ function getFavBusiness(){
 		}
 	}
  
-function insertFav($id){
+function insertFav($id,$action){
+if($action=='add'){
   $this->db->query("insert into business_clients_list(users_id,user_business_details_id) VALUES ('".$this->session->userdata('id')."','".$id."' )");
+  }else{
+  $this->db->query("delete from business_clients_list where users_id= '".$this->session->userdata('id')."' and user_business_details_id='".$id."' ");
+  }
   echo $id;
  }
  

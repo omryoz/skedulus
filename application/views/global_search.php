@@ -89,13 +89,15 @@
 								<div class="span9">
 								<?php  
 								if(isset($favList) && in_array($result->business_id,$favList)){?>
-								<a href="<?php echo base_url(); ?>clients/favourite"><i class="icon-star icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="added to Favourite "></i></a>
+								<a href="javascript:void(0)"><i class="icon-star icon-2x pull-right tool favourite" data-toggle="tooltip" data-val="<?php echo $result->business_id ?>" action="remove"   data-original-title="remove from Favourite" id="star<?php echo $result->business_id ?>"></i></a>
 								<?php }else{ ?>
 								<?php if(!isset($this->session->userdata['id'])) { ?>
-									<a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" id="addfav<?php echo $result->business_id ?>"><i class="icon-star-empty icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	
+									<a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" ><i class="icon-star-empty icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	
 								<?php }else{?>	
-									
-								<a href="javascript:void(0)" id="addfav<?php echo $result->business_id ?>" onclick="addfav(<?php echo $result->business_id ?>);" ><i class="icon-star-empty icon-2x pull-right tool" data-toggle="tooltip"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	
+								
+								<a href="javascript:void(0)" id="addfav<?php echo $result->business_id ?>" ><i class="icon-star-empty icon-2x pull-right tool favourite" data-toggle="tooltip" data-val="<?php echo $result->business_id ?>" action="add"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	
+								
+								<!---<a href="javascript:void(0)" id="addfav<?php echo $result->business_id ?>" onclick="addfav(<?php echo $result->business_id ?>);" ><i class="icon-star-empty icon-2x pull-right tool favourite" data-toggle="tooltip" value="<?php echo $result->business_id ?>" action="add"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	--->
 								<?php }		?>
 								
 								<?php }	?>
@@ -186,24 +188,3 @@
 	
 
 <script src="<?php echo base_url(); ?>js/jquery.raty.js" type="text/javascript"></script>
-<script>
- function addfav(id){
-   $.ajax({
-   url:baseUrl+'search/addtoFav',
-   data: {'id': id},
-   type:'POST',
-   success:function(data){
-   if(data!="false"){
-	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","added to Favourite");
-	$("#addfav"+data).attr("href",base_url+"/clients/favourite");
-	$("#addfav"+data).removeAttr('onclick');
-    }else{
-	//alert(window.location.protocol+'//'+window.location.host+window.location.pathname+window.location.search);
-	//$("#referal_url").val(window.location.protocol+'//'+window.location.host+window.location.pathname+window.location.search);
-	//window.location.href=base_url+"home/clientlogin";
-	}
-	
-   }
-  })
- }
-</script>

@@ -41,6 +41,25 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 
+if($handle = opendir(APPPATH.'/controllers'))
+{
+	while(false !== ($controller = readdir($handle)))
+	{
+	  if($controller != '.' && $controller != '..' && strstr($controller, '.') == '.php')
+	  {
+	  $controllers[] = strstr($controller, '.', true);
+	  }
+	}
+	 closedir($handle);
+}
 
+$url_parts = explode('/',$_SERVER['REQUEST_URI']);
+$reserved_routes = $controllers;
+
+if( ! in_array($url_parts[2], $reserved_routes))
+{
+$route['([a-zA-Z0-9_-]+)'] = 'profile/index/$1';
+$route['([a-zA-Z0-9_-]+)/subpage'] = 'profile/subpage/$1';
+}
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

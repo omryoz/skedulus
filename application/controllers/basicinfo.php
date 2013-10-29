@@ -25,6 +25,7 @@ class Basicinfo extends CI_Controller {
 		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
+		$this->data['username']=$isExist->username;
 		$this->data['description']=$isExist->description;
 		$this->data['address']=$isExist->address;
 		$this->data['mobile']=$isExist->mobile_number;
@@ -39,6 +40,7 @@ class Basicinfo extends CI_Controller {
 		}else{
 		$this->data['disabled']="";
 		$this->data['isExistAvailability']="";
+		$this->data['username']="";
 		$this->data['name']="";
 		$this->data['description']="";
 		$this->data['address']="";
@@ -72,6 +74,8 @@ class Basicinfo extends CI_Controller {
 		$this->data['action']="edit";
 		$this->data['disabled']="disabled";
 		$this->data['name']=$isExist->name;
+		$this->data['username']=$isExist->username;
+		$this->data['businessurl']=base_url().$isExist->username;
 		$this->data['description']=$isExist->description;
 		$this->data['address']=$isExist->address;
 		$this->data['mobile']=$isExist->mobile_number;
@@ -102,6 +106,22 @@ class Basicinfo extends CI_Controller {
 	
 	public function insertData(){
 	 $this->basicinfo_model->insertBasicInfo();
+	}
+	
+	public function checkusername(){
+	$duplicate='';
+	       if(isset($_POST['id']) && $_POST['id']!="") {
+			$where=" and id!=".$_POST['id'];
+			$duplicate=$this->common_model->getRow("user_business_details","username",$_POST['username'],$where);
+			}else{
+			$duplicate=$this->common_model->getRow("user_business_details","username",$_POST['username']);
+			}
+		    
+			if($duplicate){
+			echo "false";
+			}else{
+			echo "true";
+			}
 	}
 }
 

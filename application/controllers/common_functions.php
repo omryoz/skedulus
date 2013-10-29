@@ -59,7 +59,7 @@ class Common_functions extends CI_Controller {
 		
    }	
 	
-	public function businesslogin(){
+	public function businesslogin($redirectUrl){
 	//$this->data['userRole']="businesslogin";
 	//$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
@@ -92,7 +92,17 @@ class Common_functions extends CI_Controller {
 		 if($status){
 			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
 			  $this->session->set_userdata($sessionVal);
-			 redirect('overview'); 
+			  if($redirectUrl){
+			   $this->session->unset_userdata('role');
+			   $this->session->unset_userdata('business_id');
+					$sessionVal=array(
+					 'role'=>'client'
+					);
+				 $this->session->set_userdata($sessionVal);	
+				 header($redirectUrl);
+			   }else{
+			    redirect('overview');
+				}			 
 			 }else{
 			 redirect('basicinfo');
 			 }
@@ -109,6 +119,7 @@ class Common_functions extends CI_Controller {
 	 $referal_url=$_POST['referal_url'];
 	 $this->data['url']=$referal_url;
 	}
+	$redirectUrl='';
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
@@ -132,7 +143,12 @@ class Common_functions extends CI_Controller {
 		 );
 		 $this->session->set_userdata($sessionVal);
 		 if($referal_url){ 
+		 if($values->user_role=='manager'){
+		 $redirectUrl="Location:".$_POST['referal_url'];
+		 $this->businesslogin($redirectUrl);
+		 }else{
 		  header("Location:".$_POST['referal_url']);
+		  }
 		 }else{
 			if($values->user_role=='manager'){
 			$this->businesslogin();
