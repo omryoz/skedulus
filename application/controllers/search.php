@@ -75,10 +75,6 @@ class Search extends CI_Controller {
 	}
 	
 	
-	
-	
-	
-	
 }
 
 ?>

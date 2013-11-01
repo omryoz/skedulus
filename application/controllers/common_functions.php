@@ -270,6 +270,7 @@ class Common_functions extends CI_Controller {
 		redirect('home');
 	}
 	
+	
 	/* Function to  display image in requird dimensions*/
 		public function display_image($photo_id=false,$width = false,$height = false,$ratio=false,$file=false)
 		{

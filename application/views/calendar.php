@@ -6,9 +6,7 @@
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
-	
-
-		
+			
 <!---End--------------->
 <?php 
 	

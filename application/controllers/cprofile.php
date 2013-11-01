@@ -32,9 +32,6 @@ class Cprofile extends CI_Controller {
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
-	
-	
-	
 }
 
 ?>
