@@ -62,7 +62,8 @@ var base_url = "http://localhost/skedulus/";
 						 $url=base_url().'cprofile';
 						} 
 						if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
-						 $url="#";
+						// $url="#";
+						 $url=base_url().'common_functions/mysettings';
 						} ?>
 				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
 						<!--<img src="images/share.png"  class="brand_img">-->

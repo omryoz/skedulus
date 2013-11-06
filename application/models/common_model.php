@@ -66,7 +66,7 @@ class common_model extends CI_Model{
 	}     
      
 	 function getCount($tableName="", $fieldName="", $where=""){
-		if($where!=""){ $where="1  ".$where; }else{ $where="1"; }
+		//if($where!=""){ $where="1  ".$where; }else{ $where="1"; }
 		$sql = sprintf("SELECT COUNT(%s) as cnt FROM %s WHERE %s",$fieldName,$tableName,$where); 
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();	

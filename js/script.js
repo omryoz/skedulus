@@ -21,6 +21,22 @@ function bookService(serviceid){
 	getservices(business_id,serviceid);
 }
 
+$("#cadd").click(function(){
+$(".title").html('Add Category');
+$(".category_name").val("");
+$(".category_id").val("");
+$("#category_add").modal("show");
+})
+
+$(".editCategory").click(function(){
+ //alert($(this).attr('data-val'));
+ //alert($(this).attr('data-name'));
+ $(".title").html('Edit Category');
+ $(".category_name").val($(this).attr('data-name'));
+ $(".category_id").val($(this).attr('data-val'));
+ $("#category_add").modal("show");
+})
+
 $(document).ready(function(){
 
 $(".favourite").click(function(){
