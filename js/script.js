@@ -21,6 +21,49 @@ function bookService(serviceid){
 	getservices(business_id,serviceid);
 }
 
+
+
+$(".subDetails").click(function(){
+ $.ajax({
+    url:baseUrl+'admin/dash/getDetails',
+   data: {'id': $(this).attr('data-val')},
+   type:'POST',
+   success:function(data){ 
+   var n=eval(data); 
+    $.each(n,function(i,v){
+	  $("#subname").html(v.title);
+	  $("#subscription_id").val(v.subscription_id);
+	  if(v.users_type=='unlimited'){
+	  $(".users_num").hide();
+	  }else{
+	  $(".users_num").val(v.users_num);
+	  $(".users_num").show();
+	  }
+	  $(".users_type").val(v.users_type);
+	  
+	  $(".pictures_type").val(v.pictures_type);
+	  if(v.pictures_type=='unlimited'){
+	  $(".picture_num").hide();
+	  }else{
+	  $(".picture_num").val(v.picture_num);
+	  $(".picture_num").show();
+	  }
+	  
+	  $(".reports").val(v.reports);
+	  $(".promotion_notifications").val(v.promotion_notifications);
+	  $(".business_type").val(v.business_type);
+	  if(v.business_type=='unlimited'){
+	  $(".business_num").hide();
+	  }else{
+	  $(".business_num").val(v.business_num);
+	  $(".business_num").show();
+	  }
+	})
+	
+   }
+ })
+})
+
 $("#cadd").click(function(){
 $(".title").html('Add Category');
 $(".category_name").val("");
