@@ -37,6 +37,13 @@ class Staffs extends CI_Controller {
 	
 	}
 	
+	public function checkfornum(){
+	 $where=' 1 and business_id='.$this->session->userdata('business_id');
+	 $total = $this->common_model->getCount('employee_services','DISTINCT users_id',$where);
+	 $val=$this->common_model->check('user',$total);
+	 
+	}
+	
 	// public function manage_staffs(){
 		// if(isset($_POST['insert'])){ 
 			// if(isset($_POST['register'])){

@@ -1,24 +1,25 @@
 
 		</div>
-		<h3 >Businesses List
+		<h3 ><?=(lang('Apps_businesseslist'))?>
 						   
 						</h3><br/>
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
-				<h4>Search Businesses</h4>
+				<!-- <h4>Search Businesses</h4> -->
+				<br/>
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url() ?>admin/dash/businesses/" method="POST">
-						<div class="span3">
+						<div class="span10">
 							<?php if(isset($search)){
 						 $search=$search;
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="Business name">
+							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_searchbusiness'))?>">
 						</div>
 						
 						<div class="span2">						
-						<input type="submit" name="search" class="btn btn-success" value="Search">		
+						<input type="submit" name="search" class="btn btn-success span12" value="<?=(lang('Apps_search'))?>">		
 							 <!---<a  href="global_search.php" class="btn span12 pull-right btn-success"> 
 								<i class="icon-search"></i> Search
 							  </a>--->
@@ -33,11 +34,11 @@
 						<table class="table  table-striped table-staff table-hover" >
 						  <thead>
 							<tr >
-							  <th><h4>Business name</h4></th>
-							  <th><h4>Owner</h4></th>
-							  <th><h4>Email</h4></th>
-							  <th><h4>Subscription</h4></th>
-							  <th><h4>Action</h4></th>
+							  <th><h4><?=(lang('Apps_businessname'))?></h4></th>
+							  <th><h4><?=(lang('Apps_owner'))?></h4></th>
+							  <th><h4><?=(lang('Apps_email'))?></h4></th>
+							  <th><h4><?=(lang('Apps_subscription'))?></h4></th>
+							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php foreach($contentList as $list){ ?>
@@ -47,7 +48,7 @@
 							  <td><?php echo $list->email; ?></td>
 							  <td><?php echo $list->subscription_name; ?> </td>
 							  <td>
-							   <a href="<?php echo base_url() ?>admin/dash/bDetails/<?php echo $list->business_id ?>" data-toggle="tooltip" class="tool" data-original-title="View"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
+							   <a href="<?php echo base_url() ?>admin/dash/bDetails/<?php echo $list->business_id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
 							  <!---<a href="javascript:;" data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash"></i></a>--->
 
 							  </td>
@@ -58,7 +59,7 @@
 						</table>
 						<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 						<?php }else{ ?>
-						<p class="alert">No records found </p>
+						<p class="alert"> <?=(lang('Apps_norecordsfound'))?></p>
 						<?php } ?>
 				
 				  </div>

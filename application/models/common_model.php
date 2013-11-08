@@ -44,7 +44,12 @@ class common_model extends CI_Model{
 		return false;
 	}
 	
-	
+	function getAlldatas($tablename,$offset,$limit,$where){
+		$sql="Select * from $tablename where $where LIMIT $offset,$limit";
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		return $data;
+	}
 	
 	/* The function returns records in order by specified field  */
 	function getDataArray($tableName="", $fieldKey="", $fieldValue="", $where="") {
@@ -310,6 +315,37 @@ public function mail($emailTo,$subject,$message){
 	}
 	
 	
+	
+	function check($feature,$total){
+	  $val= $this->common_model->getRow("view_subscription_plans",'subscription_id',$this->session->userdata('subscription'));
+	  if($feature=='picture'){
+	     $switch=$val->pictures_type;
+		 $value=$val->picture_num;
+	  }
+	  if($feature=='user'){
+	     $switch=$val->users_type;
+		 $value=$val->users_num;
+	  } 
+	  switch($switch){
+	   case upto:
+	     if($total<$value){
+		  echo 1;
+		 }else{
+		  echo 0;
+		 }
+		 break;
+		 
+		case morethan:
+		  echo 1;
+		  break;
+
+		case unlimited:
+		  echo 1;
+		  break;
+		  
+			
+	  }
+	}
 }
 
 ?>

@@ -22,6 +22,13 @@ class Gallery extends CI_Controller {
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
+	public function checkfornum(){
+	 $where=' 1 and user_business_details_id='.$this->session->userdata('business_id');
+	 $total = $this->common_model->getCount('user_business_photogallery','id',$where);
+	 $val=$this->common_model->check('picture',$total);
+	 //print_r($total);
+	}
+	
 	public function manage_gallery(){
 		if(isset($_POST['insert'])){ 
 			$id=$this->bprofile_model->insertPhoto();

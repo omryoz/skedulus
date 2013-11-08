@@ -23,10 +23,11 @@ class Business_registration extends CI_Controller {
 			}else{
 		$language = "hebrew";
 		}
-		#echo $language;
+		
 		$this->data['language']=$this->utilities->language($language);
 		$this->parser->parse('include/header',$this->data);
 		//$this->parser->parse('include/registration_navbar',$this->data);
+		$this->data['details']=$this->common_model->getAlldatas("view_subscription_plans",0,10000,1);
 		$this->parser->parse('business_registration',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}

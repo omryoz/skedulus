@@ -304,7 +304,24 @@
 		$lang['Apps_changeprofileimg'] = "Change Profile Image";
 		$lang['Apps_meetinghistory'] = "Meeting History";
 	
-		
+	/*Admin section start */
+		$lang['Apps_userlist'] = "Users List";
+		$lang['Apps_searchbyuser'] = "Search by Users";
+		$lang['Apps_userrole'] = "User role";
+		$lang['Apps_status'] = "Status";
+		$lang['Apps_norecordsfound'] = "No records found";
+		$lang['Apps_adduser'] = "Add User";
+		$lang['Apps_subscriptiondetail'] = "Subscription Details";
+		$lang['Apps_users'] = "Users";
+		$lang['Apps_businesses'] = "Businesses";
+		$lang['Apps_categorylist'] = "Category List";
+		$lang['Apps_searchcategory'] = "Search Category";
+		$lang['Apps_category'] = "Category";
+		$lang['Apps_categoryname'] = "Category Name";
+		$lang['Apps_businesseslist'] = "Businesses List";
+		$lang['Apps_owner'] = "Owner";
+		$lang['Apps_view'] = "View";
+		$lang['Apps_view'] = "Business type";
 		
 		
 ?>

@@ -154,7 +154,7 @@ class Pagination {
          *
          * @var        string
          */
-        protected $first_tag_open        = '<li>';
+        protected $first_tag_open        = '<li >';
 
         /**
          * First tag close

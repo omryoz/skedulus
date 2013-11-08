@@ -171,7 +171,7 @@ $(".staffclose").click(function(){
 							  <div class="row-fluid">
 								<div class="">
 									<h3><?=(lang('Apps_stafflist'))?>
-										<a href="#myModal" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
+										<a href="javascript:;" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
 									</h3>
 									<?php if(isset($tableList)) { ?>
 									<table class="table  table-staff table-hover  table-striped" >

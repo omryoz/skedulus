@@ -17,9 +17,9 @@
 						<table class="table  table-striped table-staff table-hover" >
 						  <thead>
 							<tr >
-							  <th><h4>Subscription</h4></th>
-							  <th><h4>Price</h4></th>
-							  <th><h4>Action</h4></th>
+							  <th><h4><?=(lang('Apps_subscription'))?></h4></th>
+							  <th><h4><?=(lang('Apps_price'))?></h4></th>
+							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php foreach($list as $val){?>
@@ -32,7 +32,7 @@
 							  } ?>
 							  <td><?php echo $price ?></td>
 							  <td>
-							 <a href="#admin_subscribe" data-val=<?php echo $val->id ?> data-toggle="modal" data-toggle="tooltip" class="tool subDetails" data-original-title="Edit"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;
+							 <a href="#admin_subscribe" data-val=<?php echo $val->id ?> data-toggle="modal" data-toggle="tooltip" class="tool subDetails" data-original-title="<?=(lang('Apps_edit'))?>"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;
 							 <!---<a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit"></i></a>--->
 							  </td>
 							  
@@ -45,13 +45,13 @@
   <form action="<?php echo base_url() ?>admin/dash/UpdateSub" method="POST" name="form1" id="subForm"> 
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Subscription Details</h3>
+    <h3 id="myModalLabel"><?=(lang('Apps_subscriptiondetail'))?></h3>
   </div>
 
   <div class="modal-body">
    <table class="table table_subscription" >
 			<thead>
-			<tr><th>Name</th>
+			<tr><th><?=(lang('Apps_name'))?></th>
 			<td id="subname"></td>
 			<input type="hidden" name="subid" id="subscription_id" />
 			
@@ -59,24 +59,28 @@
 			</thead>
 			<tbody>
 				<tr>
-				<th >Users</th>
+				<th ><?=(lang('Apps_users'))?></th>
 				<td>
 					<select class="input-medium inline users_type" name="users_type" onChange="showSelected('users_num','users_type')">
-						<option value='upto'>Upto </option>
-						<option value='more than'>More than</option>
+
+						<option value='upto'><?=(lang('Apps_upto'))?> </option>
+						<option value='morethan'><?=(lang('Apps_morethan'))?></option>
+
 						<!---<option value='contact us'>Contact us</option>--->
-						<option value='unlimited'>Unlimited</option>
+						<option value='unlimited'><?=(lang('Apps_unlimited'))?></option>
 					</select>
 					<input type="text" name="users_num" class="input-small inline users_num"/>
 				</td>
 				</tr>
 				<tr>
-				<th >Businesses</th>
+				<th ><?=(lang('Apps_businesses'))?></th>
 				<td><select class="input-medium inline business_type"  onChange="showSelected('business_num','business_type')" name="business_type">
-						<option value="upto">Upto </option>
-						<option value="more than">More than</option>
+
+						<option value="upto"> <?=(lang('Apps_upto'))?></option>
+						<option value="morethan"><?=(lang('Apps_morethan'))?></option>
+
 						<!---<option value="contact us">Contact us</option>--->
-						<option value="unlimited">Unlimited</option>
+						<option value="unlimited"><?=(lang('Apps_unlimited'))?></option>
 					</select>
 					<input type="text"  class="input-small inline business_num" name="business_num"/></td>
 				</tr>
@@ -91,25 +95,27 @@
 					<input type="text"  class="input-small inline"/></td>
 				</tr>--->
 				<tr>
-				<th >Pictures</th>
+				<th ><?=(lang('Apps_pictures'))?></th>
 				<td><select class="input-medium inline pictures_type" name="pictures_type" onChange="showSelected('picture_num','pictures_type')">
-						<option value='upto'>Upto </option>
-						<option value="more than">More than</option>
+
+						<option value='upto'> <?=(lang('Apps_upto'))?></option>
+						<option value="morethan"><?=(lang('Apps_morethan'))?></option>
+
 						<!---<option value="contact us">Contact us</option>-->
-						<option value="unlimited">Unlimited</option>
+						<option value="unlimited"><?=(lang('Apps_unlimited'))?></option>
 					</select>
 					<input type="text" name="picture_num" class="input-small inline picture_num"/></td>
 				</tr>
 				<tr>
-				<th >Report</th>
+				<th ><?=(lang('Apps_reports'))?></th>
 				<td><select class="input-medium inline reports" name="reports">
-						<option value="basic">Basic </option>
-						<option value="enhanced">Enhanced</option>
+						<option value="basic"><?=(lang('Apps_basic'))?> </option>
+						<option value="enhanced"><?=(lang('Apps_enhanced'))?></option>
 					</select>
 					</td>
 				</tr>
 				<tr>
-				<th >Promotional Notification</th>
+				<th ><?=(lang('Apps_pro_notify'))?></th>
 				<td><select class="input-medium inline promotion_notifications" name="promotion_notifications" >
 						<option value='0'>0 </option>
 						<option value="5">5</option>
@@ -122,7 +128,7 @@
 			</table>
   </div>
   <div class="modal-footer">
-  <input type="submit" name="save" value="Save" class="btn btn-success" >
+  <input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success" >
   </div>
   </form>
 </div>

@@ -1,25 +1,27 @@
 <?php //include('header_login.php')?>
 		</div>
-		<h3 >Users List
-						   <a href="#admin_add"  class="btn pull-right btn-success" data-toggle="modal">+add</a>
+		<h3> <?=(lang('Apps_userlist'))?> 
+						   <a href="#admin_add"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3><br/>
+						
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
-				<h4>Search Users</h4>
+			<!-- 	<h4>Search Users</h4> -->
+					<br/>
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url() ?>admin/dash/users/" method="POST">
-						<div class="span3">
+						<div class="span10">
 						<?php if(isset($search)){
 						 $search=$search;
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="Name">
+							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_searchbyuser'))?>">
 							
 						</div>
 						
 						<div class="span2">		
-                         <input type="submit" name="search" class="btn btn-success" value="Search">						
+                         <input type="submit" name="search" class="btn btn-success span12" value="<?=(lang('Apps_search'))?>">						
 							<!--- <a  href="global_search.php" class="btn span12 pull-right btn-success"> 
 								<i class="icon-search" name='search'></i> Search
 							  </a>--->
@@ -34,10 +36,10 @@
 						<table class="table  table-striped table-staff table-hover" >
 						  <thead>
 							<tr >
-							  <th><h4>Name</h4></th>
-							  <th><h4>User role</h4></th>
-							  <th><h4>Status</h4></th>
-							  <th><h4>Action</h4></th>
+							  <th><h4><?=(lang('Apps_name'))?></h4></th>
+							  <th><h4><?=(lang('Apps_userrole'))?></h4></th>
+							  <th><h4><?=(lang('Apps_status'))?></h4></th>
+							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php foreach($contentList as $list){ ?>
@@ -46,7 +48,7 @@
 							  <td><?php echo $list->user_role; ?></td>
 							  <td><?php echo $list->status; ?></td>
 							  <td>
-							  <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool" data-original-title="View"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
 							  <!---<a href="admin_user_detailview.php" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit"></i></a>--->
 							  </td>
 							  
@@ -59,7 +61,7 @@
 						<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 							
 						<?php }else{ ?>
-						<p class="alert">No records found </p>
+						<p class="alert"> <?=(lang('Apps_norecordsfound'))?></p>
 						<?php } ?>
 				
 				  </div>
@@ -72,39 +74,39 @@
 <div id="admin_add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Add User</h3>
+    <h3 id="myModalLabel"> <?=(lang('Apps_adduser'))?></h3>
   </div>
   <div class="modal-body">
    <form class="form-horizontal">
    			<div class="control-group">
-			<label class="control-label" for="inputEmail">Name</label>
+			<label class="control-label" for="inputEmail"> <?=(lang('Apps_name'))?></label>
 			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="Name">
+			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_name'))?>">
 			</div>
 		  </div>
 		  <div class="control-group">
-			<label class="control-label" for="inputEmail">Email</label>
+			<label class="control-label" for="inputEmail"><?=(lang('Apps_email'))?></label>
 			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="Email">
+			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_email'))?>">
 			</div>
 		  </div>
 		  <div class="control-group">
-			<label class="control-label" for="inputPassword">Password</label>
+			<label class="control-label" for="inputPassword"><?=(lang('Apps_pwd'))?></label>
 			<div class="controls">
-			  <input type="password" id="inputPassword" placeholder="Password">
+			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_pwd'))?>">
 			</div>
 		  </div>
 		  <div class="control-group">
-			<label class="control-label" for="inputPassword">Confirm Password</label>
+			<label class="control-label" for="inputPassword"> <?=(lang('Apps_confirmpwd'))?></label>
 			<div class="controls">
-			  <input type="password" id="inputPassword" placeholder="Confirm Password">
+			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_confirmpwd'))?>">
 			</div>
 		  </div>
   
 </form>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success">Save changes</button>
+    <button class="btn btn-success"> <?=(lang('Apps_save'))?></button>
   </div>
   
 </div>

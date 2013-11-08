@@ -1,4 +1,18 @@
 
+$(document).ready(function(){
+$(".gallery_add").click(function(){
+var data='';
+var url = base_url+"gallery/checkfornum";
+ $.post(url,data,function(data){
+    if(data==1){
+	 $("#gallery").modal("show");
+	}else{
+	 apprise('Cannot add more photos for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	}
+ })
+})
+})
+
 function insertbasicInfo(){
 var url=baseUrl+'basicinfo/insertData';
 		$.ajax({
@@ -14,14 +28,16 @@ var url=baseUrl+'basicinfo/insertData';
 
 
 
-function resetForm(id){  
-$(".tab").attr('data-toggle','');
+function resetForm(id){   
+var data='';
+var url = base_url+"staffs/checkfornum";
+ $.post(url,data,function(data){ 
+    if(data==1){
+	 $("#myModal").modal("show");
+	 $(".tab").attr('data-toggle','');
     $("#action").val('add');
     $("#userid").val(" ");
 	$("#addstaffs")[0].reset();
-	//$("#showadd").show();
-	//$("#showedited").hide();
-	 //$('#myModal a:first').tab('show');
  $("#myModal li:eq(1) ").removeClass("active in");
  $("#myModal li:eq(2) ").removeClass("active in");
  $("#myModal #add_staff").addClass("active in");
@@ -45,6 +61,12 @@ $(".tab").attr('data-toggle','');
 	$("#update").hide();
 	$("#insert").show();
 	$(".alert").hide();
+	}else{
+	 apprise('Cannot add more staffs for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	}
+ })
+
+    
 }
 
 //Services
@@ -372,6 +394,9 @@ function deleteClient(id){
 //END
 
 //Gallery
+
+
+
 function editPhoto(id){
 	var url=baseUrl+'gallery/manage_gallery';
 	$.ajax({

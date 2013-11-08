@@ -36,7 +36,7 @@ class Dash extends CI_Controller {
 		}
 		$config['total_rows'] = $this->common_model->getCount('users','id',$where);
 		if($config['total_rows']){
-		    $config['base_url'] = base_url().'admin/dash/users';
+		    $config['base_url'] = base_url().'admin/dash/users/';
 			$config['per_page'] = '15';
 			$this->pagination->initialize($config);
 			$this->data['pagination']=$this->pagination->create_links();
@@ -92,7 +92,7 @@ class Dash extends CI_Controller {
 		}
 		$config['total_rows'] = $this->common_model->getCount('category','id',$where);
 		if($config['total_rows']){
-		    $config['base_url'] = base_url().'admin/dash/category';
+		    $config['base_url'] = base_url().'admin/dash/category/';
 			$config['per_page'] = '15';
 			$this->pagination->initialize($config);
 			$this->data['pagination']=$this->pagination->create_links();
@@ -126,7 +126,7 @@ class Dash extends CI_Controller {
 		}
 		$config['total_rows'] = $this->common_model->getCount('view_user_subscription','subscription_id',$where);
 		if($config['total_rows']){
-		    $config['base_url'] = base_url().'admin/dash/businesses';
+		    $config['base_url'] = base_url().'admin/dash/businesses/';
 			$config['per_page'] = '10';
 			$this->pagination->initialize($config);
 			$this->data['pagination']=$this->pagination->create_links();

@@ -89,8 +89,10 @@ class Common_functions extends CI_Controller {
 		 // );
 		 //$this->session->set_userdata($sessionVal);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		 $subscription=$this->common_model->getRow("view_user_subscription","users_id",$this->session->userdata['id']);
+		 
 		 if($status){
-			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
+			 $sessionVal=array('subscription'=>$subscription->subscription_id,'business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
 			  $this->session->set_userdata($sessionVal);
 			  if($redirectUrl){
 			   $this->session->unset_userdata('role');

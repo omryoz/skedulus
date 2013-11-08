@@ -48,7 +48,7 @@
 
 		<div class="row-fluid">
 			<h3><?=(lang('Apps_photolist'))?>
-				<a href="#gallery"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
+				<a href="javascript:;"  class="btn pull-right btn-success gallery_add" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 			</h3>
 				<?php 
 				$i=0;
