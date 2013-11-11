@@ -24,14 +24,21 @@ class BusinessProfile extends CI_Controller {
 		// $this->parser->parse('include/navbar',$this->data);
 	// }
 	
-	$this->parser->parse('include/header',$this->data);
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
 	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		$this->parser->parse('include/dash_navbar',$this->data);
 	}else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
 		//$sessionVal=array('profile_id'=>$_GET['id']);
 	    //$this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
-		$where=" and users_id=".$this->session->userdata['id'];
+		$where=" and users_id=".$users_id;
 		$checkFav=$this->common_model->getRow("view_business_clients","user_business_details_id",$_GET['id'],$where);
 		
 		if(isset($checkFav) && $checkFav!="")
@@ -45,8 +52,8 @@ class BusinessProfile extends CI_Controller {
 		$id=$this->session->userdata['business_id'];
 	 }
 	 $this->data['id']=$id;
-	 if(isset($this->session->userdata['id'])){
-	 $this->data['user_id'] = $this->session->userdata['id'];
+	 if(isset($users_id)){
+	 $this->data['user_id'] = $users_id;
 	 }else{
 	 $this->data['user_id'] = '';
 	 }
@@ -67,7 +74,7 @@ class BusinessProfile extends CI_Controller {
 	 $where1=" order by  orderNum ASC";
 	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	
 	if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){ 
-	$status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+	$status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 	if($status->status=='active'){
 	 $this->parser->parse('business_profile',$this->data);
 	 }else{

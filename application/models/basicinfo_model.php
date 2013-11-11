@@ -1,12 +1,17 @@
 <?php 
 class basicinfo_model extends CI_Model {
  
-	function insertBasicInfo(){
+	function insertBasicInfo($users_id=false){
 	//print_r($_POST);exit;
+	if($users_id!=''){
+	  $user_id=$users_id;
+	}else{
+	  $user_id=$this->session->userdata['id'];
+	}
 	    $data=$this->common_model->uploadFile("business_logo");
 		$insertArray=array();
 		$available=array();
-		$insertArray['users_id']= $this->session->userdata['id']; 
+		$insertArray['users_id']= $user_id; 
 		if(isset($_POST['username']))$insertArray['username']= $_POST['username']; 
 		if(isset($_POST['business_type']))$insertArray['business_type']= $_POST['business_type'];
 		if(isset($_POST['category']))$insertArray['category_id']= $_POST['category'];
@@ -20,11 +25,11 @@ class basicinfo_model extends CI_Model {
 		if(isset($data))$insertArray['image']= $data['upload_data']['file_name'];
 		$insertArray['status']= 'active';
 		
-		$isExist=$this->common_model->getRow("user_business_details",'users_id',$this->session->userdata['id']);
+		$isExist=$this->common_model->getRow("user_business_details",'users_id',$user_id);
 		if(isset($isExist) && $isExist!=""){
 		$id=$isExist->id;
 		$business_type=$isExist->business_type;
-		$this->db->update('user_business_details',$insertArray,array('users_id' => $this->session->userdata['id']));
+		$this->db->update('user_business_details',$insertArray,array('users_id' => $user_id));
 		$sql=mysql_query("delete from user_business_availability where user_business_details_id= '".$id."' and type='business' ");
 		
 		}else{
@@ -130,8 +135,8 @@ class basicinfo_model extends CI_Model {
 	$insertSub['end_date']=date('Y-m-d',$end);
 	$insertSub['version_type']='free';
 	$insertSub['status']='active';
-	$insertSub['users_id']=$this->session->userdata['id'];
-	$isExist=$this->common_model->getRow("user_business_subscription","users_id",$this->session->userdata['id']);
+	$insertSub['users_id']=$user_id;
+	$isExist=$this->common_model->getRow("user_business_subscription","users_id",$user_id);
 	if(isset($isExist) && $isExist!=""){
 	$this->db->update('user_business_subscription',$insertSub,array('users_id'=>$isExist->users_id));
 	}else{

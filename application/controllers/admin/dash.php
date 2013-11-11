@@ -119,7 +119,29 @@ class Dash extends CI_Controller {
 		 redirect("admin/dash/category");
 	}
 	
-	public function businesses(){ 
+	public function businesslist(){
+		$this->unsetSessions();
+        $this->businesses();	 
+	}
+	
+	public function userslist(){
+		$this->unsetSessions();
+        $this->users();	 
+	}
+	
+	public function unsetSessions(){
+		$this->session->unset_userdata('role');
+		if(isset($this->session->userdata['business_id']))$this->session->unset_userdata('business_id');
+		if(isset($this->session->userdata['subscription']))$this->session->unset_userdata('subscription');
+		if(isset($this->session->userdata['users_id']))$this->session->unset_userdata('users_id');
+		if(isset($this->session->userdata['admin']))$this->session->unset_userdata('admin');
+			$sessionVal=array(
+			 'role'=>'admin'
+		    );
+		$this->session->set_userdata($sessionVal);
+	} 
+	
+	public function businesses(){
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
 		$where=' 1';

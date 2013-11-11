@@ -17,10 +17,6 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.js">
 </script>
 
-
-
-
-
 <!------for edit/delete script ----->
 <script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.validate.min.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>functions/script.js"></script>
@@ -28,7 +24,7 @@
 <link href='<?php echo base_url(); ?>css/apprise.css' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/apprise-1.5.full.js"></script>
 <script>
-var base_url = "http://localhost/skedulus/";
+var base_url = "<?=base_url()?>";
 </script>
 
 
@@ -67,23 +63,24 @@ var base_url = "http://localhost/skedulus/";
 						} ?>
 				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
 						<!--<img src="images/share.png"  class="brand_img">-->
-						
+						<?php $langauge = $this->session->all_userdata();?>
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
 							
 								<!---<li><a href="btn btn-success">	</li>--->
-								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual') {
+								<?php 
+								if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual') {
 									if($this->session->userdata['role']=='client'){
-									 $Cclass='active';
-									 $Bclass="";
+										 $Cclass='active';
+										 $Bclass="";
 									}else{
-									 $Cclass='';
-									 $Bclass="active";
+										 $Cclass='';
+										 $Bclass="active";
 									}
 								?>
 								<li><div > 
-								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn   btn-switch <?php echo $Cclass ?>" oncontextmenu="return false;">Personal</a> 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn   btn-switch <?php echo $Cclass ?>" oncontextmenu="return false;" >Personal</a> 
 								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" name="business" id="business_selected" class="btn  btn-switch <?php echo $Bclass ?>" oncontextmenu="return false;">Business</a></div></li>
 								<li><div class="language_flag " ><a href="<?php echo base_url(); ?>common_functions/mysettings" class="setting-icon" id="settingsicon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
 								<?php } ?>
@@ -92,15 +89,41 @@ var base_url = "http://localhost/skedulus/";
 								}else{
 								 $url='clients/settings';
 								}?>
-								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="<?php echo base_url(); ?><?php echo $url ?>"><?php echo $this->session->userdata['username']; ?></a></div></li>
-								<li><a href="<?php echo base_url(); ?>common_functions/logout"><?=(lang('Apps_logout'))?></a></li>
 								<li>
-								<div class="language_flag">
+									<div class="language_flag">
+										<?=(lang('Apps_hello'))?> <a href="<?php echo base_url(); ?><?php echo $url ?>"><?php echo $this->session->userdata['username']; ?></a>
+									</div>
+								</li>
+								<li>
+									<a href="<?php echo base_url(); ?>common_functions/logout">
+										<?=(lang('Apps_logout'))?>
+									</a>
+								</li>
+								<li>
 								
-								<a href="<?=base_url();?>welcome/language/english" title="English" >
-									<img src="<?php echo base_url(); ?>images/bri12.png">
-								</a>
-				                <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+
+									<div class="language_flag">
+										
+										
+										<?php if(!empty($langauge['language']) && $langauge['language']=="hebrew"){	?>
+										<a href="<?=base_url();?>welcome/language/hebrew" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/english" class="img2"  title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										
+										<?php }else{ ?>
+										<a href="<?=base_url();?>welcome/language/english" title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<?php } ?>
+										
+									</div>
+								</li>
 	   						</ul>
 							
                  		</div>
@@ -113,10 +136,28 @@ var base_url = "http://localhost/skedulus/";
 								<li>
 								<div class="language_flag">
 								
-								<a href="<?=base_url();?>welcome/language/english" title="English" >
+								<!--<a href="<?=base_url();?>welcome/language/english" title="English" >
 									<img src="<?php echo base_url(); ?>images/bri12.png">
 								</a>
-				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+								<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a>-->
+								<?php  if(!empty($langauge['language']) && $langauge['language']=="hebrew"){	?>
+										<a href="<?=base_url();?>welcome/language/hebrew"  title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/english" title="English" class="img2">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										
+										<?php }else{ ?>
+										<a href="<?=base_url();?>welcome/language/english" title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew" >
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<?php } ?>
+				
+								</div></li>
 	   						</ul>
 							
                  		</div><!-- /.nav-collapse -->

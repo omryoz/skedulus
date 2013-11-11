@@ -22,7 +22,15 @@ class Services extends CI_Controller {
     }
 	
 	public function list_services(){
-	 $this->parser->parse('include/header',$this->data);
+	 if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
+	 //$this->parser->parse('include/header',$this->data);
 	 if(isset($_GET['register'])){
 	 $this->parser->parse('include/registration_navbar',$this->data);
 	 }else{
@@ -30,7 +38,7 @@ class Services extends CI_Controller {
 	 }
 	 $this->data['tableList']=$this->bprofile_model->getServices();
      $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
- 	 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+ 	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
      $this->parser->parse('services',$this->data);
 	 }else{
@@ -69,7 +77,15 @@ class Services extends CI_Controller {
 	
 	
 	function list_classes(){
-		$this->parser->parse('include/header',$this->data);
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
+		//$this->parser->parse('include/header',$this->data);
 		if(isset($_GET['register'])){
 			$this->parser->parse('include/registration_navbar',$this->data);
 		}else{

@@ -15,7 +15,16 @@ class Settings extends CI_Controller {
     }
 	
 	public function business(){
-	 $this->parser->parse('include/header',$this->data);
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
+	
+	 //$this->parser->parse('include/header',$this->data);
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	 $isExist=$this->common_model->getRow("business_notification_settings","user_business_details_id",$this->session->userdata['business_id']);
 	 if($isExist){
@@ -41,7 +50,7 @@ class Settings extends CI_Controller {
 	 redirect('settings/business');
 	 }
     // $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
-    $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+    $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 	if($status->status=='active'){	
 	$this->parser->parse('business_settings',$this->data);
 	}else{

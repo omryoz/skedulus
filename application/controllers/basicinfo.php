@@ -16,13 +16,22 @@ class Basicinfo extends CI_Controller {
 	
 	
 	public function index(){
+	 	if(isset($this->session->userdata['admin'])){
+		  $users_id=$this->session->userdata['users_id'];
+		  $this->data['switch']='switchbtn';
+		  $this->parser->parse('include/admin_header',$this->data);
+		  }else{
+			  $users_id=$this->session->userdata['id'];
+			  $this->parser->parse('include/header',$this->data);
+		  }
+	    $this->data['user_id']=$users_id;
 		$Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 		$this->data['action']="add";
 		
-		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
 		$this->data['username']=$isExist->username;
@@ -60,19 +69,29 @@ class Basicinfo extends CI_Controller {
 		$id=$this->basicinfo_model->insertBasicInfo();
 		redirect($_POST['businessType']);
 		}
-		$this->parser->parse('include/header',$this->data);
+	
+		//$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/registration_navbar',$this->data);
 		$this->parser->parse('basicinfo',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
 	public function editinfo(){
+	if(isset($this->session->userdata['admin'])){
+		  $users_id=$this->session->userdata['users_id'];
+		  $this->data['switch']='switchbtn';
+		  $this->parser->parse('include/admin_header',$this->data);
+		  }else{
+			  $users_id=$this->session->userdata['id'];
+			  $this->parser->parse('include/header',$this->data);
+		  }
+		$this->data['user_id']=$users_id;
 		$Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 		
-		$isExist=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		$this->data['action']="edit";
 		$this->data['disabled']="disabled";
 		$this->data['name']=$isExist->name;
@@ -89,11 +108,12 @@ class Basicinfo extends CI_Controller {
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		
 		if(isset($_GET['checkinfo'])){
-		$id=$this->basicinfo_model->insertBasicInfo();
-		header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
+		$id=$this->basicinfo_model->insertBasicInfo($users_id);
+		redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		//header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
 		//redirect(businessProfile);
 		}
-		$this->parser->parse('include/header',$this->data);
+		//$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/dash_navbar',$this->data);
 		$this->parser->parse('basicinfo',$this->data);
 		$this->parser->parse('include/footer',$this->data);

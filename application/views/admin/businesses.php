@@ -56,7 +56,7 @@
 							   <div class="btn-group">
   <!---<a href="javascript:;" class="btn"><?=(lang('Apps_active'))?></a>--->
   <input type="button" name="status" title="<?php if($list->status=='active'){echo 'inactivate now';}else {echo 'activate now';} ?>" id="business<?php echo $list->business_id; ?>" value="<?php if($list->status=='active'){echo 'inactive';}else {echo 'active';} ?>" user-type="business" class="btn status" data-val="<?php echo $list->business_id; ?>" data-status="<?php echo $list->status; ?>">
-  <a href="javascript:;" class="btn"><?=(lang('Apps_viewdashboard'))?></a>
+  <a href="<?php echo base_url() ?>overview/display/?id=<?php echo $list->business_id; ?>" class="btn" oncontextmenu="return false;"><?=(lang('Apps_viewdashboard'))?></a>
 </div>
 							  <!---<a href="javascript:;" data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash"></i></a>--->
 

@@ -56,8 +56,8 @@ var base_url = "http://localhost/skedulus/";
 							<span class="icon-bar"></span>
                   		</a>
 						<?php 
-						if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='admin'){
-						 $url=base_url().'dash/users';
+						if($this->session->userdata['role']=='admin' || isset($this->session->userdata['admin'])){
+						 $url=base_url().'admin/dash/userslist';
 						} 
 						 ?>
 				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
@@ -66,8 +66,10 @@ var base_url = "http://localhost/skedulus/";
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
-								
-								
+								<?php  if(isset($switch)){?>
+								<li><div> 
+								<a href="<?php echo base_url(); ?>admin/dash/businesslist" name="my" id="my_selected" class="btn   btn-switch " oncontextmenu="return false;" >Admin Dashboard</a> 
+								</div></li><?php } ?>
 								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="javascript:;"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>admin/dash/logout"><?=(lang('Apps_logout'))?></a></li>
 								<li>

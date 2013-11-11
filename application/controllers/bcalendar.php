@@ -22,7 +22,15 @@ class Bcalendar extends CI_Controller {
 	
 	function cal($id=false){ 
 	if($id){
-	$this->parser->parse('include/header',$this->data);
+	
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
 	$this->data['role']="";
 		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
@@ -30,7 +38,7 @@ class Bcalendar extends CI_Controller {
 		  $this->parser->parse('include/navbar',$this->data);
 		  }
 		  if(isset($this->session->userdata['id'])){
-		  $this->data['user_id'] = $this->session->userdata['id'];
+		  $this->data['user_id'] = $users_id;
 		  @session_start();
 		  $this->data['role'] = $this->session->userdata['role'];	
 		  }
@@ -40,7 +48,7 @@ class Bcalendar extends CI_Controller {
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 		 
 		}
-		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);

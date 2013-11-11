@@ -16,8 +16,15 @@ class Staffs extends CI_Controller {
     }
 	
 	public function list_staffs(){
-	// print_r($_GET); exit;
-	 $this->parser->parse('include/header',$this->data);
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
+	// $this->parser->parse('include/header',$this->data);
 	 if(isset($_GET['register'])){
 	 $this->parser->parse('include/registration_navbar',$this->data);
 	 }else{
@@ -32,7 +39,7 @@ class Staffs extends CI_Controller {
 	
 	 $this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 	 $this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
-	 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
 	 $this->parser->parse('staffs',$this->data);
 	 }else{
@@ -129,6 +136,8 @@ class Staffs extends CI_Controller {
 		 
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);
+		 $query=$this->db->query("delete from employee_services where users_id='".$_GET['id']."'");
+		
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Staff deleted successfully !');
 		 redirect("staffs/list_staffs");
