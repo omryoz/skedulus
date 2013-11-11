@@ -83,8 +83,8 @@ var base_url = "http://localhost/skedulus/";
 									}
 								?>
 								<li><div > 
-								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn   btn-switch <?php echo $Cclass ?>" >Personal</a> 
-								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" name="business" id="business_selected" class="btn  btn-switch <?php echo $Bclass ?>">Business</a></div></li>
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/my" name="my" id="my_selected" class="btn   btn-switch <?php echo $Cclass ?>" oncontextmenu="return false;">Personal</a> 
+								<a href="<?php echo base_url(); ?>common_functions/mydashboard/business" name="business" id="business_selected" class="btn  btn-switch <?php echo $Bclass ?>" oncontextmenu="return false;">Business</a></div></li>
 								<li><div class="language_flag " ><a href="<?php echo base_url(); ?>common_functions/mysettings" class="setting-icon" id="settingsicon"><i class="icon-cog icon-white" title="<?=(lang('Apps_settings'))?>"></i> </a></div></li>
 								<?php } ?>
 								<?php if(isset($this->session->userdata['type']) && $this->session->userdata['type']=='dual'){

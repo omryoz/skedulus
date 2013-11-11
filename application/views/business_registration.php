@@ -90,9 +90,7 @@
 										} ?>
 										<tr data-toggle="tooltip" class="tool" data-original-title="The Promotion notification for your business <?php echo $reportVal; ?>"><td colspan="6"><center><?=(lang('Apps_pro_notify'))?> </center></td></tr>
 										<tr data-toggle="tooltip" class="tool" >
-										<td colspan="6" >
-										
-										<?php echo $report; ?></td></tr>
+										<td  ><?php echo $report; ?></td></tr>
 									</tbody>
 								</table>
 							</div>

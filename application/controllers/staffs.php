@@ -32,7 +32,12 @@ class Staffs extends CI_Controller {
 	
 	 $this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 	 $this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+	 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+     if($status->status=='active'){
 	 $this->parser->parse('staffs',$this->data);
+	 }else{
+	 $this->parser->parse('deactivated',$this->data);
+	 }
 	 $this->parser->parse('include/footer',$this->data);
 	
 	}

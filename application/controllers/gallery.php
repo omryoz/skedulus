@@ -18,7 +18,12 @@ class Gallery extends CI_Controller {
 	 $this->parser->parse('include/header',$this->data);
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	 $this->data['tableList']=$this->bprofile_model->getImages();
+	 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+     if($status->status=='active'){
 	 $this->parser->parse('gallery',$this->data);
+	 }else{
+	 $this->parser->parse('deactivated',$this->data);
+	 }
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	

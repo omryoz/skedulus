@@ -40,8 +40,13 @@ class Bcalendar extends CI_Controller {
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 		 
 		}
+		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
+		 }else{
+		  $this->parser->parse('deactivated',$this->data);
+		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
@@ -88,7 +93,12 @@ class Bcalendar extends CI_Controller {
 		}
 		//$this->data['user_id'] = $id;
 	    $this->parser->parse('include/modal_popup',$this->data);
+		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
+		 if($status->status=='active'){
 		 $this->parser->parse('mycalendar',$this->data);
+		 }else{
+		 redirect('home/deactivated');
+		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	

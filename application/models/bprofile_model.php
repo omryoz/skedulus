@@ -77,7 +77,7 @@ class bprofile_model extends CI_Model {
 		if(isset($_POST['phonenumber']))$insertArray['phone_number']= $_POST['phonenumber'];
 		$insertArray['user_role']= 'employee';
 		if(isset($_POST['email'])){
-		$insertArray['status']= 'inactive';
+		$insertArray['status']= 'active';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
 		}
 		//echo "here";

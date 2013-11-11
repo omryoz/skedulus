@@ -321,7 +321,8 @@
 		$lang['Apps_businesseslist'] = "Businesses List";
 		$lang['Apps_owner'] = "Owner";
 		$lang['Apps_view'] = "View";
-		$lang['Apps_view'] = "Business type";
+		$lang['Apps_businesstype'] = "Business type";
+		$lang['Apps_viewdashboard'] = "view dashboard";
 		
 		
 ?>

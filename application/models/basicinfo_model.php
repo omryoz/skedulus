@@ -18,6 +18,7 @@ class basicinfo_model extends CI_Model {
 		if(isset($_POST['hidLong']))$insertArray['map_longitude']= $_POST['hidLong'];
 		if(isset($_POST['calendar']))$insertArray['calendar_type']= $_POST['calendar'];
 		if(isset($data))$insertArray['image']= $data['upload_data']['file_name'];
+		$insertArray['status']= 'active';
 		
 		$isExist=$this->common_model->getRow("user_business_details",'users_id',$this->session->userdata['id']);
 		if(isset($isExist) && $isExist!=""){

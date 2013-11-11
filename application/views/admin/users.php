@@ -2,7 +2,7 @@
 		</div>
 		<h3> <?=(lang('Apps_userlist'))?> 
 						   <a href="#admin_add"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
-						</h3><br/>
+						</h3>
 						
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
@@ -46,9 +46,18 @@
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
 							  <td><?php echo $list->user_role; ?></td>
-							  <td><?php echo $list->status; ?></td>
+							  <td id="userStatus<?php echo $list->id; ?>"><?php echo $list->status; ?></td>
+							  
 							  <td>
-							  <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
+							<!--   <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="javascript:;" class="btn" ><?=(lang('Apps_active'))?></a> -->
+							  
+							    <div class="btn-group">
+  <input type="button" name="status" title="<?php if($list->status=='active'){echo 'inactivate now';}else {echo 'activate now';} ?>" id="user<?php echo $list->id; ?>" value="<?php if($list->status=='active'){echo 'inactive';}else {echo 'active';} ?>" class="btn status" data-val="<?php echo $list->id; ?>" user-type="user" data-status="<?php echo $list->status; ?>">
+ <!--- <a href="javascript:;" class="btn status" data-val="<?php echo $list->id; ?>" data-status="<?php echo $list->status; ?>"><?php if($list->status=='active'){echo 'active';}else {echo 'inactive';} ?></a>-->
+  <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool btn" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>
+</div>
+							  
 							  <!---<a href="admin_user_detailview.php" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit"></i></a>--->
 							  </td>
 							  

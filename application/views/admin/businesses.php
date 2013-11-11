@@ -2,7 +2,7 @@
 		</div>
 		<h3 ><?=(lang('Apps_businesseslist'))?>
 						   
-						</h3><br/>
+						</h3>
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
 				<!-- <h4>Search Businesses</h4> -->
@@ -38,17 +38,26 @@
 							  <th><h4><?=(lang('Apps_owner'))?></h4></th>
 							  <th><h4><?=(lang('Apps_email'))?></h4></th>
 							  <th><h4><?=(lang('Apps_subscription'))?></h4></th>
+							  <th><h4><?=(lang('Apps_status'))?></h4></th>
 							  <th><h4><?=(lang('Apps_action'))?></h4></th>
+							  
 							</tr>
 						  </thead>
-						 <?php foreach($contentList as $list){ ?>
+						 <?php  foreach($contentList as $list){ ?>
 							<tr >
 							  <td><?php echo $list->business_name ?></td>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
 							  <td><?php echo $list->email; ?></td>
 							  <td><?php echo $list->subscription_name; ?> </td>
+							  <td id="businessStatus<?php echo $list->business_id; ?>"><?php echo $list->status; ?> </td>
 							  <td>
-							   <a href="<?php echo base_url() ?>admin/dash/bDetails/<?php echo $list->business_id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
+							  <!--  <a href="<?php echo base_url() ?>admin/dash/bDetails/<?php echo $list->business_id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp; -->
+							   
+							   <div class="btn-group">
+  <!---<a href="javascript:;" class="btn"><?=(lang('Apps_active'))?></a>--->
+  <input type="button" name="status" title="<?php if($list->status=='active'){echo 'inactivate now';}else {echo 'activate now';} ?>" id="business<?php echo $list->business_id; ?>" value="<?php if($list->status=='active'){echo 'inactive';}else {echo 'active';} ?>" user-type="business" class="btn status" data-val="<?php echo $list->business_id; ?>" data-status="<?php echo $list->status; ?>">
+  <a href="javascript:;" class="btn"><?=(lang('Apps_viewdashboard'))?></a>
+</div>
 							  <!---<a href="javascript:;" data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash"></i></a>--->
 
 							  </td>

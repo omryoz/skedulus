@@ -26,6 +26,7 @@ class Basicinfo extends CI_Controller {
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
 		$this->data['username']=$isExist->username;
+		$this->data['businessurl']=base_url().$isExist->username;
 		$this->data['description']=$isExist->description;
 		$this->data['address']=$isExist->address;
 		$this->data['mobile']=$isExist->mobile_number;
@@ -38,6 +39,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['disabled']="disabled";
 		// echo "<pre>";print_r($this->data['isExistAvailability']); exit;
 		}else{
+		$this->data['businessurl']="";
 		$this->data['disabled']="";
 		$this->data['isExistAvailability']="";
 		$this->data['username']="";

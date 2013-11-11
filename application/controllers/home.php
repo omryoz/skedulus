@@ -141,6 +141,14 @@ class Home extends CI_Controller {
 		}
 	}
 	
+	public function deactivated(){ 
+	  $this->session->sess_destroy();
+	  $this->data['userRole']="clientlogin";
+	  $this->data['signUp']="clientSignUp";
+	  $this->data['inactive']="Inactive";
+	  $this->load->view('include/meta_tags',$this->data);
+	  $this->load->view('general/login',$this->data);
+	}
 	
 	public function businessSignUp(){
 	    $Category=$this->common_model->getDDArray('category','id','name');

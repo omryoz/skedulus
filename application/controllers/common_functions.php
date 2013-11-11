@@ -126,7 +126,8 @@ class Common_functions extends CI_Controller {
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
 		$password= MD5($_POST['password']);
-		 $where=" And password='".$password."' AND status='active'";
+		// $where=" And password='".$password."' AND status='active'";
+		  $where=" And password='".$password."'";
 		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
 		 if($values==""){
 		 CI_Controller::get_instance()->load->helper('language');
@@ -134,6 +135,14 @@ class Common_functions extends CI_Controller {
 	    $this->utilities->language();
 		 //redirect('home/clientlogin/?failure');
 	    $this->data['failure']="Failure";
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->parser->parse('general/login',$this->data);
+		 }elseif($values->status=='inactive'){
+		 CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
+		 //redirect('home/clientlogin/?failure');
+	    $this->data['inactive']="Inactive";
 		$this->parser->parse('include/meta_tags',$this->data);
 		$this->parser->parse('general/login',$this->data);
 		 }else{
@@ -147,6 +156,7 @@ class Common_functions extends CI_Controller {
 		 if($referal_url){ 
 		 if($values->user_role=='manager'){
 		 $redirectUrl="Location:".$_POST['referal_url'];
+		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 $this->businesslogin($redirectUrl);
 		 }else{
 		  header("Location:".$_POST['referal_url']);
@@ -154,8 +164,10 @@ class Common_functions extends CI_Controller {
 		 }else{
 			if($values->user_role=='manager'){
 			$this->businesslogin();
-			}else{
+			}elseif($values->user_role=='client'){
 			redirect('cprofile');
+			}else{
+			redirect('home/clientlogin');
 			}
 		 }
 		 }
@@ -266,6 +278,8 @@ class Common_functions extends CI_Controller {
 		echo "true";
 		}
 	}
+	
+	
 	
 	public function logout(){
 		$this->session->sess_destroy();

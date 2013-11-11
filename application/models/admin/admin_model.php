@@ -34,5 +34,25 @@ function getdetails($tablename,$offset,$limit,$where){
 		if(isset($_POST['promotion_notifications']))$insertArray['promotion_notifications']= $_POST['promotion_notifications']; 
 	    $this->db->update('subscription_features',$insertArray,array('subscription_id' => $_POST['subid']));
 	}
+	
+	function updateUserStatus(){
+		if($_POST['status']=='active'){
+		 $insertArray['status']= 'inactive';
+		}elseif($_POST['status']=='inactive'){
+		$insertArray['status']= 'active';
+		} 
+		if($_POST['type']=='user'){
+		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
+		}elseif($_POST['type']=='business'){
+		$this->db->update('user_business_details',$insertArray,array('id' => $_POST['id']));
+		}
+		if($this->db->affected_rows()>0){
+         print_r($insertArray['status']);	
+		}else{
+	     echo 0;
+		}
+	}
+	
+	
 }
 ?>

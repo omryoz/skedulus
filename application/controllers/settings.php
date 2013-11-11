@@ -41,7 +41,12 @@ class Settings extends CI_Controller {
 	 redirect('settings/business');
 	 }
     // $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
-	 $this->parser->parse('business_settings',$this->data);
+    $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+	if($status->status=='active'){	
+	$this->parser->parse('business_settings',$this->data);
+	}else{
+	$this->parser->parse('deactivated',$this->data);
+	}
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	

@@ -19,7 +19,12 @@ class Clients extends CI_Controller {
 	 $this->parser->parse('include/header',$this->data);
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	 $this->data['tableList']=$this->bprofile_model->getclientsList();
+	  $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+     if($status->status=='active'){
 	 $this->parser->parse('clients',$this->data);
+	 }else{
+	  $this->parser->parse('deactivated',$this->data);
+	 }
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
@@ -72,7 +77,12 @@ class Clients extends CI_Controller {
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
 		$this->data['contentList']=$this->common_model->getAllRows("view_business_clients","users_id",$this->session->userdata("id"));
+		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
+		 if($status->status=='active'){
 		$this->load->view('favourite',$this->data);
+		}else{
+		 redirect('home/deactivated');
+		}
 		$this->load->view('include/footer',$this->data);
 	}
 	
@@ -90,7 +100,12 @@ class Clients extends CI_Controller {
 		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
 		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
 		$this->data['cardDetails']= $this->common_model->getRow("credit_card_details","users_id",$this->session->userdata("id"));
+		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
+		 if($status->status=='active'){
 		$this->load->view('settings',$this->data);
+		}else{
+		 redirect('home/deactivated');
+		}
 		$this->load->view('include/footer',$this->data);
 	}
 	

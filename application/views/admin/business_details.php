@@ -31,7 +31,7 @@
 				<td><?php echo $details->category_name	?></td>
 				</tr>
 				<tr>
-				<th > <?=(lang('Apps_view'))?></th>
+				<th > <?=(lang('Apps_businesstype'))?></th>
 				<td><?php echo $details->business_type	?></td>
 				</tr>
 				<tr>

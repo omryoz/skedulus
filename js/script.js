@@ -81,6 +81,29 @@ $(".editCategory").click(function(){
 })
 
 $(document).ready(function(){
+//alert($(this).attr('data-status'));
+
+$(".status").click(function(){
+var type=$(this).attr('user-type');
+var id=$(this).attr('data-val'); 
+var preStatus=$(this).attr('data-status');
+  url=baseUrl+'admin/dash/updateStatus',
+  data= {'id': $(this).attr('data-val'),'type':type,'status':$(this).attr('data-status')},
+ $.post(url,data,function(data){ 
+ if(data!=0){
+	$("#"+type+id).attr('data-status',data);
+	$("#"+type+'Status'+id).html(data);
+	$("#"+type+id).attr('value',preStatus);
+	if(data=='active'){
+	$("#"+type+id).attr('title','inactivate now');
+	}else if(data=='inactive'){
+	$("#"+type+id).attr('title','activate now');
+	}
+	}
+ })
+})
+
+
 
 $(".favourite").click(function(){
 	var id=$(this).attr('data-val');

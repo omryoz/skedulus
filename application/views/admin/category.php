@@ -3,7 +3,7 @@
 		<h3> <?=(lang('Apps_categorylist'))?>
 						   <a href="javascript:;"  class="btn pull-right btn-success" id="cadd" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3> 
-						<br/>
+					
 						
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">

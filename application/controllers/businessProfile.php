@@ -66,7 +66,16 @@ class BusinessProfile extends CI_Controller {
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
 	 $where1=" order by  orderNum ASC";
 	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	
+	if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){ 
+	$status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+	if($status->status=='active'){
 	 $this->parser->parse('business_profile',$this->data);
+	 }else{
+	   $this->parser->parse('deactivated',$this->data);
+	 }
+	 }else{
+	 $this->parser->parse('business_profile',$this->data);
+	 }
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	

@@ -18,6 +18,7 @@ class Dash extends CI_Controller {
 		$this->load->library('utilities');
 		
 	    $this->utilities->language();
+		$this->data['admin']='admin';
     }
 	
 	public function index() { //print_r($_POST); exit;
@@ -29,6 +30,7 @@ class Dash extends CI_Controller {
 	public function users(){ //print_r($_REQUEST); exit; 
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
+		
 		$where=' 1';
 		if(isset($_POST['keyword']) && $_POST['keyword']!=''){
 		$this->data['search']=$_POST['keyword'];
@@ -58,6 +60,7 @@ class Dash extends CI_Controller {
 	 $this->load->view('include/admin_navbar',$this->data);
      $this->data['details']=$this->common_model->getRow('users','id',$id);
 	 $this->load->view('admin/user_details',$this->data);
+	 $this->load->view('include/footer',$this->data);
 	}
 	
 	public function subscription(){ 
@@ -140,6 +143,7 @@ class Dash extends CI_Controller {
             /* End Pagination Code  */
 		}
 		$this->parser->parse('admin/businesses',$this->data);
+		$this->parser->parse('include/footer',$this->data);
 	}
 	
 	public function bDetails($id=false){
@@ -147,6 +151,7 @@ class Dash extends CI_Controller {
 		 $this->load->view('include/admin_navbar',$this->data);
 		 $this->data['details']=$this->common_model->getRow('view_business_details','business_id',$id);
 		 $this->load->view('admin/business_details',$this->data);
+		 $this->load->view('include/footer',$this->data);
 	}
 	
 	public function content(){ 
@@ -158,6 +163,10 @@ class Dash extends CI_Controller {
 	public function logout(){ 
 	   $this->session->sess_destroy();
 	   redirect('admin/login');
+	}
+	
+	public function updateStatus(){
+	  $val= $this->admin_model->updateUserStatus();
 	}
 	
 	
