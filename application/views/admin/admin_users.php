@@ -1,6 +1,78 @@
+<script>
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            $("#addUser").validate({
+                rules: {
+                    name: "required",
+                    email: {
+                        required: true,
+                         email: true,
+						remote: {
+						  url: baseUrl+'admin/dash/checkEmail',
+						  type: "post",
+						  data: {
+							email: function(){ return $("#email").val(); }
+						  }
+                     }
+					},	
+					password:{ 
+					required: true,
+					minlength: "6",
+					}
+                    
+                },
+                messages: {
+                    name: "  required",
+                    email: {
+					required: "  required",
+					email: "  Please enter a valid email address",
+					remote: "  Email already exist"
+					},		
+					password: {
+					required:"  required",	
+					minlength:"  Minimum 6 characters is required"
+					}				
+                },
+				
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+
+				},
+
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+
+$(document).ready(function(){
+ $(".addAdminUsers").click(function(){
+$("#addUser")[0].reset();
+$("#admin_add").modal('show');
+})
+
+})
+
+</script>
 <?php //include('header_login.php')?>
 		</div>
-		
+		<h3> <?=(lang('Apps_userlist'))?> 
+						   <a href="javascript:void(0);"  class="btn pull-right btn-success addAdminUsers" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
+						</h3>
 						
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
@@ -35,29 +107,21 @@
 						  <thead>
 							<tr >
 							  <th><h4><?=(lang('Apps_name'))?></h4></th>
-							  <th><h4><?=(lang('Apps_userrole'))?></h4></th>
-							  <th><h4><?=(lang('Apps_status'))?></h4></th>
+							 
 							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php foreach($contentList as $list){ ?>
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
-							  <td><?php echo $list->user_role; ?></td>
-							  <td id="userStatus<?php echo $list->id; ?>"><?php echo $list->status; ?></td>
-							  
+							 
 							  <td>
-							<!--   <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>&nbsp;&nbsp;&nbsp;
-							  <a href="javascript:;" class="btn" ><?=(lang('Apps_active'))?></a> -->
-							  
-							    <div class="btn-group">
-  <input type="button" name="status" title="<?php if($list->status=='active'){echo 'inactivate now';}else {echo 'activate now';} ?>" id="user<?php echo $list->id; ?>" value="<?php if($list->status=='active'){echo 'inactive';}else {echo 'active';} ?>" class="btn status" data-val="<?php echo $list->id; ?>" user-type="user" data-status="<?php echo $list->status; ?>">
- <!--- <a href="javascript:;" class="btn status" data-val="<?php echo $list->id; ?>" data-status="<?php echo $list->status; ?>"><?php if($list->status=='active'){echo 'active';}else {echo 'inactive';} ?></a>-->
-  <a href="<?php echo base_url() ?>admin/dash/userDetails/<?php echo $list->id ?>" data-toggle="tooltip" class="tool btn" data-original-title="<?=(lang('Apps_view'))?>"><i class="icon-upload-alt"></i></a>
-</div>
-							  
-							  <!---<a href="admin_user_detailview.php" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit"></i></a>--->
+							  <?php if($list->email!='admin@gmail.com'){ ?>
+							  <!---<a href="javascript:;" data-toggle="tooltip" data-val="<?php echo $list->id; ?>" class="tool editCategory" data-original-title="<?=(lang('Apps_edit'))?>"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;--->
+							  <a href="<?=base_url()?>admin/dash/delete_adminusers/<?php echo $list->id; ?>"  data-toggle="tooltip" class="tool confirm" data-original-title=" <?=(lang('Apps_delete'))?>"><i class="icon-trash"></i></a>
+							 <?php } ?>
 							  </td>
+							  
 							  
 							</tr>
 						<?php } ?>
@@ -84,38 +148,39 @@
     <h3 id="myModalLabel"> <?=(lang('Apps_adduser'))?></h3>
   </div>
   <div class="modal-body">
-   <form class="form-horizontal">
+   <form action="<?php echo base_url(); ?>admin/dash/admin_users/" method="POST" name="addUser" id="addUser" >
    			<div class="control-group">
 			<label class="control-label" for="inputEmail"> <?=(lang('Apps_name'))?></label>
 			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_name'))?>">
+			  <input type="text" name="name" id="name" placeholder="<?=(lang('Apps_name'))?>">
 			</div>
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" for="inputEmail"><?=(lang('Apps_email'))?></label>
 			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_email'))?>">
+			  <input type="text" name="email" id="email" placeholder="<?=(lang('Apps_email'))?>">
 			</div>
 		  </div>
 		  <div class="control-group">
 			<label class="control-label" for="inputPassword"><?=(lang('Apps_pwd'))?></label>
 			<div class="controls">
-			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_pwd'))?>">
+			  <input type="password" name="password" id="password" placeholder="<?=(lang('Apps_pwd'))?>" maxlength="15">
 			</div>
 		  </div>
-		  <div class="control-group">
+		  <!----<div class="control-group">
 			<label class="control-label" for="inputPassword"> <?=(lang('Apps_confirmpwd'))?></label>
 			<div class="controls">
 			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_confirmpwd'))?>">
 			</div>
-		  </div>
+		  </div>--->
   
-</form>
+
   </div>
   <div class="modal-footer">
-    <button class="btn btn-success"> <?=(lang('Apps_save'))?></button>
+   <input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class="btn btn-success">
+    
   </div>
-  
+  </form>
 </div>
 <!--end add user Modal -->		
 		

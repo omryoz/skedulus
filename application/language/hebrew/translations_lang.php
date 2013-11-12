@@ -310,7 +310,7 @@
 		$lang['Apps_userrole'] = "User role";
 		$lang['Apps_status'] = "Status";
 		$lang['Apps_norecordsfound'] = "No records found";
-		$lang['Apps_adduser'] = "Add User";
+		$lang['Apps_adduser'] = "Add admin users";
 		$lang['Apps_subscriptiondetail'] = "Subscription Details";
 		$lang['Apps_users'] = "Users";
 		$lang['Apps_businesses'] = "Businesses";

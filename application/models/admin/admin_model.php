@@ -53,6 +53,27 @@ function getdetails($tablename,$offset,$limit,$where){
 		}
 	}
 	
+	function insertUser($table=false,$filter=false,$id=false){
+	if($id!=''){
+	 $this->db->update($table,$filter,array('id' => $id));
+	}else{
+		$this->db->insert($table,$filter);
+	}
+		//echo $this->db->last_query();die;
+		if($this->db->affected_rows()>0){
+			$id=mysql_insert_id();
+		    return $id;
+		}else{
+			return false;
+		}
+	}
+	
+	function updatePassword(){
+		$password=MD5($_POST['password']);
+		$id=$this->session->userdata['id'];
+		 $sql=mysql_query("update users set password='".$password."' where id='".$id."'");
+		 return true;
+	}
 	
 }
 ?>

@@ -27,6 +27,80 @@ class Dash extends CI_Controller {
 		$this->parser->parse('admin/login',$this->data);
 	}
 	
+	public function settings(){
+	 $this->load->view('include/admin_header',$this->data);
+	 $this->load->view('include/admin_navbar',$this->data);
+	 $this->load->view('admin/settings',$this->data);
+	 $this->load->view('include/footer',$this->data);
+	}
+	
+	public function delete_adminusers($id){
+	    $val= $this->common_model->deleteRow("users",$id);
+		redirect('admin/dash/admin_users');
+	}
+	
+	public function changePassword(){ 
+	  $this->admin_model->updatePassword();
+	  $this->logout();
+	}
+	
+	public function checkEmail(){ 
+	$where =" and user_role='admin'";
+		$duplicate=$this->common_model->getRow("users","email",$_POST['email'],$where);
+		if($duplicate){
+		echo "false";
+		}else{
+		echo "true";
+		}
+	}
+	
+	public function admin_users(){
+	if(isset($_POST['save'])){
+		if(isset($_POST['id'])){
+		$id=$_POST['id'];
+		}else{
+		$id='';
+		}
+	  $filter= array("first_name"=>$_POST['name'],"email"=>$_POST['email'],"activationkey"=>MD5($_POST['email'].time()),"user_role"=>'admin',"password"=>MD5($_POST['password']),"status"=>'active');
+	  $id=$this->admin_model->insertUser('users',$filter,$id);
+	  
+		 $userdetails= $this->common_model->getRow("users","id",$id);
+		 $this->data['name'] = $userdetails->first_name." ".$userdetails->last_name;
+		 $this->data['activation_key'] = $userdetails->activationkey;
+		 $this->data['password'] = $_POST['password'];
+		 $this->data['email'] = $userdetails->email;
+		 $email = $userdetails->email; 
+		 $subject ="Account Activation";	
+		 $message=$this->load->view('admin/account_activation',$this->data,TRUE);
+		 $this->common_model->mail($email,$subject,$message);
+	}
+	    $this->parser->parse('include/admin_header',$this->data);
+		$this->parser->parse('include/admin_navbar',$this->data);
+		
+		$where=" user_role='admin'";
+		if(isset($_POST['keyword']) && $_POST['keyword']!=''){
+		$this->data['search']=$_POST['keyword'];
+		$where.= " AND first_name LIKE '%" .$_POST['keyword']. "%' OR last_name LIKE '%" .$_POST['keyword']. "%'";
+		}
+		$config['total_rows'] = $this->common_model->getCount('users','id',$where);
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'admin/dash/users/';
+			$config['per_page'] = '15';
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(4)!=''){
+			$offset=$this->uri->segment(4);
+			}else{
+			$offset=0;
+			}
+			//print_r($this->uri->segment(5));exit;
+			$this->data['contentList']=$this->admin_model->getdetails('users',$offset,$config['per_page'],$where);
+            /* End Pagination Code  */
+		}
+		$this->parser->parse('admin/admin_users',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
+	
 	public function users(){ //print_r($_REQUEST); exit; 
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);

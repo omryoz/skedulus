@@ -35,7 +35,15 @@
                </div>
 	
 	<hr class="hr_style">
+	
 	<div class="row-fluid">
+		<?php
+		if($this->session->flashdata('message_type')) { ?>
+					<div class="alert alert-<?=$this->session->flashdata('message_type')?>">
+						<a class="close" data-dismiss="alert">×</a>
+						<?=$this->session->flashdata('message');?>	
+					</div>
+				<?php } ?> 
 		<div class="span4 offset4 login_form">
 		
 		<form class="logged" id="form1" method="POST" action="<?php echo base_url(); ?>common_functions/<?php echo $userRole ?>/?checkinfo">
@@ -48,10 +56,10 @@
 		  
 		</form>
 		
-		<form  class="reset" id="form2">
-		   <input  type="text" class="span12"  placeholder="<?=(lang('Apps_emailaddress'))?>" >
+		<form name="reset" class="reset" id="form2" method="post" action="<?=base_url()?>common_functions/forgotpassword">
+		   <input  type="text" class="span12"  placeholder="<?=(lang('Apps_emailaddress'))?>" name="email" />
 		   <!-- <a href="business_overview.php" type="submit" class="btn btn-success span4">Reset</a> -->
-		   <input type="submit" name="Reset" value="<?=(lang('Apps_reset'))?>" class="btn btn-success span4" />
+		   <input type="submit" name="submit" value="<?=(lang('Apps_reset'))?>" class="btn btn-success span4" value="Reset" />
 		   <a href="javascript:;" class="pull-right revert" onClick="$('#form2').toggle();$('#form1').toggle();"><?=(lang('Apps_backtologin'))?></a>
 		</form>
 		</div>

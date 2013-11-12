@@ -28,8 +28,10 @@ class BusinessProfile extends CI_Controller {
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
 	  $this->parser->parse('include/admin_header',$this->data);
-	}else{
+	}else if(isset($this->session->userdata['id'])){
 	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}else{
 	  $this->parser->parse('include/header',$this->data);
 	}
 	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){

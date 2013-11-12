@@ -106,5 +106,14 @@ class cprofile_model extends CI_Model {
 		return array_unique($startdates);
 		}
 	}
+	function updateUserinfoByfilter($filter=false,$id=false){
+		$this->db->where('id', $id);
+		$this->db->update('users', $filter); 
+		if($this->db->affected_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
 ?>

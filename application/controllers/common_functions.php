@@ -109,14 +109,8 @@ class Common_functions extends CI_Controller {
 			 redirect('basicinfo');
 			 }
 		 }
-		//}
-		// else{
-		// $this->parser->parse('include/meta_tags',$this->data);
-		// $this->parser->parse('general/login',$this->data);
-		// }
-	//}
 	
-	public function clientlogin(){  
+		public function clientlogin(){  
 	if(isset($_POST['referal_url'])){
 	 $referal_url=$_POST['referal_url'];
 	 $this->data['url']=$referal_url;
@@ -279,19 +273,57 @@ class Common_functions extends CI_Controller {
 		}
 	}
 	
-	
-	
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('home');
 	}
 	
-	
 	/* Function to  display image in requird dimensions*/
-		public function display_image($photo_id=false,$width = false,$height = false,$ratio=false,$file=false)
+		/*public function display_image($photo_id=false,$width = false,$height = false,$ratio=false,$file=false)
 		{
 			$this->photos_actions->display_image($photo_id,$width,$height,$ratio,$file);
-		}	
-	
+		}	*/
+		
+		public function display_image($file=false,$width = false,$height = false,$ratio=false,$path=false)
+		{
+			//echo "Hello";die;
+			$this->photos_actions->default_preview($width,$height,$file,$path,$ratio);
+		}
+
+	function forgotpassword(){
+			
+			if($this->input->post('submit')){
+			
+			$query = $this->db->get_where('users',array('email' => $this->input->post('email')));
+			#echo $this->db->last_query(); exit;
+			//print_r($this->input->post());exit;
+			if($query->num_rows()>0){
+				$info = $query->result();
+			}else{
+				$info = false;
+			}
+			#print_r($info); exit;
+			if($info){
+			/*Send Password*/
+			$emailaddresses=$this->input->get_post('email');
+			$config['mailtype'] = 'html';
+			$this->email->initialize($config);
+			$this->email->from('info@eulogik.com', 'Skedulus User Services');
+			$this->email->to($emailaddresses); 
+			$this->email->subject('Password reset request');
+			$this->email->message("We've recieved a password reset request. Ignore if you've not sent it.<a href='".base_url()."home/resetpassword?key=".$info[0]->activationkey."'>Reset your password here</a>");	
+			$this->email->send();
+			$this->data['messages'] = "Email Sent. Please, check your inbox and click link to reset your password ";
+			}
+			else{	
+				$this->data['messages'] = "This email doesn't exist";
+			}
+		}
+		
+		$this->session->set_flashdata('message_type', 'success');	
+		$this->session->set_flashdata('message', ''.$this->data['messages'].''); 
+		redirect("home/clientlogin");
+		
+	}		
 	
 }

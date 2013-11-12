@@ -278,7 +278,7 @@ function hybrid($provider1){
 
 		echo "<hr /><h3>Trace</h3> <pre>" . $e->getTraceAsString() . "</pre>";  
 	}
-   //print_r($user_data); exit;
+  // print_r($user_data); exit;
  if(isset($user_data->firstName)){
 			   $this->data['first_name']=$user_data->firstName;
 			   }else{
@@ -375,7 +375,7 @@ if(isset($user_profile['first_name'])){
 					   }else{
 						 $this->data['gender']='';
 					   }
-			 if(isset($user_profile['email'])){
+					   if(isset($user_profile['email'])){
 				$this->data['email']=$user_profile['email'];
 					   }else{
 						 $this->data['email']='';
@@ -427,6 +427,46 @@ if(isset($user_profile['first_name'])){
 	
 	function auth($provider=false){
 		$this->load->view("examples/social_hub/login");
+	}
+	
+	public function resetpassword(){
+		$this->data['signUp']="clientlogin";
+		if($this->input->get_post('key')){
+				//if($this->input->post('cpassword')==$this->input->post('password')){
+				$query = $this->db->get_where('users',array('activationkey' => $this->input->get_post('key')));
+				//echo $this->db->last_query();
+				if($query->num_rows()>0){
+					$info = $query->result();
+				}else{
+					$info = false;
+				}
+				
+				if(!empty($info)){
+						
+						if($this->input->post('password')){
+							$this->load->model("cprofile_model");
+							
+							//print_r($info);
+							
+							$filter = array('password'=>md5($this->input->post('password')));	
+							//$this->musers->updatePasswordByfilter($info[0]->id,$filter);
+							#$this->muser->updateUserinformation('db_userinfo',$filter,array('id'=>$info[0]->id)); 
+							$this->cprofile_model->updateUserinfoByfilter($filter,$info[0]->id);					 		
+							$this->data['message'] = "Password Reset. Please login now.";
+						} 
+						
+				}
+				else{
+						$this->data['message'] = "Wrong authentication.";
+						
+				}
+				$this->parser->parse('include/meta_tags',$this->data);
+				$this->load->view("reset_password",$this->data);
+				
+				
+		}else{
+			echo 'Wrong Authentication';
+		}
 	}
 	
 	

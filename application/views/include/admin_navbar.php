@@ -21,6 +21,9 @@ $(document).ready(function(){
 					<li>
 						<a href="<?php echo base_url() ?>admin/dash/users"><center><i class="icon-user"></i><p>Users</p></center></a>
 					</li>
+					<li>
+						<a href="<?php echo base_url() ?>admin/dash/admin_users"><center><i class="icon-user"></i><p>Admin Users</p></center></a>
+					</li>
 					<li >
 						<a href="<?php echo base_url() ?>admin/dash/subscription"><center><i class="icon-check"></i><p> Subscriptions</p>
 						</center></a>
@@ -32,6 +35,11 @@ $(document).ready(function(){
 					</li>
 					<li class="">
 						<a href="<?php echo base_url() ?>admin/dash/businesses"><center><i class="icon-briefcase"></i><p> Businesses
+						</p></center>
+						</a>
+					</li>
+					<li class="">
+						<a href="<?php echo base_url() ?>admin/dash/settings"><center><i class="icon-wrench"></i><p> Settings
 						</p></center>
 						</a>
 					</li>

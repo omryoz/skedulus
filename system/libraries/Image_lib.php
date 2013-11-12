@@ -519,6 +519,15 @@ class CI_Image_lib {
 			imagesavealpha($dst_img, TRUE);
 		}
 
+		//$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height); //Oraginal code
+		
+		/*imagecopyresampled($thumb, $image,
+         0 - ($new_width - $thumb_width) / 2, // Center the image horizontally
+         0 - ($new_height - $thumb_height) / 2, // Center the image vertically
+         0, 0,
+         $new_width, $new_height,
+         $width, $height);*/// Guided by 
+		
 		$copy($dst_img, $src_img, 0, 0, $this->x_axis, $this->y_axis, $this->width, $this->height, $this->orig_width, $this->orig_height);
 
 		//  Show the image
@@ -1254,7 +1263,7 @@ class CI_Image_lib {
 		{
 			case 1		:	imagegif($resource);
 				break;
-			case 2		:	imagejpeg($resource, '', $this->quality);
+			case 2		:	imagejpeg($resource,NULL,$this->quality);//imagejpeg($resource,'', $this->quality);
 				break;
 			case 3		:	imagepng($resource);
 				break;

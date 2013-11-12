@@ -77,27 +77,33 @@
 			</div>
 		</div>
 		<?php if(isset($photoGallery) && $photoGallery!='') { ?>
-		<hr >
+		<hr />
+		<link rel="stylesheet" href="<?=base_url()?>/less/lightbox.css" media="screen"/>
+		<script src="<?=base_url()?>/js/lightbox-2.6.min.js"></script>
 		<div class="row-fluid">
-			<div class="filmstrip">
-	<ul class="thumbnails scroller image_popup">
-		<?php //for($i=1;$i<=$countPhoto;$i++){
-		//print_r($photoGallery);
-		foreach($photoGallery as $gallery){
-		?>
-			<li class="inblock">
+		<div class="filmstrip">
+			<div class="image-row">
+			<div class="image-set">
+			<ul class="thumbnails scroller image_popup">
+			<?php //for($i=1;$i<=$countPhoto;$i++){
+			
+			foreach($photoGallery as $gallery){
+			?>
+			<li class="inblock"> 
+				
 				<figcaption class="figcaption">
 				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
 				</figcaption>
-				<a href="#theater_view"  role="button"  data-toggle="modal"><img class="img-noresponsive" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="" ></a>
+				<a class="img-noresponsive example-image-link" href="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/500/300/0/gallery" data-lightbox="example-set" title="<?=$gallery->title?>"><img class="example-image" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="Plants: image 1 0f 4 thumb" /></a> 
+				
 			</li>
-		<?php } ?>
-	</ul>
-
-</div>
+			<?php } ?>
+			</ul>
+			</div>
+		</div>
 		</div>
 		
-		<hr >
+		<hr />
 		<?php } ?>
 		<?php  if(isset($this->session->userdata['business_id'])) { ?>
 		<p id="business_id" class="hide"><?=$this->session->userdata('business_id')?></p>
@@ -157,16 +163,7 @@
 								</tr>
 							<?php } ?>
 								
-								<!--<tr>
-									<th> Hair Color</th>
-									<td> $120 and up</td>
-									<td> 2 hour</td>
-								</tr>
-								<tr>
-									<th> Spa</th>
-									<td> $160 and up</td>
-									<td> 3 hour</td>
-								</tr>-->
+								
 							</tbody>
 						</table>
 					  </div>
@@ -195,21 +192,13 @@
 							</tr>
 							<?php } ?>
 								
-								<!---<tr>
-									<th><img src="../img/ID1.png"></th>
-									<td ><h5>Mathew</h5></td>
-									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>
-								<tr>
-									<th><img src="../img/ID1.png"></th>
-									<td > <h5>Amma</h5></td>
-									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>--->
+								
 							</tbody>
 						</table>
 					  </div>
 					</div>
-				  </div><!---<br/>
+				  </div>
+				  <!---<br/>
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#offer">
@@ -257,23 +246,10 @@
 				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
-				  <!---<dt>Sunday</dt>
-				  <dd>08:30 - 19:00  </dd>
-				  <dt>Monday</dt>
-				  <dd>08:30 - 15:00 </dd>
-				  <dt>Tuesday</dt>
-				  <dd>09:30 - 17:00  </dd>
-				  <dt>Wednesday</dt>
-				  <dd>10:30 - 19:00  </dd>
-				  <dt>Thursday</dt>
-				  <dd>08:30 - 17:00  </dd>
-				  <dt>Friday</dt>
-				  <dd>08:30 - 16:00  </dd>
-				  <dt>Saturday</dt>
-				  <dd>08:30 - 19:00  </dd>--->
+				 
 				</dl>
 				
-				<!--<img src="../img/map.png">-->
+				
 			</div>
 		</div>
 		
@@ -441,7 +417,7 @@
   </div>
  
     <div class="modal-footer">
-    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
+   
 	<input type="hidden" name="classid" value="" id="classid" />
 	<input type="button" name="submit" value="<?=(lang('Apps_book'))?>" id="bookclass" class="btn btn-success span3 offset5"/>
   </div>
@@ -458,7 +434,7 @@
    
   </div>
   <div class="modal-body th3-modal-body">
-   <?php  include('example.php')?>
+  
   </div>
   <div class="modal-footer">
   
@@ -507,6 +483,7 @@ $(".image_popup").click(function(){
 						skinDir:"skins",
 						imageClick:"fullscreen",
 						image:{
+						random:true,
 						maxZoom:1.5,
 						crop:true,
 						clickEvent:"dblclick",

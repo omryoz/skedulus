@@ -436,7 +436,7 @@ function checkweekendDayName($date=false){
 		return $date3;
 }
 
-function createappointment(){ //print_r($_POST); exit;
+function createappointment(){ 
 
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
