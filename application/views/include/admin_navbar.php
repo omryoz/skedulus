@@ -17,7 +17,7 @@ $(document).ready(function(){
 				<span class="icon-bar"></span>
 			</a>
 			<div class="nav-collapse collapse menu_admin">			
-				<ul class=" nav client-navbar justify-nav">
+				<ul class=" nav admin-navbar justify-nav">
 					<li>
 						<a href="<?php echo base_url() ?>admin/dash/users"><center><i class="icon-user"></i><p>Users</p></center></a>
 					</li>

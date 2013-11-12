@@ -37,6 +37,7 @@ var url = base_url+"staffs/checkfornum";
 	 $(".tab").attr('data-toggle','');
     $("#action").val('add');
     $("#userid").val(" ");
+	$("#type").val(" ");
 	$("#addstaffs")[0].reset();
  $("#myModal li:eq(1) ").removeClass("active in");
  $("#myModal li:eq(2) ").removeClass("active in");
@@ -45,17 +46,7 @@ var url = base_url+"staffs/checkfornum";
  $("#assignstaff").val('');
  $("#showavail").val('');
 	$(".assign").removeAttr('checked');
-	var url=baseUrl+'staffs/manage_staffs';
-	$.ajax({
-		data: {'businessid': id,'getbavailability':'getbavailability'},
-		url: url,
-		type:'GET',
-		success:function(data){
-		//$("#showadd").hide();
-		$("#showedited").html(data);
-		 }
-		
-	})
+	getBavail(id);
 	$("#edit").hide();
 	$("#add").show();
 	$("#update").hide();
@@ -68,7 +59,20 @@ var url = base_url+"staffs/checkfornum";
 
     
 }
+function getBavail(id){
+var url=baseUrl+'staffs/manage_staffs';
+	$.ajax({
+		data: {'businessid': id,'getbavailability':'getbavailability'},
+		url: url,
+		type:'GET',
+		success:function(data){
+		//$("#showadd").hide();
+		$("#showedited").html(data);
+		 }
+		
+	})
 
+}
 //Services
 function editService(id){
 $(".staffs").removeAttr('checked');
@@ -211,8 +215,12 @@ function editclasses(id){
 
 //END
 
-//Staff
-function editStaff(id){
+function getmydetails(id,businessid){
+var data='';
+var url = base_url+"staffs/checkfornum";
+ $.post(url,data,function(data){ 
+    if(data==1){ 
+	$("#myModal").modal("show");
 $("#myModal li:eq(1) ").removeClass("active in");
  $("#myModal li:eq(2) ").removeClass("active in");
  $("#myModal #add_staff").addClass("active in");
@@ -226,10 +234,23 @@ $(".alert").hide();
  $("#action").val('edit');
  $("#assignstaffsbtn").show();
  $("#staffavailbtn").show();
-$("#userid").val(id);
-	var url=baseUrl+'staffs/manage_staffs';
+ 
+$("#userid").val('');
+$("#type").val('myself');
+ staffDetails(id,'mydetails');
+ services(id);
+ getBavail(businessid);
+}else{
+	 apprise('Cannot add more photos for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	}
+	})
+
+}
+
+function staffDetails(id,type){
+ var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
-		data: {'id': id},
+		data: {'id': id,'type':type},
 		url: url,
 		type:'GET',
 		dataType:'json',
@@ -249,6 +270,10 @@ $("#userid").val(id);
 		})
 		}
 	})
+ 
+}
+function services(id){
+var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
 		data: {'staffid': id,'getServices':'getServices'},
 		url: url,
@@ -261,7 +286,30 @@ $("#userid").val(id);
 		})
 		}
 	})
-	
+
+}
+
+//Staff
+function editStaff(id){
+ $("#myModal li:eq(1) ").removeClass("active in");
+ $("#myModal li:eq(2) ").removeClass("active in");
+ $("#myModal #add_staff").addClass("active in");
+ $("#myModal li:eq(0)").addClass("active"); $("#myModal #add_availability , #add_service ").removeClass("active in");
+$(".tab").attr('data-toggle','tab');
+$("#assignstaff").val("1");
+$("#showavail").val("1");
+$(".assign").removeAttr('checked');
+$("#assignstaffs").find('input:checkbox').removeAttr('checked');
+$(".alert").hide();
+ $("#action").val('edit');
+ $("#assignstaffsbtn").show();
+ $("#staffavailbtn").show();
+$("#userid").val(id);
+$("#type").val('');
+ 
+ staffDetails(id,'staffs');
+ services(id);	
+	var url=baseUrl+'staffs/manage_staffs';
 	$.ajax({
 		data: {'staffsid': id,'getavailability':'getavailability'},
 		url: url,

@@ -68,28 +68,40 @@ class bprofile_model extends CI_Model {
 	
 	
 //Staffs Module	
-	function insertStaffs(){
+	function insertStaffs(){ //print_r($_POST); exit;
 	  $insertArray=array();
 	    $insertArray['image']= 'default.jpg';
 		if(isset($_POST['firstname']))$insertArray['first_name']= $_POST['firstname'];
 		if(isset($_POST['lastname']))$insertArray['last_name']= $_POST['lastname'];
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
 		if(isset($_POST['phonenumber']))$insertArray['phone_number']= $_POST['phonenumber'];
-		$insertArray['user_role']= 'employee';
+		
 		if(isset($_POST['email'])){
 		$insertArray['status']= 'active';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
 		}
-		//echo "here";
-		//print_r($_POST['userid']); exit;
-		if(isset($_POST['id']) && $_POST['id']!=" "){
+		//print_r($_POST['id']); exit;
+		//echo "here"; exit;
+		//print_r($_POST); exit;
+		if(isset($_POST['id']) && $_POST['id']!=""){
 		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
 		mysql_query("delete from employee_services where users_id=".$_POST['id']);
 		mysql_query("delete from user_business_availability where users_id=".$_POST['id']);
 		$id = $_POST['id'];
-		}else{ 
-		$this->db->insert('users',$insertArray);
-		$id=mysql_insert_id();
+		}else{
+		
+        if($_POST['type']== 'myself'){ 
+			if(isset($this->session->userdata['admin'])){
+			  $id=$this->session->userdata['users_id'];
+			}else{
+			  $id=$this->session->userdata['id'];
+			}
+		}else{
+			 $insertArray['user_role']= 'employee';		
+			$this->db->insert('users',$insertArray);
+			$id=mysql_insert_id();
+		}
+		
 		$insertEmployee=array();
 		$insertEmployee['user_business_details_id']=$this->session->userdata['business_id']; 
 		$insertEmployee['users_id']=$id; 
@@ -204,6 +216,12 @@ class bprofile_model extends CI_Model {
 	function getStaffdetails(){
 		 $val= $this->common_model->getRow("view_business_employees",'users_id',$_GET['id']);
 		 $value ='[{"firstname": "'.$val->first_name.'","id": "'.$val->users_id.'","lastname": "'.$val->last_name.'","email": "'.$val->email.'","phone_number": "'.$val->phone_number.'"}]';
+		 return $value;
+	}
+	
+	function getmydetails(){
+		 $val= $this->common_model->getRow("users",'id',$_GET['id']);
+		 $value ='[{"firstname": "'.$val->first_name.'","id": "'.$val->id.'","lastname": "'.$val->last_name.'","email": "'.$val->email.'","phone_number": "'.$val->phone_number.'"}]';
 		 return $value;
 	}
 	

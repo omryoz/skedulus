@@ -27,30 +27,26 @@
 		<?php print_r((!empty($message))?"<div class='alert alert-info'>".$message."</div>":"");?>
 		<div class="row-fluid">	
 			<div class="span4 offset4 login_form">	
-			 <form class="form-horizontal" name="forgot-password" id="forgotpassword" method="post" action="<?=base_url()?>home/resetpassword" onsubmit="return validateconfirmpassword();" >
-			 <fieldset>
+			 <form class="" name="forgot-password" id="forgotpassword" method="post" action="<?=base_url()?>home/resetpassword" onsubmit="return validateconfirmpassword();" >
+		
 			 <h3>Reset Password </h3>
-			 <div class="control-group">
-				<label class="control-label" for="inputPassword">Password</label>
-				<div class="controls">
-				  <input type="password" class="span10" required id="password_h" placeholder="Password" name="password" pattern=".{6,20}" title="Password should have 6 character" maxlength="20" />
-				</div>
-			  </div>
-			  <div class="control-group">
-				<label class="control-label" >Confirm Password</label>
-				<div class="controls">
-				  <input type="password" class="span10" data-validation-match-match="password"  required id="rpassword_h" placeholder="Password" min="1" max="5" onBlur="match_pass('h')" pattern=".{6,20}" title="Password should have 6 character" maxlength="20"/>
+			 
+				  <input type="password" class="span12 user-success" required id="password_h" placeholder="New Password" name="password" pattern=".{6,20}" title="Password should have 6 character" maxlength="20" />
+				
+				
+			  
+				  <input type="password" class="span12" data-validation-match-match="password"  required id="rpassword_h" placeholder="Confirm Password" min="1" max="5" onBlur="match_pass('h')" pattern=".{6,20}" title="Password should have 6 character" maxlength="20"/>
 				  
 				   <p class="help-block"></p>
-				</div>
-			  </div>
-			  <div class="control-group">
-				<div class="controls">
+				
+			 
 				 <input type="hidden" name="key"  value="<?=(!empty($_GET['key'])?$_GET['key']:'')?>" /> 
-				<input type="submit"  class="btn" name="Submit" value="Reset Now &raquo;">
-				</div>
-			  </div>
-			  </fieldset>
+				<!-- <input type="submit"  class="btn" name="Submit" value="Reset Now &raquo;"> -->
+				
+			  <input type="submit" name="Login" value="Reset Now" class="btn btn-success span5">
+			  
+			  
+			  
 			</form>
 			</div>
 			</div>

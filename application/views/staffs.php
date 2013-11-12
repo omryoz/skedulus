@@ -171,7 +171,13 @@ $(".staffclose").click(function(){
 							  <div class="row-fluid">
 								<div class="">
 									<h3><?=(lang('Apps_stafflist'))?>
-										<a href="javascript:;" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
+									<div class="btn-group pull-right">
+									<?php if(isset($added) && $added!='added'){ ?>
+									<a href="javascript:;" onclick="getmydetails(<?=$this->session->userdata('id') ?>,<?=$this->session->userdata('business_id') ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<? echo "Add Myself";?> </a>
+									<?php } ?>
+									<a href="javascript:;" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
+									
+									</div>
 									</h3>
 									<?php if(isset($tableList)) { ?>
 									<table class="table  table-staff table-hover  table-striped" >
@@ -303,6 +309,7 @@ $(".staffclose").click(function(){
 					 <div class="modal-footer" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" />
 					  <input type="hidden" name="id" id="userid" value="" />
+					   <input type="hidden" name="type" id="type" value="" />
 					  <input type="submit" name="save" class="btn btn-success" value="Update" />
 					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
 					 </div> 

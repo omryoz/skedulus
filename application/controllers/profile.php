@@ -17,7 +17,7 @@ class Profile extends CI_Controller {
 	function index($username = '')
 	{
 	$val=$this->common_model->getRow('user_business_details','username',$username);
-	if($val){
+	if($val && $val->status=='active'){
 	$this->parser->parse('include/header',$this->data);
 	$id=$val->id;
 	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
@@ -61,9 +61,5 @@ class Profile extends CI_Controller {
 	 }
 	}
 
-	
-	
-	
-	
 }
 ?>

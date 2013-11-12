@@ -179,7 +179,7 @@
 					  </div>
 					</div>
 					
-					<div class="control-group">
+					<!----<div class="control-group">
 					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendemailconfm'))?></label>
 					  <div class="controls">
 					  <label class="radio inline">
@@ -198,7 +198,7 @@
 						<?=(lang('Apps_off'))?></label>
 						<div id="emailErrorContainer"></div>
 					  </div>
-					</div>
+					</div>--->
 					
 					<input type="hidden" name="insert" value="insert<?=(lang('Apps_insert'))?>">
 					<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class=" btn btn-success pull-right">

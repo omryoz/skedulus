@@ -59,7 +59,7 @@ class Common_functions extends CI_Controller {
 		
    }	
 	
-	public function businesslogin($redirectUrl){
+	public function businesslogin($redirectUrl=false){
 	//$this->data['userRole']="businesslogin";
 	//$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
