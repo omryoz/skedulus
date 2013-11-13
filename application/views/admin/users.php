@@ -122,5 +122,14 @@
 		
 	</div>
 </div>
+<?php
+    $color = "Red";
+	
+?>
+<script type="text/javascript">
+var color = "<?= $color ?>";
 
+
+</script>
+<script type="text/javascript" src="<?php echo base_url() ?>js/script.js"></script>
 <?php //include('footer.php')?>

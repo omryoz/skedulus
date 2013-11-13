@@ -59,7 +59,7 @@ class Common_functions extends CI_Controller {
 		
    }	
 	
-	public function businesslogin($redirectUrl=false){
+	public function businesslogin($redirectUrl){
 	//$this->data['userRole']="businesslogin";
 	//$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
@@ -110,7 +110,7 @@ class Common_functions extends CI_Controller {
 			 }
 		 }
 	
-		public function clientlogin(){  
+	public function clientlogin(){  
 	if(isset($_POST['referal_url'])){
 	 $referal_url=$_POST['referal_url'];
 	 $this->data['url']=$referal_url;

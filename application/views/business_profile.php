@@ -11,7 +11,7 @@
 						</div>
 					</div>
 					<div class="span9 rating-block">
-					<h3 ><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
+					<h3><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="<?=($checkFavourite)?"icon-heart":"icon-heart-empty"?> tool likes" data-toggle="tooltip"  data-original-title="<?=(!empty($checkFavouritecounts))?count($checkFavouritecounts):0?>" data-placement="right" alt="<?=(!empty($content->business_id))?$content->business_id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>"></i> 
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
 						
@@ -90,7 +90,10 @@
 			foreach($photoGallery as $gallery){
 			?>
 			<li class="inblock"> 
-				
+				<!--<figcaption class="figcaption">
+				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
+				</figcaption>
+				<a href="#theater_view"  role="button"  data-toggle="modal"><img class="img-noresponsive" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="" ></a>-->
 				<figcaption class="figcaption">
 				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
 				</figcaption>
@@ -163,7 +166,16 @@
 								</tr>
 							<?php } ?>
 								
-								
+								<!--<tr>
+									<th> Hair Color</th>
+									<td> $120 and up</td>
+									<td> 2 hour</td>
+								</tr>
+								<tr>
+									<th> Spa</th>
+									<td> $160 and up</td>
+									<td> 3 hour</td>
+								</tr>-->
 							</tbody>
 						</table>
 					  </div>
@@ -192,13 +204,21 @@
 							</tr>
 							<?php } ?>
 								
-								
+								<!---<tr>
+									<th><img src="../img/ID1.png"></th>
+									<td ><h5>Mathew</h5></td>
+									<td><a href="#" class="btn btn-success">View schedule</a></td>
+								</tr>
+								<tr>
+									<th><img src="../img/ID1.png"></th>
+									<td > <h5>Amma</h5></td>
+									<td><a href="#" class="btn btn-success">View schedule</a></td>
+								</tr>--->
 							</tbody>
 						</table>
 					  </div>
 					</div>
-				  </div>
-				  <!---<br/>
+				  </div><!---<br/>
 				  <div class="accordion-group">
 					<div class="accordion-heading">
 					  <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion2" href="#offer">
@@ -246,10 +266,23 @@
 				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
-				 
+				  <!---<dt>Sunday</dt>
+				  <dd>08:30 - 19:00  </dd>
+				  <dt>Monday</dt>
+				  <dd>08:30 - 15:00 </dd>
+				  <dt>Tuesday</dt>
+				  <dd>09:30 - 17:00  </dd>
+				  <dt>Wednesday</dt>
+				  <dd>10:30 - 19:00  </dd>
+				  <dt>Thursday</dt>
+				  <dd>08:30 - 17:00  </dd>
+				  <dt>Friday</dt>
+				  <dd>08:30 - 16:00  </dd>
+				  <dt>Saturday</dt>
+				  <dd>08:30 - 19:00  </dd>--->
 				</dl>
 				
-				
+				<!--<img src="../img/map.png">-->
 			</div>
 		</div>
 		
@@ -417,7 +450,7 @@
   </div>
  
     <div class="modal-footer">
-   
+    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	<input type="hidden" name="classid" value="" id="classid" />
 	<input type="button" name="submit" value="<?=(lang('Apps_book'))?>" id="bookclass" class="btn btn-success span3 offset5"/>
   </div>
@@ -435,6 +468,29 @@
   </div>
   <div class="modal-body th3-modal-body">
   
+  
+  
+   <?php 
+   
+   //include('example.php')
+   
+   
+   ?>
+     <!--- <h4>Fixed Dimensions</h4>
+	    <div class="tn3 description">Images with fixed dimensions</div>
+	    <div class="tn3 thumb"></div>
+	    <ol>
+		<?php foreach($photoGallery as $gallery){ ?>
+		<li>
+		    <h4>Hohensalzburg Castle</h4>
+		    <div class="tn3 description">Salzburg, Austria</div>
+		    <a href="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery">
+			<img src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" />
+		    </a>
+		</li>
+		<?php } ?>
+		
+	    </ol>--->
   </div>
   <div class="modal-footer">
   

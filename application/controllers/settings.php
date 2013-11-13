@@ -29,13 +29,14 @@ class Settings extends CI_Controller {
 	 $isExist=$this->common_model->getRow("business_notification_settings","user_business_details_id",$this->session->userdata['business_id']);
 	 if($isExist){
 	 $this->data['appointment_reminders']=$isExist->appointment_reminders;
-	 $this->data['remind_before']=date('H:i',strtotime($isExist->remind_before));
+	 //$this->data['remind_before']=date('H:i',strtotime($isExist->remind_before));
+	  $this->data['remind_before']=$isExist->remind_before;
 	 //$this->data['cancel_reschedule_before']=date('H:i',strtotime($isExist->cancel_reschedule_before));
 	 //$this->data['book_before']=date('H:i',strtotime($isExist->book_before));
 	 $this->data['cancel_reschedule_before']=$isExist->cancel_reschedule_before;
 	 $this->data['book_before']=$isExist->book_before;
 	 $this->data['send_message']=$isExist->send_message;
-	 $this->data['send_email']=$isExist->send_email;
+	 $this->data['book_upto']=$isExist->book_upto;
 	 
 	 }else{
 	  $this->data['appointment_reminders']="";
@@ -43,7 +44,7 @@ class Settings extends CI_Controller {
 	 $this->data['cancel_reschedule_before']="";
 	 $this->data['book_before']="";
 	 $this->data['send_message']="";
-	 $this->data['send_email']="";
+	 $this->data['book_upto']="";
 	 }
 	 if(isset($_POST['insert'])){
 	 $this->bprofile_model->bsettings();

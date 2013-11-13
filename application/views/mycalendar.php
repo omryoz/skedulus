@@ -90,7 +90,7 @@ session_start();
 	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
 	<li>
 	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
-	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Delete</a>
+	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Cancel</a>
 	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
 	</li>
 	</ul>
@@ -175,8 +175,10 @@ session_start();
 			$("#employee_id").html(v.employee_id);
 			$("#note").html(v.note);
 			if(v.status=='active'){
+			$("#deleteApp").show();
 			$("#reschedulebtn").show();
 			}else{
+			$("#deleteApp").hide();
 			$("#reschedulebtn").hide();
 			}
 			}
@@ -289,10 +291,13 @@ session_start();
     /**
      Clicking delete in Preview window
      */
-	 $("#deleteApp").live("click",function(){
-	 $(".message").removeClass("alert").html(" ");
-	if(confirm("Are you sure you want to remove from list?")) {
-	  var url = base_url+"bcalendar/checkfordelete";
+	  $("#deleteApp").live("click",function(){
+	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	 
+	 })
+	 
+	 function cancelApp(){
+	   var url = base_url+"bcalendar/checkfordelete";
 	  $.ajax({
 		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
 		url:url,
@@ -313,8 +318,8 @@ session_start();
 	 }
 	  })
 	 }
- 
-})
+	 
+	 
     // function rzDeleteEvent(){ 	
 		// var str="?";
 		// str=str+"&eventId="+$("#eventId").html();

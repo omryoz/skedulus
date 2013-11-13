@@ -74,7 +74,11 @@ class BusinessProfile extends CI_Controller {
 	 }
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
 	 $where1=" order by  orderNum ASC";
-	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	
+	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);
+	 $filter = array("users_id"=> $this->data['user_id'],"user_business_details_id"=>$this->data['id']);
+     $this->load->model("bprofile_model");
+	 $this->data['checkFavourite'] = $this->bprofile_model->checkFavourite($filter); 	
+	 $this->data['checkFavouritecounts'] = $this->bprofile_model->checkFavourite(array("user_business_details_id"=>$this->data['id'])); 	
 	if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){ 
 	$status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 	if($status->status=='active'){
@@ -88,6 +92,10 @@ class BusinessProfile extends CI_Controller {
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
+	function likes_business(){
+		$this->load->model("bprofile_model");
+		echo $this->bprofile_model->likes_business($_POST);
+	}
 	
 	
 }

@@ -12,7 +12,15 @@ var url = base_url+"gallery/checkfornum";
  })
 })
 })
-
+$(".likes").on("click",function(){
+		alert("Hello");
+		var url = base_url+"BusinessProfile/likes_business/"
+			
+		$.post(,{},function(data){
+			
+		});
+	})
+})
 function insertbasicInfo(){
 var url=baseUrl+'basicinfo/insertData';
 		$.ajax({
@@ -226,8 +234,8 @@ $("#myModal li:eq(1) ").removeClass("active in");
  $("#myModal #add_staff").addClass("active in");
  $("#myModal li:eq(0)").addClass("active"); $("#myModal #add_availability , #add_service ").removeClass("active in");
 $(".tab").attr('data-toggle','tab');
-$("#assignstaff").val("1");
-$("#showavail").val("1");
+$("#assignstaff").val('');
+ $("#showavail").val('');
 $(".assign").removeAttr('checked');
 $("#assignstaffs").find('input:checkbox').removeAttr('checked');
 $(".alert").hide();

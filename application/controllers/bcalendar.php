@@ -151,11 +151,13 @@ class Bcalendar extends CI_Controller {
 		} 
 		$diff1=strtotime($startTime)-strtotime($currentTime); 
 		$diff=date ('H:i',$diff1);
-		
+		// print_r($currentTime);
+		// print_r($startTime);
+		// print_r($diff); exit;
 		if((strtotime($startTime) < strtotime($currentTime) || strtotime($date) < strtotime(date("d-m-Y"))) || ((strtotime($startTime) >= strtotime($currentTime)) && ($diff <= date ('H:i',strtotime($bookbefore)))) ){
 		   return false;
 			//echo "less time";
- 		}else{	 
+ 		}else{	
 		    return true;
 	    }
 	   }else{
@@ -210,7 +212,11 @@ class Bcalendar extends CI_Controller {
 		$returnActual = $timeActual[0].':'.$timeActual[1];
 		//if($this->input->post('date'))
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
+		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$returnActual,$this->input->post('eventId'));
+		}else{
+		 echo -2;
+		}
 		}else{
 			echo 1;
 		}
@@ -358,6 +364,10 @@ function getfreeslotsbydate(){
    $where=1;
 	if($this->input->post('date')){
 		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
+		
+		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
+		  //echo 1;
+
 			 //echo "We work on selected day";
 			 $day = $this->checkweekendDayName($this->input->post('date'));
 			 if($this->input->post('staff_id')!=''){
@@ -388,7 +398,9 @@ function getfreeslotsbydate(){
 			 //exit;	
 			 //print_r($this->data['slots']);
 			 $this->load->view("options",$this->data);
-			 
+			}else{ 
+		     echo -2;
+			} 
 		}else{
 			echo 0;
 		}
@@ -403,13 +415,34 @@ if($this->checkday($this->input->post('date'),$this->input->post('business_id'),
 		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
 		  echo 0;
 		}else{
+		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		  echo 1;
+		  }else{
+		  echo -2;
+		  }
 		}
 	}else{
 	   echo -1;
 	}	
 		
 }
+
+function checkFutureDay($date,$business_id){
+$value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$business_id);
+		//print_r($value->book_upto);
+		if($value->book_upto==0){
+		return true;
+		}else{
+			$time = strtotime(date("d-m-Y"));
+			$final = date("Y-m-d", strtotime('+'.$value->book_upto.' month', $time)); 
+			if(date('Y-m-d',strtotime($date))<date('Y-m-d',strtotime($final))){ 
+			 return true;
+			}else{
+			 return false;
+			}
+		}
+}
+
 
 function checkday($date=false,$business_id=false,$staffid=false){
 	if($date){
@@ -497,7 +530,8 @@ function referal_url($url){
 
 	function getendtimeByservice(){
 	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
-		//print_r($this->input->post());
+	   if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
+		
 		$time = "";
 		$timeActual = "";
 		$conversion = "";
@@ -572,7 +606,10 @@ function referal_url($url){
 		//echo $return;
 		//exit;
 		$this->checkAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$returnActual,$this->input->post('eventId'));
-		}else{
+		 }else{
+		  echo -3;
+		  }
+		}else{ 
 		  echo -1;
 		}
 	}
@@ -590,11 +627,11 @@ function referal_url($url){
 		}else{
 		$filter = array("user_business_details_id"=>$business_id,"name"=>$day,"type"=>'business'); 
 		$where.=" AND user_business_details_id=".$business_id." AND employee_id=0";
-		$where1=' AND user_business_details_id="'.$business_id.'"';
+		$where1=' AND user_business_details_id="'.$business_id.'" and type="business"';
 		}
 		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
 		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
-		//print_r($getEndtime->end_time); exit;
+		
 		$slots = $this->common_model->getAllslots($filter);
 		
 		if($eventId!=''){
@@ -662,7 +699,7 @@ function referal_url($url){
 		}
 		//print_r($returned); exit;
 		if($returned){ 		
-		  if(strtotime($end_time)>strtotime($getEndtime->end_time) || strtotime($start_time)<strtotime($getEndtime->start_time)){
+		  if(strtotime($end_time)>strtotime($getEndtime->end_time) || strtotime($start_time)<strtotime($getEndtime->start_time)){ 
 		   echo -1;
 		   }else{
 		    echo $actual_endtime;

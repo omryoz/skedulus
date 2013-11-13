@@ -30,6 +30,8 @@ class Home extends CI_Controller {
 		if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
 			$this->parser->parse('include/navbar',$this->data);
 		}
+		$this->data['social'] =  $this->session->userdata('social_account');
+		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";	
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
@@ -359,11 +361,11 @@ function hybrid($provider1){
 }
 
 public function clientSignUp(){
-if(isset($user_profile['first_name'])){
+			/*if(isset($user_profile['first_name'])){
 			   $this->data['first_name']=$user_profile['first_name'];
 			   }else{
 			     $this->data['first_name']='';
-			   }
+			}
 			if(isset($user_profile['last_name'])){
 				$this->data['last_name']=$user_profile['last_name'];
 				   }else{
@@ -379,7 +381,9 @@ if(isset($user_profile['first_name'])){
 				$this->data['email']=$user_profile['email'];
 					   }else{
 						 $this->data['email']='';
-					   }
+					   }*/
+    $this->data['social'] =  $this->session->userdata('social_account'); 
+	//print_r( $this->data['social']);
 	$this->data['userRole']="clientSignUp";
 	$this->data['signUp']="clientlogin";
 	if(isset($_GET['checkino'])){
@@ -468,6 +472,143 @@ if(isset($user_profile['first_name'])){
 			echo 'Wrong Authentication';
 		}
 	}
+	
+	
+	function signupAuth(){
+		$information=$this->facebook_twitter_Auth();
+		#print_r($information);exit;
+		$data['user_profile'] = $information;
+					
+		#print_r($data['user_profile']);
+
+		$social_account = array('identifier' => $data['user_profile']->identifier,
+							'profileurl' => $data['user_profile']->profileURL,
+							'username' => $data['user_profile']->displayName,
+							'first_name' => $data['user_profile']->firstName,
+							'last_name' => $data['user_profile']->lastName,
+							'sex' => $data['user_profile']->gender,
+							'email' => $data['user_profile']->email,
+							'login_by'	 =>	$_GET['provider'],
+							'birthDay'	=>	$data['user_profile']->birthDay,
+							'birthMonth'	=>	$data['user_profile']->birthMonth,
+							'birthYear'	=>	$data['user_profile']->birthYear
+							);
+		//$this->load->view('hauth/done',$data);
+		$this->session->set_userdata('social_account',$social_account);
+		
+		/*if(!$this->session->userdata('user_data'))
+			redirect('home/clientSignUp');
+		else 	
+			redirect('profile/add_social_network');*/
+		#print_r($_GET['Signup_business']);exit;	
+		if(!empty($_GET['Signup_business']) && $_GET['Signup_business']==1){
+			redirect('home/?Signup_business=1');
+		}else{
+			redirect('home/clientSignUp');
+		}	
+		
+	}	
+	
+	function facebook_twitter_Auth(){
+			session_start();
+			$config = 'hybridauth/config.php';
+			require_once( "hybridauth/Hybrid/Auth.php" );
+			$error = "";
+			// if user select a provider to login with
+			// then inlcude hybridauth config and main class
+			// then try to authenticate te current user
+			// finally redirect him to his profile page
+			if( isset( $_GET["provider"] ) && $_GET["provider"] ):
+				try{
+					// create an instance for Hybridauth with the configuration file path as parameter
+					$hybridauth = new Hybrid_Auth( $config );
+					
+					// set selected provider name 
+					$provider = @ trim( strip_tags( $_GET["provider"] ) );
+
+					// try to authenticate the selected $provider
+					$adapter = $hybridauth->authenticate( $provider );
+
+					// if okey, we will redirect to user profile page 
+					#$hybridauth->redirect( "login?provider=$provider" );
+					$adapter = $hybridauth->getAdapter( $provider );
+
+					// grab the user profile
+					$user_data = $adapter->getUserProfile();
+					#print_r($user_data);
+					return $user_data;
+				}
+				catch( Exception $e ){
+					// In case we have errors 6 or 7, then we have to use Hybrid_Provider_Adapter::logout() to 
+					// let hybridauth forget all about the user so we can try to authenticate again.
+
+					// Display the recived error, 
+					// to know more please refer to Exceptions handling section on the userguide
+					switch( $e->getCode() ){ 
+						case 0 : $error = "Unspecified error."; break;
+						case 1 : $error = "Hybriauth configuration error."; break;
+						case 2 : $error = "Provider not properly configured."; break;
+						case 3 : $error = "Unknown or disabled provider."; break;
+						case 4 : $error = "Missing provider application credentials."; break;
+						case 5 : $error = "Authentication failed. The user has canceled the authentication or the provider refused the connection."; break;
+						case 6 : $error = "User profile request failed. Most likely the user is not connected to the provider and he should to authenticate again."; 
+								 $adapter->logout(); 
+								 break;
+						case 7 : $error = "User not connected to the provider."; 
+								 $adapter->logout(); 
+								 break;
+					} 
+
+					// well, basically your should not display this to the end user, just give him a hint and move on..
+					$error .= "<br /><br /><b>Original error message:</b> " . $e->getMessage(); 
+					$error .= "<hr /><pre>Trace:<br />" . $e->getTraceAsString() . "</pre>";
+				}
+				endif;
+		}
+		
+		function loginAuth(){
+			$user_profile = $this->facebook_twitter_Auth();
+			#print_r($user_profile);
+			#print_r($user_profile->email);
+			if(!empty($_GET['provider']) && $_GET['provider']=="Twitter"){
+				$filter=array('email'=>$user_profile->email,'profile_id' =>$user_profile->identifier);
+			}else{
+				$filter=array('username'=>$user_profile->displayName,'profile_id' =>$user_profile->identifier);
+			} 
+				#print_r($filter);
+			
+			//print_r($filter);
+			$social_account = array('profile_id' => $user_profile->identifier,
+											'email' => (!empty($user_profile->email))?$user_profile->email:"",
+											'first_name' => $user_profile->firstName,
+											'last_name' => $user_profile->lastName,
+											'email'=>$user_profile->email,
+											'gender'=>$user_profile->gender,
+											'date_of_birth'=>$user_profile->birthYear."-".$user_profile->birthMonth."-".$user_profile->birthDay,
+											'profile_image' => $user_profile->photoURL,
+											'user_role' => 'client',
+											'username'=>(!empty($user_profile->displayName))?$user_profile->displayName:"");
+            #print_r($social_account);exit;
+			$this->load->model("home_model");	
+			$user_data = $this->home_model->check_user_exist($filter,$social_account);
+			#print_r($user_data);
+			if($user_data){
+				$row = $this->home_model->check_login_facebook($filter);
+				$sessionVal=array(
+					'id'=>$row[0]->id,
+					'username'=>$row[0]->first_name,	
+					'email'=>$row[0]->email,
+					'role'=>$row[0]->user_role
+				);
+				$this->session->set_userdata($sessionVal); 
+				redirect('cprofile');
+			}else{
+				
+			}
+		}
+		
+		
+	
 	
 	
 }

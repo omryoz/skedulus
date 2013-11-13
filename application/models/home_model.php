@@ -27,6 +27,7 @@ function getBusiness(){
 		$dob = $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];
 		$insertArray['date_of_birth']= date('y-m-d',strtotime($dob));
 		}
+		if(isset($_POST['identifier']))$insertArray['profile_id']= $_POST['identifier'];
 		if(isset($_POST['email']))$insertArray['email']= $_POST['email'];
 		if(isset($_POST['gender']))$insertArray['gender']= $_POST['gender']; 
 		if(isset($_POST['password']))$insertArray['password']= MD5($_POST['password']);
@@ -96,5 +97,31 @@ function getBusiness(){
 			 return $val;
 	
 	}
+	
+	function check_login_facebook($filter=false){
+		$query = $this->db->get_where('users', $filter);
+		if($query->num_rows()>0){
+			 //echo $this->db->last_query();
+			 return $query->result();
+		}else{
+			 return false;
+		}
+    }
+	
+	function check_user_exist($filter=false,$social_account=false){ 
+	  $query = $this->db->get_where("users",$filter);
+		//echo $this->db->last_query();
+		if($query->num_rows()>0){
+			return true;
+		}else {
+			$this->db->insert('users',$social_account);
+			$id = $this->db->insert_id();
+			return $id;
+		}
+		
+	}
+	
+	
+	
 }
 ?>

@@ -325,7 +325,7 @@ class bprofile_model extends CI_Model {
 		if(isset($_POST['cancel_reschedule_before']))$insertArray['cancel_reschedule_before']= $_POST['cancel_reschedule_before'];
 		if(isset($_POST['book_before']))$insertArray['book_before']= $_POST['book_before'];
 		if(isset($_POST['send_message']))$insertArray['send_message']= $_POST['send_message'];
-		if(isset($_POST['send_email']))$insertArray['send_email']= $_POST['send_email'];
+		if(isset($_POST['book_upto']))$insertArray['book_upto']= $_POST['book_upto'];
 		
 		$isExist=$this->common_model->getRow("business_notification_settings",'user_business_details_id',$this->session->userdata['business_id']);
 		if(isset($isExist) && $isExist!=""){

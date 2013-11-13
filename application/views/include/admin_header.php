@@ -62,7 +62,7 @@ var base_url = "http://localhost/skedulus/";
 						 ?>
 				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
 						<!--<img src="images/share.png"  class="brand_img">-->
-						
+						<?php $langauge = $this->session->all_userdata();?>
 						<?php if(isset($this->session->userdata['id'])) { ?>
 						<div class="nav-collapse collapse menu-top">
 							<ul class="nav pull-right" id="main-menu">
@@ -75,10 +75,24 @@ var base_url = "http://localhost/skedulus/";
 								<li>
 								<div class="language_flag">
 								
-								<a href="<?=base_url();?>welcome/language/english" title="English" >
-									<img src="<?php echo base_url(); ?>images/bri12.png">
-								</a>
-				                <a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+								<?php if(!empty($langauge['language']) && $langauge['language']=="hebrew"){	?>
+										<a href="<?=base_url();?>welcome/language/hebrew" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/english" class="img2"  title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										
+										<?php }else{ ?>
+										<a href="<?=base_url();?>welcome/language/english" title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<?php } ?>
+								
+								</div></li>
 	   						</ul>
 							
                  		</div>
@@ -91,10 +105,24 @@ var base_url = "http://localhost/skedulus/";
 								<li>
 								<div class="language_flag">
 								
-								<a href="<?=base_url();?>welcome/language/english" title="English" >
-									<img src="<?php echo base_url(); ?>images/bri12.png">
-								</a>
-				<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew"><img src="<?php echo base_url(); ?>images/is13.png"></a></div></li>
+								<?php if(!empty($langauge['language']) && $langauge['language']=="hebrew"){	?>
+										<a href="<?=base_url();?>welcome/language/hebrew" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/english" class="img2"  title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										
+										<?php }else{ ?>
+										<a href="<?=base_url();?>welcome/language/english" title="English">
+										<img src="<?php echo base_url(); ?>images/bri12.png" />
+										</a>
+										<a href="<?=base_url();?>welcome/language/hebrew" class="img2" title="Hebrew">
+											<img src="<?php echo base_url(); ?>images/is13.png" />
+										</a>
+										<?php } ?>
+				
+				</div></li>
 	   						</ul>
 							
                  		</div><!-- /.nav-collapse -->

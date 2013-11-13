@@ -86,13 +86,13 @@
       </div>
 		<div class="social_buttons hidden-phone" >
         <div class="inset">
-            <a class="fb login_button" href="<?php echo base_url();?>home/hybrid/Facebook">
+            <a class="fb login_button" href="<?php echo base_url();?>home/signupAuth?provider=Facebook">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
                 <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
-            <a class="tw login_button" href="<?php echo base_url();?>home/hybrid/Twitter">
+            <a class="tw login_button" href="<?php echo base_url();?>home/signupAuth?provider=Twitter">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
                 <span><?=(lang('Apps_signtw'))?></span>
             </a>
@@ -111,9 +111,14 @@
 	<div class="row-fluid">
 		<div class="span6 offset4 login_form">
 		<form action="<?php echo base_url(); ?>common_functions/<?php echo $userRole ?>/?checkino" method="POST" name="sign_up" id="sign_up" >
-		  <input type="text" class="span8" placeholder="<?=(lang('Apps_firstname'))?>" name="firstname" value="<?php print_r($first_name);?>" maxlength="15" />
+			<input type="hidden" name="identifier" value="<?=$social['identifier']?>" >
+			<input type="hidden" name="profileurl" value="<?=$social['profileurl']?>" >
+			<input type="hidden" name="sex" value="<?=$social['sex']?>" >
+			<input type="hidden" name="login_by" value="<?=$social['login_by']?>" >	
+		  
+		  <input type="text" class="span8" placeholder="<?=(lang('Apps_firstname'))?>" name="firstname" value="<?=(!empty($social['first_name']))?$social['first_name']:""?>" maxlength="15" />
 		
-		  <input  type="text" class="span8"  placeholder="<?=(lang('Apps_lastname'))?>" name="lastname" value="<?php print_r($last_name);?>"  maxlength="15" />
+		  <input  type="text" class="span8"  placeholder="<?=(lang('Apps_lastname'))?>" name="lastname" value="<?=(!empty($social['last_name']))?$social['last_name']:""?>"  maxlength="15" />
 		 
 		  <div class="row-fluid">
 		  <div class="span2">
@@ -125,8 +130,12 @@
 		for($i = date('Y') - 50; $i <= date('Y'); $i++) { 
 		$year[$i]= $i; 
 		}
-		 $selected = "";
-		 echo form_dropdown('Year', $year, $selected,'id="year" class="span12 inline select-date"');
+		$selected = "";
+		if(!empty($social['birthYear'])){
+			$selected  = $social['birthYear'];
+		}
+		
+		echo form_dropdown('Year', $year, $selected,'id="year" class="span12 inline select-date"');
 		?>
 		 </div>
 		 <div class="span2">
@@ -136,8 +145,14 @@
 			
 		$month[$i]= date('M', mktime(0, 0, 0, $i)); 
 		}
-		
-		 echo form_dropdown('Month', $month, set_value('month'),'id="month" class="span12 inline select-date"');
+		$selected_month = "";
+		if(!empty($social['birthMonth'])){
+			$selected_month  = $social['birthMonth'];
+		}else{
+			$selected_month  = set_value('month');
+		}
+		//echo $selected_month;
+		 echo form_dropdown('Month', $month, $selected_month,'id="month" class="span12 inline select-date"');
 		?>
 		 </div>
 		 <div class="span2">
@@ -154,15 +169,16 @@
 		'male'=>"Male",
 		'female'=>"Female"
 		);
-		$selectedgender='';
-		if(isset($gender)){
-		 $selectedgender = $gender;
-		}
 		
+		$selectedgender='';
+		if(!empty($social['sex'])){
+		 $selectedgender = $social['sex']; 
+		}
+		//echo $selectedgender;
 	     echo form_dropdown('Select your gender', $options, $selectedgender ,'class="span8 select-gender"');
 		?>
 		 
-		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_email'))?>" name="email" value="<?php print_r($email);?>" id="email" /> 
+		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_email'))?>" name="email" value="<?=(!empty($social['email']))?$social['email']:""?>" id="email" /> 
 		 
 		 <input  type="text" class="span8"  placeholder="<?=(lang('Apps_phonenumber'))?>" name="phone_number" value="" id="phone_number" maxlength="15" /> 
 		

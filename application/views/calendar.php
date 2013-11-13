@@ -6,7 +6,9 @@
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
-			
+	
+
+		
 <!---End--------------->
 <?php 
 	
@@ -133,7 +135,7 @@
 	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
 	<li>
 	<!----<a  class="websbutton btn btn-success confirm " id="delete" href="javascript:rzDeleteEvent()" id="deleteApp" >Delete</a>--->
-	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Delete</a>
+	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Cancel</a>
 	<!---<button class="btn btn-danger clientlist confirm" id="delete" >Delete</button>--->
 	</li>
 	</ul>
@@ -300,8 +302,10 @@
 			$("#note").html(v.note);
 			$("#user_id").html(v.user_id);
 			if(v.status=='active'){
+			$("#deleteApp").show();
 			$("#reschedulebtn").show();
 			}else{
+			$("#deleteApp").hide();
 			$("#reschedulebtn").hide();
 			}
 			}
@@ -414,10 +418,13 @@
      Clicking delete in Preview window
      */
 	 
-	  $("#deleteApp").live("click",function(){
-	 $(".message").removeClass("alert").html(" ");
-	if(confirm("Are you sure you want to remove from list?")) {
-	  var url = base_url+"bcalendar/checkfordelete";
+	 $("#deleteApp").live("click",function(){
+	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	 
+	 })
+	 
+	 function cancelApp(){
+		var url = base_url+"bcalendar/checkfordelete";
 	  $.ajax({
 		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
 		url:url,
@@ -438,8 +445,35 @@
 	 }
 	  })
 	 }
+	 
+	  // $("#deleteApp").live("click",function(){
+	 // $(".message").removeClass("alert").html(" ");
+	// if(confirm("Are you sure you want to remove from list?")) {
+	  // var url = base_url+"bcalendar/checkfordelete";
+	  // $.ajax({
+		// data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
+		// url:url,
+		// type:'POST',
+		// success:function(data){  
+		// if(data==0){ 
+		// $(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		// return false;
+		// }else if(data==1){
+		// var str="?";
+		// str=str+"&type="+$("#type").html(); 
+        // str=str+"&postedclassid="+$("#services_id").html();		
+		// str=str+"&eventId="+$("#eventid").html(); 
+		// ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		// $("#reschedule").modal('hide');
+		
+		// }
+	 // }
+	  // })
+	 // }
  
-})
+// })
+
+
     // function rzDeleteEvent(event_id){ 	
 		// var str="?";
 		//str=str+"eventName="+activeEvent.name; 

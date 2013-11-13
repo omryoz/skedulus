@@ -15,13 +15,13 @@
 		</center>
 		<div class="social_buttons hidden-phone">
         <div class="inset">
-            <a class="fb login_button" href="#">
+            <a class="fb login_button" href="<?php echo base_url();?>home/loginAuth?provider=Facebook">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
                 <span><?=(lang('Apps_loginfb'))?></span>
             </a>
         </div>
         <div class="inset">
-            <a class="tw login_button" href="#">
+            <a class="tw login_button" href="<?php echo base_url();?>home/loginAuth?provider=Twitter">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
                 <span><?=(lang('Apps_logintw'))?></span>
             </a>

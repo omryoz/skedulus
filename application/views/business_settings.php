@@ -8,24 +8,23 @@
         {
             $("#bsettings").validate({
                 rules: {
-                    appointment_reminders: "required",
+                    //appointment_reminders: "required",
 					send_message: "required",
-					send_email: "required",
+					//send_email: "required",
                     
                 },
                 messages: {
-                    appointment_reminders: "required",
+                   // appointment_reminders: "required",
 				    send_message: "required",
-				    send_email: "required",						
+				    //send_email: "required",						
                 },
 				
 				errorPlacement: function(error, element) {
-				 if (element.prop('name') === 'appointment_reminders') {
-					error.insertAfter('#AErrorContainer');
-				}else if (element.prop('name') === 'send_message') {
+				 // if (element.prop('name') === 'appointment_reminders') {
+					// error.insertAfter('#AErrorContainer');
+				// }else 
+				if (element.prop('name') === 'send_message') {
 					error.insertAfter('#messageErrorContainer');
-				}else if (element.prop('name') === 'send_email') {
-					error.insertAfter('#emailErrorContainer');
 				}else{
 				 error.insertAfter( element ); 
 				 }
@@ -52,50 +51,6 @@
 <br/>
 			<div class="span8 offset2">
 				<form class="form-horizontal form-setting " name="bsettings" id="bsettings" action="<?php echo base_url(); ?>settings/business" method="POST">
-					
-					<div class="control-group ">
-						<label class="control-label " for="inputEmail"><?=(lang('Apps_appointmentremainder'))?></label>
-						<div class="controls ">
-						<label class="radio inline">
-						<?php  
-						$nchck="";
-						$fchck="";
-						if($appointment_reminders=="on"){
-						$nchck="checked";
-						}elseif($appointment_reminders=="off"){
-						$fchck="checked";
-						}
-						echo form_radio('appointment_reminders','on',$nchck); ?> 
-						<?=(lang('Apps_on'))?></label>
-						<label class="radio inline">
-						<?php echo form_radio('appointment_reminders','off',$fchck); ?><?=(lang('Apps_off'))?> 
-						</label>
-						<div id="AErrorContainer"></div>
-						</div>
-						
-					</div>
-					<div class="control-group">
-					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendmereminderbfr'))?></label>
-					  <div class="controls">
-						<div >
-						<?php 
-						$start = strtotime('7:00');
-					    $end = strtotime('23:59');
-						for( $i = $start; $i <= $end; $i += (60*15)) 
-						{
-							$value=date('H:i', $i);
-							$slotlist[$value] = date('H:i', $i); 
-							
-						}
-						
-			            echo form_dropdown('remind_before',$slotlist,$remind_before,'id=remind_before class="inputime span3"') 
-			
-			            ?>
-						<!---<input type="text" name="remind_before" id="remind_before" class=" inputime span4" value="<?php //echo $remind_before; ?>">--->
-						
-						</div>
-					  </div>
-					</div>
 					<div class="control-group">
 					  <label class="control-label" for="inputPassword">
 					  <?=(lang('Apps_clientcancanclreshdule'))?></label>
@@ -123,14 +78,14 @@
 						?>
 						
 						
-						<span>Hours</span>
+						<span>hours before their appointment</span>
 						</div>
 					  </div>
 					</div>
 					<div class="control-group">
 					  <label class="control-label" for="inputPassword"><?=(lang('Apps_clientcanbookappntbfr'))?></label>
 					  <div class="controls">
-						<div >
+						<div>
 						<?php 
 						// $start = strtotime('7:00');
 					    // $end = strtotime('24:00');
@@ -152,11 +107,86 @@
 						   echo form_dropdown('book_before',$slotlist2,$book_before,'class="input-mini"') 
 						?>
 						
-						</select> <span>Hours</span>
+						<span>hours before start time</span>
 						
 						</div>
 					  </div>
 					</div>
+					<div class="control-group">
+					  <label class="control-label" for="inputPassword"><? echo "Clients can book appointments up to " ?></label>
+					  <div class="controls">
+					  <label class="inline">
+						 <?php 
+						$options=array(
+						''=>"Select",
+						'1'=>"1 Month",
+						'2'=>"2 Month",
+						'3'=>"3 Month",
+						'6'=>"6 Month",
+						'12'=>"12 Month",
+						'24'=>"24 Month"
+						);
+						$selectedbook_upto='';
+						if(isset($book_upto)){
+						 $selectedbook_upto = $book_upto;
+						}
+						
+						 echo form_dropdown('book_upto', $options, $selectedbook_upto ,'class="input-small"');
+						 
+						?>
+						<span>in the future</span>
+						<div id="emailErrorContainer"></div>
+					  </div>
+					</div>
+					<!----<div class="control-group ">
+						<label class="control-label " for="inputEmail"><?=(lang('Apps_appointmentremainder'))?></label>
+						<div class="controls ">
+						<label class="radio inline">
+						<?php  
+						$nchck="";
+						$fchck="";
+						if($appointment_reminders=="on"){
+						$nchck="checked";
+						}elseif($appointment_reminders=="off"){
+						$fchck="checked";
+						}
+						echo form_radio('appointment_reminders','on',$nchck); ?> 
+						<?=(lang('Apps_on'))?></label>
+						<label class="radio inline">
+						<?php echo form_radio('appointment_reminders','off',$fchck); ?><?=(lang('Apps_off'))?> 
+						</label>
+						<div id="AErrorContainer"></div>
+						</div>
+						
+					</div>--->
+					<div class="control-group">
+					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendmereminderbfr'))?></label>
+					  <div class="controls">
+						<div >
+						<?php 
+						for($i=1;$i<=24;$i++){ 
+						    $slotlist3[$i]=$i;
+						   }
+						echo form_dropdown('remind_before',$slotlist3,$remind_before,'class="input-mini"'); 
+						// $start = strtotime('7:00');
+					    // $end = strtotime('23:59');
+						// for( $i = $start; $i <= $end; $i += (60*15)) 
+						// {
+							// $value=date('H:i', $i);
+							// $slotlist[$value] = date('H:i', $i); 
+							
+						// }
+						
+			            // echo form_dropdown('remind_before',$slotlist,$remind_before,'id=remind_before class="inputime span3"') 
+			
+			            ?>
+						<!---<input type="text" name="remind_before" id="remind_before" class=" inputime span4" value="<?php //echo $remind_before; ?>">--->
+						<span>hours before appointments</span>
+						</div>
+					  </div>
+					</div>
+					
+					
 					<div class="control-group">
 					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendmetxtmsgonbooking'))?></label>
 					  <div class="controls">
@@ -178,6 +208,7 @@
 						<div id="messageErrorContainer"></div>
 					  </div>
 					</div>
+					
 					
 					<!----<div class="control-group">
 					  <label class="control-label" for="inputPassword"><?=(lang('Apps_sendemailconfm'))?></label>

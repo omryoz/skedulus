@@ -72,8 +72,8 @@
 						<input type="text" class="span12 " name="manager_name" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
-					<input id="searchTextField" type="text" name="location"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
-                    <!--<input type="hidden" id="city2" name="location" />--->
+					<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
+                    <input type="hidden" id="city2" name="location" />
 					<!---<input type="hidden" id="cityLat" name="cityLat" />
                     <input type="hidden" id="cityLng" name="cityLng" /> --> 
 					<!---<input type="text" class="span12 " name="location" placeholder="Location">	--->
@@ -214,13 +214,13 @@
   
  	  <div class="social_buttons hidden-phone" >
         <div class="inset">
-            <a class="fb login_button" href="#">
+            <a class="fb login_button" href="<?=base_url()?>home/signupAuth?provider=Facebook&Signup_business=1">
                 <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
                 <span><?=(lang('Apps_signfb'))?></span>
             </a>
         </div>
         <div class="inset">
-            <a class="tw login_button" href="#">
+            <a class="tw login_button" href="<?=base_url()?>home/signupAuth?provider=Twitter&Signup_business=1">
                 <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
                 <span><?=(lang('Apps_signtw'))?></span>
             </a>
@@ -235,15 +235,15 @@
 	   <br/>
 	   <div class="login_form">
 	  <div class="row-fluid">
-    <input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_firstname'))?>" name="firstname" value="" maxlength="15">
+    <input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_firstname'))?>" name="firstname" value="<?=(!empty($social['first_name']))?$social['first_name']:""?>" maxlength="15">
 	</div>
   	 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_lastname'))?>" name="lastname" value=""  maxlength="15">
+		<input type="text" class="offset3 span6"  placeholder=" <?=(lang('Apps_lastname'))?>" name="lastname" value="<?=(!empty($social['last_name']))?$social['last_name']:""?>"  maxlength="15">
 		</div> 
 		 <br />
 		<div class="row-fluid">
-		<input type="text" class="offset3 span6" placeholder=" <?=(lang('Apps_email'))?>" name="email" value="" id="email">
+		<input type="text" class="offset3 span6" placeholder=" <?=(lang('Apps_email'))?>" name="email" value="<?=(!empty($social['email']))?$social['email']:""?>" id="email" /> 
 		</div> 
 		 <br />
 		<div class="row-fluid">
@@ -359,4 +359,13 @@ function passwordStrength(password)
 	 document.getElementById("passwordStrength").className = "strength" + score;
 }
 </script>
+
+<?php if(!empty($Signup_business)){?>
+	<script>
+		$(document).ready(function(){
+			$('#create-user-modal').modal('show'); 
+		});
+	</script>
+<?php } ?>
+
 </div>

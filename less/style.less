@@ -39,9 +39,6 @@ body {
 					.img2{
 					display:block;
 					}
-					a{color:white;
-					text-decoration:none;
-					}
 					}
 				}
 				.language_flag1{
@@ -66,7 +63,6 @@ body {
 		h3 ,.text {
 		color:@colorA;
 		}
-		
 		.strip
 			{
 			select,.btn
@@ -87,11 +83,8 @@ body {
 						background:@grayDarker;
 						margin-bottom:1%;
 						overflow: hidden;
-						
-						
 						img{
 							 max-width:none;
-							
 						}
 						.caption{
 									padding:3px;
@@ -432,6 +425,8 @@ margin-top: -17px;}
 	
 }
 @media (max-width:767px){
+	
+	
 	.freebox {
 	margin-top:20px;
 	}
@@ -616,16 +611,21 @@ h3{small{line-height: 0; display: inline-block;font-size: 82%;}
 			a{text-decoration:none; i{color:@black;}}
 			.timing>li{margin-right:20px;}
 	}	
-
+/* .appointment_list{
+border-top:1px solid #ccc;
+	h4{
+	font-weight:normal
+	}
+	.bordered{display:none;}
+	.bordered_new{display:block;}	
+} */
 /* -------css for my appointments Start----------- */
 }
 .general_setting{
 	box-shadow: inset 0px 0px 0px 2px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-	min-height:400px;
+	min-height:400px
 	}
-/* .btn.btn-flat{display:none; padding: 0px; border-radius: 0px !important;} */
-.profile-image{ overflow: hidden; width: 150px; max-height: 120px;   
-		}
+.profile-image{ overflow: hidden; width: 150px; max-height: 120px; }
 /* ----------------business_profile css end------------------ */
 /* ---wrap for home page start--- */
 .Wrap{
@@ -771,6 +771,7 @@ h3{small{line-height: 0; display: inline-block;font-size: 82%;}
 	.simply-scroll .simply-scroll-list li {
 	float: left; /* Horizontal scroll only */
 	width: 290px;
+	
 	}
 }
 	
@@ -1141,8 +1142,8 @@ display:block;
 	font-weight: bold;
 	h5{line-height: 7px;}
 	h4{line-height: 0;}
-}	 */
-
+}	
+ */
 
 .btn-group{
 	.left{border-top-left-radius: 6px!important;
@@ -1182,7 +1183,7 @@ display:block;
 	width:100%;
 	li{
 	width:16.65% !important;
-	 
+	
 	}
 }
 .popover-title{display:none;}
@@ -1195,11 +1196,10 @@ list-style-type: none;
 font-size: 14px;
 padding-left: 10px;
 font-family:Arial, Helvetica, sans-serif; cursor:pointer; font-size:12px;
-
+top: 98% !important;
 margin:0;
 position:absolute;
 } */
-/* top: 98% !important; */
 .ui-menu-item {padding:3px 0;}
 #geomap{ img{max-width:inherit !important;}
 width:400px; height:400px;}
@@ -1355,7 +1355,9 @@ left:43%;
 .no-margin{
 margin-left:0px !important;
 }	
-
+.remove-margin{
+margin:0px !important;
+}
 
 .justify-nav {
   background-color: #eee;
@@ -1403,7 +1405,6 @@ margin-left:0px !important;
   border-radius: 0 0 5px 5px;
 }
 @media (min-width: 768px) {
-
   .justify-nav  > li > a {
     border-left: 1px solid #fff;
     border-right: 1px solid #d5d5d5;

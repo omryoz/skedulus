@@ -182,8 +182,8 @@
 		/* business setting start */
 		$lang['Apps_appointmentremainder'] = "Appointment Remainders";
 		$lang['Apps_sendmereminderbfr'] = "Send me reminder before";
-		$lang['Apps_clientcancanclreshdule'] = "Clients can cancel/reschedule the appointments before";
-		$lang['Apps_clientcanbookappntbfr'] = "Clients can book an appointment before";
+		$lang['Apps_clientcancanclreshdule'] = "Clients can cancel/reschedule the appointments upto";
+		$lang['Apps_clientcanbookappntbfr'] = "Clients can book an appointment upto";
 		$lang['Apps_sendmetxtmsgonbooking'] = "Send me text messages when clients book online";
 		$lang['Apps_sendemailconfm'] = "Send email confirmation"; 
 		$lang['Apps_insert'] = "insert";

@@ -82,7 +82,7 @@ $(".editCategory").click(function(){
 
 $(document).ready(function(){
 //alert($(this).attr('data-status'));
-
+//alert("color: " + color);
 $(".status").click(function(){
 var type=$(this).attr('user-type');
 var id=$(this).attr('data-val'); 
@@ -224,6 +224,7 @@ function getservices(business_id,serviceid){
 function getserviceStaffs(checked,selected,business_id,starttime){ 
 	var url = base_url+"bcalendar/getstaffnamesByfilter";
 	$.post(url,{service_id:checked,date:$(".st_date").val(),businessid:business_id,starttime:starttime}, function(data){ 
+	if(data){
 		$(".staff").html("");
        var append_option = "<option id='-1' >Select staff</option>";
 		$(".staff").append(append_option);		
@@ -234,7 +235,9 @@ function getserviceStaffs(checked,selected,business_id,starttime){
 		 }
 			var append_option = "<option id="+key+" value="+value.users_id+" "+select+">"+value.first_name+""+value.last_name+"</option>";
 			$(".staff").append(append_option);
+			
 		});
+		}
 	});	
 	//str = checked.substr(0,checked.length - 1);
 	//alert(checked);
@@ -648,6 +651,9 @@ $(".time").live("change",function(){
 				}else if(data==-1){
 				    $(".message").addClass("alert").html("Cannot book an appointment now");
 					$(".book_appointment").attr("onsubmit","return false;");
+				}else if(data==-3){
+				    $(".message").addClass("alert").html("Cannot book an appointment for this day so early");
+					$(".book_appointment").attr("onsubmit","return false;");
 				}else{
 					console.log(data);
 					$(".end_time").val(data);
@@ -722,7 +728,10 @@ $(".message").removeClass("alert").html(" ");
 				   $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html("Cannot book an appointment now").css({"display":"block","margin":"0px"});
 				    //alert("We won't work on selected date kindly select another day");
-				}else{
+				}else if(data==-2){
+				  $(".book_appointment").attr("onsubmit","return false;");
+					$(".message").addClass("alert").html("Cannot book an appointment for this day so early").css({"display":"block","margin":"0px"});
+				 }else{
 				    $(".end_time").val(data);
 					$(".book_appointment").attr("onsubmit","return true;");
 					
@@ -888,6 +897,9 @@ $(".launch").on("click",function(){
 	 // alert("Its a non working day.Kindly book on another day");
 	 }else if(data==0){
 	 apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	  //alert("Cannot book for past days");
+	 }else if(data==-2){
+	 apprise('Cannot book an appointment for this day so early', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else{
 	    $("#book").modal('show');
@@ -1235,7 +1247,10 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 			$(".book_appointment").attr("onsubmit","return false;");
 			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
 			//$(".time").html(""); 
-			}
+			}else if(info==-2){
+				$(".book_appointment").attr("onsubmit","return false;");
+				$(".message").addClass("alert").html("Cannot book an appointment for this day so early").css({"display":"block","margin":"0px"});
+		   }
 			else{
 			$(".book_appointment").attr("onsubmit","return true");	
 			$(".time").html(""); 
