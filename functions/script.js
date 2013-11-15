@@ -13,13 +13,25 @@ var url = base_url+"gallery/checkfornum";
 })
 })
 $(".likes").on("click",function(){
-		alert("Hello");
-		var url = base_url+"BusinessProfile/likes_business/"
-			
-		$.post(,{},function(data){
-			
-		});
-	})
+		 var user_id = $(this).attr("rel");
+		 if(user_id){
+		 var business_id = $(this).attr("alt");
+		 var ele = $(this);
+		 var url = base_url+"businessProfile/likes_business/";
+		 var data = {"users_id":user_id,"user_business_details_id":business_id};
+		 $.post(url,data,function(msg){
+			var res = msg.split(",");
+			if(res[0]==1){
+				ele.addClass("icon-heart").removeClass("icon-heart-empty");
+			}else{
+				ele.addClass("icon-heart-empty").removeClass("icon-heart");
+			}
+			ele.attr("data-original-title",res[1]);
+		 });
+		 }else{
+			apprise("Kindly login to perform the action");
+		 }
+	 })
 })
 function insertbasicInfo(){
 var url=baseUrl+'basicinfo/insertData';

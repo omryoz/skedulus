@@ -19,11 +19,34 @@ class Home extends CI_Controller {
     }
 	
 	public function index() {
-	    $Category=$this->common_model->getDDArray('category','id','name');
+	   $this->page();
+	}
+	public function page(){
+		  $Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->parser->parse('include/header',$this->data);
-		$this->data['contentList']=$this->home_model->getBusiness();
+		
+		
+		$where=" user_status='active' and business_status='active'";
+	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'home/page/';
+			$config['per_page'] = '12';
+			$config['uri_segment'] = 3; 
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(3)!=''){
+			$offset=$this->uri->segment(3);
+			}else{
+			$offset=0;
+			}
+			$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
+			
+            /* End Pagination Code  */
+		}
+		
+		
 		if(isset($this->session->userdata['business_id'])){
 			$this->parser->parse('include/dash_navbar',$this->data);
 		}
@@ -35,6 +58,7 @@ class Home extends CI_Controller {
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
+	
 	
 	public function employee(){
 	$this->data['userRole']="employeelogin";
@@ -157,7 +181,27 @@ class Home extends CI_Controller {
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 	    $this->parser->parse('include/header',$this->data);
-		$this->data['contentList']=$this->home_model->getBusiness();
+		//$this->data['contentList']=$this->home_model->getBusiness();
+		
+		$where=" user_status='active' and business_status='active'";
+	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'home/page/';
+			$config['per_page'] = '12';
+			$config['uri_segment'] = 3; 
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(3)!=''){
+			$offset=$this->uri->segment(3);
+			}else{
+			$offset=0;
+			}
+			$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
+			
+            /* End Pagination Code  */
+		}
+		
+		
 		$this->data['success']="successfull";
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
@@ -578,6 +622,7 @@ public function clientSignUp(){
 				#print_r($filter);
 			
 			//print_r($filter);
+			if(!empty($user_profile)){
 			$social_account = array('profile_id' => $user_profile->identifier,
 											'email' => (!empty($user_profile->email))?$user_profile->email:"",
 											'first_name' => $user_profile->firstName,
@@ -604,6 +649,9 @@ public function clientSignUp(){
 				redirect('cprofile');
 			}else{
 				
+			}
+			}else{
+			 redirect('home/clientlogin');
 			}
 		}
 		

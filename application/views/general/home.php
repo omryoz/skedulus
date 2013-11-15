@@ -96,10 +96,12 @@
 					
 					<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
-					 <?php $i=1; ?>
+					 <?php if(!empty($contentList)){ $i=1; ?>
 					 
 							<ul class="thumbnails business_logo">
-							<?php foreach($contentList as $content) {
+							<?php
+							
+							foreach($contentList as $content) {
 							
 							?>
 								<li class="thumbnail span3 trans">
@@ -123,10 +125,12 @@
 							<?php if($i%4==0){
 								echo '</ul><ul class="thumbnails business_logo">';
 							}
-							$i++; } ?>
+							$i++; }  ?>
 								</ul>
-							
-						
+							<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
+						<?php }else{ ?>
+						<p class="alert"><? echo "No businesses yet";?></p>
+						<?php }?>
 					</div>
 		  		</div>
 				</div>

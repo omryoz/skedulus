@@ -1,8 +1,8 @@
 <?php 
 class Home_model extends CI_Model {
 
-function getBusiness(){
-		$sql="Select * from view_business_details where user_status='active' and business_status='active' ";
+function getBusiness($offset=false,$limit=false){
+		$sql="Select * from view_business_details where user_status='active' and business_status='active' LIMIT $offset,$limit ";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

@@ -158,8 +158,14 @@
 		 <div class="span2">
 		<?php 
 		$day[]="Day";
-		 echo form_dropdown('Day', $day, set_value('day'),'id="day" class="span12 inline select-date"');
-		?>
+		$selected_day = ""; 
+		if(!empty($social['birthDay'])){
+			$selected_day  = $social['birthDay'];
+		}else{
+			$selected_day  = set_value('day');
+		}
+		 echo form_dropdown('Day', $day, $selected_day,'id="day" class="span12 inline select-date"');
+		?><input type="hidden" name="DOBday" id="DOBdate" value=<?php print_r($selected_day); ?> >
 		 </div>
 		 <a href="javascript:;" class="notification-link" data-toggle="popover" data-placement="bottom" data-content=" &lt;b&gt;Providing your birthday &lt;/b&gt;  &lt;br/&gt;helps us to give special notification and offers to you" title="" ><?=(lang('Apps_whybirthday'))?></a>
 		 </div>

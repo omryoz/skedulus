@@ -122,8 +122,9 @@
 						</div>
 					</div>
 					<?php 
-					}
-					}else{ ?>
+					}?>
+					<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
+<?php					}else{ ?>
 					 <p class="alert">No result found</p>
 					<?php } ?>
 						

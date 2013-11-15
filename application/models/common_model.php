@@ -90,8 +90,8 @@ class common_model extends CI_Model{
 		}
 		
 /* The function to search */
-		function searchResult($tablename="",$where=""){
-			$query=$this->db->query("select * from `$tablename` where $where");
+		function searchResult($tablename="",$where="",$offset="",$limit=""){
+			$query=$this->db->query("select * from `$tablename` where $where LIMIT $offset,$limit");
 			if($query->num_rows()>0){
 				return $query->result();
 			}else{

@@ -92,9 +92,11 @@
 					</li>
 				<?php $i++; } ?>
 				</ul>
+				
 				<?php }else{ ?>
 				<p class="alert"><?=(lang('Apps_noimagesaddedyet'))?></p>
 				<?php } ?>
+				<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 				</div>
 		</div>
 	

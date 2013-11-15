@@ -265,7 +265,41 @@ class Dash extends CI_Controller {
 	  $val= $this->admin_model->updateUserStatus();
 	}
 	
-	
+	function forgotpassword(){
+			
+			if($this->input->post('submit')){
+			
+			$query = $this->db->get_where('users',array('email' => $this->input->post('email'),'user_role' => 'admin'));
+			#echo $this->db->last_query(); exit;
+			//print_r($this->input->post());exit;
+			if($query->num_rows()>0){
+				$info = $query->result();
+			}else{
+				$info = false;
+			}
+			#print_r($info); exit;
+			if($info){
+			/*Send Password*/
+			$emailaddresses=$this->input->get_post('email');
+			$config['mailtype'] = 'html';
+			$this->email->initialize($config);
+			$this->email->from('info@eulogik.com', 'Skedulus User Services');
+			$this->email->to($emailaddresses); 
+			$this->email->subject('Password reset request');
+			$this->email->message("We've recieved a password reset request. Ignore if you've not sent it.<a href='".base_url()."admin/login/resetpassword?key=".$info[0]->activationkey."'>Reset your password here</a>");	
+			$this->email->send();
+			$this->data['messages'] = "Email Sent. Please, check your inbox and click link to reset your password ";
+			}
+			else{	
+				$this->data['messages'] = "This email doesn't exist";
+			}
+		}
+		
+		$this->session->set_flashdata('message_type', 'success');	
+		$this->session->set_flashdata('message', ''.$this->data['messages'].''); 
+		redirect("admin/login/");
+		
+	}
 }
 
 ?>

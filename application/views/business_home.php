@@ -83,7 +83,7 @@
 							}
 							$i++; } ?>
 								</ul>
-							
+							<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 							
 							
 					</div>
@@ -112,7 +112,7 @@
 								<tr>						
 									<td class="appoint-time">						
 									(  <?php echo date('H:i',strtotime($resval->start_time)) ?> -  <?php echo date('H:i',strtotime($resval->end_time)) ?> ) <br clear="left"/>  							
-									<a href="javascript:void(0)" >
+									<a href="javascript:void(0)" onclick="Appdetails(<?php echo $resval->id; ?>)">
 									<span > Service with <?php echo $resval->business_name ?></span> 
 									</a>						
 									</td>
@@ -198,4 +198,111 @@
 </div>
 
 </div></div>
+<script>
+ function Appdetails(eventid){
+		//if($("#userrole").val()=='manager'){
+	   $(".message").removeClass("alert").html(" ");
+	   $("#eventid").html(eventid);
+	  
+	    $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:eventid},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+			
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#name").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#serviceprovider").css("display",'none');
+			}
+			if(v.type=='class'){
+			var type='Class';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			//$("#reschedulebtn").hide();
+			}else{
+			var type='Services';
+			$("#type").html(type);
+			$("#typeName").html(v.services);
+			$("#services_id").html(v.services_id);
+			$("#employee_id").html(v.employee_id);
+			$("#note").html(v.note);
+			$("#user_id").html(v.user_id);
+			
+			}
+			$("#date").html(v.date);
+			$("#time").html(v.time);
+			$("#endtime").html(v.endtime);
+		  })
+	   }
+	   })
+	   
+	   $("#reschedule").modal('show');
+		//activeEvent=dataObj;
+		//ical.showPreview(evt, html);
+		//}
+	}
+</script>
+<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<p class="message"></p> 
+ <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel">Appointment Details</h3>
+  </div>
+  <div class="modal-body">
+	<p id="eventid" class="hide"></p>
+	<div class="row-fluid">
+		<div class="row-fluid">
+			<table class="table table-striped" >
+			<tbody>
+			
+		   <tr> 
+					  <td>
+					    <span id="type"></span> 	
+					  </td>
+					  <td>
+					   <span id="typeName"></span>
+					  </td>
+		   </tr>
+		    <tr id="serviceprovider"> 
+					  <td>
+					    Service Provider	
+					  </td>
+					  <td>
+					   <span id="name"></span>
+					  </td>
+		   </tr>
+			 <tr> 
+					  <td>
+					    Date	
+					  </td>
+					  <td>
+					   <span id="date"></span>
+					  </td>
+		     </tr>	
+			  <tr> 
+					  <td>
+					    Time	
+					  </td>
+					  <td>
+					   <span id="time"></span>
+					   <span id="endtime" class="hide"></span>
+					  </td>
+		      </tr>
+			   <tr> 
+					  <td>
+					    Message	
+					  </td>
+					  <td>
+					   <span id="note"></span>
+					  
+					  </td>
+		      </tr>
+			</tbody>
+			</table>
+		</div>
 
+	</div>
+  </div>
+</div>

@@ -56,8 +56,10 @@ var base_url = "http://localhost/skedulus/";
 							<span class="icon-bar"></span>
                   		</a>
 						<?php 
-						if($this->session->userdata['role']=='admin' || isset($this->session->userdata['admin'])){
+						if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='admin' || isset($this->session->userdata['admin'])){
 						 $url=base_url().'admin/dash/userslist';
+						}else{
+						$url=base_url();
 						} 
 						 ?>
 				 		<a class="brand pull-left" href="<?php echo $url; ?>"><h1>Skedulus</h1></a>
@@ -148,5 +150,16 @@ var base_url = "http://localhost/skedulus/";
 <?=$this->session->flashdata('message');?>	
 </div>
 <?php } ?>
+<?php if((lang('Apps_lang'))!=''): ?> 
+<script type="text/javascript">
+                       var stylesheetFile = '<?=base_url()?>less/hebrew.less';
+                       var link  = document.createElement('link');
+                       link.rel  = "stylesheet";
+                       link.type = "text/less";
+                       link.href = stylesheetFile;
+                       less.sheets.push(link);
+                       less.refresh();
+</script>
+<?php endif; ?>
 
 

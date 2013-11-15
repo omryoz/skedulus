@@ -41,7 +41,7 @@ class BusinessProfile extends CI_Controller {
 	    //$this->session->set_userdata($sessionVal);
 		$this->parser->parse('include/navbar',$this->data);
 		$where=" and users_id=".$users_id;
-		$checkFav=$this->common_model->getRow("view_business_clients","user_business_details_id",$_GET['id'],$where);
+		$checkFav=$this->common_model->getRow("favourite_businesses","user_business_details_id",$_GET['id'],$where);
 		
 		if(isset($checkFav) && $checkFav!="")
 		$this->data['isFav']= $checkFav->user_business_details_id;

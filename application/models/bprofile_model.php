@@ -38,8 +38,8 @@ class bprofile_model extends CI_Model {
 		return true;
 	}
 	
-	function getServices(){
-		$sql="Select * from user_business_services where user_business_details_id =".$this->session->userdata['business_id'];
+	function getServices($offset,$limit){
+		$sql="Select * from user_business_services where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -198,8 +198,8 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
-	function getStaffsList(){
-		$sql="Select * from view_business_employees where user_business_details_id =".$this->session->userdata['business_id'];
+	function getStaffsList($offset,$limit){
+		$sql="Select * from view_business_employees where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -356,9 +356,10 @@ class bprofile_model extends CI_Model {
 		return true;
 	}
 	
-	function getImages(){
+	function getImages($offset,$limit){
 		// $sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
-		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']."" ;
+		
+		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." LIMIT $offset,$limit" ;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -401,8 +402,9 @@ class bprofile_model extends CI_Model {
 		return true;
 	}
 	
-	function getclientsList(){
-		$sql="Select * from view_business_clients where user_business_details_id =".$this->session->userdata['business_id'];
+	function getclientsList($offset,$limit){
+	// echo "Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
+		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -416,6 +418,7 @@ class bprofile_model extends CI_Model {
 			return $values;
 		}
 	}
+	
 	function getclientsListauto(){
 	if($_POST['clientids']!=''){
 	$list=rtrim($_POST['clientids'],',');
@@ -794,6 +797,41 @@ class bprofile_model extends CI_Model {
 	  }
 	}
 	
+	function likes_business($where=false){
+		$status = "";
+		if($this->checkFavourite($where)){
+			$this->db->delete("businesses_likes",$where);
+			//echo 0;
+			$status=0;
+			
+		}else{
+			$this->db->insert("businesses_likes",$where);
+			//echo 1;
+			$status=1;
+		}
+		$res = $this->checkFavourite(array("user_business_details_id"=>$where['user_business_details_id']));
+		$total = (!empty($res))?count($res):0;	
+		echo $status.','.$total;
+	}
+	
+	function checkFavourite($where=false){
+		$query = $this->db->get_where("businesses_likes",$where);
+		if($query->num_rows()>0){
+			return $query->result();
+		}else{
+			return false;
+		}
+	}
+	
+	function getAllRows($where,$offset,$limit){ 
+	    $sql="Select * from view_favourite_businesses where $where LIMIT $offset,$limit ";
+		$query=$this->db->query($sql);			 			
+		$data=$query->result();	
+		if($data) {
+			return $data;
+		}
+		return false;
+	}
 	
 	
 }

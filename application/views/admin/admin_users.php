@@ -109,12 +109,13 @@ $("#admin_add").modal('show');
 							  <th><h4><?=(lang('Apps_name'))?></h4></th>
 							 
 							  <th><h4><?=(lang('Apps_action'))?></h4></th>
+							  <th><h4><?=(lang('Apps_email'))?></h4></th>
 							</tr>
 						  </thead>
 						 <?php foreach($contentList as $list){ ?>
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
-							 
+							  <td><?php print_r($list->email) ?></td>
 							  <td>
 							  <?php if($list->email!='admin@gmail.com'){ ?>
 							  <!---<a href="javascript:;" data-toggle="tooltip" data-val="<?php echo $list->id; ?>" class="tool editCategory" data-original-title="<?=(lang('Apps_edit'))?>"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;--->
@@ -148,7 +149,7 @@ $("#admin_add").modal('show');
     <h3 id="myModalLabel"> <?=(lang('Apps_adduser'))?></h3>
   </div>
   <div class="modal-body">
-   <form action="<?php echo base_url(); ?>admin/dash/admin_users/" method="POST" name="addUser" id="addUser" >
+   <form action="<?php echo base_url(); ?>admin/dash/admin_users/" method="POST" name="addUser" id="addUser" class="form-horizontal" >
    			<div class="control-group">
 			<label class="control-label" for="inputEmail"> <?=(lang('Apps_name'))?></label>
 			<div class="controls">

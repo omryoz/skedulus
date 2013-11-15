@@ -179,7 +179,7 @@ var base_url = "<?=base_url()?>";
 
 <?php if($this->session->flashdata('message_type')) { ?>
 <div class="alert alert-<?=$this->session->flashdata('message_type')?>">
-<a class="close" data-dismiss="alert" href="#">×</a>
+<a class="close" data-dismiss="alert" href="#">&times;</a>
 <?=$this->session->flashdata('message');?>	
 </div>
 <?php } ?>

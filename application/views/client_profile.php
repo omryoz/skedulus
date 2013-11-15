@@ -42,7 +42,17 @@
 			
 			<?php if(isset($appDetails)) { ?><br/>
 			<h4><?=(lang('Apps_meetinghistory'))?></h4>
-			<hr>
+		
+			<label class="radio inline">
+			  <input type="radio" name="activity" id="future" class="getApp" value="future" checked="checked" onclick="showApp('future')">
+			 Upcoming appointments
+			</label>
+			<label class="radio inline">
+			  <input type="radio" name="activity" id="past" class="getApp" value="past" onclick="showApp('past')">
+			  Past appointments
+			</label>
+			<hr><p class="hide userid"><?php echo $userid; ?></p>
+			<div class="showapps">
 			<?php foreach($appDetails as $val){ ?>
 			<div class="appoint-date"><?php echo date("F j, Y ",strtotime(date('Y-m-d',strtotime($val)))); ?></div>
 			<?php 
@@ -83,9 +93,12 @@
 					<?php } ?>
 			
 			
-			<?php }
-			}?>
+			<?php } ?>
+			</div>
 			
+			<input type="hidden" name="count" value="0" id="count">
+			<a href="javascript:;" class="moreApp"  data-value="<?php print_r($lastDate)  ?>" profile-val="<?php echo $userid;?>">View More..</a>
+			<?php }?>
 		</div>	
 	
 		
@@ -138,6 +151,47 @@
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
 		//}
+	}
+	
+	$('.moreApp').click(function(){ 
+	var val = $('.getApp:checked').val();
+    //alert(val);
+	$('.moreApp').show();
+	var count=$("#count").val(); 
+	var Nextcount=parseInt(count)+parseInt(2);
+	$.ajax({
+	  url:base_url+'clients/moreApp',
+	  data:{'type':val,'count':Nextcount,'id':$(this).attr('profile-val')},
+	  type:'POST',
+	  success:function(data){
+	   
+	   if(data==0){
+	   $('.moreApp').hide();
+	   }else{
+	    $(".showapps").append(data);
+	    $("#count").val(Nextcount);
+		
+	   }
+	   
+	   
+	  }
+	})
+	  //alert($(this).attr('data-value'));
+	})
+	
+	function showApp(type){
+	  // alert(type);
+	   $("#count").val(0);
+		$(".showapps").html(" ");
+		$('.moreApp').show();
+	   $.ajax({
+	   url:base_url+'clients/moreApp',
+	   data: {'type':type,'count':0,'id':$(".userid").html()},
+	   type:'POST',
+	   success:function(data){
+	   $(".showapps").html(data);
+	   }
+	   })
 	}
 </script>
 <div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

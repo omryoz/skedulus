@@ -488,7 +488,11 @@ function createappointment(){
 		$input = array("users_id"=>$this->input->post('user_id'),"booked_by"=>$booked_by,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
 		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
-		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
+		$checkClient=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
+		$checkfav=$this->common_model->getRow("favourite_businesses","user_business_details_id",$this->input->post('businessid'),$where);
+		if(empty($checkClient)){
+		$this->business_profile_model->insertClient($fav);
+		}
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
@@ -803,10 +807,18 @@ function referal_url($url){
 		$val=$this->common_model->getRow("view_classes_posted_business","id",$this->input->post('classid')); 
 		$fav =array("users_id"=>$this->session->userdata['id'],"user_business_details_id"=>$val->user_business_details_id);
 		$where=" and users_id=".$this->session->userdata['id'];
-		$checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$val->user_business_details_id,$where);
+		$checkClient=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);
+		$checkfav=$this->common_model->getRow("favourite_businesses","user_business_details_id",$this->input->post('businessid'),$where);
+		if(empty($checkClient)){
+		$this->business_profile_model->insertClient($fav);
+		}
 		if(empty($checkfav)){
 		$this->business_profile_model->insertFav($fav);
 		}
+		// $checkfav=$this->common_model->getRow("business_clients_list","user_business_details_id",$val->user_business_details_id,$where);
+		// if(empty($checkfav)){
+		// $this->business_profile_model->insertFav($fav);
+		// }
 		$where=" and services_id=".$this->input->post('classid');
 		$val=$this->common_model->getRow("client_service_appointments","users_id",$this->session->userdata['id'],$where);
 		if($val){

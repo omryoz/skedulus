@@ -37,7 +37,29 @@ class Staffs extends CI_Controller {
 	 }else{
 	  $this->parser->parse('include/dash_navbar',$this->data);
 	 }
-	 $this->data['tableList']=$this->bprofile_model->getStaffsList();
+	 
+	 
+	 $where=" user_business_details_id =".$this->session->userdata['business_id'];
+	 $config['total_rows'] = $this->common_model->getCount('view_business_employees','users_id',$where);
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'staffs/list_staffs/';
+			$config['per_page'] = '10';
+			$config['uri_segment'] = 3; 
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(3)!=''){
+			$offset=$this->uri->segment(3);
+			}else{
+			$offset=0;
+			}
+			$this->data['tableList']=$this->bprofile_model->getStaffsList($offset,$config['per_page']);
+			
+			
+            /* End Pagination Code  */
+		}
+	 
+	 
+	 
 	 if($this->session->userdata['business_type']=='class'){
 	 $this->data['services']=$this->common_model->getAllRows("user_business_classes","user_business_details_id",$this->session->userdata['business_id']);
 	 }else{

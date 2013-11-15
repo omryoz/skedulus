@@ -40,7 +40,7 @@
 							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
-						 <?php foreach($contentList as $list){ ?>
+						 <?php foreach($contentList as $list){ if($list->id!=0){ ?>
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
 							  <td><?php echo $list->user_role; ?></td>
@@ -60,7 +60,7 @@
 							  </td>
 							  
 							</tr>
-						<?php } ?>
+						<?php } } ?>
 							 
 						</table>
 						
@@ -122,14 +122,5 @@
 		
 	</div>
 </div>
-<?php
-    $color = "Red";
-	
-?>
-<script type="text/javascript">
-var color = "<?= $color ?>";
 
-
-</script>
-<script type="text/javascript" src="<?php echo base_url() ?>js/script.js"></script>
 <?php //include('footer.php')?>

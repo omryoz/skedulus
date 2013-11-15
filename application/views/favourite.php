@@ -24,7 +24,7 @@
 								<li class="thumbnail span3 trans fav-blocks">
                                   
 									<div class="inblock">
-									<a href="<?php echo base_url(); ?>clients/deleteFav?id=<?php echo $content->client_list_id ?> " class="btn btn-mini btn-danger confirm trash"> <i class="icon-trash"></i> </a>
+									<a href="<?php echo base_url(); ?>clients/deleteFav?id=<?php echo $content->favourite_id ?> " class="btn btn-mini btn-danger confirm trash"> <i class="icon-trash"></i> </a>
 									
 									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content->user_business_details_id ?>">
 										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content->business_logo)?$content->business_logo:'default.png'); ?>/280/1/1/business_logo">
@@ -41,7 +41,7 @@
 							<?php //$i++; 
 							} ?>
 								</ul>
-								
+							<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>	
 					</div>
 		  		</div>
 				<?php }else{?>

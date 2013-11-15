@@ -15,6 +15,7 @@
 
 	
 	<hr class="hr_style">
+	<?php print_r((!empty($message))?"<div class='alert alert-info'>".$message."</div>":"");?>
 	<div class="row-fluid">
 		<div class="span4 offset4 login_form">
 		<form class="logged" id="form1" method="POST" action="<?php echo base_url(); ?>admin/login/chckinfo">
@@ -27,10 +28,10 @@
 		  
 		</form>
 		
-		<form  class="reset" id="form2">
-		   <input  type="text" class="span12"  placeholder="<?=(lang('Apps_emailaddress'))?>" >
+		<form name="reset" class="reset" id="form2" method="post" action="<?=base_url()?>admin/dash/forgotpassword">
+		   <input  type="text" class="span12"  placeholder="<?=(lang('Apps_emailaddress'))?>" name="email" />
 		   <!-- <a href="business_overview.php" type="submit" class="btn btn-success span4">Reset</a> -->
-		   <input type="submit" name="Reset" value="<?=(lang('Apps_reset'))?>" class="btn btn-success span4" />
+		   <input type="submit" name="submit" value="<?=(lang('Apps_reset'))?>" class="btn btn-success span4" value="Reset" />
 		   <a href="javascript:;" class="pull-right revert" onClick="$('#form2').toggle();$('#form1').toggle();"><?=(lang('Apps_backtologin'))?></a>
 		</form>
 		</div>
