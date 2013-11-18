@@ -50,7 +50,7 @@
 					   <p class="hide trainerid"><?=(!empty($trainerid))?$trainerid:''?></p>
 					   <p class="hide trainername"><?=$firstname." ".$lastname?></p>
 					  
-						<p class="hide" id="business_id"><?php print_r($_SESSION['profileid']); ?></p>
+						<p class="hide" id="business_id"><?php echo $businessId; ?></p>
 					  </td>
 					</tr>
 

@@ -743,7 +743,7 @@ function referal_url($url){
 		  $this->data['businessId']=$id;
 		 
 		}
-		
+        $this->data['businessId']=$id;		
 		if($this->session->userdata['role']=="manager"){
 		$this->parser->parse('include/modal_classpopup',$this->data);
 		$this->parser->parse('calendar_classes',$this->data);

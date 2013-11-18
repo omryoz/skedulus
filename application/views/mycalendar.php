@@ -167,32 +167,45 @@ session_start();
 			$("#type").html(type);
 			$("#typeName").html(v.services);
 			$("#reschedulebtn").hide();
-			}else{
-			var type='Services';
-			$("#type").html(type);
-			$("#typeName").html(v.services);
-			
-			$("#employee_id").html(v.employee_id);
-			$("#note").html(v.note);
-			if(v.status=='active'){
-			$("#deleteApp").show();
-			$("#reschedulebtn").show();
-			}else{
-			$("#deleteApp").hide();
-			$("#reschedulebtn").hide();
-			}
-			}
 			$("#date").html(v.date);
 			$("#time").html(v.time);
 			$("#endtime").html(v.endtime);
+			 $("#reschedule").modal('show');
+			}else{
+			serviceDetails(eventid);
+			 $(".viewSchedule").hide();
+			// var type='Services';
+			// $("#type").html(type);
+			// $("#typeName").html(v.services);
+			
+			// $("#employee_id").html(v.employee_id);
+			// $("#note").html(v.note);
+			// if(v.status=='active'){
+			// $("#deleteApp").show();
+			// $("#reschedulebtn").show();
+			// }else{
+			// $("#deleteApp").hide();
+			// $("#reschedulebtn").hide();
+			// }
+			}
+			
 		  })
 	   }
 	   })
 	   
-	   $("#reschedule").modal('show');
+	  
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
 	}
+	
+	function serviceDetails(eventid){
+		$("#eventId").val(eventid);
+	  // $("#reschedule").modal('show');
+	   $(".titleAppointment").html("Reschedule an appointment");
+	   $("#book").modal('show');
+	
+	}
+	
 	function agendaShowEventDetail(evt){ 
 	    Appdetails(evt);
 	}

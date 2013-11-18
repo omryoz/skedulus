@@ -346,6 +346,23 @@ public function mail($emailTo,$subject,$message){
 			
 	  }
 	}
+	public function getUsers($table,$keyword=false,$where=false,$limit=false,$offset=false,$like_by=false){
+		if($keyword)
+			if(!$like_by)
+				$this->db->like("first_name",$keyword);
+			else
+				$this->db->like($like_by,$keyword);
+			
+		if($limit)
+			$this->db->limit($limit,$offset);
+		if($where)
+			$query = $this->db->get_where($table,$where);
+		else
+			$query = $this->db->get($table);
+		
+		//echo $this->db->last_query();
+		return ($query->num_rows()>0)?$query->result():false;
+	} 	 
+	
 }
-
 ?>

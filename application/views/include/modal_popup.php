@@ -2,8 +2,8 @@
 <div id="book" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <form class="form-horizontal book_appointment" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel"> <?=(lang('Apps_bookanappointment'))?></h3>
+    <button type="button" class="close closeapp" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3 id="myModalLabel" class="titleAppointment"> <?=(lang('Apps_bookanappointment'))?></h3>
   </div>  <p class="message"></p>	
   <div class="modal-body row-fluid">
 		   <div class="control-group">
@@ -18,7 +18,7 @@
 			<label class="control-label" > <?=(lang('Apps_date'))?></label>
 			<div class="controls">
 				<div class="input-append date date_pick span6" id="dp5" data-date="<?=date("d-m-Y")?>" data-date-format="dd-mm-yyyy">
-					<input class="span12 st_date" name="date" size="16" type="text" value="<?=date("d-m-Y")?>">
+					<input class="span12 st_date" readonly name="date" size="16" type="text" value="<?=date("d-m-Y")?>">
 					<span class="add-on"><i class="icon-calendar"></i></span>
 				 </div>
 			</div>
@@ -41,14 +41,14 @@
 					
 					<select name="time" class="time" id="timeSlot" action="" eventId="" booking="" staff="">	
 					</select>
-					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
+					<a href="<?php echo base_url();?>bcalendar" onclick="viewSchedule();" role="button" data-toggle="modal"  data-dismiss="modal" class="viewSchedule" aria-hidden="true"> <?=(lang('Apps_viewschedule'))?></a>
 			</div>
 		  </div>
 		  
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_message'))?></label>
 			<div class="controls">
-			  <textarea type="text" class="" name="note" id="note" placeholder="Message"></textarea>
+			  <textarea type="text" class="messageNote" name="note" id="note" placeholder="Message"></textarea>
 			  <?php if(isset($_GET['id'])){
 			   $id=$_GET['id'];
 			  }else{
@@ -68,11 +68,14 @@
   </div>
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app"/>
+	
+	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app "/>
+	<input type="button" name="reschedule" value="Reschedule" id="reschedule_app" class="btn btn-success span3 offset5 reschedule_app "/>
+	<input type="button" name="delete" value="Cancel" id="deleteApp" class="btn btn-success span3 offset5 delete_app "/>
 	<input type="hidden" name="user_id" id="users_id" value="<?=$user_id?>" />
 	<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
-	
+	<input type="hidden" name="reschdule"  class="reschduleId" id="reschduleId" value="0" />
   </div>
   </form>
 </div>
@@ -129,7 +132,9 @@
 
 })(jQuery, window, document);
 
-
+$(".closeapp").click(function(){
+$(".reschduleId").val('0');
+})
 
 </script>
 

@@ -8,14 +8,25 @@
 				<!-- <h4>Search Businesses</h4> -->
 				<br/>
 				<div class="row-fluid strip">
-					<form action="<?php echo base_url() ?>admin/dash/businesses/" method="POST">
+					<form action="<?php echo base_url() ?>admin/dash/businesses/" method="GET">
 						<div class="span10">
 							<?php if(isset($search)){
 						 $search=$search;
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_searchbusiness'))?>">
+							<input type="text" class="span4" value="<?php echo (!empty($_GET['keyword']))?$_GET['keyword']:"";?>" name="keyword" placeholder="<?=(lang('Apps_searchbusiness'))?>" />
+							<select name="plans" class="span4">
+								<option value="">Select Plans</option>
+								<?php foreach($list as $p){  ?>
+									<option value="<?=$p->id?>" <?=(!empty($_GET['plans']) && $_GET['plans']==$p->id)?"selected='selected'":""?>><?=$p->title?></option>
+								<?php } ?>
+							</select>
+							<select name="status" class="span4">
+								<option value="">Select Status</option>
+								<option value="active" <?=(!empty($_GET['status']) && $_GET['status']=="active")?"selected='selected'":""?>>Active</option>
+								<option value="inactive" <?=(!empty($_GET['status']) && $_GET['status']=="inactive")?"selected='selected'":""?>>Inactive</option>
+							</select>
 						</div>
 						
 						<div class="span2">						

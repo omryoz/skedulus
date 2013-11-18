@@ -82,7 +82,7 @@ $(".editCategory").click(function(){
 
 $(document).ready(function(){
 //alert($(this).attr('data-status'));
-//alert("color: " + color);
+
 $(".status").click(function(){
 var type=$(this).attr('user-type');
 var id=$(this).attr('data-val'); 
@@ -143,6 +143,17 @@ $(".dropdown-menu li").live("click",function(e) {
        e.stopPropagation();
    });
 $(".book_me").live("click",function(){  
+$("#book").modal('show');
+    $("#eventId").val("");
+	 $(".delete_app").hide();
+	 $(".add-on").show();
+	 $(".reschduleId").val('1');
+	 $(".reschedule_app").hide();
+	 $(".book_app").show();
+	 //$(".eventGroup").attr('disabled',false);
+	 $(".staff").attr('disabled',false);
+	 $(".time").attr('disabled',false);
+	 $(".messageNote").attr('disabled',false); 
     $(".time").attr('action','schedule');
 	//$(".time").attr('staff','0');
     $(".message").removeClass("alert").html(" ");
@@ -463,6 +474,159 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	  })
 	})
 
+	
+$("#deleteApp").live("click",function(){
+	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	 
+	 })
+	 
+	 function cancelApp(){
+		var url = base_url+"bcalendar/checkfordelete"; 
+	  $.ajax({
+		data:{date:$(".st_date").val(),business_id:$(".business_id").val(),starttime:$(".time").val(),action:'reschedule'},
+		url:url,
+		type:'POST',
+		success:function(data){  
+		if(data==0){ 
+		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		return false;
+		}else if(data==1){
+		var str="?";
+		str=str+"&type="+$("#type").html(); 
+        str=str+"&postedclassid="+$("#services_id").html();		
+		str=str+"&eventId="+$("#eventId").val(); 
+		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		$("#book").modal('hide');
+		
+		}
+	 }
+	  })
+	 }
+function showappDetails(){
+	 //alert($("#eventId").val());
+	    $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:$("#eventId").val()},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+		   $("#users_id").val(v.user_id);
+		   $(".time").attr('booking','multi');
+		   $(".business_id").val(v.business_details_id); 
+		   $("#eventId").val($("#eventId").val());
+		   $(".end_time").val(v.endtime);
+		   var string = '<div class="dropdown"><a class="dropdown-toggle btn-service semi-large" data-toggle="dropdown" href="javascript:;">Select Services<b class="caret pull-right"></b></a><ul class="dropdown-menu appointment-popup-ul semi-large drop-down-checkbox" role="menu" aria-labelledby="dLabel">';
+	var str = '';
+    var url = base_url+"bcalendar/getserviceBybusinessfilter";
+	var temp = new Array();
+	temp = v.services_id.split(",");
+    $.post(url,{business_id:v.business_details_id}, function(data){ 
+		$.each(eval(data), function( key, value ) {
+			var checked="";
+			if(jQuery.inArray(value.id,temp) == -1){ 
+			 checked='';
+			}else{ 
+			  checked='checked';
+			}
+			var str = "<li><input type='checkbox' name='eventGroup' class='eventGroup' disabled "+checked+" value="+value.id+"  />"+value.name+"</li>";
+			string = string + str;
+		});
+		var closeul='</ul></div></div>';	
+			string=string+closeul;
+			//alert(string);
+			$("#checkbox").html(string);
+		});	
+		$(".messageNote").val(v.note);
+		var d=new Date(v.date);
+		var curr_date = d.getDate();
+		var curr_month = d.getMonth() + 1; 
+		var curr_year = d.getFullYear();
+		var date = curr_date+"-"+curr_month+"-"+curr_year;
+		$(".st_date").val(date);
+		getserviceStaffs(v.services_id,v.employee_id,v.business_details_id,v.time);
+		if(v.employee_id!=0){
+		  var staff_id=v.employee_id;
+		}else{
+		  var staff_id='';
+		} 
+		$(".time").attr('action','reschedule');
+		$(".time").attr('eventId',$("#eventId").val());
+		gettimeslots(v.date,v.business_details_id,staff_id,$("#eventId").val(),v.time);
+		
+	 if(v.status=='active'){
+	 
+	     var url = base_url+"bcalendar/checkreschedule";
+		$.ajax({
+		type: "POST",
+		url: url,
+		data: { date : date,business_id:v.business_details_id,starttime:v.time,action:$('.time').attr('action')},
+		success: function(data) {
+		  //alert(data);
+		  if(data=='1'){
+			 $(".book_app").hide();
+	         $(".reschedule_app").hide();
+			 $(".delete_app").hide();
+		  }else{
+		    if($(".reschduleId").val()=='1'){
+			$(".eventGroup").attr('disabled',false);
+			   $(".book_app").show();
+			   $(".reschedule_app").hide();
+			}else{
+		      $(".delete_app").show();
+			  $(".reschedule_app").show();
+			  $(".book_app").hide();
+			}
+		  }
+		}
+	})
+	    
+	   }else{
+	   $(".delete_app").hide();
+	   $(".reschedule_app").hide();
+	   $(".book_app").hide();
+			 
+	   }
+	   })
+	   }
+     })
+	
+}
+
+$('#book').on('show', function () {  
+ //$(".reschduleId").val('0');
+ if($("#eventId").val()!=" "){  
+   if($(".reschduleId").val()=='0'){
+     $(".staff").attr('disabled',true);
+	 $(".time").attr('disabled',true);
+	 $(".messageNote").attr('disabled',true);
+	 $(".add-on").hide();
+	 }
+      showappDetails();
+	 }else{ 
+	 $(".reschduleId").val('1');
+	  $(".add-on").show();
+	 $("#eventId").val("");
+	 $(".delete_app").hide();
+	 $(".reschedule_app").hide();
+	 $(".book_app").show();
+	 //$(".eventGroup").attr('disabled',false);
+	 $(".staff").attr('disabled',false);
+	 $(".time").attr('disabled',false);
+	 $(".messageNote").attr('disabled',false);
+	 }
+})
+
+$(".reschedule_app").click(function(){
+     $(".reschduleId").val('1');
+	 $(".add-on").show();
+     $(".delete_app").show();
+	 $(".reschedule_app").hide();
+	 $(".book_app").show();
+	 $(".eventGroup").attr('disabled',false);
+	 $(".staff").attr('disabled',false);
+	 $(".time").attr('disabled',false);
+	 $(".messageNote").attr('disabled',false);
+})
 //For rescheduling of appointments
 $("#reschedulebtn").live("click",function(){ 
   $("#reschedule").modal('hide');
@@ -878,6 +1042,8 @@ $("#bookclass").live("click",function(){
 })
 
 $(".launch").on("click",function(){ 
+    $(".viewSchedule").hide();
+	$(".titleAppointment").html("Book an appointment");
     $(".message").removeClass("alert").html(" ");
 	var businessid = $("#profileid").html();
 	var staffid='';
@@ -893,15 +1059,16 @@ $(".launch").on("click",function(){
 	 var url=base_url+"bcalendar/checkfordate";
     $.post(url,{date:date,business_id:businessid,staffid:staffid},function(data){
 	 if(data==-1){
-	 apprise('Its a non working day.Kindly book on another day', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise('Its a non working day.Kindly book on another day', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	 // alert("Its a non working day.Kindly book on another day");
 	 }else if(data==0){
-	 apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else if(data==-2){
-	 apprise('Cannot book an appointment for this day so early', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise('Cannot book an appointment for this day so early', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else{
+	    $("#eventId").val(" ");
 	    $("#book").modal('show');
 	$("#note").val('');
 	var append_option = "<option id='-1' >Select staff</option>";
@@ -1154,14 +1321,14 @@ $("#bookClass").click(function(){
 var nowTemp = new Date();
 			var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
 			
-			$('.date_pick').datepicker({
+			$('.date_pick').datepicker({ 
 					onRender: function(date) {
 						return date.valueOf() < now.valueOf() ? 'disabled' : '';
 					}
 			})
 			
 			.on('changeDate', function(ev){ 
-				//alert("hello")
+				
 				$('.date_pick').datepicker('hide');
 				var business_id =$(".business_id").val();
 				var staff_id = ''; 

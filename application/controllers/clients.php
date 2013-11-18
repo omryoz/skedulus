@@ -77,7 +77,7 @@ class Clients extends CI_Controller {
 	 $this->data['lastDate']=end($appDetails1);
 	
 	 $this->data['appDetails']=$appDetails1;
-    
+     $this->parser->parse('include/modal_popup',$this->data);
 	 $this->parser->parse('client_profile',$this->data);
 	 $this->parser->parse('include/footer',$this->data);
 	}
