@@ -72,6 +72,9 @@ class Services extends CI_Controller {
 			if(isset($_POST['register'])){
 			$id=$this->bprofile_model->insertServices();
 			redirect('services/list_services/?register');
+			}else if(isset($_POST['page']) && $_POST['page']=='1'){ 
+			$id=$this->bprofile_model->insertServices();	
+			redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 			}else{
 			$id=$this->bprofile_model->insertServices();
 			redirect('services/list_services');
@@ -90,7 +93,11 @@ class Services extends CI_Controller {
 		 $query=$this->db->query("delete from employee_services where service_id=".$_GET['id']);
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Service deleted successfully !');
+		 if(!empty($_GET['page'])){
+		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else{
 		 redirect("services/list_services");
+		 }
 		 echo $val;
 		 }
 	}
@@ -118,11 +125,14 @@ class Services extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);	
 	}
 	
-	public function manage_classes(){
-		if(isset($_POST['insert'])){ 
-			if(isset($_POST['register'])){
+	public function manage_classes(){ 
+		if(isset($_POST['insert'])){  
+			if(isset($_POST['register'])){ 
 			$id=$this->bprofile_model->insertClasses();
 			redirect('services/list_classes/?register');
+			}else if(isset($_POST['page']) && $_POST['page']=='1'){ 
+			$id=$this->bprofile_model->insertClasses();	
+			redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 			}else{
 			$id=$this->bprofile_model->insertClasses();
 			redirect('services/list_classes');
@@ -140,8 +150,11 @@ class Services extends CI_Controller {
 		 $val= $this->common_model->deleteRow("user_business_classes",$_GET['id']);
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Class delete successfully !');
+		  if(!empty($_GET['page'])){
+		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else{
 		 redirect("services/list_classes");
-		 
+		 }
 		 }
 	}
 	

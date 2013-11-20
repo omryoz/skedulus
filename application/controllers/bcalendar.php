@@ -46,8 +46,15 @@ class Bcalendar extends CI_Controller {
 		  $filter=array('id'=>$id);
 		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
-		 
+		  
+		  
 		}
+		if(!empty($id)){
+		 $bid=$id;
+		}else{
+		 $bid=$this->session->userdata['business_id'];
+		}
+		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
@@ -101,6 +108,7 @@ class Bcalendar extends CI_Controller {
 		}
 		//$this->data['user_id'] = $id;
 	    $this->parser->parse('include/modal_popup',$this->data);
+		$this->parser->parse('include/modal_bookclass',$this->data);
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
 		 if($status->status=='active'){
 		 $this->parser->parse('mycalendar',$this->data);
@@ -631,7 +639,7 @@ function referal_url($url){
 		}else{
 		$filter = array("user_business_details_id"=>$business_id,"name"=>$day,"type"=>'business'); 
 		$where.=" AND user_business_details_id=".$business_id." AND employee_id=0";
-		$where1=' AND user_business_details_id="'.$business_id.'" and type="business"';
+		$where1=' AND user_business_details_id="'.$business_id.'" and name="'.$day.'" and type="business"';
 		}
 		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
 		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
@@ -743,11 +751,18 @@ function referal_url($url){
 		  $this->data['businessId']=$id;
 		 
 		}
-        $this->data['businessId']=$id;		
+		if(!empty($id)){
+		 $bid=$id;
+		}else{
+		 $bid=$this->session->userdata['business_id'];
+		}
+		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
+		$this->data['businessId']=$id;
 		if($this->session->userdata['role']=="manager"){
 		$this->parser->parse('include/modal_classpopup',$this->data);
 		$this->parser->parse('calendar_classes',$this->data);
 		}else{
+		$this->parser->parse('include/modal_bookclass',$this->data);
 		$this->parser->parse('calendar_bookclass',$this->data);
 		}
 		 $this->parser->parse('include/footer',$this->data);
@@ -1080,6 +1095,7 @@ function checkIfblocked(){
 		 }else{
 		 $this->data['businessId']=$staffdetails[0]->user_business_details_id;
 		 $this->data['type'] ='staffscalendar';
+		 $this->parser->parse('include/modal_bookclass',$this->data);
 		 $this->parser->parse('calendar_bookclass',$this->data);
 		 }
 		 }else{

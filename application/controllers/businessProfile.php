@@ -66,8 +66,7 @@ class BusinessProfile extends CI_Controller {
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
 	 $this->data['type']="Classes";
-	 $this->data['services']=$this->business_profile_model->getClasses($id);
-	 //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
+	 $this->data['services']=$this->business_profile_model->getClasses($id); 
 	 }else if($this->data['content']->business_type=='service'){
      $this->data['type']="Services";	 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
@@ -96,7 +95,27 @@ class BusinessProfile extends CI_Controller {
 		$this->load->model("bprofile_model");
 		echo $this->bprofile_model->likes_business($_POST);
 	}
+	function getComments(){
+		$this->load->model("bprofile_model");
+		//print_r($_POST);
+		$this->data['comments'] =  $this->bprofile_model->getComments($_POST); 
+		//print_r($this->data['comments']);
+		$this->load->view("comments",$this->data);
+	}
 	
+	function createComments(){
+		$this->load->model("bprofile_model");
+		if($this->bprofile_model->createComment($_POST)){
+			//echo 1;
+			$filter = array("user_business_photogallery_id"=>$_POST['user_business_photogallery_id']); 
+			//print_r($filter); 
+			$this->data['comments'] = $this->bprofile_model->getComments($filter);
+			$this->load->view("comments",$this->data); 	
+		}else{
+			echo 0;
+		}
+		
+	}
 	
 }
 ?>

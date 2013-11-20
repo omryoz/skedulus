@@ -56,12 +56,14 @@ class getevents
 						$evCount=$evCount+1;
 						$event='';
 						$event["eventId"]=$evVal->id;
-						$event['eventName']=$evVal->note;
+						//$event['eventName']=html_entity_decode( $evVal->note, ENT_QUOTES, "utf-8" ); 
 						$event['business_name']=$evVal->business_name;
 						$event['category_name']=$evVal->category_name;
 						if($evVal->employee_id!=0){
 						   $event['serviceProvider']=$evVal->employee_first_name." ".$evVal->employee_last_name;
 						}
+						
+						
 						$event['clientname']=$evVal->clients_first_name." ".$evVal->clients_last_name;
 						$difference = strtotime($evVal->end_time) - strtotime($evVal->start_time);
 						// getting the difference in minutes
@@ -76,19 +78,21 @@ class getevents
 						$total=0;
 						$endtime=date("H:i",strtotime($evVal->end_time)); 
 						$serviceid=explode(',',$evVal->services_id);
+						$name='';
 						foreach($serviceid as $val){
-						if($val!='')
+						if($val!=''){
 							$res = $db->get_results("select * from user_business_services where id='".$val."'");  
 						if($res[0]->padding_time_type=="Before & After"){
 						  $twice=2;
 						}else{
 						  $twice=1;
 						}	
-						$total = $total + $res[0]->padding_time * $twice;						
-												
+						$total = $total + $res[0]->padding_time * $twice;
+                        $name.=$res[0]->name.',';						
+						}
 					  }
-						
-						$time = $this->convertToHoursMins($total,'%d:%d');
+						$event['serviceName']=rtrim($name,','); 
+						$time = $this->convertToHoursMins($total,'%d:%d');						
 						$end_time = $this->addTime($endtime,$time);
 						$event['endTime']= date('Y-m-d',strtotime($evVal->end_time))." ".$end_time;
 						
@@ -102,8 +106,7 @@ class getevents
 			$calendar["name"]=$name;
 			$ax[$count]=$calendar;
 			
-		}
-		//print_r($ax); exit;
+		} 
 		return $ax; 
 	}
 	function is_authorized()

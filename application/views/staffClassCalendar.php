@@ -36,6 +36,7 @@ if(!isset($this->session->userdata['id'])){
   <?php 
   $options=array();
   foreach($staffs as $val){
+  $options["-1"]="Business calendar";
   $options[$val->users_id]=$val->first_name."".$val->last_name;
   } ?>
    <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>						
@@ -607,7 +608,14 @@ if($("#monthlylist").val()!=""){
      }
   });
 
-  $("#staffCal").change(function(){
-    window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
-})
+  
+$("#staffCal").change(function(){
+if($(this).val()!="-1"){
+ window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
+}else{
+window.location.href = base_url+'bcalendar/calendar_business/<?php print_r($this->session->userdata['business_id']); ?>';
+}
+})	
+
+  
 </script>

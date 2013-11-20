@@ -199,110 +199,52 @@
 
 </div></div>
 <script>
- function Appdetails(eventid){
-		//if($("#userrole").val()=='manager'){
+function Appdetails(eventid){
 	   $(".message").removeClass("alert").html(" ");
 	   $("#eventid").html(eventid);
-	  
 	    $.ajax({
 	   url:base_url+'bcalendar/getAppDetails',
 	   data:{eventID:eventid},
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
-			
-			if(v.e_first_name!="" || v.e_last_name!=""){
-			$("#name").html(v.e_first_name+" "+v.e_last_name);
+			// $("#business_name").html(v.business_name);
+			 $("#business_id").html(v.business_details_id);
+			 $("#services_id").html(v.services_id);
+			// if(v.e_first_name!="" || v.e_last_name!=""){
+			// $("#name").html(v.e_first_name+" "+v.e_last_name);
+			// }else{
+			// $("#serviceprovider").css("display",'none');
+			// }
+			if(v.type=='class'){ 
+			classDetails(eventid);
+			 var type='Class';
+			 $("#type").html(type);
 			}else{
-			$("#serviceprovider").css("display",'none');
-			}
-			if(v.type=='class'){
-			var type='Class';
-			$("#type").html(type);
-			$("#typeName").html(v.services);
-			//$("#reschedulebtn").hide();
-			}else{
-			var type='Services';
-			$("#type").html(type);
-			$("#typeName").html(v.services);
-			$("#services_id").html(v.services_id);
-			$("#employee_id").html(v.employee_id);
-			$("#note").html(v.note);
-			$("#user_id").html(v.user_id);
+			serviceDetails(eventid);
+			 $(".viewSchedule").hide();
+			 var type='Services';
+			 $("#type").html(type);
 			
 			}
-			$("#date").html(v.date);
-			$("#time").html(v.time);
-			$("#endtime").html(v.endtime);
+			
 		  })
 	   }
 	   })
 	   
-	   $("#reschedule").modal('show');
-		//activeEvent=dataObj;
-		//ical.showPreview(evt, html);
-		//}
 	}
+	
+	function classDetails(eventid){
+       $("#schedule").val('1');	
+		$("#updateid").val(eventid);
+		$(".appoint-heading").html("Appointment details");
+	    $("#postclass").modal("show");
+	}
+	function serviceDetails(eventid){
+		$("#eventId").val(eventid);
+	   $(".titleAppointment").html("Reschedule an appointment");
+	   $("#book").modal('show');
+	}
+	
 </script>
-<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<p class="message"></p> 
- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">Appointment Details</h3>
-  </div>
-  <div class="modal-body">
-	<p id="eventid" class="hide"></p>
-	<div class="row-fluid">
-		<div class="row-fluid">
-			<table class="table table-striped" >
-			<tbody>
-			
-		   <tr> 
-					  <td>
-					    <span id="type"></span> 	
-					  </td>
-					  <td>
-					   <span id="typeName"></span>
-					  </td>
-		   </tr>
-		    <tr id="serviceprovider"> 
-					  <td>
-					    Service Provider	
-					  </td>
-					  <td>
-					   <span id="name"></span>
-					  </td>
-		   </tr>
-			 <tr> 
-					  <td>
-					    Date	
-					  </td>
-					  <td>
-					   <span id="date"></span>
-					  </td>
-		     </tr>	
-			  <tr> 
-					  <td>
-					    Time	
-					  </td>
-					  <td>
-					   <span id="time"></span>
-					   <span id="endtime" class="hide"></span>
-					  </td>
-		      </tr>
-			   <tr> 
-					  <td>
-					    Message	
-					  </td>
-					  <td>
-					   <span id="note"></span>
-					  
-					  </td>
-		      </tr>
-			</tbody>
-			</table>
-		</div>
 
-	</div>
-  </div>
-</div>

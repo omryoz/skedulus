@@ -122,7 +122,11 @@
 							+' 	${formattedStartTime} - ${formattedEndTime}'
 							+' </div>	'
 							+' <div class="body"  style="padding:1px;">'
-							+' 	${eventName}'
+							+' 	${business_name}'
+							+'  <br clear="left"/>   '
+							+' 	${serviceProvider}' 
+							+'  <br clear="left"/>   '
+							+' 	${serviceName}'
 							+' </div> '
 							+''
 						+' </div>';

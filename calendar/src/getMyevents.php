@@ -50,7 +50,17 @@ class getMyevents
 			$difference_in_minutes = $difference / 60;
 			$event['servicetime']=$difference_in_minutes;
 			$event['group']['groupId']=$value->services_id;
-
+            
+			$serviceid=explode(',',$value->services_id);
+			$name='';
+			foreach($serviceid as $val){
+			if($val!=''){
+				$res = $db->get_results("select * from user_business_services where id='".$val."'");  
+			    $name.=$res[0]->name.',';						
+			}
+		  }
+			$event['serviceName']=rtrim($name,',');
+			
 			$eventsarray[$key]=$event; 	
 			 
 			$calendar['events']=$eventsarray;

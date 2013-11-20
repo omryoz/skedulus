@@ -33,15 +33,21 @@ $url=$buisness_details[0]->id;
 <ul class="breadcrumb">
   <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($url) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
   <li class="active"><?php print_r($crumb); ?></li>
- <?php if(isset($type) && $type=='staffscalendar'){ ?>
- <li class="pull-right">
+  <li class="pull-right">
   <?php 
   $options=array();
+  $options["-1"]="Business Calendar";
   foreach($staffs as $val){
   $options[$val->users_id]=$val->first_name."".$val->last_name;
-  } ?>
-   <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>	
-<?php } ?>   
+  }
+  if(isset($type) && $type=='staffscalendar'){
+  $selected=$staff_details[0]->users_id;  
+  }else{
+  $selected='';  
+  }
+  ?>
+   <?php echo form_dropdown('staff',$options,$selected,' id="staffCal" ')  ?>	</li>
+   
 </ul>
 <div class="content container">
 <div class="row-fluid business_profile">
@@ -84,7 +90,7 @@ $url=$buisness_details[0]->id;
 
 
 <!-- New Event Template -->
-<div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!----<div id="postclass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
   <h3 id="addclass" class="appoint-heading"> <?=(lang('Apps_postclass'))?><button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
     <h3  id="updateclass" style="display:none" class="appoint-heading"><?=(lang('Apps_editclass'))?> <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>
@@ -114,9 +120,7 @@ $url=$buisness_details[0]->id;
 					  </td>
 		</tr>
 		<tr> 
-					 <!--- <td>
-					    <div class="labelBlock">  <?=(lang('Apps_lastdateforenroll'))?>: <span id="lastdate"></span></div>
-					  </td> --->
+					 
 					  <td>
 					    <div class="labelBlock">  <?=(lang('Apps_capacity'))?>: <span id="class_size"></span></div>
 					  </td> 
@@ -155,7 +159,7 @@ $url=$buisness_details[0]->id;
   
 	
 
-	</div>
+	</div>--->
 <!-- END CALENDAR TEMPLATES -->
 <script>
 	$('#postclasstab a').click(function (e) {
@@ -520,10 +524,16 @@ $url=$buisness_details[0]->id;
 	$(".data").css("color","black");	
 	
     });
-	
+
 $("#staffCal").change(function(){
-window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
+if($(this).val()!="-1"){
+ window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Classes';
+}else{
+window.location.href = base_url+'bcalendar/calendar_business/<?php print_r($staff_details[0]->user_business_details_id); ?>';
+}
 })
+	
+
 
 	
 	

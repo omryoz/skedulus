@@ -475,12 +475,12 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	})
 
 	
-$("#deleteApp").live("click",function(){
+$(".delete_app").live("click",function(){ 
 	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
 	 
 	 })
 	 
-	 function cancelApp(){
+	 function cancelApp(){ 
 		var url = base_url+"bcalendar/checkfordelete"; 
 	  $.ajax({
 		data:{date:$(".st_date").val(),business_id:$(".business_id").val(),starttime:$(".time").val(),action:'reschedule'},
@@ -497,9 +497,9 @@ $("#deleteApp").live("click",function(){
 		str=str+"&eventId="+$("#eventId").val(); 
 		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
 		$("#book").modal('hide');
-		
+		$("#postclass").modal('hide');
 		}
-	 }
+	  }
 	  })
 	 }
 function showappDetails(){
@@ -591,6 +591,71 @@ function showappDetails(){
      })
 	
 }
+
+//classPop-up
+$('#postclass').on('show', function () { 
+    if($("#schedule").val()=="1"){
+	  $("#bookClass").hide();
+	  $("#details").hide();
+	   $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:$("#updateid").val()},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+		   $(".messageNote").attr('disabled',true);
+		   $("#type").html('class');
+		   $(".business_id").val(v.business_details_id); 
+		   $("#eventId").val($("#updateid").val());
+		   var d=new Date(v.date);
+			var curr_date = d.getDate();
+			var curr_month = d.getMonth() + 1; 
+			var curr_year = d.getFullYear();
+			var date = curr_date+"-"+curr_month+"-"+curr_year;
+			$(".st_date").val(date);
+		   
+		   
+			 $("#className").html(v.services);
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#trainers").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#trainers").css("display",'none');
+			}
+			$("#StartDate").html(v.date);
+			$("#StartTime").html(v.time);
+			$(".messageNote").val(v.note);
+			if(v.status=='active'){
+			    var url = base_url+"bcalendar/checkfordelete";
+					$.ajax({
+					type: "POST",
+					url: url,
+					data: { date : v.date,business_id:v.business_details_id,starttime:v.time,action:'reschedule'},
+					success: function(data) {
+					  if(data==0){ 
+						$(".cancelClass").hide();
+						}else if(data==1){
+						$(".cancelClass").show();
+						}
+					}
+				})
+			}else{
+			$(".cancelClass").hide();
+			}
+		  })
+	   }
+	   })
+	}else{
+	$(".messageNote").attr('disabled',false);
+	 $("#details").show();
+	$("#type").html('class');
+	$(".cancelClass").hide();
+	$("#bookClass").show();
+	$(".business_id").val(" "); 
+    $("#eventId").val(" ");
+	$("#updateid").val(" ");
+	$(".st_date").val(" ");
+	}
+})
 
 $('#book').on('show', function () {  
  //$(".reschduleId").val('0');

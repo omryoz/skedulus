@@ -11,28 +11,36 @@ var url = base_url+"gallery/checkfornum";
 	}
  })
 })
-})
 $(".likes").on("click",function(){
-		 var user_id = $(this).attr("rel");
-		 if(user_id){
-		 var business_id = $(this).attr("alt");
-		 var ele = $(this);
-		 var url = base_url+"businessProfile/likes_business/";
-		 var data = {"users_id":user_id,"user_business_details_id":business_id};
-		 $.post(url,data,function(msg){
-			var res = msg.split(",");
-			if(res[0]==1){
-				ele.addClass("icon-heart").removeClass("icon-heart-empty");
-			}else{
-				ele.addClass("icon-heart-empty").removeClass("icon-heart");
-			}
-			ele.attr("data-original-title",res[1]);
-		 });
-		 }else{
-			apprise("Kindly login to perform the action");
-		 }
-	 })
-})
+ var user_id = $(this).attr("rel");
+ if(user_id){
+ var details_id = $(this).attr("alt");
+ var ele = $(this);
+ var type = ele.attr("id");
+ var url = base_url+"businessProfile/likes_business/";
+ var data = {"users_id":user_id,"details_id":details_id,"type":type};
+ $.post(url,data,function(msg){
+	var res = msg.split(",");
+	console.log(res);
+	if(res[0]==1){
+		ele.addClass("icon-heart").removeClass("icon-heart-empty");
+	}else{
+		ele.addClass("icon-heart-empty").removeClass("icon-heart");
+	}
+	ele.attr("data-original-title",res[1]);
+ });
+ }else{
+	apprise("Kindly login to perform the action");
+ }
+});
+
+
+
+//Comment Functionality
+
+
+});
+
 function insertbasicInfo(){
 var url=baseUrl+'basicinfo/insertData';
 		$.ajax({
@@ -94,7 +102,39 @@ var url=baseUrl+'staffs/manage_staffs';
 
 }
 //Services
-function editService(id){
+function addServices(){
+$("#paddingtime").hide();
+$("#padding_time").show();
+$("#addservices")[0].reset();
+$("#service-modal").modal("show");
+$(".tab").attr('data-toggle','');
+$("#id").val("");
+$("#service-modal li:eq(1) ").removeClass("active in");
+ $("#service-modal #general").addClass("active in");
+ $("#service-modal li:eq(0)").addClass("active"); $("#service-modal #staff1  ").removeClass("active in");
+ $("#assignservice").val('');
+ $("#edit").hide();
+	$("#add").show();
+	$("#update").hide();
+	$("#insert").show();
+	$(".alert").hide();
+	$(".assign").removeAttr('checked');
+}
+
+function editService(id,page){
+if(page!=''){
+ $(".page").val('1');
+}else{
+  $(".page").val('0');
+}
+$("#service-modal li:eq(1) ").removeClass("active in");
+ //$("#myModal li:eq(2) ").removeClass("active in");
+ $("#service-modal #general").addClass("active in");
+ $("#service-modal li:eq(0)").addClass("active"); $("#service-modal #staff1 ").removeClass("active in");
+$(".tab").attr('data-toggle','tab');
+$("#assignservice").val("1");
+
+
 $(".staffs").removeAttr('checked');
 	var url=baseUrl+'services/manage_services';
 	$.ajax({
@@ -105,7 +145,7 @@ $(".staffs").removeAttr('checked');
 		success:function(data){
 		var content = eval(data);
 		$.each(content,function(i,v){
-			$("#id").val(v.id);
+			$(".id").val(v.id);
 			$("#servicename").val(v.name);
 			$("#type").val(v.time_type);
 			$("#length").val(v.timelength);
@@ -126,11 +166,11 @@ $(".staffs").removeAttr('checked');
 			   
 			   $("#padding_time").hide();
 			}
-			$("#update").show();
-			$("#insert").hide();
-			$("#edit").show();
-			$("#add").hide();
-			$(".close").hide();
+			$(".update").show();
+			$(".insert").hide();
+			$(".edit").show();
+			$(".add").hide();
+			//$(".close").hide();
 		})
 		}
 	})
@@ -168,6 +208,25 @@ function deleteService(id){
 //Services
 
 /*Classes Related function */
+function addClass(){
+$("#paddingtime").hide();
+$("#padding_time").show();
+$("#addclasses")[0].reset();
+$("#class-modal").modal("show");
+$(".tab").attr('data-toggle','');
+$("#id").val("");
+$("#class-modal li:eq(1) ").removeClass("active in");
+ $("#class-modal #general").addClass("active in");
+ $("#class-modal li:eq(0)").addClass("active"); $("#class-modal #staff1  ").removeClass("active in");
+ $("#assignclass").val('');
+ $("#edit").hide();
+	$("#add").show();
+	$("#update").hide();
+	$("#insert").show();
+	$(".alert").hide();
+	$(".assign").removeAttr('checked');
+}
+
 
 function deleteClasses(id){
 	var deleteService= confirm("Are you sure you want to delete?");
@@ -183,7 +242,19 @@ function deleteClasses(id){
 	})
 	}
 }
-function editclasses(id){
+function editclasses(id,page){
+if(page!=''){
+ $(".page").val('1');
+}else{
+  $(".page").val('0');
+}
+$("#class-modal li:eq(1) ").removeClass("active in");
+ //$("#myModal li:eq(2) ").removeClass("active in");
+ $("#class-modal #general").addClass("active in");
+ $("#class-modal li:eq(0)").addClass("active"); $("#class-modal #staff1 ").removeClass("active in");
+$(".tab").attr('data-toggle','tab');
+$("#assignclass").val("1");
+
 	var url=baseUrl+'services/manage_classes';
 	$.ajax({
 		data: {'id': id},
@@ -193,7 +264,7 @@ function editclasses(id){
 		success:function(data){
 		var content = eval(data);
 		$.each(content,function(i,v){
-			$("#id").val(v.id);
+			$(".id").val(v.id);
 			$("#classname").val(v.name);
 			$("#type").val(v.time_type);
 			$("#length").val(v.timelength);
@@ -208,12 +279,12 @@ function editclasses(id){
 			   
 			   $("#padding_time").hide();
 			}
-			$("#update").show();
-			$("#insert").hide();
-			$("#edit").show();
+			$(".update").show();
+			$(".insert").hide();
+			$(".edit").show();
 			$(".close").show();
-			$("#add").hide();
-			$(".close").hide();
+			$(".add").hide();
+			//$(".close").hide();
 		})
 		}
 	})
@@ -230,7 +301,6 @@ function editclasses(id){
 		}
 	})
 }
-
 /*Classes function end*/
 
 //END
@@ -251,7 +321,8 @@ $("#assignstaff").val('');
 $(".assign").removeAttr('checked');
 $("#assignstaffs").find('input:checkbox').removeAttr('checked');
 $(".alert").hide();
- $("#action").val('edit');
+ //$("#action").val('edit');
+ $("#action").val('add');
  $("#assignstaffsbtn").show();
  $("#staffavailbtn").show();
  
@@ -261,7 +332,7 @@ $("#type").val('myself');
  services(id);
  getBavail(businessid);
 }else{
-	 apprise('Cannot add more photos for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise('Cannot add more staffs for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	}
 	})
 
@@ -310,7 +381,12 @@ var url=baseUrl+'staffs/manage_staffs';
 }
 
 //Staff
-function editStaff(id){
+function editStaff(id,page){
+if(page!=''){
+ $(".page").val('1');
+}else{
+  $(".page").val('0');
+}
  $("#myModal li:eq(1) ").removeClass("active in");
  $("#myModal li:eq(2) ").removeClass("active in");
  $("#myModal #add_staff").addClass("active in");

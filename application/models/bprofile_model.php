@@ -80,10 +80,8 @@ class bprofile_model extends CI_Model {
 		$insertArray['status']= 'active';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
 		}
-		//print_r($_POST['id']); exit;
-		//echo "here"; exit;
-		//print_r($_POST); exit;
-		if(isset($_POST['id']) && $_POST['id']!=""){
+		
+		if($_POST['action']=="edit"){
 		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
 		mysql_query("delete from employee_services where users_id=".$_POST['id']);
 		mysql_query("delete from user_business_availability where users_id=".$_POST['id']);

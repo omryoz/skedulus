@@ -27,7 +27,10 @@ body:after {
   text-align: center;
   line-height: 0;
   font-weight: normal;
-   background-color: white;
+  color: rgb(58, 135, 173);
+background-color: rgb(234, 242, 246);
+border-color: rgb(58, 135, 173);
+border: 1px solid;
    border-radius:6px;
 }
 /* line 28, ../sass/lightbox.sass */
@@ -224,7 +227,7 @@ body:after {
 	}
 .comment-box ul li:first-child{ width:10%; padding:0px !important; text-align: left;  }
 .comment-box ul li:last-child{ width:88%; padding:0px !important;  }
-.comment-box ul li textarea{width:98%;} 
+.comment-box ul li textarea{width:98%;border-color: rgb(184, 200, 207);} 
 .comment-box button { margin:4px 2px 6px 0px;  }
 .remove-margin{
 margin:0px !important;
@@ -237,4 +240,12 @@ overflow-y: scroll
 .comment-list .alert{
 padding: 10px 0;
 margin-bottom:10px;
+}
+.comment-list .media{
+box-shadow: 0 0 3px #CDE2F3;
+margin-top: 2px;
+}
+.comment-list .media .media-body{
+line-height: 20px;
+padding: 2px 0;
 }

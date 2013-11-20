@@ -58,6 +58,15 @@ function getstaffDetailsByfilter($filter=false,$limit=false,$offset=false,$order
  
  function insertFav($fav){
 	if($fav){
+	   $this->db->insert("favourite_businesses",$fav);
+	   return true;
+	  }else{
+		return false;
+	}
+ } 
+ 
+  function insertClient($fav){
+	if($fav){
 	   $this->db->insert("business_clients_list",$fav);
 	   return true;
 	  }else{

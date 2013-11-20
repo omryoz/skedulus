@@ -123,7 +123,12 @@ class Staffs extends CI_Controller {
 	public function manage_staffs(){ 
 		if(isset($_POST['insert'])){ 
 		$id=$this->bprofile_model->insertStaffs();
+		
+		if(isset($_POST['page']) && $_POST['page']=='1'){ 
+			redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		}else{
 		redirect("staffs/list_staffs");
+		}
 			// if(isset($_POST['addstaffs'])){
 			// $id=$this->bprofile_model->insertStaffs();
 			// echo($id);
@@ -181,12 +186,16 @@ class Staffs extends CI_Controller {
 		
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Staff deleted successfully !');
+		 if(!empty($_GET['page'])){
+		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else{
 		 redirect("staffs/list_staffs");
+		 }
 		 }
 	}	
 	
-	public function checkEmail(){
-		    if(isset($_POST['id']) && $_POST['id']!="") {
+	public function checkEmail(){ 
+		    if(isset($_POST['id']) && !empty($_POST['id'])) {
 			$where=" and id!=".$_POST['id'];
 			$duplicate=$this->common_model->getRow("users","email",$_POST['email'],$where);
 			}else{

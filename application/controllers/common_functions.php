@@ -53,7 +53,16 @@ class Common_functions extends CI_Controller {
 		 if($status){
 			 $sessionVal=array('business_id'=>$status->user_business_details_id);
 			  $this->session->set_userdata($sessionVal);
-			 redirect('overview'); 
+			// redirect('overview'); 
+			    if($this->session->userdata['business_type']=="service"){
+						$id=$this->session->userdata['business_id'];
+						$link = 'cal/'.$id;		
+					}else{
+					     $id=$this->session->userdata['business_id'];
+						 $link = 'calendar_business/'.$id;	
+					}
+					//redirect('overview');
+					redirect('bcalendar/'.$link);
 			 }
 		 }
 		
@@ -70,24 +79,7 @@ class Common_functions extends CI_Controller {
 	    $this->data['alreadyUser']="alreadyUser";
 	  }
 	}
-	//if(isset($_GET['checkinfo'])){
-		// $password= MD5($_POST['password']);
-		 // $where=" And password='".$password."' AND user_role='manager' and status='active'";
-		 // $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
-		 
-		 // if($values==""){
-			 // $this->data['failure']="Failure";
-			 // $this->parser->parse('include/meta_tags',$this->data);
-			 // $this->parser->parse('general/login',$this->data);
-		 // }else{
-		
-		 // $sessionVal=array(
-			 // 'id'=>$values->id,
-			 // 'username'=>$values->first_name,
-			 // 'email'=>$values->email,
-			 // 'role'=>$values->user_role
-		 // );
-		 //$this->session->set_userdata($sessionVal);
+	
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 $subscription=$this->common_model->getRow("view_user_subscription","users_id",$this->session->userdata['id']);
 		 
@@ -103,7 +95,15 @@ class Common_functions extends CI_Controller {
 				 $this->session->set_userdata($sessionVal);	
 				 header($redirectUrl);
 			   }else{
-			    redirect('overview');
+			        if($this->session->userdata['business_type']=="service"){
+						$id=$this->session->userdata['business_id'];
+						$link = 'cal/'.$id;		
+					}else{
+					     $id=$this->session->userdata['business_id'];
+						 $link = 'calendar_business/'.$id;	
+					}
+					//redirect('overview');
+					redirect('bcalendar/'.$link);
 				}			 
 			 }else{
 			 redirect('basicinfo');
@@ -185,7 +185,16 @@ class Common_functions extends CI_Controller {
 			 'business_id'=>$res->id
 		    );
 		 $this->session->set_userdata($sessionVal);	
-		  redirect('overview');
+		  //redirect('overview');
+		         if($this->session->userdata['business_type']=="service"){
+						$id=$this->session->userdata['business_id'];
+						$link = 'cal/'.$id;		
+					}else{
+					     $id=$this->session->userdata['business_id'];
+						 $link = 'calendar_business/'.$id;	
+					}
+					//redirect('overview');
+					redirect('bcalendar/'.$link);
 		 }
 	 }
 	 

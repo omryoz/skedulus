@@ -154,28 +154,29 @@ session_start();
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
-			$("#business_name").html(v.business_name);
-			$("#business_id").html(v.business_details_id);
-			$("#services_id").html(v.services_id);
-			if(v.e_first_name!="" || v.e_last_name!=""){
-			$("#name").html(v.e_first_name+" "+v.e_last_name);
-			}else{
-			$("#serviceprovider").css("display",'none');
-			}
-			if(v.type=='class'){
-			var type='Class';
-			$("#type").html(type);
-			$("#typeName").html(v.services);
-			$("#reschedulebtn").hide();
-			$("#date").html(v.date);
-			$("#time").html(v.time);
-			$("#endtime").html(v.endtime);
-			 $("#reschedule").modal('show');
+			// $("#business_name").html(v.business_name);
+			 $("#business_id").html(v.business_details_id);
+			 $("#services_id").html(v.services_id);
+			// if(v.e_first_name!="" || v.e_last_name!=""){
+			// $("#name").html(v.e_first_name+" "+v.e_last_name);
+			// }else{
+			// $("#serviceprovider").css("display",'none');
+			// }
+			if(v.type=='class'){ 
+			classDetails(eventid);
+			 var type='Class';
+			 $("#type").html(type);
+			// $("#typeName").html(v.services);
+			// $("#reschedulebtn").hide();
+			// $("#date").html(v.date);
+			// $("#time").html(v.time);
+			// $("#endtime").html(v.endtime);
+			 // $("#reschedule").modal('show');
 			}else{
 			serviceDetails(eventid);
 			 $(".viewSchedule").hide();
-			// var type='Services';
-			// $("#type").html(type);
+			 var type='Services';
+			 $("#type").html(type);
 			// $("#typeName").html(v.services);
 			
 			// $("#employee_id").html(v.employee_id);
@@ -200,10 +201,15 @@ session_start();
 	
 	function serviceDetails(eventid){
 		$("#eventId").val(eventid);
-	  // $("#reschedule").modal('show');
 	   $(".titleAppointment").html("Reschedule an appointment");
 	   $("#book").modal('show');
+	}
 	
+	function classDetails(eventid){
+       $("#schedule").val('1');	
+		$("#updateid").val(eventid);
+		$(".appoint-heading").html("Appointment details");
+	    $("#postclass").modal("show");
 	}
 	
 	function agendaShowEventDetail(evt){ 
@@ -304,33 +310,33 @@ session_start();
     /**
      Clicking delete in Preview window
      */
-	  $("#deleteApp").live("click",function(){
-	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	  // $("#deleteApp").live("click",function(){
+	  // apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
 	 
-	 })
+	 // })
 	 
-	 function cancelApp(){
-	   var url = base_url+"bcalendar/checkfordelete";
-	  $.ajax({
-		data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
-		url:url,
-		type:'POST',
-		success:function(data){  
-		if(data==0){ 
-		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
-		return false;
-		}else if(data==1){
-		var str="?";
-		str=str+"&type="+$("#type").html(); 
-        str=str+"&postedclassid="+$("#services_id").html();		
-		str=str+"&eventId="+$("#eventid").html(); 
-		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
-		$("#reschedule").modal('hide');
+	 // function cancelApp(){
+	   // var url = base_url+"bcalendar/checkfordelete";
+	  // $.ajax({
+		// data:{date:$("#date").html(),business_id:$("#business_id").html(),starttime:$("#time").html(),action:'reschedule'},
+		// url:url,
+		// type:'POST',
+		// success:function(data){  
+		// if(data==0){ 
+		// $(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		// return false;
+		// }else if(data==1){
+		// var str="?";
+		// str=str+"&type="+$("#type").html(); 
+        // str=str+"&postedclassid="+$("#services_id").html();		
+		// str=str+"&eventId="+$("#eventid").html(); 
+		// ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
+		// $("#reschedule").modal('hide');
 		
-		}
-	 }
-	  })
-	 }
+		// }
+	 // }
+	  // })
+	 // }
 	 
 	 
     // function rzDeleteEvent(){ 	

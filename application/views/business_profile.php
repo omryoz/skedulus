@@ -1,3 +1,9 @@
+<?php include('include/modal_staffs.php'); ?>
+<?php if($type=='Services'){
+include('include/modal_services.php');
+}else{
+include('include/modal_classes.php');
+} ?>
 <link type="text/css" rel="stylesheet" href="<?php echo base_url(); ?>less/skins/tn3/tn3.css"/>
 <?php error_reporting(0); ?>
 	<div class="content container">
@@ -7,11 +13,11 @@
 				<div class="row-fluid">
 					<div class="span3 ">
 						<div class="thumbnail business_icon">
-							<img src="<?php  echo base_url();?>uploads/business_logo/<?=(!empty($content->image)?$content->image:'default.png'); ?>">
+							<img src="<?php echo base_url();?>uploads/business_logo/<?=(!empty($content->image)?$content->image:'default.png'); ?>" />
 						</div>
 					</div>
 					<div class="span9 rating-block">
-					<h3><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="<?=($checkFavourite)?"icon-heart":"icon-heart-empty"?> tool likes" data-toggle="tooltip"  data-original-title="<?=(!empty($checkFavouritecounts))?count($checkFavouritecounts):0?>" data-placement="right" alt="<?=(!empty($content->business_id))?$content->business_id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>"></i> 
+					<h3><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="<?=($checkFavourite)?"icon-heart":"icon-heart-empty"?> tool likes" data-toggle="tooltip"  data-original-title="<?=(!empty($checkFavouritecounts))?count($checkFavouritecounts):0?>" data-placement="right" alt="<?=(!empty($content->business_id))?$content->business_id:""?>" id="business" rel="<?=(!empty($user_id))?$user_id:""?>"></i> 
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
 						
@@ -85,19 +91,28 @@
 			<div class="image-row">
 			<div class="image-set">
 			<ul class="thumbnails scroller image_popup">
-			<?php //for($i=1;$i<=$countPhoto;$i++){
+			<?php //for($i=1;$i<=$countPhoto;$i++){ 
 			
-			foreach($photoGallery as $gallery){
+			foreach($photoGallery as $key=>$gallery){
 			?>
+			<?php 
+					$count = $this->utilities->getPhotosLike($gallery->id,"photos");
+					
+				?> 
 			<li class="inblock"> 
 				<!--<figcaption class="figcaption">
 				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
 				</figcaption>
 				<a href="#theater_view"  role="button"  data-toggle="modal"><img class="img-noresponsive" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="" ></a>-->
 				<figcaption class="figcaption">
-				<a href="#" ><i class="icon-heart heart"></i></a><a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>
+				
+				<a href="javascript:;" ><i class="<?=(!empty($favorite_photos) && in_array($gallery->id,$favorite_photos))?"icon-heart":"icon-heart-empty"?> heart likes" title="<?=$count;?>" id="photos" alt="<?=(!empty($gallery->id))?$gallery->id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>"></i></a>
+				
+				<!--<a href="#theater_view"  role="button"  data-toggle="modal" ><i class="icon-comment comment "></i></a>-->
+				<a href="<?php echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/500/300/0/gallery" data-lightbox="example-1" ><i class="icon-comment comment example-image" rel="<?=$key?>" id="<?=$gallery->id?>"></i></a> 
+				
 				</figcaption>
-				<a class="img-noresponsive example-image-link" href="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/500/300/0/gallery" data-lightbox="example-set" title="<?=$gallery->title?>"><img class="example-image" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="Plants: image 1 0f 4 thumb" /></a> 
+				<a class="img-noresponsive example-image-link"  href="<?php echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/500/300/0/gallery" data-lightbox="example-set" title="<?=$gallery->title?>"><img class="example-image" rel="<?=$key?>" id="<?=$gallery->id?>" src="<?php  echo base_url();?>common_functions/display_image/<?php echo $gallery->photo; ?>/280/1/1/gallery" alt="Plants: image 1 0f 4 thumb" /></a> 
 				
 			</li>
 			<?php } ?>
@@ -123,7 +138,7 @@
 							<h3>  <?php echo lang($type); ?>  <i class="icon-chevron-down pull-right"></i></h3>
 						 </a>
 					</div>
-					<div id="collapseOne" class="accordion-body collapse ">
+					<div id="collapseOne" class="accordion-body collapse">
 					  <div class="accordion-inner"><br/>
 						<table class="table table-striped">
 							<tbody><?php //print_r($services); ?>
@@ -146,10 +161,20 @@
 									 echo $service->timelength." ".$service->time_type; 
 									?></td>
 									
-								   <?php if($this->session->userdata['role']=="manager"){ ?>
+								   <?php if($this->session->userdata['role']=="manager"){ 
+									if($type=='Services'){
+									$href='#service-modal';
+									$onclick='editService('.$service->id .',"profile");return false;';
+									$dhref='services/manage_services?id='.$service->id.'&delete=delete&page=page';
+									}else{
+									$href='#class-modal';
+									$onclick='editclasses('.$service->user_business_classes_id .',"profile");return false;';
+									$dhref='services/manage_classes?id='.$service->user_business_classes_id.'&delete=delete&page=page';
+									}	
+								   ?>
 								   <td>
-									<a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-							        <a href="#"  data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+									<a href="<?php echo $href ?>" data-toggle="modal" data-toggle="tooltip" class="tool" onclick=<?php echo $onclick; ?> data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							        <a href="<?=base_url()?><?php echo $dhref; ?>"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 									</td>
 								   <?php }else{
 								   $classtype="book_me";
@@ -166,16 +191,7 @@
 								</tr>
 							<?php } ?>
 								
-								<!--<tr>
-									<th> Hair Color</th>
-									<td> $120 and up</td>
-									<td> 2 hour</td>
-								</tr>
-								<tr>
-									<th> Spa</th>
-									<td> $160 and up</td>
-									<td> 3 hour</td>
-								</tr>-->
+								
 							</tbody>
 						</table>
 					  </div>
@@ -198,22 +214,13 @@
 								<td><a href="<?php echo base_url(); ?>bcalendar/staffSchedule/<?php echo $staff->users_id; ?>/<?php echo $type; ?>" class="btn btn-success"> <?=(lang('Apps_viewschedule'))?></a></td>
 							    <?php if($this->session->userdata['role']=="manager"){ ?>
 								<td>
-							  <a href="#" data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-							  <a href="#"  data-toggle="tooltip" class="tool" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
-							  </td> <?php } ?>
+							   <a href="#myModal" data-toggle="modal" onclick= editStaff(<?php echo $staff->users_id ?>,'profile');return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $staff->users_id; ?>&delete=delete&page=page"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+							  </td><?php } ?>
 							</tr>
 							<?php } ?>
 								
-								<!---<tr>
-									<th><img src="../img/ID1.png"></th>
-									<td ><h5>Mathew</h5></td>
-									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>
-								<tr>
-									<th><img src="../img/ID1.png"></th>
-									<td > <h5>Amma</h5></td>
-									<td><a href="#" class="btn btn-success">View schedule</a></td>
-								</tr>--->
+								
 							</tbody>
 						</table>
 					  </div>
@@ -516,6 +523,7 @@
 
 </div>
 </div>
+</div>
 <script src="../js/jquery.raty.js" type="text/javascript"></script>
 <script>
 $('.star-rate').raty({ precision: true });
@@ -588,3 +596,67 @@ function minutesToHours($minutes)
 }
 
 ?>
+<input type="hidden" id="id"  />
+<script>
+$(document).ready(function(){
+	var user_id = '<?=(!empty($user_id))?$user_id:""?>';
+	function comments(id){
+		var url = base_url+"businessProfile/getComments/";
+		var data = {"user_business_photogallery_id":id};
+		$.post(url,data,function(msg){
+			$(".comment-list").html(msg);
+		});
+	}
+	var list=new Array(); 
+	var data = eval('<?php print_r(json_encode($photoGallery)); ?>');
+	$.each(data,function( index, value ) {
+		list[index]=data[index].id;
+	})
+	$(".lb-prev").on("click",function(){
+		if($("#id").val() > 0){
+			$("#id").val(parseInt($("#id").val())-1);
+		}else{
+			$("#id").val(list.length-1);
+		}
+		//alert(list[$("#id").val()]);
+		var photo_id = list[$("#id").val()];
+		//alert(photo_id);
+		comments(photo_id);
+	});
+	$(".lb-next").on("click",function(){
+		$("#id").val(parseInt($("#id").val())+1);
+		//alert(list[$("#id").val()]);
+		var photo_id = list[$("#id").val()];
+		//alert(photo_id); 
+		comments(photo_id);
+		$("#photo_id").val(photo_id);	
+	});
+	$(".example-image").on("click",function(){
+		//alert($(this).attr("rel"));
+		$("#id").val($(this).attr("rel"));
+		var photo_id = $(this).attr("id");
+		//alert(photo_id); 
+		comments(photo_id);
+		$("#photo_id").val(photo_id);
+	});
+	
+	$(".comment-post").on("click",function(){
+			var url = base_url+"businessProfile/createComments";
+			if(!user_id){
+				apprise("Kindly login to perform the action");
+			}else{
+				if($("#comment-box").val()){
+					var data = {"comments":$("#comment-box").val(),"users_id":user_id,"user_business_photogallery_id":$("#photo_id").val()}; 
+					$.post(url,data,function(msg){
+						$(".comment-list").html(msg);
+						$("#comment-box").val("");	
+					});
+				}else{
+					apprise("Kindly enter comment.!");			
+				}
+			}
+	});
+	
+	
+});	
+</script>
