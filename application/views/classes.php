@@ -33,6 +33,7 @@
 						</tr>
 						 <?php $i++;} ?>
 						</table>
+						<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 						<?php }else{?>
 						 <p class="alert"><?=(lang('Apps_noclassadedyet'))?></p>
 						 <?php } ?>

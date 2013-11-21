@@ -55,12 +55,18 @@ class Bcalendar extends CI_Controller {
 		 $bid=$this->session->userdata['business_id'];
 		}
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
+		 
+		 if(isset($this->session->userdata['id'])){
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 }else{
 		  $this->parser->parse('deactivated',$this->data);
+		 }
+		 }else{
+		 $this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('calendar',$this->data);
 		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -723,20 +729,30 @@ function referal_url($url){
 	}
 	
 	function calendar_business($id=false){
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
+	$this->data['role']="";
+	
 	if($id==""){
        $id=$this->session->userdata['business_id'];
     }
 	$this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
 	if($id){
-	$this->parser->parse('include/header',$this->data);
+	//$this->parser->parse('include/header',$this->data);
 	$this->data['role']="";
 		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
 		  }else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
 		  $this->parser->parse('include/navbar',$this->data);
 		  }
-		  if(isset($this->session->userdata['id'])){
-		  $this->data['user_id'] = $this->session->userdata['id'];
+		  if(isset($users_id)){
+		  $this->data['user_id'] = $users_id;
 		  @session_start();
 		  $this->data['role'] = $this->session->userdata['role'];	
 		  }
@@ -758,13 +774,28 @@ function referal_url($url){
 		}
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
 		$this->data['businessId']=$id;
-		if($this->session->userdata['role']=="manager"){
-		$this->parser->parse('include/modal_classpopup',$this->data);
-		$this->parser->parse('calendar_classes',$this->data);
-		}else{
-		$this->parser->parse('include/modal_bookclass',$this->data);
-		$this->parser->parse('calendar_bookclass',$this->data);
-		}
+		
+		
+		 if(isset($this->session->userdata['id'])){
+		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		 if($status->status=='active'){
+		 // $this->parser->parse('include/modal_popup',$this->data);
+		 // $this->parser->parse('calendar',$this->data);
+			if($this->session->userdata['role']=="manager"){
+			$this->parser->parse('include/modal_classpopup',$this->data);
+			$this->parser->parse('calendar_classes',$this->data);
+			}else{
+			$this->parser->parse('include/modal_bookclass',$this->data);
+			$this->parser->parse('calendar_bookclass',$this->data);
+			}
+		 }else{
+		  $this->parser->parse('deactivated',$this->data);
+		 }
+		 }else{
+		 $this->parser->parse('include/modal_bookclass',$this->data);
+		 $this->parser->parse('calendar_bookclass',$this->data);
+		 }
+
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	 
@@ -1062,15 +1093,23 @@ function checkIfblocked(){
 	
 	function staffSchedule($id=false,$type=false){ 
 	if($id){
-	$this->parser->parse('include/header',$this->data);
+	//$this->parser->parse('include/header',$this->data);
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  $this->data['switch']='switchbtn';
+	  $this->parser->parse('include/admin_header',$this->data);
+	}else{
+	  $users_id=$this->session->userdata['id'];
+	  $this->parser->parse('include/header',$this->data);
+	}
 	$this->data['role']="";
 		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
 		  }else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
 		  $this->parser->parse('include/navbar',$this->data);
 		  }
-		  if(isset($this->session->userdata['id'])){
-		  $this->data['user_id'] = $this->session->userdata['id'];
+		  if(isset($users_id)){
+		  $this->data['user_id'] = $users_id;
 		  @session_start();
 		  $this->data['role'] = $this->session->userdata['role'];	
 		  }
@@ -1160,6 +1199,16 @@ function checkIfblocked(){
 	  $detail.="]";
 	  print_r($detail);
       	// $val=$this->common_model->getRow("view_client_appoinment_details","id",$_POST['eventID']);
+	}
+	
+	function checkClassdate(){
+	 $val=$this->common_model->getRow("view_classes_posted_business",'id',$this->input->post('eventid'));
+	 //print_r($val);
+	 if(date("Y-m-d",strtotime($val->start_date)) < date("Y-m-d")){
+	  echo 0;
+	 }else{
+	  echo 1;
+	 }
 	}
 }
 

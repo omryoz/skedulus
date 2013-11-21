@@ -10,7 +10,14 @@
 									<h3><?=(lang('Apps_stafflist'))?>
 									<div class="btn-group pull-right">
 									<?php if(isset($added) && $added!='added'){ ?>
-									<a href="javascript:void(0);" onclick="getmydetails(<?=$this->session->userdata('id') ?>,<?=$this->session->userdata('business_id') ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<? echo "Add Myself";?> </a>
+									<?php
+									if(isset($this->session->userdata['admin'])){
+									  $users_id=$this->session->userdata['users_id'];
+									}else{
+									  $users_id=$this->session->userdata['id']; 
+									}
+									?>
+									<a href="javascript:void(0);" onclick="getmydetails(<?=$users_id?>,<?=$this->session->userdata('business_id') ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<? echo "Add Myself";?> </a>
 									<?php } ?>
 									<a href="javascript:void(0);" onclick="resetForm(<? print_r($this->session->userdata('business_id')) ?>);" businessid="<? print_r($this->session->userdata('business_id')) ?>"  class="btn pull-right btn-success" data-toggle="modal">+<?=(lang('Apps_add'))?> </a>
 									

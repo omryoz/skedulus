@@ -119,10 +119,13 @@ class Common_functions extends CI_Controller {
 	    $this->data['userRole']="clientlogin";
 		$this->data['signUp']="clientSignUp";
 		if(isset($_GET['checkinfo'])){
+		if($_POST['password']!='' && $_POST['email']!=""){
 		$password= MD5($_POST['password']);
-		// $where=" And password='".$password."' AND status='active'";
-		  $where=" And password='".$password."'";
+		 $where=" And password='".$password."'";
 		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
+		 }else{
+		 $values="";
+		 }
 		 if($values==""){
 		 CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');

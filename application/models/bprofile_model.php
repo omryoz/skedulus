@@ -471,8 +471,8 @@ class bprofile_model extends CI_Model {
 	
 	}
 	
-	function getClasses(){
-		$sql="Select * from user_business_classes where user_business_details_id =".$this->session->userdata['business_id'];
+	function getClasses($offset,$limit){
+	    $sql="Select * from user_business_classes where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

@@ -78,7 +78,7 @@ class getevents
 						$total=0;
 						$endtime=date("H:i",strtotime($evVal->end_time)); 
 						$serviceid=explode(',',$evVal->services_id);
-						$name='';
+						$Sname='';
 						foreach($serviceid as $val){
 						if($val!=''){
 							$res = $db->get_results("select * from user_business_services where id='".$val."'");  
@@ -88,10 +88,10 @@ class getevents
 						  $twice=1;
 						}	
 						$total = $total + $res[0]->padding_time * $twice;
-                        $name.=$res[0]->name.',';						
-						}
+                        $Sname.=$res[0]->name.',';						
+						}   
 					  }
-						$event['serviceName']=rtrim($name,','); 
+						$event['serviceName']=rtrim($Sname,','); 
 						$time = $this->convertToHoursMins($total,'%d:%d');						
 						$end_time = $this->addTime($endtime,$time);
 						$event['endTime']= date('Y-m-d',strtotime($evVal->end_time))." ".$end_time;

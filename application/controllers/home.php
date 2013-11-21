@@ -54,7 +54,8 @@ class Home extends CI_Controller {
 			$this->parser->parse('include/navbar',$this->data);
 		}
 		$this->data['social'] =  $this->session->userdata('social_account');
-		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";	
+		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";
+        $this->parser->parse('include/modal_signup',$this->data);		
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
@@ -405,29 +406,7 @@ function hybrid($provider1){
 }
 
 public function clientSignUp(){
-			/*if(isset($user_profile['first_name'])){
-			   $this->data['first_name']=$user_profile['first_name'];
-			   }else{
-			     $this->data['first_name']='';
-			}
-			if(isset($user_profile['last_name'])){
-				$this->data['last_name']=$user_profile['last_name'];
-				   }else{
-					 $this->data['last_name']='';
-				   }
-			   
-			if(isset($user_profile['gender'])){
-				$this->data['gender']=$user_profile['gender'];
-					   }else{
-						 $this->data['gender']='';
-					   }
-					   if(isset($user_profile['email'])){
-				$this->data['email']=$user_profile['email'];
-					   }else{
-						 $this->data['email']='';
-					   }*/
     $this->data['social'] =  $this->session->userdata('social_account'); 
-	//print_r( $this->data['social']);
 	$this->data['userRole']="clientSignUp";
 	$this->data['signUp']="clientlogin";
 	if(isset($_GET['checkino'])){

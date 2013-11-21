@@ -127,65 +127,7 @@
                    
             </div>
             </div>
-<!-- Modal -->
-<div id="create-user-modal" class="modal hide fade modal-bigger" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-<h3 id="myModalLabel">Create Account</h3>
-</div>
-<div class="modal-body">
-  <form class="form-horizontal" action="<?php echo base_url(); ?>common_functions/businessSignUp/?checkino" method="POST" name="sign_up" id="sign_up" >
- 	   <div class="rule_connect">
-        <strong >Connect with</strong>
-      </div>
-  
- 	  <div class="social_buttons hidden-phone" >
-        <div class="inset">
-            <a class="fb login_button" href="#">
-                <div class="logo_wrapper"><i class="icon-facebook icon-2x"></i></div>
-                <span>Signup with Facebook</span>
-            </a>
-        </div>
-        <div class="inset">
-            <a class="tw login_button" href="#">
-                <div class="logo_wrapper"><i class="icon-twitter icon-2x"></i></div>
-                <span>Signup with Twitter</span>
-            </a>
-        </div>
-</div>
-	  <div class="social_buttons visible-phone">
-			<ul class="unstyled inline ">
-			<li class="inset"> <a href="javascript:;"><i class="icon-facebook icon-3x" title="Signup with Facebook"></i></a></li>
-			<li class="inset"> <a href="javascript:;"><i class="icon-twitter icon-3x" title="Signup with Twitter"></i></a></li>
-			</ul>
-	   </div>
-	   <br/>
-	  <div class="row-fluid">
-    <input type="text" class="offset3 span6"  placeholder="First Name" name="firstname" value="" maxlength="15">
-	</div>
-  	 <br />
-		<div class="row-fluid">
-		<input type="text" class="offset3 span6"  placeholder="Last Name" name="lastname" value=""  maxlength="15">
-		</div> 
-		 <br />
-		<div class="row-fluid">
-		<input type="text" class="offset3 span6" placeholder="Email" name="email" value="" id="email">
-		</div> 
-		 <br />
-		<div class="row-fluid">
-		<input type="password" class="offset3 span6" name="password" id="inputPassword" placeholder="Password" maxlength="20">
-		</div> 
-		  <br />
-		<div class="row-fluid">
-		<input type="hidden" class="offset3 span6" name="usertype" value="businessSignUp" /> 
-		</div>
-		<div class="row-fluid">
-    <button type="submit" class="btn btn-success offset3 span6">Sign up</button>
-   </div>
-  
-    </form>
-	</div>
-</div>
+
 <script>
 (function($,W,D)
 {
@@ -298,4 +240,10 @@ function passwordStrength(password)
 
  </div>
 </div>
-
+<?php if(!empty($Signup_business)){?>
+	<script>
+		$(document).ready(function(){
+			$('#create-user-modal').modal('show'); 
+		});
+	</script>
+<?php } ?>

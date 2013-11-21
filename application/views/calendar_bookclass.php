@@ -250,22 +250,30 @@ $url=$buisness_details[0]->id;
 	
  	var activeEvent;
     function onPreview(evt, dataObj, html)
-	{ 
-	 $("#editClass").modal("show");
-	 $("#eventId").html($(evt).attr('eventid'));
-	 $.ajax({
-	  url:base_url+"bcalendar/checkStatus",
-	  data:{classID:$(evt).attr('eventid')},
-	  type:'POST',
-	  success:function(data){
-	   if(data==1){
-	    $("#multiClass").hide();
-		}else{
-		$("#multiClass").show();
-		}
-	   
-	  }
-	 })
+	{
+     var url=base_url+'bcalendar/checkClassdate';
+     $.post(url,{eventid:$(evt).attr('eventid')},function(data){ //alert(data);
+	     if(data==0){
+		  apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+		 }else{
+		 $("#editClass").modal("show");
+		 $("#eventId").html($(evt).attr('eventid'));
+		 $.ajax({
+		  url:base_url+"bcalendar/checkStatus",
+		  data:{classID:$(evt).attr('eventid')},
+		  type:'POST',
+		  success:function(data){
+		   if(data==1){
+			$("#multiClass").hide();
+			}else{
+			$("#multiClass").show();
+			}
+		   
+		  }
+		 })
+		 }	
+		 })
+	
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
 	}

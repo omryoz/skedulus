@@ -119,9 +119,34 @@ class Services extends CI_Controller {
 		}else{
 			$this->parser->parse('include/dash_navbar',$this->data);
 		}
-		$this->data['tableList'] = $this->bprofile_model->getClasses();
+		
+		 $where=" user_business_details_id =".$this->session->userdata['business_id'];
+	    $config['total_rows'] = $this->common_model->getCount('user_business_classes','id',$where);
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'services/list_classes/';
+			$config['per_page'] = '10';
+			$config['uri_segment'] = 3; 
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(3)!=''){
+			$offset=$this->uri->segment(3);
+			}else{
+			$offset=0;
+			}
+			$this->data['tableList']=$this->bprofile_model->getClasses($offset,$config['per_page']);
+            /* End Pagination Code  */
+		}
+
 		$this->data['staffs'] = $this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
-		$this->parser->parse('classes',$this->data);
+		
+		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		 if($status->status=='active'){
+		 $this->parser->parse('classes',$this->data);
+		 }else{
+		 $this->parser->parse('deactivated',$this->data);
+		 }
+	 
+		
 		$this->parser->parse('include/footer',$this->data);	
 	}
 	
@@ -148,6 +173,7 @@ class Services extends CI_Controller {
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("user_business_classes",$_GET['id']);
+		 $query=$this->db->query("delete from employee_services where service_id=".$_GET['id']);
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Class delete successfully !');
 		  if(!empty($_GET['page'])){
