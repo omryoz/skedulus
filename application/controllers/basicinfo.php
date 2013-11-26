@@ -65,8 +65,8 @@ class Basicinfo extends CI_Controller {
 		
 		if(isset($_GET['checkinfo'])){
 		//print_r($_POST['businessType']); exit;
-		$this->basicinfo_model->insertsubscription();
-		$id=$this->basicinfo_model->insertBasicInfo();
+		$this->basicinfo_model->insertsubscription($users_id);
+		$id=$this->basicinfo_model->insertBasicInfo($users_id);
 		redirect($_POST['businessType']);
 		}
 	
@@ -127,7 +127,12 @@ class Basicinfo extends CI_Controller {
 	
 	
 	public function insertData(){
-	 $this->basicinfo_model->insertBasicInfo();
+	if(isset($this->session->userdata['admin'])){
+	  $users_id=$this->session->userdata['users_id'];
+	  }else{
+	  $users_id=$this->session->userdata['id'];
+	  }
+	 $this->basicinfo_model->insertBasicInfo($users_id);
 	}
 	
 	public function checkusername(){

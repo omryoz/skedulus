@@ -56,7 +56,7 @@ class Bcalendar extends CI_Controller {
 		}
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
 		 
-		 if(isset($this->session->userdata['id'])){
+		 if(isset($this->session->userdata['business_id'])){
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
@@ -65,6 +65,7 @@ class Bcalendar extends CI_Controller {
 		  $this->parser->parse('deactivated',$this->data);
 		 }
 		 }else{
+		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 }
@@ -102,6 +103,14 @@ class Bcalendar extends CI_Controller {
 	
 	function mycalender(){
 		 //print_r($this->session->userdata);
+	   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+	   $this->data['flag']='';
+	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['phonenumber']=$val->phone_number;
+	   $this->data['flag']='1';
+	   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['flag']='0';
+	   }
 		 $this->parser->parse('include/header',$this->data);
 		 if($this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
@@ -117,6 +126,7 @@ class Bcalendar extends CI_Controller {
 		$this->parser->parse('include/modal_bookclass',$this->data);
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
 		 if($status->status=='active'){
+		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('mycalendar',$this->data);
 		 }else{
 		 redirect('home/deactivated');
@@ -424,13 +434,37 @@ function getfreeslotsbydate(){
 	
 }
 
+function chckStatus(){
+  $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+  if($val->verify_phone=='inactive'){
+  echo '0';
+  }else{
+  echo '1';
+  }
+}
+
 function checkfordate(){ 
 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
 		  echo 0;
 		}else{
 		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
-		  echo 1;
+		  if(isset($this->session->userdata['id'])){
+		  if($this->session->userdata['role']=='client'){
+			   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+			   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+			   echo '6';
+			   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){	
+			   echo '7';
+			   }else{
+			   echo 1;
+			   }
+		  }else{
+		   echo 1;
+		  }
+		  }else{
+		   echo -3;
+		  }
 		  }else{
 		  echo -2;
 		  }
@@ -776,7 +810,7 @@ function referal_url($url){
 		$this->data['businessId']=$id;
 		
 		
-		 if(isset($this->session->userdata['id'])){
+		 if(isset($this->session->userdata['business_id'])){
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
 		 // $this->parser->parse('include/modal_popup',$this->data);
@@ -786,6 +820,7 @@ function referal_url($url){
 			$this->parser->parse('calendar_classes',$this->data);
 			}else{
 			$this->parser->parse('include/modal_bookclass',$this->data);
+			$this->parser->parse('include/modal_verifyphone',$this->data);	
 			$this->parser->parse('calendar_bookclass',$this->data);
 			}
 		 }else{
@@ -793,6 +828,7 @@ function referal_url($url){
 		 }
 		 }else{
 		 $this->parser->parse('include/modal_bookclass',$this->data);
+		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('calendar_bookclass',$this->data);
 		 }
 
@@ -1102,6 +1138,7 @@ function checkIfblocked(){
 	  $users_id=$this->session->userdata['id'];
 	  $this->parser->parse('include/header',$this->data);
 	}
+	$this->parser->parse('include/modal_verifyphone',$this->data);	
 	$this->data['role']="";
 		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		  $this->parser->parse('include/dash_navbar',$this->data);
@@ -1135,6 +1172,7 @@ function checkIfblocked(){
 		 $this->data['businessId']=$staffdetails[0]->user_business_details_id;
 		 $this->data['type'] ='staffscalendar';
 		 $this->parser->parse('include/modal_bookclass',$this->data);
+		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('calendar_bookclass',$this->data);
 		 }
 		 }else{
@@ -1193,11 +1231,13 @@ function checkIfblocked(){
 	}
 	
 	function getAppDetails(){
+	 if($this->input->post('eventID')){
 	  $details=$this->bprofile_model->getAppDetails();
 	  $detail="[";
 	  $detail.=json_encode($details);
 	  $detail.="]";
 	  print_r($detail);
+	  }
       	// $val=$this->common_model->getRow("view_client_appoinment_details","id",$_POST['eventID']);
 	}
 	
@@ -1209,6 +1249,22 @@ function checkIfblocked(){
 	 }else{
 	  echo 1;
 	 }
+	}
+	
+	function checkVerify(){
+	 if($this->session->userdata['role']=='client'){
+			   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+			   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+			   echo '6';
+			   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){
+			   echo '7';
+			   }else{
+			   echo 1;
+			   }
+		  }else{
+		  echo 1;
+		  }
+	
 	}
 }
 

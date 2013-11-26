@@ -19,27 +19,27 @@ $(document).ready(function(){
 			<div class="nav-collapse collapse menu_admin">			
 				<ul class=" nav admin-navbar justify-nav">
 					<li>
-						<a href="<?php echo base_url() ?>admin/dash/users"><center><i class="icon-user"></i><p>Users</p></center></a>
+						<a href="<?php echo base_url() ?>admin/dash/users"><center><i class="icon-user"></i><p><?=(lang('Apps_users')) ?></p></center></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url() ?>admin/dash/admin_users"><center><i class="icon-user"></i><p>Admin Users</p></center></a>
+						<a href="<?php echo base_url() ?>admin/dash/admin_users"><center><i class="icon-user"></i><p><?=(lang('Apps_adminusers')) ?></p></center></a>
 					</li>
 					<li >
-						<a href="<?php echo base_url() ?>admin/dash/subscription"><center><i class="icon-check"></i><p> Subscriptions</p>
+						<a href="<?php echo base_url() ?>admin/dash/subscription"><center><i class="icon-check"></i><p><?=(lang('Apps_Subscriptions')) ?> </p>
 						</center></a>
 					</li>
 					<li>
-						<a href="<?php echo base_url() ?>admin/dash/category"><center><i class="icon-sitemap"></i><p> Category
+						<a href="<?php echo base_url() ?>admin/dash/category"><center><i class="icon-sitemap"></i><p> <?=(lang('Apps_category')) ?>
 						</p></center>
 						</a>
 					</li>
 					<li class="">
-						<a href="<?php echo base_url() ?>admin/dash/businesses"><center><i class="icon-briefcase"></i><p> Businesses
+						<a href="<?php echo base_url() ?>admin/dash/businesses"><center><i class="icon-briefcase"></i><p> <?=(lang('Apps_businesses')) ?>
 						</p></center>
 						</a>
 					</li>
 					<li class="">
-						<a href="<?php echo base_url() ?>admin/dash/settings"><center><i class="icon-wrench"></i><p> Settings
+						<a href="<?php echo base_url() ?>admin/dash/settings"><center><i class="icon-wrench"></i><p> <?=(lang('Apps_settings')) ?>
 						</p></center>
 						</a>
 					</li>

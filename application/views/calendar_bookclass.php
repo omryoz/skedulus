@@ -63,7 +63,7 @@ $url=$buisness_details[0]->id;
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
-	
+<p id="eventId" class="hide"></p>	
 </div>
 </div>
   </div>
@@ -256,27 +256,66 @@ $url=$buisness_details[0]->id;
 	     if(data==0){
 		  apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 		 }else{
-		 $("#editClass").modal("show");
+		 var eventid=$(evt).attr('eventid');
 		 $("#eventId").html($(evt).attr('eventid'));
+		 <?php if(isset($this->session->userdata['id'])){ ?>
 		 $.ajax({
-		  url:base_url+"bcalendar/checkStatus",
+		  url:base_url+"bcalendar/checkVerify",
 		  data:{classID:$(evt).attr('eventid')},
 		  type:'POST',
 		  success:function(data){
 		   if(data==1){
-			$("#multiClass").hide();
-			}else{
-			$("#multiClass").show();
-			}
+		     showClassdetails()
+			//$("#editClass").modal("show");
+			//$("#multiClass").hide();
+			}else if(data==6){
+		   $('#verifyModal').modal('show');
+		   $("#closeVerify").attr("data-val","showCmodal");
+		   $("#closeVerify").attr("bid",eventid);
+		   $(".alert").hide();
+			$("#key").val("");
+			$("#updatePhone").val("");
+			$("#verifyP").show();
+			$("#getnumber").hide();
+		  }else if(data==7){
+			$('#verifyModal').modal('show');
+			$("#closeVerify").attr("data-val","showCmodal");
+			$("#closeVerify").attr("bid",eventid);
+			$(".alert").hide();
+			$("#key").val("");
+			$("#updatePhone").val("");
+			$("#verifyP").hide();
+			$("#getnumber").show();
+		  }
 		   
 		  }
 		 })
+		 <?php }else{?>
+		  window.location.href=base_url+'businessProfile/redirectUrl/?url=<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>';
+		 <?php }?>
 		 }	
 		 })
 	
 		//activeEvent=dataObj;
 		//ical.showPreview(evt, html);
 	}
+	$("#closeVerify").click(function(){
+	var action=$(this).attr('data-val');
+	var url=base_url+'bcalendar/chckStatus';
+	var data='';
+	$.post(url,data,function(data){
+	 if(data==1){
+	 if(action=='showCmodal'){
+		  $("#eventId").html($("#closeVerify").attr("bid"));
+		  showClassdetails()
+		  //$("#editClass").modal("show");
+		  //$("#multiClass").hide();
+		  }
+		 
+	 }
+
+	 })
+  })
     /*
      Method invoked when event is moved or resized
      @param event object containing eventID and newly updated Times
@@ -374,8 +413,13 @@ $url=$buisness_details[0]->id;
     
 	
 	//function singleClass(){
-	$("#singleBookClass").click(function(){ 
-       $("#note").val("");	
+	// $("#singleBookClass").click(function(){ 
+       
+	   
+	// })
+	
+	function showClassdetails(){
+	   $("#note").val("");	
 	   $("#booksuccess").hide();
 	  var evId=$("#eventId").html();
 	   $.ajax({
@@ -387,7 +431,7 @@ $url=$buisness_details[0]->id;
 		$.each(eval(data),function( key, v ) {
 		   $("#postclass").attr("data-val","single");
 		   $("#postclass").modal("show");
-		   $("#editClass").modal("hide");
+		  // $("#editClass").modal("hide");
            $("#update").show();$("#add").hide();
 		   $("#updateid").val(evId);
 		   $("#className").html(v.class);
@@ -409,9 +453,8 @@ $url=$buisness_details[0]->id;
 		})
 	   }
 	  })
-	   
-	})
 	
+	}
 	
 	
 	

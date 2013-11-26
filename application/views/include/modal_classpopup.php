@@ -231,7 +231,7 @@
 						  </div>
 						  <div class="control-group">
 							<div class="controls pull-right">
-							  <button type="button" class="btn btn-success" id="removeClient" value="" appid="" style="display:none;">Remove from class</button>
+							  <button type="button" class="btn btn-success" id="removeClient" value="" appid="" style="display:none;"><?=(lang('Apps_remove'))?></button>
 							  <button type="button" class="btn btn-success" id="addClient"><?=(lang('Apps_done'))?></button>
 							  <input type="hidden" name="users_id" id="users_id" >
 							  <input type="hidden" name="actionVal" id="actionVal" value="">

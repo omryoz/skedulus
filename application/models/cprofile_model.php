@@ -109,6 +109,7 @@ class cprofile_model extends CI_Model {
 		return $input1;
 		}
 	}
+	
 	function updateUserinfoByfilter($filter=false,$id=false){
 		$this->db->where('id', $id);
 		$this->db->update('users', $filter); 
@@ -117,6 +118,12 @@ class cprofile_model extends CI_Model {
 		}else{
 			return false;
 		}
+	}
+	
+	function updatePhone(){
+	 $id=$this->session->userdata['id'];
+	 $sql=mysql_query("update users set phone_number='".$_POST['phone']."' where id='".$id."'");
+	 echo $_POST['phone'];
 	}
 }
 ?>

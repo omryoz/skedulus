@@ -55,7 +55,7 @@
 			   $id='';
 			  } ?>
 			  <input type="hidden" name="businessid" class="business_id" value="<?php echo $id ?>"> 
-			  <input type="hidden" name="url" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
+			  <input type="hidden" name="url" id="redirecturl" value="<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>"> 
 			 
 			</div>
 		  </div>

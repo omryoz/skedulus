@@ -167,40 +167,40 @@ $(".staffclose").click(function(){
 	<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="staff1" id="edit" style="display:none">Edit Staff</h4>
-		<h3 ><h4 id="add"> Add Staff</h4></h3>
+		<h4 class="staff1" id="edit" style="display:none"><?=(lang('Apps_editstaff'))?></h4>
+		<h3 ><h4 id="add"><?=(lang('Apps_addstaff'))?></h4></h3>
 	  </div>
 	  <div class="modal-body">
 	  <div>
             <ul id="serviceTab" class="nav nav-tabs">
-              <li class="active"><a href="#add_staff" data-toggle="" class="tab"><b>Staff</b></a></li>
-              <li><a href="#add_service" data-toggle="" class="tab"><b>Services</b></a></li>
-			  <li><a href="#add_availability" data-toggle="" class="tab"><b>Availability</b></a></li>
+              <li class="active"><a href="#add_staff" data-toggle="" class="tab"><b><?=(lang('Apps_staff'))?></b></a></li>
+              <li><a href="#add_service" data-toggle="" class="tab"><b><?=(lang('Apps_services'))?></b></a></li>
+			  <li><a href="#add_availability" data-toggle="" class="tab"><b><?=(lang('Apps_availability'))?></b></a></li>
             </ul>
 			<form class="form-horizontal" action="<?php echo base_url() ?>staffs/manage_staffs/?insert" id="addstaffs" method="POST">
 	  		<div id="serviceTabContent" class="tab-content"> <p class="alert" id="successaddstaffs" style="display:none"></p>
 				  <div class="tab-pane fade in active" id="add_staff">
 					
 							<div class="control-group">
-							  <label class="control-label" for="firstname">First Name :</label>
+							  <label class="control-label" for="firstname"><?=(lang('Apps_firstname'))?> :</label>
 							  <div class="controls">
 								<input class="input-large radi" type="text" id="firstname" name="firstname" placeholder="First Name">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="lastname">Last Name :</label>
+							  <label class="control-label" for="lastname"><?=(lang('Apps_lastname'))?> :</label>
 							  <div class="controls">
 								<input class="input-large radi" type="text" id="lastname" name="lastname" placeholder="Last Name">
 							  </div>
 							</div>
 							<div class="control-group">
-							  <label class="control-label" for="firstname">Email :</label>
+							  <label class="control-label" for="firstname"><?=(lang('Apps_email'))?> :</label>
 							  <div class="controls">
 								<input class="input-large radi" type="text" id="email" name="email" placeholder="someone@example.com">
 							  </div>
 							</div>
 							  <div class="control-group">
-								<label class="control-label" for="inputPassword">Mobile Number :</label>
+								<label class="control-label" for="inputPassword"><?=(lang('Apps_phonenumber'))?>:</label>
 								<div class="controls">
 								  <input class="input-large radi" type="text" id="phone_number" name="phonenumber" placeholder="" maxlength="15">
 								
@@ -209,18 +209,28 @@ $(".staffclose").click(function(){
 				  </div>
 				 <div class="tab-pane fade" id="add_service">
 					 <div class="row-fluid">
-					  <h5>Assign services to staff</h5>
-					 <?php if(isset($services) && $services!=""){ ?>
+					  <h5><?=(lang('Apps_assignservicetostaff'))?></h5>
+					 <?php 
+					 // if(isset($type)){
+					  // if($type=='Classes'){
+					  // $id='user_business_classes_id';
+					  // }else{
+					  // $id='id';
+					  // }
+					 // }else{
+					 $id='id';
+					 //} 
+					 if(isset($services) && $services!=""){ ?>
 				<div class="span6 offset1">
 				<?php foreach($services as $servicename){  ?>
 							 <label class="checkbox">
-							  <input type="checkbox" class="assign" name="services[]" value="<?php echo $servicename->id; ?>" id="<?php echo $servicename->id; ?>" />
+							  <input type="checkbox" class="assign" name="services[]" value="<?php echo $servicename->$id; ?>" id="<?php echo $servicename->$id; ?>" />
 							<?php  echo $servicename->name;?>
 							</label>
 					<?php } ?>		
 						 </div>
 				<?php }else{?>
-                <p class="alert">No services added yet</p>
+                <p class="alert"><?=(lang('Apps_noservicesaddedyet'))?></p>
 				<?php } ?>
 					 </div>
 				 </div>
@@ -250,7 +260,7 @@ $(".staffclose").click(function(){
 					  <input type="hidden" name="action" id="action" value="" />
 					   <input type="hidden" name="type" id="type" value="" />
 					  <input type="submit" name="save" class="btn btn-success" value="Update" />
-					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" />Cancel</a>
+					  <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 					 </div> 
 				 </form> 
 			</div>

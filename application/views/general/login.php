@@ -8,7 +8,7 @@
 	<?php }elseif(isset($alreadyUser)){ ?>
 	<p class="alert"><?=(lang('Apps_activeuserforlogin'))?></p>
 	<?php }elseif(isset($inactive)){  ?>
-	<p class="alert">Account has been deactivated</p>
+	<p class="alert"><?=(lang('Apps_deactivateduserforlogin'))?></p>
 	<?php }?>
 		<center><h1 class="login_logo"><a href="<?php echo base_url();?>home">Skedulus</a></h1>
 		<p><?=(lang('Apps_newuser'))?><b><a href="<?php echo base_url();?>home/<?php echo $signUp ?>"><?=(lang('Apps_signup'))?></a></b></p>

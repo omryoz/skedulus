@@ -1,4 +1,4 @@
-
+<script type="text/javascript" src="<?php echo $this->config->item('base_url'); ?>js/jquery.form.js"></script>
 <script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
 <script type="text/javascript">
     function initialize() {
@@ -449,7 +449,7 @@ function readURL(input) {
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label"  for="input"> <?=(lang('Apps_sendmetextmsg'))?>: </label>
+										  <label class="control-label"  for="input"> Allow push notification from business : </label>
 										  <!-- <label class="control-label"  for="input">Send me text message : from business manager :  </label> -->
 										  <div class="controls">
 										  <?php
@@ -696,18 +696,45 @@ function readURL(input) {
 
 })(jQuery, window, document);
 
-$("#removeimg").click(function(){ //alert($("#tempimg").val());
+$("#removeimg").click(function(){ 
 if($("#tempimg").val()!=1){
    $("#img").val('default.jpg');
    $("#actualImg").attr('src',base_url+'uploads/photo/default.jpg');
 }if($("#status").val()==0 && $("#tempimg").val()==1){
    $("#img").val('default.jpg');
    $("#actualImg").attr('src',base_url+'uploads/photo/default.jpg');
-} 
+}  
   $("#actualImg").show();
   $('#blah').hide();
   $("#status").val('0');
 })
 </script>
-
+<?php if($flag=='1'){
+?>
+	<script>
+		$(document).ready(function(){ 
+		    $(".alert").hide();
+			$("#key").val("");
+			$("#updatePhone").val("");
+			$('#verifyModal').modal('show');
+			$("#verifyP").show();
+			$("#getnumber").hide();
+            $("#phonenumber").html(<?php echo $phonenumber ?>);			
+		});
+	</script>
+<?php } ?>
+<?php if($flag=='0'){
+?>
+	<script>
+		$(document).ready(function(){
+		$(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$('#verifyModal').modal('show');
+		$("#verifyP").hide();
+		$("#getnumber").show();
+			//$('#getnumberModal').modal('show');
+		});
+	</script>
+<?php } ?>
 <script src="<?php echo base_url(); ?>js/dates/core.js" type="text/javascript"></script>

@@ -123,25 +123,16 @@ class Staffs extends CI_Controller {
 	public function manage_staffs(){ 
 		if(isset($_POST['insert'])){ 
 		$id=$this->bprofile_model->insertStaffs();
-		
-		if(isset($_POST['page']) && $_POST['page']=='1'){ 
+		$this->send_email($id);
+		if(isset($_POST['register'])){
+			redirect('staffs/list_staffs/?register');
+		}elseif(isset($_POST['page']) && $_POST['page']=='1'){ 
 			redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 		}else{
 		redirect("staffs/list_staffs");
 		}
-			// if(isset($_POST['addstaffs'])){
-			// $id=$this->bprofile_model->insertStaffs();
-			// echo($id);
-			// }
-			// if(isset($_POST['assignstaffs']) && $_POST['userid']!=" "){
-			// $id=$this->bprofile_model->assignStaffs();
-			// echo($id);
-			// }  
-			// if(isset($_POST['staffavail']) && $_POST['userid']!=" "){
-			// $id=$this->bprofile_model->staffAvail();
-			// echo($id);
-			// }
-		 }
+			
+	 }
 		 if(isset($_GET['id']) && $_GET['id']!="" && !isset($_GET['delete'])){
 		 if($_GET['type']=='mydetails'){
 			$val= $this->bprofile_model->getmydetails();
@@ -188,6 +179,8 @@ class Staffs extends CI_Controller {
 		 $this->session->set_flashdata('message', 'Staff deleted successfully !');
 		 if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else if(isset($_GET['register'])){ 
+		 redirect("staffs/list_staffs/?register");
 		 }else{
 		 redirect("staffs/list_staffs");
 		 }

@@ -131,6 +131,14 @@ class Clients extends CI_Controller {
 	}
 	
 	function favourite(){
+	   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+	   $this->data['flag']='';
+	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['phonenumber']=$val->phone_number;
+	   $this->data['flag']='1';
+	   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['flag']='0';
+	   }
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
 		$where=" users_id =".$this->session->userdata['id'];
@@ -149,6 +157,7 @@ class Clients extends CI_Controller {
 			$this->data['contentList']=$this->bprofile_model->getAllRows($where,$offset,$config['per_page']);	
             /* End Pagination Code  */
 		}
+		$this->load->view('include/modal_verifyphone',$this->data);	
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
 		 if($status->status=='active'){
 		$this->load->view('favourite',$this->data);
@@ -167,13 +176,22 @@ class Clients extends CI_Controller {
 	}
 	
 	function settings(){
+	$val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+	   $this->data['flag']='';
+	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['phonenumber']=$val->phone_number;
+	   $this->data['flag']='1';
+	   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['flag']='0';
+	   }
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
 		$this->data['personalInfo']= $this->common_model->getRow("users","id",$this->session->userdata("id"));
 		$this->data['settings']= $this->common_model->getRow("user_notification_settings","users_id",$this->session->userdata("id"));
 		$this->data['cardDetails']= $this->common_model->getRow("credit_card_details","users_id",$this->session->userdata("id"));
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
-		 if($status->status=='active'){
+		if($status->status=='active'){
+		$this->parser->parse('include/modal_verifyphone',$this->data);	
 		$this->load->view('settings',$this->data);
 		}else{
 		 redirect('home/deactivated');

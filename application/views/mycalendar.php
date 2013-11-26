@@ -9,8 +9,8 @@
 		
 <!---End--------------->
 <?php 
-	 //print_r($buisness_details);
-    
+	
+    $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php if(isset($this->session->userdata['profile_id'])){
 		  $id=$this->session->userdata('profile_id');
@@ -401,3 +401,27 @@ session_start();
 	
 	
 </script>
+<?php if($flag=='1'){
+//include('include/modal_verifyphone');
+?>
+	<script>
+		$(document).ready(function(){ 
+			$('#verifyModal').modal('show');
+			$("#verifyP").show();
+			$("#getnumber").hide();
+            $("#phonenumber").html(<?php echo $phonenumber ?>);			
+		});
+	</script>
+<?php } ?>
+<?php if($flag=='0'){
+//include('include/modal_verifyphone');
+?>
+	<script>
+		$(document).ready(function(){
+		$('#verifyModal').modal('show');
+		$("#verifyP").hide();
+		$("#getnumber").show();
+			//$('#getnumberModal').modal('show');
+		});
+	</script>
+<?php } ?>

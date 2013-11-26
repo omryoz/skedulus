@@ -22,9 +22,9 @@
 						  }
                      }
 					},
-					phone_number: {
-						digits:true
-					},	
+					//phone_number: {
+						//digits:true
+					//},	
 					password:{ 
 					required: true,
 					minlength: "6",
@@ -40,9 +40,9 @@
 					email: "Please enter a valid email address",
 					remote: "Email already exist"
 					},	
-					phone_number:{
-					digits: "Only numbers allowed",
-					},	
+					//phone_number:{
+					//digits: "Only numbers allowed",
+					//},	
 					password: {
 					required:"Please Fill in your password",	
 					minlength:"Minimum 6 characters is required"

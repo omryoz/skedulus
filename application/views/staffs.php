@@ -39,9 +39,13 @@
 										  <td><?php echo $i; ?></td>
 										  <td><?php echo $content['name']; ?></td>
 										  <td>
-										  <a href="#myModal" data-toggle="modal" onclick= editStaff(<?php echo $content['id'] ?>);return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
-										  <!--<a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete" onclick= deleteStaff(<?php echo $content['id'] ?>); data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>-->
-										 <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
+										  <a href="#myModal" data-toggle="modal" onclick= editStaff(<?php echo $content['id'] ?>,'staff');return false; data-toggle="tooltip" class="tool" data-original-title="Edit"><i class="icon-edit icon-large"></i></a>&nbsp;&nbsp;&nbsp;
+										<?php if(isset($_GET['register'])){ 
+										  $register='register'; }else{
+										  $register='';
+										  }
+										  ?>
+										 <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete&<?php echo $register ?>"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 										  </td>
 										</tr>
 									<?php $i++; } ?>
@@ -58,7 +62,7 @@
 									}
 								 ?>	
 								  <a href="<?php echo base_url(); ?><?php echo $url; ?>" class="btn btn-success pull-left"><?=(lang('Apps_back'))?> </a>
-							  <div class="pull-right"><a href="<?php echo base_url(); ?>overview"  class="btn btn-success " ><?=(lang('Apps_savandcon'))?> </a>
+							  <div class="pull-right"><a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $this->session->userdata['business_id'];?>"  class="btn btn-success " ><?=(lang('Apps_savandcon'))?> </a>
 								<?php } ?>	
 							 </div>
 						  </div>

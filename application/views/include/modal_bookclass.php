@@ -2,7 +2,8 @@
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
  <div class="modal-header">
     <button type="button" class="close closeapp" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="addclass" class="appoint-heading"> <?=(lang('Apps_postclass'))?></h3>
+    <h3 id="addclass" class="appoint-heading"><?=(lang('Apps_classdetails'))?></h3>
+	 <h4 id="myModalLabel"><?=(lang('Apps_bookedperclassbasis'))?>.</h4>
   </div> 	
 	
   <!---<h3 id="addclass" class="appoint-heading"> <?=(lang('Apps_postclass'))?><button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>  
@@ -62,7 +63,7 @@
 				$url='';
 				 if(!isset($this->session->userdata['id'])){
 				  ?>
-				  <li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right"> Book </a> </li>
+				  <li id="addEventBtn"> <a href="<?php echo base_url();?>bcalendar/referal_url/?url='<?php print_r("http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']) ?>'" name="edit" class="btn btn-success pull-right"> <?=(lang('Apps_book'))?> </a> </li>
 				<?php }else{ ?>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
 				<!---<a class="cancelClass websbuttonbtn btn-success delete_app " href="javascript:;" id="deleteApp" ><?=(lang('Apps_delete'))?></a>--->

@@ -20,10 +20,18 @@ class Cprofile extends CI_Controller {
     }
 	
 	public function index() {
-	    
 		 $this->page();
 	}
 	public function page(){
+	  
+	   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+	   $this->data['flag']='';
+	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['phonenumber']=$val->phone_number;
+	   $this->data['flag']='1';
+	   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){
+	   $this->data['flag']='0';
+	   }
 		$Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
@@ -51,20 +59,58 @@ class Cprofile extends CI_Controller {
 		
 		 $this->parser->parse('include/header',$this->data);
 		 $this->parser->parse('include/navbar',$this->data);
-		 $this->data['user_id'] = $this->session->userdata['id'];
+		 $this->data['user_id'] = $this->session->userdata('id');
 		 $currentTimestamp=date('Y-m-d H:i:s');
 		 $where=' start_time >="'.$currentTimestamp.'" and users_id= "'.$this->session->userdata('id').'" and booked_by="client" ORDER by start_time DESC';
 		 
 		 // $where=' users_id= "'.$this->session->userdata('id').'"  and DATE(start_time)>="'.date('Y-m-d').'" ORDER by start_time ASC LIMIT 0,2';
 		 $this->data['appDetails']=$this->cprofile_model->getAllStartDates($where,0,2);
-		 $status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
+		 $status=$this->common_model->getRow("users","id",$this->session->userdata('id'));
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('business_home',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
 		 }else{
-		 redirect('home/deactivated');
+		  redirect('home/deactivated');
 		 }
+	}
+	
+	public function updatePhone(){
+	     $val=$this->common_model->getRow('users','id',$this->session->userdata('id'));
+		 $message="Your key code : ". $val->random_key;
+	     $val=$this->common_model->sendSMS($message,$_POST['phone']);
+		 if($val){
+	     $this->cprofile_model->updatePhone();
+		 }else{
+		 echo 0;
+		 }
+	}
+	
+	public function updateStatus(){
+	    $val=$this->common_model->getRow('users','id',$this->session->userdata('id'));
+		if($val->random_key==$this->input->post('keycode')){
+	    $filter=array('verify_phone'=>'active');
+	    $this->cprofile_model->updateUserinfoByfilter($filter,$this->session->userdata('id'));
+		echo 1;
+		}else{
+		echo 0;
+		}
+	}
+	
+	public function sendagain(){
+	   $rand=$this->home_model->random_password(5);
+	   $val=$this->common_model->getRow('users','id',$this->session->userdata('id'));
+	   $message="Your key code : ". $rand;
+	     $val=$this->common_model->sendSMS($message,$val->phone_number);
+		 if($val){
+		  $filter=array('random_key'=>$rand);
+	      $val=$this->cprofile_model->updateUserinfoByfilter($filter,$this->session->userdata('id'));
+		  echo 1;
+		  }else{
+		  echo 0;
+		  }
+	   
 	}
 	
 }

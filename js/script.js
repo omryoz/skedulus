@@ -81,6 +81,9 @@ $(".editCategory").click(function(){
 })
 
 $(document).ready(function(){
+
+
+
 //alert($(this).attr('data-status'));
 
 $(".status").click(function(){
@@ -142,48 +145,7 @@ $.ajax({
 $(".dropdown-menu li").live("click",function(e) {
        e.stopPropagation();
    });
-$(".book_me").live("click",function(){  
-$("#book").modal('show');
-    $("#eventId").val("");
-	 $(".delete_app").hide();
-	 $(".add-on").show();
-	 $(".reschduleId").val('1');
-	 $(".reschedule_app").hide();
-	 $(".book_app").show();
-	 //$(".eventGroup").attr('disabled',false);
-	 $(".staff").attr('disabled',false);
-	 $(".time").attr('disabled',false);
-	 $(".messageNote").attr('disabled',false); 
-    $(".time").attr('action','schedule');
-	//$(".time").attr('staff','0');
-    $(".message").removeClass("alert").html(" ");
-	var business_id = $("#business_id").html();
-	$(".services").html("");
-	//$(".staff").html(" ");
-       var append_option = "<option id='-1' >Select staff</option>";
-		$(".staff").html(append_option);	
-	//$(".time").html(" ");
-	//$(".st_date").val(" ");
-	var serviceid=" ";
-	$("#selectedService").val("");
-	if($(this).attr("data-val")!=''){
-	 $("#selectedService").val(serviceid);
-	 serviceid=$(this).attr("data-val");
-	 getserviceStaffs(serviceid,selected='',business_id);
-	 //getStaffs(serviceid,business_id);
-	 }
-	// if($(this).attr('bookstatus')=='single'){
-	 // $(".time").attr('booking','single');
-	// var bookService=$(this).attr("data-val");
-	// if(bookService)
-	// var serviceid=bookService;
-	// getservices(business_id,bookService);
-	// }else{
-	 //$(".time").attr('booking','multi');
-	getMultiService(business_id,serviceid);
-	//}
-	gettimeslots($(".st_date").val(),business_id,staff_id='',eventId='',timeslot='');
-});
+   
 
 
 function getMultiService(business_id,serviceid){
@@ -841,13 +803,20 @@ $(".staff").live("change",function(){
 	if($(".time").val()!=''){
 	var timeslot=$(".time").val();
 	var action=$('.time').attr('action');
-	getendtime(services,$(".time").val(),$(".st_date").val(),business_id,staff_id,eventId,action);
+	//getendtime(services,$(".time").val(),$(".st_date").val(),business_id,staff_id,eventId,action);
 	}else{
 	var timeslot='';
 	}
 	var selected='';
 	//getserviceStaffs($("#selectedService").val(),selected,business_id); 
 	gettimeslots($(".st_date").val(),business_id,staff_id,eventId,timeslot);
+	if($(".time").val()!=''){
+	var timeslot=$(".time").val();
+	var action=$('.time').attr('action');
+	getendtime(services,$(".time").val(),$(".st_date").val(),business_id,staff_id,eventId,action);
+	}else{
+	var timeslot='';
+	}
 })
 
 
@@ -1121,6 +1090,7 @@ $(".launch").on("click",function(){
 	 var curr_month = d.getMonth() + 1; 
      var curr_year = d.getFullYear();
 	 var date = curr_date+"-"+curr_month+"-"+curr_year;
+	 var  timeslot=$("#eventStartTime").val();
 	 var url=base_url+"bcalendar/checkfordate";
     $.post(url,{date:date,business_id:businessid,staffid:staffid},function(data){
 	 if(data==-1){
@@ -1132,22 +1102,144 @@ $(".launch").on("click",function(){
 	 }else if(data==-2){
 	 apprise('Cannot book an appointment for this day so early', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
+	 }else if(data==-3){
+	 window.location.href=base_url+'businessProfile/redirectUrl/?url='+$("#redirecturl").val();
+	 }else if(data==6){
+	   $('#verifyModal').modal('show');
+	   $("#closeVerify").attr("data-val","showmodal");
+	   $("#closeVerify").attr("date-time",$("#eventStartTime").val());
+	   $("#closeVerify").attr("date",date);
+	   $("#closeVerify").attr("bid",businessid);
+	   $(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$("#verifyP").show();
+		$("#getnumber").hide();
+	 }else if(data==7){
+	    $("#closeVerify").attr("data-val","showmodal");
+		$("#closeVerify").attr("date-time",$("#eventStartTime").val());
+	    $("#closeVerify").attr("date",date);
+	    $("#closeVerify").attr("bid",businessid);
+	    $('#verifyModal').modal('show');
+		$(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$("#verifyP").hide();
+		$("#getnumber").show();
 	 }else{
-	    $("#eventId").val(" ");
+	  
+     showbookpopup(date,timeslot,businessid);
+	 //}
+	   
+	 }
+	})
+	
+	
+	
+})
+
+$("#closeVerify").click(function(){
+
+var action=$(this).attr('data-val');
+var url=base_url+'bcalendar/chckStatus';
+var data='';
+$.post(url,data,function(data){
+ if(data==1){ 
+     var date=$("#closeVerify").attr("date");
+     var businessid= $("#closeVerify").attr("bid");
+     var  timeslot=$("#closeVerify").attr('date-time');
+	 if(action=='showmodal'){
+     showbookpopup(date,timeslot,businessid);
+	 }else if(action=='showmodal1'){ 
+	 showbookpopup1(date,businessid,timeslot);
+	 }
+ }
+
+})
+//}
+ 
+})
+
+$(".book_me").live("click",function(){
+     var service_id='';
+     if($(this).attr("data-val")!=''){
+	 service_id=$(this).attr("data-val");
+	 }
+	 var date=$(".st_date").val();
+	 var url=base_url+'bcalendar/checkVerify';
+	 var business_id = $("#business_id").html();
+	 var data='';
+   $.post(url,data,function(data){
+   if(data==1){
+   showbookpopup1(date,business_id,service_id);
+   }else if(data==6){
+	   $('#verifyModal').modal('show');
+	   $("#closeVerify").attr("data-val","showmodal1");
+	   $("#closeVerify").attr("date-time",service_id);
+	   $("#closeVerify").attr("date",date);
+	   $("#closeVerify").attr("bid",business_id);
+	   $(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$("#verifyP").show();
+		$("#getnumber").hide();
+	 }else if(data==7){
+	    $("#closeVerify").attr("data-val","showmodal1");
+		$("#closeVerify").attr("date-time",service_id);
+	    $("#closeVerify").attr("date",date);
+	    $("#closeVerify").attr("bid",business_id);
+	    $('#verifyModal').modal('show');
+		$(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$("#verifyP").hide();
+		$("#getnumber").show();
+	 }
+   
+  })
+   
+
+});
+
+function showbookpopup1(date,business_id,service_id){
+	$("#book").modal('show');
+    $("#eventId").val("");
+	 $(".delete_app").hide();
+	 $(".add-on").show();
+	 $(".reschduleId").val('1');
+	 $(".reschedule_app").hide();
+	 $(".book_app").show();
+	 $(".staff").attr('disabled',false);
+	 $(".time").attr('disabled',false);
+	 $(".messageNote").attr('disabled',false); 
+    $(".time").attr('action','schedule');
+    $(".message").removeClass("alert").html(" ");
+	
+	$(".services").html("");
+    var append_option = "<option id='-1' >Select staff</option>";
+	$(".staff").html(append_option);	
+	var serviceid=" ";
+	$("#selectedService").val("");
+	if(service_id!=''){
+	 $("#selectedService").val(service_id);
+	 serviceid=service_id;
+	 getserviceStaffs(serviceid,selected='',business_id);
+	 }
+	getMultiService(business_id,serviceid);
+	gettimeslots(date,business_id,staff_id='',eventId='',timeslot='');
+
+}
+
+function showbookpopup(date,timeslot,businessid){
+	 $("#eventId").val(" ");
 	    $("#book").modal('show');
 	$("#note").val('');
 	var append_option = "<option id='-1' >Select staff</option>";
 	$(".staff").html(append_option);
-	//$("#book").attr('bookstatus','multi');
-
-	// $(".staff").html(""); 
-		// var append_option = "<option id='-1' >Select staff</option>";
-		// $(".staff").append(append_option);
 	 $(".time").attr('booking','multi');
      $(".time").attr('action','schedule');
 	 $("#selectedService").val(" ");
 	 $(".services").html("");
-	// $("#business_id").html(businessid);
 	 $(".business_id").val(businessid);
 	 $(".st_date").val(date); 
 	 var staffid='';
@@ -1158,18 +1250,11 @@ $(".launch").on("click",function(){
 		$("#staffschedule").val(staffid);
 		$("#staffschedule").attr('ename',$("#staffname").html());
 		staffSchedule(staffid,$("#staffname").html());
-		//var append_option = "<option id="+staffid+" value="+staffid+" selected>"+$("#staffname").html()+"</option>";
-		//$(".staff").html(append_option);
 	}
 	var eventId='';
-	var  timeslot=$("#eventStartTime").val();
+	//var  timeslot=$("#eventStartTime").val();
 	gettimeslots(date,businessid,staffid,eventId,timeslot)
-	 }
-	})
-	
-	
-	
-})
+}
 
 function staffSchedule(staffid,staffname){
 	var append_option = "<option id="+staffid+" value="+staffid+" selected>"+staffname+"</option>";
@@ -1501,7 +1586,9 @@ $("#eventStartTime").live('change',function(){
 })
 
 _page = window.location.pathname.split('/')[2];
+//alert(window.location.pathname.split('/')[3]);
        $('a[href="'+_page+'"],a[href="'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+	   
 
 });
 

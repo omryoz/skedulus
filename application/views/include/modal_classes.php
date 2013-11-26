@@ -44,7 +44,7 @@
 
                 submitHandler: function(form) {
                // form.submit();
-				 if($("#assignclass").val()==1){
+				 if($("#assignclass").val()==1  || $("#actionType").val()==1){
 					form.submit();
 					}else if($("#assignclass").val()==''){
 					$('#serviceTab a[href="#staff1"]').tab('show');
@@ -184,6 +184,12 @@ function showSelected(){
 					 <?php if(isset($_GET['register'])){ ?>
 					 <input type="hidden" name="register" value="register">
 					 <?php } ?>
+					 <?php if(empty($staffs)){
+					$val='1';
+					}else{
+					$val='0';
+					} ?>
+					 <input type="hidden" name="actionType" value="<?php echo $val;?>" id="actionType" />
 					 <div class="modal-footer update" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" class="id" value="" />
 					  <input type="hidden" name="page" id="page" value="" class="page"/>

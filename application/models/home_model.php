@@ -32,17 +32,28 @@ function getBusiness($offset=false,$limit=false){
 		if(isset($_POST['gender']))$insertArray['gender']= $_POST['gender']; 
 		if(isset($_POST['password']))$insertArray['password']= MD5($_POST['password']);
 		if(isset($_POST['phone_number']))$insertArray['phone_number']= $_POST['phone_number'];
+		$rand=$this->random_password(5);
+		$insertArray['random_key']=$rand;
+		if($_POST['phone_number']!=''){
+		$message="Your key code : ". $rand;
+		$val=$this->common_model->sendSMS($message,$_POST['phone_number']);
+		 if($val){
+		 $insertArray['phone_number']= $_POST['phone_number'];
+		 }else{
+		 $insertArray['phone_number']='';
+		 }
+		}
+		
+		$insertArray['verify_phone']='inactive';
 		$insertArray['createdOn']= date("Y-m-d H:i:s");
+		$insertArray['activationkey']= MD5($_POST['email'].time());
 		
 		if($_POST['usertype']=='businessSignUp'){ 
 		$insertArray['user_role']= 'manager';
 		$insertArray['status']= 'inactive';
-		$insertArray['activationkey']= MD5($_POST['email'].time());
-		}elseif($_POST['usertype']=='clientSignUp'){ //print_r("here"); exit;
-		$insertArray['user_role']= 'client';
+		}elseif($_POST['usertype']=='clientSignUp'){
 		$insertArray['status']= 'active';
-		$insertArray['activationkey']="0";
-				
+		$insertArray['user_role']= 'client';
 		}
 		$insertArray['image']='default.jpg';
 		$this->db->insert('users',$insertArray);
@@ -121,6 +132,11 @@ function getBusiness($offset=false,$limit=false){
 		
 	}
 	
+	function random_password( $length = 5 ) {
+    $chars = "0123456789";
+    $password = substr( str_shuffle( $chars ), 0, $length );
+    return $password;
+}
 	
 	
 }

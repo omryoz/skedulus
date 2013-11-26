@@ -1,42 +1,3 @@
-
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
-<script type="text/javascript">
-    function initialize() {
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var place = autocomplete.getPlace();
-            document.getElementById('city2').value = place.name;
-            document.getElementById('cityLat').value = place.geometry.location.lat();
-            document.getElementById('cityLng').value = place.geometry.location.lng();
-            //alert("This function is working!");
-            //alert(place.name);
-           // alert(place.address_components[0].long_name);
-
-        });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-	
-function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#blah')
-                        .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
-						$("#tempimg").val('1');
-						$("#actualImg").hide();
-						$('#blah').show();
-						$("#status").val('1');
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-</script>
 <div class="content container">
 	<div class="content container">
 		<div class="row-fluid business_profile">	
@@ -45,10 +6,7 @@ function readURL(input) {
 					<ul class="nav nav-tabs notify setting-tab" id="myTab">
 					  <li class="active"><a href="#Cpassword" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_changepwd'))?></h4></a>
 					  </li>
-					  <!---<li><a href="#Password" class="hidealerttab" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
-					  <li><a href="#Credit"  class="hidealerttab" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
-					  <li><a href="#Notification"  class="hidealerttab" data-toggle="tab"><h4><i class="icon-envelope-alt"></i> <?=(lang('Apps_notificationsetting'))?></h4>
-					  </a> </li>--->
+					  
 					</ul>
 				</div>
 				<div class="span8 general_setting">
@@ -74,11 +32,9 @@ function readURL(input) {
 										 <input type="submit" name="save" class="btn btn-success pull-right span2" value="<?=(lang('Apps_save'))?>" />
 										 <!---<a href="javascript:void(0)" onclick=submit(); id="changePassword" class="btn btn-success pull-right span2">Save</a>--->
 									 </form>
-										</div>
-								 
-									
-									
-							</div></div>
+								</div>
+							</div>
+					</div>
 						
 						 
 				</div>

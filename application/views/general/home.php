@@ -19,7 +19,7 @@
 	
 	<div class="content ">
 	<?php if(isset($success)){ ?>
-	<p class="alert">Please check your mail and click on the verification link we sent you to continue with your business registration.</p>
+	<p class="alert"><?=$lang('Apps_verificationlink') ?></p>
 	<?php } ?>
 		<div class="container">
 			<div class="row-fluid ">

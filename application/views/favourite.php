@@ -55,4 +55,32 @@
 <script>
 $('.li-element li:nth-child(4n + 5)').addClass('no-margin');
 </script>
+<?php if($flag=='1'){
+?>
+	<script>
+		$(document).ready(function(){ 
+			$(".alert").hide();
+			$("#key").val("");
+			$("#updatePhone").val("");
+			$('#verifyModal').modal('show');
+			$("#verifyP").show();
+			$("#getnumber").hide();
+            $("#phonenumber").html(<?php echo $phonenumber ?>);			
+		});
+	</script>
+<?php } ?>
+<?php if($flag=='0'){
+?>
+	<script>
+		$(document).ready(function(){
+		$(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$('#verifyModal').modal('show');
+		$("#verifyP").hide();
+		$("#getnumber").show();
+			//$('#getnumberModal').modal('show');
+		});
+	</script>
+<?php } ?>
 

@@ -65,6 +65,7 @@
 		$lang['Apps_reset'] = "Reset";
 		$lang['Apps_emailpwdnotmatch'] = "Email and password does not match. Please try again.";
 		$lang['Apps_activeuserforlogin'] = "You are an active user.Please login to continue";
+		$lang['Apps_deactivateduserforlogin'] = "Account has been deactivated";
         /* login page end*/  
 		
 		/* signup page start*/ 
@@ -262,6 +263,7 @@
 		/* post class popup  end  in calendarbook class.php*/
 		
 		/* post class popup  start */
+		$lang['Apps_classdetails'] = "Class details";
 		$lang['Apps_clientaddedperclassbasis'] = "Clients are always added on a per-class basis";
 		$lang['Apps_allclasses'] = "All Classes";
 		$lang['Apps_onlythisclass'] = "Only This Class";
@@ -274,6 +276,7 @@
 		$lang['Apps_endtime'] = "End Time";
 		$lang['Apps_clientnotes'] = "Client Notes";
 		$lang['Apps_done'] = "Done";
+		$lang['Apps_remove'] = "Remove from class";
 		/* post class popup  end */
 		
 		$lang['Apps_startdate'] = "Start Date";
@@ -305,6 +308,7 @@
 		$lang['Apps_meetinghistory'] = "Meeting History";
 		
 		/*Admin section start */
+		$lang['Apps_admindash'] = "Admin Dashboard";
 		$lang['Apps_userlist'] = "Users List";
 		$lang['Apps_searchbyuser'] = "Search by Users";
 		$lang['Apps_userrole'] = "User role";
@@ -313,7 +317,9 @@
 		$lang['Apps_adduser'] = "Add admin users";
 		$lang['Apps_subscriptiondetail'] = "Subscription Details";
 		$lang['Apps_users'] = "Users";
+		$lang['Apps_adminusers'] = "Admin Users";
 		$lang['Apps_businesses'] = "Businesses";
+		$lang['Apps_Subscriptions'] = "Subscriptions";
 		$lang['Apps_categorylist'] = "Category List";
 		$lang['Apps_searchcategory'] = "Search Category";
 		$lang['Apps_category'] = "Category";
@@ -324,5 +330,27 @@
 		$lang['Apps_businesstype'] = "Business type";
 		$lang['Apps_viewdashboard'] = "view dashboard";
 		
+		/*Business dashboard */
+		$lang['Apps_businessregistration'] = "Business Registration ";
+		$lang['Apps_basic'] = "Basic";
+		$lang['Apps_information'] = "Information";
+		$lang['Apps_business'] = "Business";
+		$lang['Apps_overview'] = "Overview";
+		$lang['Apps_calendar'] = "Calendar";
+		$lang['Apps_businessProfile'] = "My Business Profile";
+		$lang['Apps_businessSettings'] = "Business Settings";
+		$lang['Apps_photoGallery'] = "Photo Gallery";
+        $lang['Apps_MyClients'] = "My Clients";
+        $lang['Apps_staffs'] = "Staffs";
+
+       /* verify phone number */	
+       $lang['Apps_verifyphone'] = "Verify phone number";
+       $lang['Apps_codesent'] = "Code has been sent to your mobile";
+	   $lang['Apps_changenumber'] = "Change number";
+	   $lang['Apps_entercode'] = "Kindly enter the code sent to your mobile";
+	   $lang['Apps_sendagain'] = "Send Again";
+	   $lang['Apps_validphonenumber'] = "Kindly provide your valid phone number";
+	   
+	   
 		
 ?>

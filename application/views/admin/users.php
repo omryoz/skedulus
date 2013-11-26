@@ -87,46 +87,7 @@
 		<!-- Button to trigger modal -->
 
  
-<!--start add user Modal -->
-<div id="admin_add" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel"> <?=(lang('Apps_adduser'))?></h3>
-  </div>
-  <div class="modal-body">
-   <form class="form-horizontal">
-   			<div class="control-group">
-			<label class="control-label" for="inputEmail"> <?=(lang('Apps_name'))?></label>
-			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_name'))?>">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputEmail"><?=(lang('Apps_email'))?></label>
-			<div class="controls">
-			  <input type="text" id="inputEmail" placeholder="<?=(lang('Apps_email'))?>">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputPassword"><?=(lang('Apps_pwd'))?></label>
-			<div class="controls">
-			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_pwd'))?>">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" for="inputPassword"> <?=(lang('Apps_confirmpwd'))?></label>
-			<div class="controls">
-			  <input type="password" id="inputPassword" placeholder="<?=(lang('Apps_confirmpwd'))?>">
-			</div>
-		  </div>
-  
-</form>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-success"> <?=(lang('Apps_save'))?></button>
-  </div>
-  
-</div>
+
 <!--end add user Modal -->		
 		
 		

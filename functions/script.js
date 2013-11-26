@@ -37,9 +37,69 @@ $(".likes").on("click",function(){
 
 
 //Comment Functionality
+//Phone verify
+$("#insertPhone").click(function(){ 
+$(".alert").hide();
+var url=baseUrl+'cprofile/updatePhone';
+ $.post(url,{phone:$("#updatePhone").val()},function(data){
+ if(data==0){
+   $(".alert").html("Failed to send a message.Kindly enter a valid phone number");
+   $(".alert").show();
+  
+  }else{
+    showblock(data);		
+  }
+ })
+})
 
+function showblock(data){
+  $("#verifyP").show();
+  $("#getnumber").hide();
+  $("#phonenumber").html(data);
+}
+
+$(".changePhoneNum").click(function(){
+  $(".alert").hide();
+  $("#verifyP").hide();
+  $("#getnumber").show();
+  $(".back").show();
+  $("#updatePhone").val("");
+})
+
+$(".back").click(function(){
+   showblock();
+})
+
+$("#verifyPhone").click(function(){
+$(".alert").hide();
+var url=baseUrl+'cprofile/updateStatus';
+  $.post(url,{phone:$("#updatePhone").val(),keycode:$("#key").val()},function(data){
+    if(data==0){
+	//alert("sorry");
+	$(".alert").html("The entered code does not match the sent code.Try again");
+	}else{
+	$(".alert").html("Your phone number has been successfully verified.");
+	}
+	$(".alert").show();
+  })
+})
+
+$(".sendagain").click(function(){
+$(".alert").hide();
+var url=baseUrl+'cprofile/sendagain';
+  $.post(url,{phone:$("#updatePhone").val()},function(data){
+   if(data==1){
+    $(".alert").html("Successfully sent.");
+	}else{
+	$(".alert").html("Failed to send the SMS.");
+	}
+	$(".alert").show();
+  })
+})
 
 });
+
+
 
 function insertbasicInfo(){
 var url=baseUrl+'basicinfo/insertData';
@@ -122,7 +182,7 @@ $("#service-modal li:eq(1) ").removeClass("active in");
 }
 
 function editService(id,page){
-if(page!=''){
+if(page=='profile'){
  $(".page").val('1');
 }else{
   $(".page").val('0');
@@ -243,7 +303,7 @@ function deleteClasses(id){
 	}
 }
 function editclasses(id,page){
-if(page!=''){
+if(page=='profile'){
  $(".page").val('1');
 }else{
   $(".page").val('0');
@@ -382,7 +442,7 @@ var url=baseUrl+'staffs/manage_staffs';
 
 //Staff
 function editStaff(id,page){
-if(page!=''){
+if(page=='profile'){
  $(".page").val('1');
 }else{
   $(".page").val('0');

@@ -42,9 +42,9 @@
 				 error.css('padding-left', '8px');
 				},
 
-                submitHandler: function(form) {
+                submitHandler: function(form) { 
                // form.submit();
-			      if($("#assignservice").val()==1){
+			      if($("#assignservice").val()==1 || $("#actionType").val()==1){
 					form.submit();
 					}else if($("#assignservice").val()==''){
 					$('#serviceTab a[href="#staff1"]').tab('show');
@@ -152,8 +152,9 @@ function showSelected(){
              
               </div>
               <div class="tab-pane fade" id="staff1">
+			  <?php if(isset($staffs) && $staffs!=""){ ?>
                 <h5 class="staff"> <?=(lang('Apps_assignstafftothisservice'))?></h5>
-				<?php if(isset($staffs) && $staffs!=""){ ?>
+				
 				<div class="row-fluid">
 				<div class="span6 offset2">
 				<?php foreach($staffs as $staffname){  ?>
@@ -169,14 +170,23 @@ function showSelected(){
 				<?php } ?>
               </div>
 			  <input type="hidden" name="insert" value="insert" />
-			  <input type="hidden" name="assignservice" value="" id="assignservice" />
-					   <div class="modal-footer insert" id="insert">
-					   <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?>" />
-					   </div> 
-					 <?php if(isset($_GET['register'])){ ?>
+			   <input type="hidden" name="assignservice" value="" id="assignservice" />
+					  
+					 <?php if(isset($_GET['register'])){
+						//$val='1';
+					 ?>
 					 <input type="hidden" name="register" value=" <?=(lang('Apps_register'))?>">
 					 <?php } ?>
-					 <div class="modal-footer update" style="display:none" id="update">
+					<?php if(empty($staffs)){
+					$val='1';
+					}else{
+					$val='0';
+					} ?>
+					 <input type="hidden" name="actionType" value="<?php echo $val;?>" id="actionType" />
+                     <div class="modal-footer insert" id="insert">
+					   <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_save'))?>" />
+					  </div> 					
+					<div class="modal-footer update" style="display:none" id="update">
 					  <input type="hidden" name="id" id="id" value="" class="id"/>
 					  <input type="hidden" name="page" id="page" class="page" value="" />
 					  <input type="submit" name="save" class="btn btn-success " value=" <?=(lang('Apps_update'))?>" />

@@ -62,8 +62,15 @@ include('include/modal_classes.php');
 								 $url='bcalendar/cal/';
 								?>
 								<div class="btn-group pull-left">
-								<!---<a href="#book"  class="btn btn-success left book_me" bookstatus="multi" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>--->
-								<a href="#"  class="btn btn-success left book_me" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
+								<?php if(isset($this->session->userdata['id'])){
+								 $class='book_me';
+								 $url1="#";
+								}else{
+								 $class="";
+								 $v="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+								 $url1=base_url().'businessProfile/redirectUrl/?url='.$v;
+								} ?>
+								<a href="<?php echo $url1 ?>"  class="btn btn-success left <?php echo $class ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
 								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
 							<?php }		?>
@@ -142,7 +149,8 @@ include('include/modal_classes.php');
 					  <div class="accordion-inner"><br/>
 						<table class="table table-striped">
 							<tbody><?php //print_r($services); ?>
-							<?php foreach($services as $service){ ?>
+							<?php if(!empty($services1)) {
+							foreach($services1 as $service){ ?>
 								<tr>
 									<th> <?php echo $service->name; ?></th>
 									<?php if($service->time_type=='minutes'){
@@ -183,12 +191,19 @@ include('include/modal_classes.php');
 								  // $popup="#bookClass";
 								   $classtype="book_class";
 								   }else{
-								   $popup="#book";
+								   $popup="#";
 								   }
 								    ?>
 								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
 								   <?php } ?>
 								</tr>
+							<?php } 
+							}else{ ?>
+								<?php if($type=='Services'){ 
+								?>No services added.
+								<?php }else{ ?>
+								No classes Posted yet.
+								<?php } ?>
 							<?php } ?>
 								
 								
@@ -273,20 +288,6 @@ include('include/modal_classes.php');
 				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
-				  <!---<dt>Sunday</dt>
-				  <dd>08:30 - 19:00  </dd>
-				  <dt>Monday</dt>
-				  <dd>08:30 - 15:00 </dd>
-				  <dt>Tuesday</dt>
-				  <dd>09:30 - 17:00  </dd>
-				  <dt>Wednesday</dt>
-				  <dd>10:30 - 19:00  </dd>
-				  <dt>Thursday</dt>
-				  <dd>08:30 - 17:00  </dd>
-				  <dt>Friday</dt>
-				  <dd>08:30 - 16:00  </dd>
-				  <dt>Saturday</dt>
-				  <dd>08:30 - 19:00  </dd>--->
 				</dl>
 				
 				<!--<img src="../img/map.png">-->

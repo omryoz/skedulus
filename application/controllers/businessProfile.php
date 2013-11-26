@@ -34,6 +34,7 @@ class BusinessProfile extends CI_Controller {
 	}else{
 	  $this->parser->parse('include/header',$this->data);
 	}
+	 $this->parser->parse('include/modal_verifyphone',$this->data);	
 	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
 		$this->parser->parse('include/dash_navbar',$this->data);
 	}else if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
@@ -66,10 +67,11 @@ class BusinessProfile extends CI_Controller {
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
 	 $this->data['type']="Classes";
-	 $this->data['services']=$this->business_profile_model->getClasses($id);
-	 //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
+	 $this->data['services1']=$this->business_profile_model->getClasses($id);
+	 $this->data['services']=$this->common_model->getAllRows("user_business_classes","user_business_details_id",$this->session->userdata['business_id']); //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
 	 }else if($this->data['content']->business_type=='service'){
-     $this->data['type']="Services";	 
+     $this->data['type']="Services";	
+     $this->data['services1']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);	 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
 	 }
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
@@ -98,6 +100,14 @@ class BusinessProfile extends CI_Controller {
 	 $this->parser->parse('business_profile',$this->data);
 	 }
 	 $this->parser->parse('include/footer',$this->data);
+	}
+	
+	function redirectUrl(){
+	$this->data['url']=$_GET['url'];
+	$this->data['userRole']="clientlogin";
+	$this->data['signUp']="clientSignUp";
+	$this->parser->parse('include/meta_tags',$this->data);
+	$this->parser->parse('general/login',$this->data);
 	}
 	
 	function likes_business(){

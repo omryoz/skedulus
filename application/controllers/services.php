@@ -95,6 +95,8 @@ class Services extends CI_Controller {
 		 $this->session->set_flashdata('message', 'Service deleted successfully !');
 		 if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else if(isset($_GET['register'])){ 
+		 redirect("services/list_services/?register");
 		 }else{
 		 redirect("services/list_services");
 		 }
@@ -178,6 +180,8 @@ class Services extends CI_Controller {
 		 $this->session->set_flashdata('message', 'Class delete successfully !');
 		  if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
+		 }else if(isset($_GET['register'])){ 
+		 redirect("services/list_classes/?register");
 		 }else{
 		 redirect("services/list_classes");
 		 }

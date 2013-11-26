@@ -70,7 +70,7 @@ var base_url = "http://localhost/skedulus/";
 							<ul class="nav pull-right" id="main-menu">
 								<?php  if(isset($switch)){?>
 								<li><div> 
-								<a href="<?php echo base_url(); ?>admin/dash/businesslist" name="my" id="my_selected" class="btn   btn-switch " oncontextmenu="return false;" >Admin Dashboard</a> 
+								<a href="<?php echo base_url(); ?>admin/dash/businesslist" name="my" id="my_selected" class="btn   btn-switch " oncontextmenu="return false;" ><?=(lang('Apps_admindash'))?></a> 
 								</div></li><?php } ?>
 								<li><div class="language_flag" ><?=(lang('Apps_hello'))?> <a href="javascript:;"><?php echo $this->session->userdata['username']; ?></a></div></li>
 								<li><a href="<?php echo base_url(); ?>admin/dash/logout"><?=(lang('Apps_logout'))?></a></li>
@@ -146,7 +146,7 @@ var base_url = "http://localhost/skedulus/";
 
 <?php if($this->session->flashdata('message_type')) { ?>
 <div class="alert alert-<?=$this->session->flashdata('message_type')?>">
-<a class="close" data-dismiss="alert" href="#">×</a>
+<a class="close" data-dismiss="alert" href="#">&times;</a>
 <?=$this->session->flashdata('message');?>	
 </div>
 <?php } ?>

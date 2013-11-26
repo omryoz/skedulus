@@ -96,7 +96,7 @@
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 				<h3> <?=(lang('Apps_appointments'))?></h3>
-				<?php if(isset($appDetails)) { ?>
+				<?php print_r($flag); if(isset($appDetails)) { ?>
 						<?php foreach($appDetails as $val){ 
 						//if(date('Y-m-d',strtotime($val))>=date('Y-m-d')){
 						?>
@@ -246,5 +246,26 @@ function Appdetails(eventid){
 	   $("#book").modal('show');
 	}
 	
+	
 </script>
+<?php if($flag=='1'){?>
+	<script>
+		$(document).ready(function(){ 
+			$('#verifyModal').modal('show');
+			$("#verifyP").show();
+			$("#getnumber").hide();
+            $("#phonenumber").html(<?php echo $phonenumber ?>);			
+		});
+	</script>
+<?php } ?>
+<?php if($flag=='0'){?>
+	<script>
+		$(document).ready(function(){
+		$('#verifyModal').modal('show');
+		$("#verifyP").hide();
+		$("#getnumber").show();
+			//$('#getnumberModal').modal('show');
+		});
+	</script>
+<?php } ?>
 

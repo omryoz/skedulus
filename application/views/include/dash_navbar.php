@@ -31,7 +31,7 @@ $(document).ready(function(){
 					}*/
 					?> 
 					<li>
-						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p>Overview</p></center></a>
+						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p><?=(lang('Apps_overview')) ?></p></center></a>
 					</li>
 					<?php 
 					if($this->session->userdata['business_type']=="service"){
@@ -43,7 +43,7 @@ $(document).ready(function(){
 					}
 					?>
 					<li>
-						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p>Calendar</p></center></a>
+						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p><?=(lang('Apps_calendar')) ?></p></center></a>
 					</li>
 					<?php 
 					if(isset($this->session->userdata['business_id'])){
@@ -53,26 +53,26 @@ $(document).ready(function(){
 						}
 					?>
 					<li >
-						<a href="<?php echo base_url() ?>businessProfile/<?php echo $link;?>"><center><i class="icon-briefcase"></i><p>My Business Profile
+						<a href="<?php echo base_url() ?>businessProfile/<?php echo $link;?>"><center><i class="icon-briefcase"></i><p><?=(lang('Apps_businessProfile')) ?>
 						</p></center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p>Business Settings
+					<li ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p><?=(lang('Apps_businessSettings')) ?>
 					</p></center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p>Photo Gallery</p>
+					<li ><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p><?=(lang('Apps_photoGallery')) ?></p>
 					</center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p>My Clients</p>
+					<li ><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p><?=(lang('Apps_MyClients')) ?></p>
 					</center></a>
 					</li>
 					
-					<li ><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p>Staffs</p>
+					<li ><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p><?=(lang('Apps_staffs')) ?></p>
 					</center></a>
 					</li>
 					

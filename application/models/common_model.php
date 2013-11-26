@@ -75,6 +75,7 @@ class common_model extends CI_Model{
 		$sql = sprintf("SELECT COUNT(%s) as cnt FROM %s WHERE %s",$fieldName,$tableName,$where); 
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();	
+		#echo $this->db->last_query(); 
 		if($data) {
 			return $data[0]->cnt;
 		}
@@ -362,7 +363,25 @@ public function mail($emailTo,$subject,$message){
 		
 		//echo $this->db->last_query();
 		return ($query->num_rows()>0)?$query->result():false;
-	} 	 
+	} 
+
+   //SMS twiolo
+     function sendSMS($message,$tophone)
+	{
+		$this->load->library('twilio');
+		$from = '+16466634302';
+		$to = $tophone;
+		$message = $message;
+		$response = $this->twilio->sms($from, $to, $message);
+		if($response->IsError){
+		 return false;
+		}else{
+		 return true;
+		}
+			//echo 'Error: ' . $response->ErrorMessage;
+		     //else
+			//echo 'Sent message to ' . $to;
+	}   
 	
 }
 ?>

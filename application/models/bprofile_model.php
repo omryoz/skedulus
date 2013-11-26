@@ -80,7 +80,10 @@ class bprofile_model extends CI_Model {
 		$insertArray['status']= 'active';
 		$insertArray['activationkey']= MD5($_POST['email'].time());
 		}
-		
+		//print_r($_POST['id']); exit;
+		//echo "here"; exit;
+		//print_r($_POST); exit;
+		//if(isset($_POST['id']) && $_POST['id']!=""){
 		if($_POST['action']=="edit"){
 		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
 		mysql_query("delete from employee_services where users_id=".$_POST['id']);
@@ -798,22 +801,22 @@ class bprofile_model extends CI_Model {
 	function likes_business($where=false){
 		$status = "";
 		if($this->checkFavourite($where)){
-			$this->db->delete("businesses_likes",$where);
+			$this->db->delete("businesses_photos_likes",$where);
 			//echo 0;
 			$status=0;
 			
 		}else{
-			$this->db->insert("businesses_likes",$where);
+			$this->db->insert("businesses_photos_likes",$where);
 			//echo 1;
 			$status=1;
 		}
-		$res = $this->checkFavourite(array("user_business_details_id"=>$where['user_business_details_id']));
+		$res = $this->checkFavourite(array("details_id"=>$where['details_id']));
 		$total = (!empty($res))?count($res):0;	
 		echo $status.','.$total;
 	}
 	
 	function checkFavourite($where=false){
-		$query = $this->db->get_where("businesses_likes",$where);
+		$query = $this->db->get_where("businesses_photos_likes",$where);
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{
@@ -821,7 +824,7 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
-	function getAllRows($where,$offset,$limit){ 
+	function getAllRows($where,$offset=false,$limit=false){ 
 	    $sql="Select * from view_favourite_businesses where $where LIMIT $offset,$limit ";
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();	
@@ -830,6 +833,29 @@ class bprofile_model extends CI_Model {
 		}
 		return false;
 	}
+	
+	function getComments($where=false){
+		$this->db->order_by("id","desc");
+		$query = $this->db->get_where("view_photo_comments",$where);
+		if($query->num_rows()>0){
+			return $query->result_array();
+		}else{
+			return false;
+		}
+	}
+	
+	function createComment($info=false){
+		#print_r($info);exit;
+		$this->db->insert("photo_comments",$info);
+		#echo $this->db->last_query();
+		if($this->db->affected_rows()>0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
+	
 	
 	
 }

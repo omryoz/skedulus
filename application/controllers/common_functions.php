@@ -245,16 +245,31 @@ class Common_functions extends CI_Controller {
 
 
 	public function clientSignUp(){
+	//$this->load->view('include/modal_verifyphone');
+	//$this->parser->parse('include/meta_tags',$this->data);
 	$this->data['userRole']="clientSignUp";
 	$this->data['signUp']="clientlogin";
 	if(isset($_GET['checkino'])){
-		 $id=$this->home_model->insertinfo();
-		  redirect('cprofile');
+	// if(!empty($_POST['phone_number'])){
+	// $status=1;
+	// }else{
+	// $status=0;
+	// }
+		  $id=$this->home_model->insertinfo();
+		 // if($phone==1){
+		 // redirect('home/c1');
+		
+	     // }else{
+		 // redirect('cprofile/'.$status);
+		   redirect('cprofile');
+		 //}
+		 
 	}
-   $this->parser->parse('include/meta_tags',$this->data);
-   $this->load->view('general/signup',$this->data);
+   
+   //$this->load->view('general/signup',$this->data);
 }
-	
+
+
 	// public function account_activation($id){
 	    // $this->load->library( 'email' );
 		// $config['mailtype'] = 'html';

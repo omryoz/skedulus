@@ -65,9 +65,10 @@
                         marker.setPosition(results[0].geometry.location);
                         $(latval).val(marker.getPosition().lat());
                         $(longval).val(marker.getPosition().lng());
-                    } else {
-                        alert("Geocode was not successful for the following reason: " + status);
-                    }
+                    } 
+					// else { 
+                        // alert("Geocode was not successful for the following reason: " + status);
+                    // }
                 });
                 e.preventDefault();
             });
