@@ -46,13 +46,15 @@
 								<!--<li><img src="images/banner_left.png" alt="image01" class="banner_l" /> <img src="images/banner_right.png" alt="image02" class="banner_l" /></li>
 								<li><img src="images/second_layer.png" alt="image03" /></li>-->
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text1.png"><img src="<?php echo base_url(); ?>img/calendar1.png">
-									<a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>
+									<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>
 								</li>
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png">
-								<a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
-								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
-								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
-								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png"><a  class="btn btn-primary span4 " href="#create-user-modal" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"><a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png">
+								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png">
+								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
 							</ul>
 						</div><!-- sp-content -->
 					</div><!-- sp-slideshow -->
@@ -239,20 +241,20 @@
                     
                 },
                 messages: {
-                    firstname: "Please Fill in your first name",
-					lastname: "Please Fill in your last name",
-					gender: "Please Fill in your gender",
+                    firstname: " Please Fill in your first name",
+					lastname: " Please Fill in your last name",
+					gender: " Please Fill in your gender",
                     email: {
-					required: "Please Fill in your email",
-					email: "Please enter a valid email address",
-					remote: "Email already exist"
+					required: " Please Fill in your email",
+					email: " Please enter a valid email address",
+					remote: " Email already exist"
 					},	
 					phone:{
-					digits: "Only numbers allowed",
+					digits: " Only numbers allowed",
 					},	
 					password: {
-					required:"Please Fill in your password",	
-					minlength:"Minimum 6 characters is required"
+					required:" Please Fill in your password",	
+					minlength:" Minimum 6 characters is required"
 					}				
                 },
 				
@@ -303,13 +305,20 @@ function passwordStrength(password)
 	 document.getElementById("passwordDescription").innerHTML = desc[score];
 	 document.getElementById("passwordStrength").className = "strength" + score;
 }
+    $(".managerSignup").click(function(){
+		$('#create-user-modal').modal('show'); 
+		$('.error').html(''); 
+		$("#sign_up")[0].reset();
+	})
 </script>
 
 <?php if(!empty($Signup_business)){?>
 	<script>
-		$(document).ready(function(){
-			$('#create-user-modal').modal('show'); 
-		});
+	
+	$(document).ready(function(){
+	
+		$('#create-user-modal').modal('show'); 
+	});
 	</script>
 <?php } ?>
 

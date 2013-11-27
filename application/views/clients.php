@@ -28,16 +28,16 @@
 					},
                 },
                 messages: {
-                    first_name: "required",
-					last_name: "required",
+                    first_name: "  required",
+					last_name: "  required",
                     phone:{
-					required: 'required',
-					digits: "only numbers",
+					required: '  required',
+					digits: " only numbers",
 					},	
 				email: {
-					required: "required",
-					email: "invalid email id",
-					remote: "Email already exist"
+					required: "  required",
+					email: "  invalid email id",
+					remote: "  email already exist"
 					},					
                 },
 				
@@ -75,7 +75,7 @@ function resetCForm(){
                 <div class="row-fluid">
 					<div class="">
 						<h3 ><?=(lang('Apps_clientlist'))?> 
-						   <a href="#client" class="btn pull-right btn-success" data-toggle="modal" onclick= resetCForm();>+<?=(lang('Apps_add'))?></a>
+						   <a href="#" class="btn pull-right btn-success client" data-toggle="modal" onclick= "addClient();">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php if(isset($tableList)) { ?>
 						<table class="table table-striped  table-staff table-hover " >
@@ -157,9 +157,10 @@ function resetCForm(){
 		<div class="" id="insert">
 		<input class="btn btn-success pull-right" type="submit" name="save"  value="<?=(lang('Apps_save'))?>">
 	  </div>	  	
-		<div class="" style="display:none" id="update">
+		<div class=" pull-right" style="display:none" id="update">
 			  <input type="hidden" name="id" id="id" value="" />
-			  <input type="submit" name="save" class="btn btn-success pull-right" value="<?=(lang('Apps_update'))?>" />
+			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
+			   <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
 			  <!---<a href="" onclick=submit(); name="save" class="btn btn-success pull-right" value="Cancel" /><?=(lang('Apps_cancel'))?></a>--->
 		</div> 			
 	  </form>

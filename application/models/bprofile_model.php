@@ -377,7 +377,7 @@ class bprofile_model extends CI_Model {
 	
 	function getPhotodetails(){
 		 $val= $this->common_model->getRow("user_business_photogallery",'id',$_GET['id']);
-		 $value ='[{"title": "'.$val->title.'","description": "'.$val->description.'","order": "'.$val->order.'","id": "'.$val->id.'","photo": "'.$val->photo.'"}]';
+		 $value ='[{"title": "'.$val->title.'","description": "'.$val->description.'","order": "'.$val->orderNum.'","id": "'.$val->id.'","photo": "'.$val->photo.'"}]';
 		 return $value;
 	}
 	//END

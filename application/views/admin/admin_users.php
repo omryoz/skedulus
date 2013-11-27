@@ -62,6 +62,7 @@
 $(document).ready(function(){
  $(".addAdminUsers").click(function(){
 $("#addUser")[0].reset();
+$('.error').html('');
 $("#admin_add").modal('show');
 })
 

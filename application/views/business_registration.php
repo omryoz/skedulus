@@ -117,7 +117,7 @@
               </div>
 			  <br/><br/>
 			  <div class="row-fluid">
-			  <a  href="#create-user-modal" role="button"  data-toggle="modal" class="btn btn-success span3" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
+			  <a  href="#" role="button"  data-toggle="modal" class="btn btn-success span3 managerSignup" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 			  <!-- basic info start -->
 			  </div>
       
@@ -226,6 +226,12 @@ function passwordStrength(password)
 	 document.getElementById("passwordDescription").innerHTML = desc[score];
 	 document.getElementById("passwordStrength").className = "strength" + score;
 }
+
+ $(".managerSignup").click(function(){
+		$('#create-user-modal').modal('show'); 
+		$('.error').html(''); 
+		$("#sign_up")[0].reset();
+	})
 </script>
 
 </div><!--row-fluid-->

@@ -185,15 +185,27 @@ include('include/modal_classes.php');
 							        <a href="<?=base_url()?><?php echo $dhref; ?>"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 									</td>
 								   <?php }else{
-								   $classtype="book_me";
+								   
 								   if($type=="Classes"){
 								   $popup= base_url().'bcalendar/calendar_business/'.$_GET['id'];
-								  // $popup="#bookClass";
 								   $classtype="book_class";
 								   }else{
-								   $popup="#";
+								   if(isset($this->session->userdata['id'])){
+									 $popup="#";
+									 $classtype="book_me";
+									}else{
+									 $classtype="";
+									 $v="http://".$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+									 $popup=base_url().'businessProfile/redirectUrl/?url='.$v;
+									} 
+								   
+								   
 								   }
 								    ?>
+									
+									
+									
+									
 								   <td><a href="<?php echo $popup ?>" data-val="<?php echo $service->id; ?>" data-name="<?php echo $service->name; ?>"   class="btn btn-success left <?php echo $classtype ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?> </a></td>
 								   <?php } ?>
 								</tr>

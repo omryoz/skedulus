@@ -22,17 +22,17 @@
 					}
                 },
                 messages: {
-                    servicename: "required",
+                    servicename: " required",
                     length:{
-					required: 'required',
-					digits: "Only numbers allowed",
+					required: '  required',
+					digits: "  Only numbers allowed",
 					},	
                     price: {
-					required: 'required',
-					digits: "Only numbers allowed",
+					required: '  required',
+					digits: " Only numbers allowed",
 					},
 					padding_time:{
-					digits: "Only numbers allowed",
+					digits: " Only numbers allowed",
 					}
 										
                 },

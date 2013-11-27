@@ -283,6 +283,9 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 
 	//function singleClass(){
 	$("#singleClass").click(function(){
+	$("#postclass li:eq(1) ").removeClass("active in");
+    $("#postclass #edit_class").addClass("active in");
+    $("#postclass li:eq(0)").addClass("active"); $("#postclass #add_client  ").removeClass("active in");
 		var evId=$("#eventId").html();
 		$("#clientform")[0].reset();
 		$("#removeClient").hide();
@@ -345,6 +348,9 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	
 	
 	$("#multiClass").click(function(){
+	$("#postclass li:eq(1) ").removeClass("active in");
+    $("#postclass #edit_class").addClass("active in");
+    $("#postclass li:eq(0)").addClass("active"); $("#postclass #add_client  ").removeClass("active in");
 	  var evId=$("#eventId").html();
 	  $("#clientform")[0].reset();
 	  $("#removeClient").hide();

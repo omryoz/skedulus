@@ -1,16 +1,63 @@
+<script>
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            $("#addCategory").validate({
+                rules: {
+                    category_name: "required",
+                },
+                messages: {
+                    category_name: "  required", 				
+                },
+				
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
 
+				},
+
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+
+$(document).ready(function(){
+ $("#cadd").click(function(){
+$("#addCategory")[0].reset();
+$('.error').html('');
+$("#category_add").modal('show');
+})
+$(".editCategory").click(function(){
+$('.error').html('');
+})
+})
+
+</script>
 		</div>
 		<h3> <?=(lang('Apps_categorylist'))?>
 						   <a href="javascript:;"  class="btn pull-right btn-success" id="cadd" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3> 
-					
+						<br/>
 						
 		<div class="row-fluid Wrap">
 			 <div class="wrap_inner">
 				<!-- <h4>Search Category</h4> -->
 				<br/>
 				<div class="row-fluid strip">
-					<form action="<?php echo base_url() ?>admin/dash/category/" method="POST">
+					<form  action="<?php echo base_url() ?>admin/dash/category/" method="POST">
 						<div class="span10">
 						<?php if(isset($search)){
 						 $search=$search;
@@ -68,7 +115,7 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel" class="title"></h3>
   </div>
-  <form class="form-horizontal" action="<?php echo base_url() ?>admin/dash/category" class="Category" method="POST">
+  <form class="form-horizontal" action="<?php echo base_url() ?>admin/dash/category" id="addCategory" class="Category" method="POST">
   <div class="modal-body">
    
    			<div class="control-group">

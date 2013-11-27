@@ -1,11 +1,19 @@
 
 $(document).ready(function(){
 $(".gallery_add").click(function(){
+$("#addImage")[0].reset();
+
+$('.error').html(''); 
 var data='';
 var url = base_url+"gallery/checkfornum";
  $.post(url,data,function(data){
     if(data==1){
 	 $("#gallery").modal("show");
+	 $("#showPhoto").show();
+	 $("#update").hide();
+	 $("#insert").show();
+	 $("#edit").hide();
+	 $("#add").show();
 	}else{
 	 apprise('Cannot add more photos for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	}
@@ -116,7 +124,9 @@ var url=baseUrl+'basicinfo/insertData';
 
 
 
-function resetForm(id){   
+function resetForm(id){  
+$(".alert").hide();
+$('.error').html(''); 
 var data='';
 var url = base_url+"staffs/checkfornum";
  $.post(url,data,function(data){ 
@@ -163,6 +173,8 @@ var url=baseUrl+'staffs/manage_staffs';
 }
 //Services
 function addServices(){
+$(".alert").hide();
+$('.error').html('');
 $("#paddingtime").hide();
 $("#padding_time").show();
 $("#addservices")[0].reset();
@@ -182,6 +194,11 @@ $("#service-modal li:eq(1) ").removeClass("active in");
 }
 
 function editService(id,page){
+$("#paddingtime").hide();
+$("#padding_time").show();
+$("#addservices")[0].reset();
+$(".alert").hide();
+$('.error').html('');
 if(page=='profile'){
  $(".page").val('1');
 }else{
@@ -269,6 +286,8 @@ function deleteService(id){
 
 /*Classes Related function */
 function addClass(){
+$(".alert").hide();
+$('.error').html('');
 $("#paddingtime").hide();
 $("#padding_time").show();
 $("#addclasses")[0].reset();
@@ -303,6 +322,11 @@ function deleteClasses(id){
 	}
 }
 function editclasses(id,page){
+$("#paddingtime").hide();
+$("#padding_time").show();
+$("#addclasses")[0].reset();
+$(".alert").hide();
+$('.error').html('');
 if(page=='profile'){
  $(".page").val('1');
 }else{
@@ -442,6 +466,7 @@ var url=baseUrl+'staffs/manage_staffs';
 
 //Staff
 function editStaff(id,page){
+$('.error').html('');
 if(page=='profile'){
  $(".page").val('1');
 }else{
@@ -497,6 +522,7 @@ function deleteStaff(id){
 
 //Offers
 function editOffers(id){
+$('.error').html('');
 	var url=baseUrl+'offers/manage_offers';
 	$.ajax({
 		data: {'id': id},
@@ -553,7 +579,19 @@ function deleteOffer(id){
 
 
 //Client
+function addClient(){ 
+$("#addClients")[0].reset();
+$('.error').html('');
+$("#client").modal('show');
+$("#update").hide();
+$("#insert").show();
+$("#edit").hide();
+$("#add").show();
+}
+
+
 function editClient(id){
+$('.error').html('');
 	var url=baseUrl+'clients/manage_clients';
 	$.ajax({
 		data: {'id': id},
@@ -602,6 +640,7 @@ function deleteClient(id){
 
 
 function editPhoto(id){
+$('.error').html('');
 	var url=baseUrl+'gallery/manage_gallery';
 	$.ajax({
 		data: {'id': id},
@@ -612,20 +651,17 @@ function editPhoto(id){
 		var content = eval(data);
 		$.each(content,function(i,v){
 		$("#showPhoto").hide();
-		
-		
 			$("#id").val(v.id);
 			$("#title").val(v.title);
 			$("#description").val(v.description);
 			$("#order").val(v.order);
 			$("#photo").val(v.photo);
-			
-			
+
 			$("#update").show();
 			$("#insert").hide();
 			$("#edit").show();
 			$("#add").hide();
-			$(".close").hide();
+			//$(".close").hide();
 		})
 		}
 	})

@@ -16,7 +16,7 @@
 					},
                 },
                 messages: {
-                    name: "name required",
+                    name: " required",
 					userfile: " ",
                     order:{
 					//required: 'order required',
@@ -117,7 +117,7 @@
 				<div class="control-group" id="showPhoto">
 				  <label class="control-label" for="lastname"> <?=(lang('Apps_uploadphoto'))?> :</label>
 				  <div class="controls">
-				  <input type="file" name="userfile" size="20" />
+				  <input type="file" name="userfile" size="20" class="uploadedfile"/>
 					<!--<input class="input-large " type="file" name="photo" id="photo">--->
 				  </div>
 				</div>
