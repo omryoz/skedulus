@@ -1,24 +1,23 @@
--- phpMyAdmin SQL Dump
--- version 3.5.2.2
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Sep 20, 2013 at 12:46 PM
--- Server version: 5.5.27
--- PHP Version: 5.4.7
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
+/*
+SQLyog Ultimate v9.31 GA
+MySQL - 5.5.27 : Database - skedulus
+*********************************************************************
+*/
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
---
--- Database: `skedulus`
---
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`skedulus` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
+
+USE `skedulus`;
 
 -- --------------------------------------------------------
 
@@ -27,9 +26,9 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `business_clients_list` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `user_business_details_id` int(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `user_business_details_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_users_id` (`users_id`),
   KEY `FK_user_business_details_id` (`user_business_details_id`)
@@ -87,10 +86,10 @@ INSERT INTO `business_clients_list` (`id`, `users_id`, `user_business_details_id
 --
 
 CREATE TABLE IF NOT EXISTS `business_employees` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `employee_type` enum('supervisor','employee') DEFAULT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `employee_type` ENUM('supervisor','employee') DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`),
   KEY `users_id` (`users_id`)
@@ -171,14 +170,14 @@ INSERT INTO `business_employees` (`id`, `user_business_details_id`, `users_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `business_employees_availlability` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `business_employees_id` int(11) NOT NULL,
-  `monday` varchar(20) NOT NULL,
-  `tuesday` varchar(20) NOT NULL,
-  `wednesday` varchar(20) NOT NULL,
-  `thursday` varchar(20) NOT NULL,
-  `friday` varchar(20) NOT NULL,
-  `saturday` varchar(20) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `business_employees_id` INT(11) NOT NULL,
+  `monday` VARCHAR(20) NOT NULL,
+  `tuesday` VARCHAR(20) NOT NULL,
+  `wednesday` VARCHAR(20) NOT NULL,
+  `thursday` VARCHAR(20) NOT NULL,
+  `friday` VARCHAR(20) NOT NULL,
+  `saturday` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `business_employees_id` (`business_employees_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -190,14 +189,14 @@ CREATE TABLE IF NOT EXISTS `business_employees_availlability` (
 --
 
 CREATE TABLE IF NOT EXISTS `business_notification_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `appointment_reminders` enum('on','off') CHARACTER SET latin1 NOT NULL,
-  `remind_before` time NOT NULL,
-  `cancel_reschedule_before` int(11) NOT NULL,
-  `book_before` int(11) NOT NULL,
-  `send_email` enum('on','off') CHARACTER SET latin1 NOT NULL,
-  `send_message` enum('on','off') CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `appointment_reminders` ENUM('on','off') CHARACTER SET latin1 NOT NULL,
+  `remind_before` TIME NOT NULL,
+  `cancel_reschedule_before` INT(11) NOT NULL,
+  `book_before` INT(11) NOT NULL,
+  `send_email` ENUM('on','off') CHARACTER SET latin1 NOT NULL,
+  `send_message` ENUM('on','off') CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -220,15 +219,15 @@ INSERT INTO `business_notification_settings` (`id`, `user_business_details_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `business_offers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `services` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `title` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `discount` int(10) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `type` enum('combo','individual') NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `services` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `title` VARCHAR(20) CHARACTER SET latin1 NOT NULL,
+  `description` VARCHAR(100) NOT NULL,
+  `discount` INT(10) NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `type` ENUM('combo','individual') NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -240,9 +239,9 @@ CREATE TABLE IF NOT EXISTS `business_offers` (
 --
 
 CREATE TABLE IF NOT EXISTS `calendar` (
-  `calendar_id` int(11) NOT NULL AUTO_INCREMENT,
-  `calendar_name` varchar(20) DEFAULT NULL,
-  `user_business_details_id` int(11) NOT NULL,
+  `calendar_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `calendar_name` VARCHAR(20) DEFAULT NULL,
+  `user_business_details_id` INT(11) NOT NULL,
   PRIMARY KEY (`calendar_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -261,8 +260,8 @@ INSERT INTO `calendar` (`calendar_id`, `calendar_name`, `user_business_details_i
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -281,8 +280,8 @@ INSERT INTO `category` (`id`, `name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `city` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -293,11 +292,11 @@ CREATE TABLE IF NOT EXISTS `city` (
 --
 
 CREATE TABLE IF NOT EXISTS `client_class_booking` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `user_business_posted_class_id` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `note` varchar(100) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `user_business_posted_class_id` INT(11) NOT NULL,
+  `date` DATE NOT NULL,
+  `note` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`),
   KEY `user_business_posted_class_id` (`user_business_posted_class_id`)
@@ -341,17 +340,17 @@ INSERT INTO `client_class_booking` (`id`, `users_id`, `user_business_posted_clas
 --
 
 CREATE TABLE IF NOT EXISTS `client_service_appointments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `end_time` datetime NOT NULL,
-  `services_id` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `employee_id` int(11) NOT NULL,
-  `note` text CHARACTER SET latin1 NOT NULL,
-  `status` enum('booked','cancelled') CHARACTER SET latin1 DEFAULT NULL,
-  `appointment_date` datetime NOT NULL,
-  `type` enum('service','class') NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `start_time` DATETIME NOT NULL,
+  `end_time` DATETIME NOT NULL,
+  `services_id` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `employee_id` INT(11) NOT NULL,
+  `note` TEXT CHARACTER SET latin1 NOT NULL,
+  `status` ENUM('booked','cancelled') CHARACTER SET latin1 DEFAULT NULL,
+  `appointment_date` DATETIME NOT NULL,
+  `type` ENUM('service','class') NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -401,17 +400,17 @@ INSERT INTO `client_service_appointments` (`id`, `user_business_details_id`, `us
 --
 
 CREATE TABLE IF NOT EXISTS `credit_card_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `card_name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `credit_card_number` int(20) NOT NULL,
-  `verification_number` int(20) NOT NULL,
-  `expiration_month` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `expiration_year` smallint(5) NOT NULL,
-  `address` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `state` int(11) NOT NULL,
-  `city` int(11) NOT NULL,
-  `zip` int(15) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `card_name` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `credit_card_number` INT(20) NOT NULL,
+  `verification_number` INT(20) NOT NULL,
+  `expiration_month` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `expiration_year` SMALLINT(5) NOT NULL,
+  `address` VARCHAR(20) CHARACTER SET latin1 NOT NULL,
+  `state` INT(11) NOT NULL,
+  `city` INT(11) NOT NULL,
+  `zip` INT(15) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -423,15 +422,15 @@ CREATE TABLE IF NOT EXISTS `credit_card_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `employee_availability` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `monday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `tuesday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `wednesday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `thursday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `friday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `saturday` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `sunday` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `monday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `tuesday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `wednesday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `thursday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `friday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `saturday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `sunday` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_availability_id` (`users_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -443,15 +442,15 @@ CREATE TABLE IF NOT EXISTS `employee_availability` (
 --
 
 CREATE TABLE IF NOT EXISTS `employee_lunchtime` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `employee_availability_id` int(11) NOT NULL,
-  `monday` varchar(50) NOT NULL,
-  `tuesday` varchar(50) NOT NULL,
-  `wednesday` varchar(50) NOT NULL,
-  `thursday` varchar(50) NOT NULL,
-  `friday` varchar(50) NOT NULL,
-  `saturday` varchar(50) NOT NULL,
-  `sunday` varchar(50) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `employee_availability_id` INT(11) NOT NULL,
+  `monday` VARCHAR(50) NOT NULL,
+  `tuesday` VARCHAR(50) NOT NULL,
+  `wednesday` VARCHAR(50) NOT NULL,
+  `thursday` VARCHAR(50) NOT NULL,
+  `friday` VARCHAR(50) NOT NULL,
+  `saturday` VARCHAR(50) NOT NULL,
+  `sunday` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `employee_availability_id` (`employee_availability_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -463,10 +462,10 @@ CREATE TABLE IF NOT EXISTS `employee_lunchtime` (
 --
 
 CREATE TABLE IF NOT EXISTS `employee_services` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `business_id` int(11) NOT NULL,
-  `service_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `business_id` INT(11) NOT NULL,
+  `service_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `business_id` (`business_id`),
   KEY `service_id` (`service_id`),
@@ -525,25 +524,25 @@ INSERT INTO `employee_services` (`id`, `business_id`, `service_id`, `users_id`) 
 --
 
 CREATE TABLE IF NOT EXISTS `events` (
-  `event_id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_name` varchar(20) DEFAULT NULL,
-  `event_description` varchar(20) DEFAULT NULL,
-  `calendar_id` int(11) DEFAULT NULL,
-  `start_time` datetime DEFAULT NULL,
-  `end_time` datetime DEFAULT NULL,
-  `all_day` smallint(6) DEFAULT '0',
-  `repeat_mode` varchar(11) DEFAULT NULL,
-  `repeat_count` int(11) DEFAULT NULL,
-  `day_only_weekdays` int(11) DEFAULT NULL,
-  `week_days` varchar(20) DEFAULT NULL COMMENT 'comma number of days',
-  `month_weeknumber` int(11) DEFAULT NULL,
-  `month_weekday` int(11) DEFAULT NULL,
-  `month_repeatdate` datetime DEFAULT NULL,
-  `event_type` varchar(20) DEFAULT NULL,
-  `rel_event_id` int(11) DEFAULT NULL,
-  `repeat_end_date` datetime DEFAULT NULL,
-  `event_delete_ind` int(11) DEFAULT NULL,
-  `recur_sequence` int(11) DEFAULT NULL,
+  `event_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `event_name` VARCHAR(20) DEFAULT NULL,
+  `event_description` VARCHAR(20) DEFAULT NULL,
+  `calendar_id` INT(11) DEFAULT NULL,
+  `start_time` DATETIME DEFAULT NULL,
+  `end_time` DATETIME DEFAULT NULL,
+  `all_day` SMALLINT(6) DEFAULT '0',
+  `repeat_mode` VARCHAR(11) DEFAULT NULL,
+  `repeat_count` INT(11) DEFAULT NULL,
+  `day_only_weekdays` INT(11) DEFAULT NULL,
+  `week_days` VARCHAR(20) DEFAULT NULL COMMENT 'comma number of days',
+  `month_weeknumber` INT(11) DEFAULT NULL,
+  `month_weekday` INT(11) DEFAULT NULL,
+  `month_repeatdate` DATETIME DEFAULT NULL,
+  `event_type` VARCHAR(20) DEFAULT NULL,
+  `rel_event_id` INT(11) DEFAULT NULL,
+  `repeat_end_date` DATETIME DEFAULT NULL,
+  `event_delete_ind` INT(11) DEFAULT NULL,
+  `recur_sequence` INT(11) DEFAULT NULL,
   PRIMARY KEY (`event_id`),
   KEY `events_ibfk_1` (`calendar_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -577,9 +576,9 @@ INSERT INTO `events` (`event_id`, `event_name`, `event_description`, `calendar_i
 --
 
 CREATE TABLE IF NOT EXISTS `favourite_businesses` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `user_business_details_id` int(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `user_business_details_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`),
   KEY `user_business_details_id` (`user_business_details_id`)
@@ -592,11 +591,11 @@ CREATE TABLE IF NOT EXISTS `favourite_businesses` (
 --
 
 CREATE TABLE IF NOT EXISTS `photo_likes_comments` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_photogallery_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `likes` int(50) NOT NULL,
-  `comments` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_photogallery_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `likes` INT(50) NOT NULL,
+  `comments` VARCHAR(100) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_photogallery_id` (`user_business_photogallery_id`),
   KEY `users_id` (`users_id`)
@@ -609,9 +608,9 @@ CREATE TABLE IF NOT EXISTS `photo_likes_comments` (
 --
 
 CREATE TABLE IF NOT EXISTS `posted_class_series` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_classes_id` int(11) NOT NULL,
-  `date_added` datetime NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_classes_id` INT(11) NOT NULL,
+  `date_added` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -725,12 +724,12 @@ INSERT INTO `posted_class_series` (`id`, `user_business_classes_id`, `date_added
 --
 
 CREATE TABLE IF NOT EXISTS `subscription` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `title` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `description` varchar(250) CHARACTER SET latin1 NOT NULL,
-  `image` varchar(50) NOT NULL,
-  `status` enum('active','deactive') CHARACTER SET latin1 NOT NULL,
-  `price` int(10) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `description` VARCHAR(250) CHARACTER SET latin1 NOT NULL,
+  `image` VARCHAR(50) NOT NULL,
+  `status` ENUM('active','deactive') CHARACTER SET latin1 NOT NULL,
+  `price` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`title`)
 ) ENGINE=INNODB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -752,14 +751,14 @@ INSERT INTO `subscription` (`id`, `title`, `description`, `image`, `status`, `pr
 --
 
 CREATE TABLE IF NOT EXISTS `subscription_features` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subscription_id` int(11) NOT NULL,
-  `employees` varchar(50) NOT NULL,
-  `businesses_offers` varchar(50) NOT NULL,
-  `pictures` varchar(50) NOT NULL,
-  `reports` enum('basic','enhanced') NOT NULL,
-  `promotion_notifications` varchar(50) NOT NULL,
-  `businesses` varchar(50) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `subscription_id` INT(11) NOT NULL,
+  `employees` VARCHAR(50) NOT NULL,
+  `businesses_offers` VARCHAR(50) NOT NULL,
+  `pictures` VARCHAR(50) NOT NULL,
+  `reports` ENUM('basic','enhanced') NOT NULL,
+  `promotion_notifications` VARCHAR(50) NOT NULL,
+  `businesses` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `subscription_id` (`subscription_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -771,20 +770,20 @@ CREATE TABLE IF NOT EXISTS `subscription_features` (
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_role` enum('client','manager','employee') NOT NULL,
-  `email` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `password` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `first_name` varchar(50) NOT NULL,
-  `last_name` varchar(50) NOT NULL,
-  `phone_number` int(15) NOT NULL,
-  `gender` enum('male','female') NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `about_me` varchar(250) NOT NULL,
-  `image` varchar(100) NOT NULL,
-  `status` enum('active','inactive') CHARACTER SET latin1 NOT NULL,
-  `activationkey` varchar(50) NOT NULL,
-  `createdOn` datetime NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_role` ENUM('client','manager','employee') NOT NULL,
+  `email` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `password` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `first_name` VARCHAR(50) NOT NULL,
+  `last_name` VARCHAR(50) NOT NULL,
+  `phone_number` INT(15) NOT NULL,
+  `gender` ENUM('male','female') NOT NULL,
+  `date_of_birth` DATE NOT NULL,
+  `about_me` VARCHAR(250) NOT NULL,
+  `image` VARCHAR(100) NOT NULL,
+  `status` ENUM('active','inactive') CHARACTER SET latin1 NOT NULL,
+  `activationkey` VARCHAR(50) NOT NULL,
+  `createdOn` DATETIME NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_role_id` (`user_role`)
 ) ENGINE=INNODB AUTO_INCREMENT=302 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -928,15 +927,15 @@ INSERT INTO `users` (`id`, `user_role`, `email`, `password`, `first_name`, `last
 --
 
 CREATE TABLE IF NOT EXISTS `users_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(50) NOT NULL,
-  `first_name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `last_name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `phone_number` int(15) NOT NULL,
-  `gender` enum('male','female') CHARACTER SET latin1 NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `about_me` varchar(512) CHARACTER SET latin1 NOT NULL,
-  `image` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(50) NOT NULL,
+  `first_name` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `last_name` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `phone_number` INT(15) NOT NULL,
+  `gender` ENUM('male','female') CHARACTER SET latin1 NOT NULL,
+  `date_of_birth` DATE NOT NULL,
+  `about_me` VARCHAR(512) CHARACTER SET latin1 NOT NULL,
+  `image` VARCHAR(100) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -948,15 +947,15 @@ CREATE TABLE IF NOT EXISTS `users_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_availability` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `type` enum('employee','business') NOT NULL,
-  `weekid` int(11) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  `lunch_start_time` time NOT NULL,
-  `lunch_end_time` time NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `type` ENUM('employee','business') NOT NULL,
+  `weekid` INT(11) NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `lunch_start_time` TIME NOT NULL,
+  `lunch_end_time` TIME NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1262 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1168,18 +1167,18 @@ INSERT INTO `user_business_availability` (`id`, `user_business_details_id`, `use
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_classes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `price_type` enum('fixed','variable','free') CHARACTER SET latin1 NOT NULL,
-  `price` int(10) NOT NULL,
-  `timelength` int(11) NOT NULL,
-  `time_type` enum('hours','minutes') NOT NULL,
-  `padding_time` int(10) NOT NULL,
-  `padding_time_type` enum('Before','After','Before & After') NOT NULL,
-  `class_size` int(10) NOT NULL,
-  `details` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `availability` int(10) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `name` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `price_type` ENUM('fixed','variable','free') CHARACTER SET latin1 NOT NULL,
+  `price` INT(10) NOT NULL,
+  `timelength` INT(11) NOT NULL,
+  `time_type` ENUM('hours','minutes') NOT NULL,
+  `padding_time` INT(10) NOT NULL,
+  `padding_time_type` ENUM('Before','After','Before & After') NOT NULL,
+  `class_size` INT(10) NOT NULL,
+  `details` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `availability` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1206,18 +1205,18 @@ INSERT INTO `user_business_classes` (`id`, `user_business_details_id`, `name`, `
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL,
-  `users_id` int(11) NOT NULL,
-  `name` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `image` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `description` varchar(200) CHARACTER SET latin1 NOT NULL,
-  `mobile_number` varchar(20) CHARACTER SET latin1 NOT NULL,
-  `address` varchar(500) NOT NULL,
-  `business_type` enum('class','service') CHARACTER SET latin1 NOT NULL,
-  `map_latitude` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `map_longitude` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `calendar_type` int(10) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `category_id` INT(11) NOT NULL,
+  `users_id` INT(11) NOT NULL,
+  `name` VARCHAR(100) CHARACTER SET latin1 NOT NULL,
+  `image` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `description` VARCHAR(200) CHARACTER SET latin1 NOT NULL,
+  `mobile_number` VARCHAR(20) CHARACTER SET latin1 NOT NULL,
+  `address` VARCHAR(500) NOT NULL,
+  `business_type` ENUM('class','service') CHARACTER SET latin1 NOT NULL,
+  `map_latitude` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `map_longitude` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `calendar_type` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `users_id` (`users_id`)
@@ -1247,12 +1246,12 @@ INSERT INTO `user_business_details` (`id`, `category_id`, `users_id`, `name`, `i
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_photogallery` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `title` varchar(25) CHARACTER SET latin1 NOT NULL,
-  `description` varchar(50) NOT NULL,
-  `photo` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `orderNum` int(10) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `title` VARCHAR(25) CHARACTER SET latin1 NOT NULL,
+  `description` VARCHAR(50) NOT NULL,
+  `photo` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `orderNum` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1278,22 +1277,22 @@ INSERT INTO `user_business_photogallery` (`id`, `user_business_details_id`, `tit
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_posted_class` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_classes_id` int(11) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL,
-  `lastdate_enroll` date NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  `instructor` int(11) NOT NULL COMMENT 'UsersId from users table ',
-  `repeat_type` enum('daily','weekly','monthly') CHARACTER SET latin1 NOT NULL,
-  `repeat_all_day` enum('0','1') CHARACTER SET latin1 NOT NULL,
-  `repeat_week_days` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `repeat_months` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `class_size` int(11) NOT NULL,
-  `availability` int(11) NOT NULL,
-  `seriesid` int(11) NOT NULL,
-  `modifiedStatus` int(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_classes_id` INT(11) NOT NULL,
+  `start_date` DATE NOT NULL,
+  `end_date` DATE NOT NULL,
+  `lastdate_enroll` DATE NOT NULL,
+  `start_time` TIME NOT NULL,
+  `end_time` TIME NOT NULL,
+  `instructor` INT(11) NOT NULL COMMENT 'UsersId from users table ',
+  `repeat_type` ENUM('daily','weekly','monthly') CHARACTER SET latin1 NOT NULL,
+  `repeat_all_day` ENUM('0','1') CHARACTER SET latin1 NOT NULL,
+  `repeat_week_days` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `repeat_months` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `class_size` INT(11) NOT NULL,
+  `availability` INT(11) NOT NULL,
+  `seriesid` INT(11) NOT NULL,
+  `modifiedStatus` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_classes_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=564 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1509,16 +1508,16 @@ INSERT INTO `user_business_posted_class` (`id`, `user_business_classes_id`, `sta
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_services` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_business_details_id` int(11) NOT NULL,
-  `name` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `price_type` enum('fixed','variable','free') CHARACTER SET latin1 NOT NULL,
-  `price` int(10) NOT NULL,
-  `timelength` int(11) NOT NULL,
-  `time_type` enum('hours','minutes') NOT NULL,
-  `padding_time` int(10) NOT NULL,
-  `padding_time_type` enum('Before','After','Before & After') NOT NULL,
-  `details` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_business_details_id` INT(11) NOT NULL,
+  `name` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `price_type` ENUM('fixed','variable','free') CHARACTER SET latin1 NOT NULL,
+  `price` INT(10) NOT NULL,
+  `timelength` INT(11) NOT NULL,
+  `time_type` ENUM('hours','minutes') NOT NULL,
+  `padding_time` INT(10) NOT NULL,
+  `padding_time_type` ENUM('Before','After','Before & After') NOT NULL,
+  `details` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_business_details_id` (`user_business_details_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1553,14 +1552,14 @@ INSERT INTO `user_business_services` (`id`, `user_business_details_id`, `name`, 
 --
 
 CREATE TABLE IF NOT EXISTS `user_business_subscription` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `version_type` enum('paid','free') NOT NULL,
-  `subscription_id` int(10) NOT NULL,
-  `users_id` int(10) NOT NULL,
-  `start_date` date NOT NULL,
-  `status` enum('active','expired') CHARACTER SET latin1 NOT NULL DEFAULT 'active',
-  `balance_amount` varchar(50) CHARACTER SET latin1 NOT NULL,
-  `end_date` date NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `version_type` ENUM('paid','free') NOT NULL,
+  `subscription_id` INT(10) NOT NULL,
+  `users_id` INT(10) NOT NULL,
+  `start_date` DATE NOT NULL,
+  `status` ENUM('active','expired') CHARACTER SET latin1 NOT NULL DEFAULT 'active',
+  `balance_amount` VARCHAR(50) CHARACTER SET latin1 NOT NULL,
+  `end_date` DATE NOT NULL,
   PRIMARY KEY (`id`),
   KEY `subscription_id` (`subscription_id`),
   KEY `users_id` (`users_id`)
@@ -1593,11 +1592,11 @@ INSERT INTO `user_business_subscription` (`id`, `version_type`, `subscription_id
 --
 
 CREATE TABLE IF NOT EXISTS `user_notification_settings` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) NOT NULL,
-  `appointment_reminder` enum('yes','no') CHARACTER SET latin1 NOT NULL,
-  `remind_before` int(11) NOT NULL,
-  `send_message` enum('yes','no') CHARACTER SET latin1 NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `users_id` INT(11) NOT NULL,
+  `appointment_reminder` ENUM('yes','no') CHARACTER SET latin1 NOT NULL,
+  `remind_before` INT(11) NOT NULL,
+  `send_message` ENUM('yes','no') CHARACTER SET latin1 NOT NULL,
   PRIMARY KEY (`id`),
   KEY `users_id` (`users_id`)
 ) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -1608,22 +1607,22 @@ CREATE TABLE IF NOT EXISTS `user_notification_settings` (
 -- Stand-in structure for view `view_business_clients`
 --
 CREATE TABLE IF NOT EXISTS `view_business_clients` (
-`users_id` int(11)
-,`user_business_details_id` int(11)
-,`email` varchar(50)
-,`first_name` varchar(50)
-,`last_name` varchar(50)
-,`gender` enum('male','female')
-,`phone_number` int(15)
-,`date_of_birth` date
-,`about_me` varchar(250)
-,`image` varchar(100)
-,`business_logo` varchar(50)
-,`business_name` varchar(100)
-,`category_name` varchar(100)
-,`client_list_id` int(11)
-,`manager_firstname` varchar(50)
-,`manager_lastname` varchar(50)
+`users_id` INT(11)
+,`user_business_details_id` INT(11)
+,`email` VARCHAR(50)
+,`first_name` VARCHAR(50)
+,`last_name` VARCHAR(50)
+,`gender` ENUM('male','female')
+,`phone_number` INT(15)
+,`date_of_birth` DATE
+,`about_me` VARCHAR(250)
+,`image` VARCHAR(100)
+,`business_logo` VARCHAR(50)
+,`business_name` VARCHAR(100)
+,`category_name` VARCHAR(100)
+,`client_list_id` INT(11)
+,`manager_firstname` VARCHAR(50)
+,`manager_lastname` VARCHAR(50)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1631,24 +1630,24 @@ CREATE TABLE IF NOT EXISTS `view_business_clients` (
 -- Stand-in structure for view `view_business_details`
 --
 CREATE TABLE IF NOT EXISTS `view_business_details` (
-`manager_firstname` varchar(50)
-,`manager_lastname` varchar(50)
-,`manager_phone` int(15)
-,`gender` enum('male','female')
-,`manager_email` varchar(50)
-,`business_description` varchar(200)
-,`mobile_number` varchar(20)
-,`address` varchar(500)
-,`business_type` enum('class','service')
-,`map_latitude` varchar(50)
-,`map_longitude` varchar(50)
-,`calendar_type` int(10)
-,`business_name` varchar(100)
-,`image` varchar(50)
-,`category_name` varchar(100)
-,`users_id` int(11)
-,`business_id` int(11)
-,`category_id` int(11)
+`manager_firstname` VARCHAR(50)
+,`manager_lastname` VARCHAR(50)
+,`manager_phone` INT(15)
+,`gender` ENUM('male','female')
+,`manager_email` VARCHAR(50)
+,`business_description` VARCHAR(200)
+,`mobile_number` VARCHAR(20)
+,`address` VARCHAR(500)
+,`business_type` ENUM('class','service')
+,`map_latitude` VARCHAR(50)
+,`map_longitude` VARCHAR(50)
+,`calendar_type` INT(10)
+,`business_name` VARCHAR(100)
+,`image` VARCHAR(50)
+,`category_name` VARCHAR(100)
+,`users_id` INT(11)
+,`business_id` INT(11)
+,`category_id` INT(11)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1656,13 +1655,13 @@ CREATE TABLE IF NOT EXISTS `view_business_details` (
 -- Stand-in structure for view `view_business_employees`
 --
 CREATE TABLE IF NOT EXISTS `view_business_employees` (
-`email` varchar(50)
-,`first_name` varchar(50)
-,`last_name` varchar(50)
-,`phone_number` int(15)
-,`user_business_details_id` int(11)
-,`users_id` int(11)
-,`image` varchar(100)
+`email` VARCHAR(50)
+,`first_name` VARCHAR(50)
+,`last_name` VARCHAR(50)
+,`phone_number` INT(15)
+,`user_business_details_id` INT(11)
+,`users_id` INT(11)
+,`image` VARCHAR(100)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1670,32 +1669,32 @@ CREATE TABLE IF NOT EXISTS `view_business_employees` (
 -- Stand-in structure for view `view_classes_posted_business`
 --
 CREATE TABLE IF NOT EXISTS `view_classes_posted_business` (
-`user_business_classes_id` int(11)
-,`start_date` date
-,`end_date` date
-,`lastdate_enroll` date
-,`start_time` time
-,`end_time` time
-,`instructor` int(11)
-,`repeat_type` enum('daily','weekly','monthly')
-,`repeat_all_day` enum('0','1')
-,`repeat_week_days` varchar(50)
-,`repeat_months` varchar(50)
-,`user_business_details_id` int(11)
-,`id` int(11)
-,`name` varchar(50)
-,`price` int(10)
-,`price_type` enum('fixed','variable','free')
-,`timelength` int(11)
-,`time_type` enum('hours','minutes')
-,`padding_time` int(10)
-,`padding_time_type` enum('Before','After','Before & After')
-,`details` varchar(50)
-,`instructor_firstname` varchar(50)
-,`instructor_lastname` varchar(50)
-,`class_size` int(11)
-,`availability` int(11)
-,`category_name` varchar(100)
+`user_business_classes_id` INT(11)
+,`start_date` DATE
+,`end_date` DATE
+,`lastdate_enroll` DATE
+,`start_time` TIME
+,`end_time` TIME
+,`instructor` INT(11)
+,`repeat_type` ENUM('daily','weekly','monthly')
+,`repeat_all_day` ENUM('0','1')
+,`repeat_week_days` VARCHAR(50)
+,`repeat_months` VARCHAR(50)
+,`user_business_details_id` INT(11)
+,`id` INT(11)
+,`name` VARCHAR(50)
+,`price` INT(10)
+,`price_type` ENUM('fixed','variable','free')
+,`timelength` INT(11)
+,`time_type` ENUM('hours','minutes')
+,`padding_time` INT(10)
+,`padding_time_type` ENUM('Before','After','Before & After')
+,`details` VARCHAR(50)
+,`instructor_firstname` VARCHAR(50)
+,`instructor_lastname` VARCHAR(50)
+,`class_size` INT(11)
+,`availability` INT(11)
+,`category_name` VARCHAR(100)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1703,24 +1702,24 @@ CREATE TABLE IF NOT EXISTS `view_classes_posted_business` (
 -- Stand-in structure for view `view_client_appoinment_details`
 --
 CREATE TABLE IF NOT EXISTS `view_client_appoinment_details` (
-`id` int(11)
-,`start_time` datetime
-,`employee_last_name` varchar(50)
-,`type` enum('service','class')
-,`business_name` varchar(100)
-,`employee_first_name` varchar(50)
-,`services_id` varchar(50)
-,`user_business_details_id` int(11)
-,`employee_id` int(11)
-,`note` text
-,`status` enum('booked','cancelled')
-,`appointment_date` datetime
-,`end_time` datetime
-,`users_id` int(11)
-,`category_name` varchar(100)
-,`clients_first_name` varchar(50)
-,`clients_last_name` varchar(50)
-,`business_details_id` int(11)
+`id` INT(11)
+,`start_time` DATETIME
+,`employee_last_name` VARCHAR(50)
+,`type` ENUM('service','class')
+,`business_name` VARCHAR(100)
+,`employee_first_name` VARCHAR(50)
+,`services_id` VARCHAR(50)
+,`user_business_details_id` INT(11)
+,`employee_id` INT(11)
+,`note` TEXT
+,`status` ENUM('booked','cancelled')
+,`appointment_date` DATETIME
+,`end_time` DATETIME
+,`users_id` INT(11)
+,`category_name` VARCHAR(100)
+,`clients_first_name` VARCHAR(50)
+,`clients_last_name` VARCHAR(50)
+,`business_details_id` INT(11)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1728,29 +1727,29 @@ CREATE TABLE IF NOT EXISTS `view_client_appoinment_details` (
 -- Stand-in structure for view `view_client_buisness_services_appointments`
 --
 CREATE TABLE IF NOT EXISTS `view_client_buisness_services_appointments` (
-`category_id` int(11)
-,`name` varchar(100)
-,`image` varchar(50)
-,`description` varchar(200)
-,`service_id` int(11)
-,`user_business_details_id` int(11)
-,`service_name` varchar(50)
-,`price_type` enum('fixed','variable','free')
-,`price` int(10)
-,`timelength` int(11)
-,`time_type` enum('hours','minutes')
-,`padding_time` int(10)
-,`padding_time_type` enum('Before','After','Before & After')
-,`details` varchar(50)
-,`start_time` datetime
-,`end_time` datetime
-,`services_id` varchar(50)
-,`employee_id` int(11)
-,`status` enum('booked','cancelled')
-,`users_id` int(11)
-,`note` text
-,`id` int(11)
-,`user_role` enum('client','manager','employee')
+`category_id` INT(11)
+,`name` VARCHAR(100)
+,`image` VARCHAR(50)
+,`description` VARCHAR(200)
+,`service_id` INT(11)
+,`user_business_details_id` INT(11)
+,`service_name` VARCHAR(50)
+,`price_type` ENUM('fixed','variable','free')
+,`price` INT(10)
+,`timelength` INT(11)
+,`time_type` ENUM('hours','minutes')
+,`padding_time` INT(10)
+,`padding_time_type` ENUM('Before','After','Before & After')
+,`details` VARCHAR(50)
+,`start_time` DATETIME
+,`end_time` DATETIME
+,`services_id` VARCHAR(50)
+,`employee_id` INT(11)
+,`status` ENUM('booked','cancelled')
+,`users_id` INT(11)
+,`note` TEXT
+,`id` INT(11)
+,`user_role` ENUM('client','manager','employee')
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1758,17 +1757,17 @@ CREATE TABLE IF NOT EXISTS `view_client_buisness_services_appointments` (
 -- Stand-in structure for view `view_client_class_booking`
 --
 CREATE TABLE IF NOT EXISTS `view_client_class_booking` (
-`note` varchar(100)
-,`date` date
-,`user_business_posted_class_id` int(11)
-,`users_id` int(11)
-,`first_name` varchar(50)
-,`last_name` varchar(50)
-,`phone_number` int(15)
-,`email` varchar(50)
-,`start_time` time
-,`end_time` time
-,`id` int(11)
+`note` VARCHAR(100)
+,`date` DATE
+,`user_business_posted_class_id` INT(11)
+,`users_id` INT(11)
+,`first_name` VARCHAR(50)
+,`last_name` VARCHAR(50)
+,`phone_number` INT(15)
+,`email` VARCHAR(50)
+,`start_time` TIME
+,`end_time` TIME
+,`id` INT(11)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1776,12 +1775,12 @@ CREATE TABLE IF NOT EXISTS `view_client_class_booking` (
 -- Stand-in structure for view `view_employee_services`
 --
 CREATE TABLE IF NOT EXISTS `view_employee_services` (
-`service_id` int(11)
-,`name` varchar(50)
-,`first_name` varchar(50)
-,`last_name` varchar(50)
-,`users_id` int(11)
-,`business_id` int(11)
+`service_id` INT(11)
+,`name` VARCHAR(50)
+,`first_name` VARCHAR(50)
+,`last_name` VARCHAR(50)
+,`users_id` INT(11)
+,`business_id` INT(11)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1789,16 +1788,16 @@ CREATE TABLE IF NOT EXISTS `view_employee_services` (
 -- Stand-in structure for view `view_service_availablity`
 --
 CREATE TABLE IF NOT EXISTS `view_service_availablity` (
-`id` int(11)
-,`user_business_details_id` int(11)
-,`users_id` int(11)
-,`type` enum('employee','business')
-,`weekid` int(11)
-,`start_time` time
-,`end_time` time
-,`lunch_start_time` time
-,`lunch_end_time` time
-,`name` varchar(20)
+`id` INT(11)
+,`user_business_details_id` INT(11)
+,`users_id` INT(11)
+,`type` ENUM('employee','business')
+,`weekid` INT(11)
+,`start_time` TIME
+,`end_time` TIME
+,`lunch_start_time` TIME
+,`lunch_end_time` TIME
+,`name` VARCHAR(20)
 )ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 -- --------------------------------------------------------
 
@@ -1807,8 +1806,8 @@ CREATE TABLE IF NOT EXISTS `view_service_availablity` (
 --
 
 CREATE TABLE IF NOT EXISTS `weekdays` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(20) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=INNODB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1832,7 +1831,7 @@ INSERT INTO `weekdays` (`id`, `name`) VALUES
 --
 DROP TABLE IF EXISTS `view_business_clients`;
 
-CREATE VIEW `view_business_clients` AS select `business_clients_list`.`users_id` AS `users_id`,`business_clients_list`.`user_business_details_id` AS `user_business_details_id`,`users`.`email` AS `email`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`gender` AS `gender`,`users`.`phone_number` AS `phone_number`,`users`.`date_of_birth` AS `date_of_birth`,`users`.`about_me` AS `about_me`,`users`.`image` AS `image`,`user_business_details`.`image` AS `business_logo`,`user_business_details`.`name` AS `business_name`,`category`.`name` AS `category_name`,`business_clients_list`.`id` AS `client_list_id`,`manager_details`.`first_name` AS `manager_firstname`,`manager_details`.`last_name` AS `manager_lastname` from ((((`users` join `business_clients_list` on((`users`.`id` = `business_clients_list`.`users_id`))) join `user_business_details` on((`business_clients_list`.`user_business_details_id` = `user_business_details`.`id`))) join `category` on((`user_business_details`.`category_id` = `category`.`id`))) join `users` `manager_details` on((`user_business_details`.`users_id` = `manager_details`.`id`)));
+CREATE VIEW `view_business_clients` AS SELECT `business_clients_list`.`users_id` AS `users_id`,`business_clients_list`.`user_business_details_id` AS `user_business_details_id`,`users`.`email` AS `email`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`gender` AS `gender`,`users`.`phone_number` AS `phone_number`,`users`.`date_of_birth` AS `date_of_birth`,`users`.`about_me` AS `about_me`,`users`.`image` AS `image`,`user_business_details`.`image` AS `business_logo`,`user_business_details`.`name` AS `business_name`,`category`.`name` AS `category_name`,`business_clients_list`.`id` AS `client_list_id`,`manager_details`.`first_name` AS `manager_firstname`,`manager_details`.`last_name` AS `manager_lastname` FROM ((((`users` JOIN `business_clients_list` ON((`users`.`id` = `business_clients_list`.`users_id`))) JOIN `user_business_details` ON((`business_clients_list`.`user_business_details_id` = `user_business_details`.`id`))) JOIN `category` ON((`user_business_details`.`category_id` = `category`.`id`))) JOIN `users` `manager_details` ON((`user_business_details`.`users_id` = `manager_details`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1841,7 +1840,7 @@ CREATE VIEW `view_business_clients` AS select `business_clients_list`.`users_id`
 --
 DROP TABLE IF EXISTS `view_business_details`;
 
-CREATE VIEW `view_business_details` AS select `users`.`first_name` AS `manager_firstname`,`users`.`last_name` AS `manager_lastname`,`users`.`phone_number` AS `manager_phone`,`users`.`gender` AS `gender`,`users`.`email` AS `manager_email`,`user_business_details`.`description` AS `business_description`,`user_business_details`.`mobile_number` AS `mobile_number`,`user_business_details`.`address` AS `address`,`user_business_details`.`business_type` AS `business_type`,`user_business_details`.`map_latitude` AS `map_latitude`,`user_business_details`.`map_longitude` AS `map_longitude`,`user_business_details`.`calendar_type` AS `calendar_type`,`user_business_details`.`name` AS `business_name`,`user_business_details`.`image` AS `image`,`category`.`name` AS `category_name`,`user_business_details`.`users_id` AS `users_id`,`user_business_details`.`id` AS `business_id`,`user_business_details`.`category_id` AS `category_id` from ((`users` join `user_business_details` on((`users`.`id` = `user_business_details`.`users_id`))) join `category` on((`user_business_details`.`category_id` = `category`.`id`)));
+CREATE VIEW `view_business_details` AS SELECT `users`.`first_name` AS `manager_firstname`,`users`.`last_name` AS `manager_lastname`,`users`.`phone_number` AS `manager_phone`,`users`.`gender` AS `gender`,`users`.`email` AS `manager_email`,`user_business_details`.`description` AS `business_description`,`user_business_details`.`mobile_number` AS `mobile_number`,`user_business_details`.`address` AS `address`,`user_business_details`.`business_type` AS `business_type`,`user_business_details`.`map_latitude` AS `map_latitude`,`user_business_details`.`map_longitude` AS `map_longitude`,`user_business_details`.`calendar_type` AS `calendar_type`,`user_business_details`.`name` AS `business_name`,`user_business_details`.`image` AS `image`,`category`.`name` AS `category_name`,`user_business_details`.`users_id` AS `users_id`,`user_business_details`.`id` AS `business_id`,`user_business_details`.`category_id` AS `category_id` FROM ((`users` JOIN `user_business_details` ON((`users`.`id` = `user_business_details`.`users_id`))) JOIN `category` ON((`user_business_details`.`category_id` = `category`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1850,7 +1849,7 @@ CREATE VIEW `view_business_details` AS select `users`.`first_name` AS `manager_f
 --
 DROP TABLE IF EXISTS `view_business_employees`;
 
-CREATE VIEW `view_business_employees` AS select `users`.`email` AS `email`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`phone_number` AS `phone_number`,`business_employees`.`user_business_details_id` AS `user_business_details_id`,`business_employees`.`users_id` AS `users_id`,`users`.`image` AS `image` from (`users` join `business_employees` on((`business_employees`.`users_id` = `users`.`id`)));
+CREATE VIEW `view_business_employees` AS SELECT `users`.`email` AS `email`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`phone_number` AS `phone_number`,`business_employees`.`user_business_details_id` AS `user_business_details_id`,`business_employees`.`users_id` AS `users_id`,`users`.`image` AS `image` FROM (`users` JOIN `business_employees` ON((`business_employees`.`users_id` = `users`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1859,7 +1858,7 @@ CREATE VIEW `view_business_employees` AS select `users`.`email` AS `email`,`user
 --
 DROP TABLE IF EXISTS `view_classes_posted_business`;
 
-CREATE VIEW `view_classes_posted_business` AS select `user_business_posted_class`.`user_business_classes_id` AS `user_business_classes_id`,`user_business_posted_class`.`start_date` AS `start_date`,`user_business_posted_class`.`end_date` AS `end_date`,`user_business_posted_class`.`lastdate_enroll` AS `lastdate_enroll`,`user_business_posted_class`.`start_time` AS `start_time`,`user_business_posted_class`.`end_time` AS `end_time`,`user_business_posted_class`.`instructor` AS `instructor`,`user_business_posted_class`.`repeat_type` AS `repeat_type`,`user_business_posted_class`.`repeat_all_day` AS `repeat_all_day`,`user_business_posted_class`.`repeat_week_days` AS `repeat_week_days`,`user_business_posted_class`.`repeat_months` AS `repeat_months`,`user_business_classes`.`user_business_details_id` AS `user_business_details_id`,`user_business_posted_class`.`id` AS `id`,`user_business_classes`.`name` AS `name`,`user_business_classes`.`price` AS `price`,`user_business_classes`.`price_type` AS `price_type`,`user_business_classes`.`timelength` AS `timelength`,`user_business_classes`.`time_type` AS `time_type`,`user_business_classes`.`padding_time` AS `padding_time`,`user_business_classes`.`padding_time_type` AS `padding_time_type`,`user_business_classes`.`details` AS `details`,`users`.`first_name` AS `instructor_firstname`,`users`.`last_name` AS `instructor_lastname`,`user_business_posted_class`.`class_size` AS `class_size`,`user_business_posted_class`.`availability` AS `availability`,`category`.`name` AS `category_name` from ((((`user_business_posted_class` join `user_business_classes` on((`user_business_posted_class`.`user_business_classes_id` = `user_business_classes`.`id`))) join `users` on((`user_business_posted_class`.`instructor` = `users`.`id`))) join `user_business_details` on((`user_business_classes`.`user_business_details_id` = `user_business_details`.`id`))) join `category` on((`user_business_details`.`category_id` = `category`.`id`)));
+CREATE VIEW `view_classes_posted_business` AS SELECT `user_business_posted_class`.`user_business_classes_id` AS `user_business_classes_id`,`user_business_posted_class`.`start_date` AS `start_date`,`user_business_posted_class`.`end_date` AS `end_date`,`user_business_posted_class`.`lastdate_enroll` AS `lastdate_enroll`,`user_business_posted_class`.`start_time` AS `start_time`,`user_business_posted_class`.`end_time` AS `end_time`,`user_business_posted_class`.`instructor` AS `instructor`,`user_business_posted_class`.`repeat_type` AS `repeat_type`,`user_business_posted_class`.`repeat_all_day` AS `repeat_all_day`,`user_business_posted_class`.`repeat_week_days` AS `repeat_week_days`,`user_business_posted_class`.`repeat_months` AS `repeat_months`,`user_business_classes`.`user_business_details_id` AS `user_business_details_id`,`user_business_posted_class`.`id` AS `id`,`user_business_classes`.`name` AS `name`,`user_business_classes`.`price` AS `price`,`user_business_classes`.`price_type` AS `price_type`,`user_business_classes`.`timelength` AS `timelength`,`user_business_classes`.`time_type` AS `time_type`,`user_business_classes`.`padding_time` AS `padding_time`,`user_business_classes`.`padding_time_type` AS `padding_time_type`,`user_business_classes`.`details` AS `details`,`users`.`first_name` AS `instructor_firstname`,`users`.`last_name` AS `instructor_lastname`,`user_business_posted_class`.`class_size` AS `class_size`,`user_business_posted_class`.`availability` AS `availability`,`category`.`name` AS `category_name` FROM ((((`user_business_posted_class` JOIN `user_business_classes` ON((`user_business_posted_class`.`user_business_classes_id` = `user_business_classes`.`id`))) JOIN `users` ON((`user_business_posted_class`.`instructor` = `users`.`id`))) JOIN `user_business_details` ON((`user_business_classes`.`user_business_details_id` = `user_business_details`.`id`))) JOIN `category` ON((`user_business_details`.`category_id` = `category`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1868,7 +1867,7 @@ CREATE VIEW `view_classes_posted_business` AS select `user_business_posted_class
 --
 DROP TABLE IF EXISTS `view_client_appoinment_details`;
 
-CREATE VIEW `view_client_appoinment_details` AS select `client_service_appointments`.`id` AS `id`,`client_service_appointments`.`start_time` AS `start_time`,`users`.`last_name` AS `employee_last_name`,`client_service_appointments`.`type` AS `type`,`user_business_details`.`name` AS `business_name`,`users`.`first_name` AS `employee_first_name`,`client_service_appointments`.`services_id` AS `services_id`,`client_service_appointments`.`user_business_details_id` AS `user_business_details_id`,`client_service_appointments`.`employee_id` AS `employee_id`,`client_service_appointments`.`note` AS `note`,`client_service_appointments`.`status` AS `status`,`client_service_appointments`.`appointment_date` AS `appointment_date`,`client_service_appointments`.`end_time` AS `end_time`,`client_service_appointments`.`users_id` AS `users_id`,`category`.`name` AS `category_name`,`clients_details`.`first_name` AS `clients_first_name`,`clients_details`.`last_name` AS `clients_last_name`,`user_business_details`.`id` AS `business_details_id` from ((((`client_service_appointments` join `user_business_details` on((`client_service_appointments`.`user_business_details_id` = `user_business_details`.`id`))) join `users` on((`client_service_appointments`.`employee_id` = `users`.`id`))) join `category` on((`user_business_details`.`category_id` = `category`.`id`))) join `users` `clients_details` on((`client_service_appointments`.`users_id` = `clients_details`.`id`)));
+CREATE VIEW `view_client_appoinment_details` AS SELECT `client_service_appointments`.`id` AS `id`,`client_service_appointments`.`start_time` AS `start_time`,`users`.`last_name` AS `employee_last_name`,`client_service_appointments`.`type` AS `type`,`user_business_details`.`name` AS `business_name`,`users`.`first_name` AS `employee_first_name`,`client_service_appointments`.`services_id` AS `services_id`,`client_service_appointments`.`user_business_details_id` AS `user_business_details_id`,`client_service_appointments`.`employee_id` AS `employee_id`,`client_service_appointments`.`note` AS `note`,`client_service_appointments`.`status` AS `status`,`client_service_appointments`.`appointment_date` AS `appointment_date`,`client_service_appointments`.`end_time` AS `end_time`,`client_service_appointments`.`users_id` AS `users_id`,`category`.`name` AS `category_name`,`clients_details`.`first_name` AS `clients_first_name`,`clients_details`.`last_name` AS `clients_last_name`,`user_business_details`.`id` AS `business_details_id` FROM ((((`client_service_appointments` JOIN `user_business_details` ON((`client_service_appointments`.`user_business_details_id` = `user_business_details`.`id`))) JOIN `users` ON((`client_service_appointments`.`employee_id` = `users`.`id`))) JOIN `category` ON((`user_business_details`.`category_id` = `category`.`id`))) JOIN `users` `clients_details` ON((`client_service_appointments`.`users_id` = `clients_details`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1877,7 +1876,7 @@ CREATE VIEW `view_client_appoinment_details` AS select `client_service_appointme
 --
 DROP TABLE IF EXISTS `view_client_buisness_services_appointments`;
 
-CREATE  VIEW `view_client_buisness_services_appointments` AS select `user_business_details`.`category_id` AS `category_id`,`user_business_details`.`name` AS `name`,`user_business_details`.`image` AS `image`,`user_business_details`.`description` AS `description`,`user_business_services`.`id` AS `service_id`,`user_business_services`.`user_business_details_id` AS `user_business_details_id`,`user_business_services`.`name` AS `service_name`,`user_business_services`.`price_type` AS `price_type`,`user_business_services`.`price` AS `price`,`user_business_services`.`timelength` AS `timelength`,`user_business_services`.`time_type` AS `time_type`,`user_business_services`.`padding_time` AS `padding_time`,`user_business_services`.`padding_time_type` AS `padding_time_type`,`user_business_services`.`details` AS `details`,`client_service_appointments`.`start_time` AS `start_time`,`client_service_appointments`.`end_time` AS `end_time`,`client_service_appointments`.`services_id` AS `services_id`,`client_service_appointments`.`employee_id` AS `employee_id`,`client_service_appointments`.`status` AS `status`,`client_service_appointments`.`users_id` AS `users_id`,`client_service_appointments`.`note` AS `note`,`client_service_appointments`.`id` AS `id`,`users`.`user_role` AS `user_role` from (((`user_business_details` join `user_business_services` on((`user_business_details`.`id` = `user_business_services`.`user_business_details_id`))) join `client_service_appointments` on((`user_business_services`.`id` = `client_service_appointments`.`services_id`))) join `users` on((`client_service_appointments`.`users_id` = `users`.`id`)));
+CREATE  VIEW `view_client_buisness_services_appointments` AS SELECT `user_business_details`.`category_id` AS `category_id`,`user_business_details`.`name` AS `name`,`user_business_details`.`image` AS `image`,`user_business_details`.`description` AS `description`,`user_business_services`.`id` AS `service_id`,`user_business_services`.`user_business_details_id` AS `user_business_details_id`,`user_business_services`.`name` AS `service_name`,`user_business_services`.`price_type` AS `price_type`,`user_business_services`.`price` AS `price`,`user_business_services`.`timelength` AS `timelength`,`user_business_services`.`time_type` AS `time_type`,`user_business_services`.`padding_time` AS `padding_time`,`user_business_services`.`padding_time_type` AS `padding_time_type`,`user_business_services`.`details` AS `details`,`client_service_appointments`.`start_time` AS `start_time`,`client_service_appointments`.`end_time` AS `end_time`,`client_service_appointments`.`services_id` AS `services_id`,`client_service_appointments`.`employee_id` AS `employee_id`,`client_service_appointments`.`status` AS `status`,`client_service_appointments`.`users_id` AS `users_id`,`client_service_appointments`.`note` AS `note`,`client_service_appointments`.`id` AS `id`,`users`.`user_role` AS `user_role` FROM (((`user_business_details` JOIN `user_business_services` ON((`user_business_details`.`id` = `user_business_services`.`user_business_details_id`))) JOIN `client_service_appointments` ON((`user_business_services`.`id` = `client_service_appointments`.`services_id`))) JOIN `users` ON((`client_service_appointments`.`users_id` = `users`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1886,7 +1885,7 @@ CREATE  VIEW `view_client_buisness_services_appointments` AS select `user_busine
 --
 DROP TABLE IF EXISTS `view_client_class_booking`;
 
-CREATE VIEW `view_client_class_booking` AS select `client_class_booking`.`note` AS `note`,`client_class_booking`.`date` AS `date`,`client_class_booking`.`user_business_posted_class_id` AS `user_business_posted_class_id`,`client_class_booking`.`users_id` AS `users_id`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`phone_number` AS `phone_number`,`users`.`email` AS `email`,`user_business_posted_class`.`start_time` AS `start_time`,`user_business_posted_class`.`end_time` AS `end_time`,`client_class_booking`.`id` AS `id` from ((`client_class_booking` join `users` on((`client_class_booking`.`users_id` = `users`.`id`))) join `user_business_posted_class` on((`client_class_booking`.`user_business_posted_class_id` = `user_business_posted_class`.`id`)));
+CREATE VIEW `view_client_class_booking` AS SELECT `client_class_booking`.`note` AS `note`,`client_class_booking`.`date` AS `date`,`client_class_booking`.`user_business_posted_class_id` AS `user_business_posted_class_id`,`client_class_booking`.`users_id` AS `users_id`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`users`.`phone_number` AS `phone_number`,`users`.`email` AS `email`,`user_business_posted_class`.`start_time` AS `start_time`,`user_business_posted_class`.`end_time` AS `end_time`,`client_class_booking`.`id` AS `id` FROM ((`client_class_booking` JOIN `users` ON((`client_class_booking`.`users_id` = `users`.`id`))) JOIN `user_business_posted_class` ON((`client_class_booking`.`user_business_posted_class_id` = `user_business_posted_class`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1895,7 +1894,7 @@ CREATE VIEW `view_client_class_booking` AS select `client_class_booking`.`note` 
 --
 DROP TABLE IF EXISTS `view_employee_services`;
 
-CREATE VIEW `view_employee_services` AS select `employee_services`.`service_id` AS `service_id`,`user_business_services`.`name` AS `name`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`employee_services`.`users_id` AS `users_id`,`employee_services`.`business_id` AS `business_id` from ((`employee_services` join `user_business_services` on((`employee_services`.`service_id` = `user_business_services`.`id`))) join `users` on((`employee_services`.`users_id` = `users`.`id`)));
+CREATE VIEW `view_employee_services` AS SELECT `employee_services`.`service_id` AS `service_id`,`user_business_services`.`name` AS `name`,`users`.`first_name` AS `first_name`,`users`.`last_name` AS `last_name`,`employee_services`.`users_id` AS `users_id`,`employee_services`.`business_id` AS `business_id` FROM ((`employee_services` JOIN `user_business_services` ON((`employee_services`.`service_id` = `user_business_services`.`id`))) JOIN `users` ON((`employee_services`.`users_id` = `users`.`id`)));
 
 -- --------------------------------------------------------
 
@@ -1904,8 +1903,9 @@ CREATE VIEW `view_employee_services` AS select `employee_services`.`service_id` 
 --
 DROP TABLE IF EXISTS `view_service_availablity`;
 
-CREATE  VIEW `view_service_availablity` AS select `user_business_availability`.`id` AS `id`,`user_business_availability`.`user_business_details_id` AS `user_business_details_id`,`user_business_availability`.`users_id` AS `users_id`,`user_business_availability`.`type` AS `type`,`user_business_availability`.`weekid` AS `weekid`,`user_business_availability`.`start_time` AS `start_time`,`user_business_availability`.`end_time` AS `end_time`,`user_business_availability`.`lunch_start_time` AS `lunch_start_time`,`user_business_availability`.`lunch_end_time` AS `lunch_end_time`,`weekdays`.`name` AS `name` from (`weekdays` join `user_business_availability` on((`user_business_availability`.`weekid` = `weekdays`.`id`)));
+CREATE  VIEW `view_service_availablity` AS SELECT `user_business_availability`.`id` AS `id`,`user_business_availability`.`user_business_details_id` AS `user_business_details_id`,`user_business_availability`.`users_id` AS `users_id`,`user_business_availability`.`type` AS `type`,`user_business_availability`.`weekid` AS `weekid`,`user_business_availability`.`start_time` AS `start_time`,`user_business_availability`.`end_time` AS `end_time`,`user_business_availability`.`lunch_start_time` AS `lunch_start_time`,`user_business_availability`.`lunch_end_time` AS `lunch_end_time`,`weekdays`.`name` AS `name` FROM (`weekdays` JOIN `user_business_availability` ON((`user_business_availability`.`weekid` = `weekdays`.`id`)));
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
