@@ -96,7 +96,7 @@
 				<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 				<h3> <?=(lang('Apps_appointments'))?></h3>
-				<?php print_r($flag); if(isset($appDetails)) { ?>
+				<?php if(isset($appDetails)) { ?>
 						<?php foreach($appDetails as $val){ 
 						//if(date('Y-m-d',strtotime($val))>=date('Y-m-d')){
 						?>
@@ -113,7 +113,7 @@
 									<td class="appoint-time">						
 									(  <?php echo date('H:i',strtotime($resval->start_time)) ?> -  <?php echo date('H:i',strtotime($resval->end_time)) ?> ) <br clear="left"/>  							
 									<a href="javascript:void(0)" onclick="Appdetails(<?php echo $resval->id; ?>)">
-									<span > Service with <?php echo $resval->business_name ?></span> 
+									<span ><?=(lang('Apps_servicewith'))?> <?php echo $resval->business_name ?></span> 
 									</a>						
 									</td>
 								</tr> 
@@ -124,7 +124,7 @@
 									  $difference = strtotime(date('H:i',strtotime($resval->end_time))) - strtotime(date('H:i',strtotime($resval->start_time)));
 									  $difference_in_minutes = $difference / 60;
 									?>
-									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> min</li>
+									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> <?=(lang('Apps_min'))?></li>
 									<?php if($resval->employee_id!=0){ ?>									
 									<li> <i class=" icon-user"></i><?php print_r( $resval->employee_first_name." ".$resval->employee_last_name); ?></li>			
 									<?php }?>	
@@ -140,7 +140,7 @@
 						?>
 							<a href="<?php echo base_url() ?>bcalendar/mycalender" class="pull-right"> <?=(lang('Apps_viewmore'))?></a>					
 						<?php }else{
-						 echo "No upcoming appointments";
+						  print_r(lang('Apps_upcoming'));
 						}	
 						?>
 				</div>

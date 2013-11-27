@@ -390,6 +390,8 @@ $("#assignclass").val("1");
 //END
 
 function getmydetails(id,businessid){
+$(".alert").hide();
+$('.error').html(''); 
 var data='';
 var url = base_url+"staffs/checkfornum";
  $.post(url,data,function(data){ 

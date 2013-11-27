@@ -1,6 +1,6 @@
 		<div class="row-fluid client">
 		<ul class="breadcrumb">
-  <li><a href="<?php echo base_url() ?>clients/list_clients">My Clients</a> <span class="divider">/</span></li>
+  <li><a href="<?php echo base_url() ?>clients/list_clients"><?=(lang('Apps_MyClients'))?></a> <span class="divider">/</span></li>
   <li class="active"><?php print_r(ucwords($details->first_name." ".$details->last_name)); ?></li>
 </ul>
 			<h4><?=(lang('Apps_personal_details'))?></h4>
@@ -45,11 +45,11 @@
 		
 			<label class="radio inline">
 			  <input type="radio" name="activity" id="future" class="getApp" value="future" checked="checked" onclick="showApp('future')">
-			 Upcoming appointments
+			<?=(lang('Apps_upcomingapp'))?>
 			</label>
 			<label class="radio inline">
 			  <input type="radio" name="activity" id="past" class="getApp" value="past" onclick="showApp('past')">
-			  Past appointments
+			  <?=(lang('Apps_pastapp'))?>
 			</label>
 			<hr><p class="hide userid"><?php echo $userid; ?></p>
 			<div class="showapps">
@@ -68,7 +68,7 @@
 									<td class="appoint-time">						
 									( <?php echo date('H:i',strtotime($resval->start_time)) ?>  - <?php echo date('H:i',strtotime($resval->end_time)) ?> )  
 									<a href="javascript:void(0)" onclick="Appdetails(<?php echo $resval->id; ?>)" >
-									<span > Service with <?php echo $resval->business_name ?></span> 
+									<span > <?=(lang('Apps_servicewith'))?> <?php echo $resval->business_name ?></span> 
 									</a>						
 									</td>
 								</tr> 
@@ -79,7 +79,7 @@
 									  $difference = strtotime(date('H:i',strtotime($resval->end_time))) - strtotime(date('H:i',strtotime($resval->start_time)));
 									  $difference_in_minutes = $difference / 60;
 									?>
-									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> min </li>			
+									<li><i class=" icon-time"></i><?php echo $difference_in_minutes; ?> <?=(lang('Apps_min'))?> </li>			
 									<?php if($resval->employee_id!=0){ ?>
 									<li> <i class=" icon-user"></i> <?php print_r( $resval->employee_first_name." ".$resval->employee_last_name); ?> </li>	
 									<?php }?>									
@@ -97,7 +97,7 @@
 			</div>
 			
 			<input type="hidden" name="count" value="0" id="count">
-			<a href="javascript:;" class="moreApp"  data-value="<?php print_r($lastDate)  ?>" profile-val="<?php echo $userid;?>">View More..</a>
+			<a href="javascript:;" class="moreApp"  data-value="<?php print_r($lastDate)  ?>" profile-val="<?php echo $userid;?>"><?=(lang('Apps_viewmore'))?>..</a>
 			<?php }?>
 		</div>	
 	

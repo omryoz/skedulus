@@ -29,7 +29,7 @@
 			<div class="span4 offset4 login_form">	
 			 <form class="" name="forgot-password" id="forgotpassword" method="post" action="<?=base_url()?>home/resetpassword" onsubmit="return validateconfirmpassword();" >
 		
-			 <h3>Reset Password </h3>
+			 <h3><?=(lang('Apps_resetpassword'))?></h3>
 			 
 				  <input type="password" class="span12 user-success" required id="password_h" placeholder="New Password" name="password" pattern=".{6,20}" title="Password should have 6 character" maxlength="20" />
 				
@@ -43,7 +43,7 @@
 				 <input type="hidden" name="key"  value="<?=(!empty($_GET['key'])?$_GET['key']:'')?>" /> 
 				<!-- <input type="submit"  class="btn" name="Submit" value="Reset Now &raquo;"> -->
 				
-			  <input type="submit" name="Login" value="Reset Now" class="btn btn-success span5">
+			  <input type="submit" name="Login" value="<?=(lang('Apps_resetnow'))?>" class="btn btn-success span5">
 			  
 			  
 			  

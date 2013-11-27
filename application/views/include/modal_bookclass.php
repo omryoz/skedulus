@@ -67,7 +67,7 @@
 				<?php }else{ ?>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
 				<!---<a class="cancelClass websbuttonbtn btn-success delete_app " href="javascript:;" id="deleteApp" ><?=(lang('Apps_delete'))?></a>--->
-				<input type="button" name="delete" value="Cancel" data-type="class"  id="deleteApp" class=" cancelClass websbuttonbtn btn-success delete_app "/>
+				<input type="button" name="delete" value="<?=(lang('Apps_cancel'))?>" data-type="class"  id="deleteApp" class=" cancelClass websbuttonbtn btn-success delete_app "/>
 				<?php }?>
 	        </li>
 	    </ul>

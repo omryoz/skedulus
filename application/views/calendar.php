@@ -27,7 +27,7 @@
 ?>
 <?php if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
   $role='manager';
-  $crumb='My business profile';
+  $crumb=(lang('Apps_mybusiness'));
  }else{
   $role='none';
   $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
@@ -41,7 +41,7 @@
 
 <ul class="breadcrumb">
   <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php print_r($crumb); ?></a> <span class="divider">/</span></li>
-  <li class="active">Business calendar</li>
+  <li class="active"><?=(lang('Apps_businesscalendar'))?></li>
   <li class="pull-right">
   <?php 
   $options=array();
@@ -69,92 +69,7 @@
   </div>
 </div>
 <!----Modal------>
-<!----<div id="reschedule" class="modal hide fade " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-<p class="message"></p> 
- <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">Appointment Details</h3>
-  </div>
-  <div class="modal-body">
-	<p id="eventid" class="hide"></p>
-	<div class="row-fluid">
-		<div class="row-fluid">
-			<table class="table table-striped" >
-			<tbody>
-			<tr> 
-					  <td>
-					    Business Name 	
-					  </td>
-					  <td>
-					   <span id="business_name"></span>
-					   <p id="business_id" class="hide"></p>
-					   <p id="services_id" class="hide"></p>
-					   <p id="employee_id" class="hide"></p>
-					   <p id="note" class="hide"></p>
-					  </td>
-		   </tr>
-		   <tr> 
-					  <td>
-					    Client Name 	
-					  </td>
-					  <td>
-					   <span id="cname"></span>
-					  </td>
-		   </tr>
-		   <tr> 
-					  <td>
-					    <span id="type"></span> 	
-					  </td>
-					  <td>
-					   <span id="typeName"></span>
-					  </td>
-		   </tr>
-		    <tr id="serviceprovider"> 
-					  <td>
-					    Service Provider	
-					  </td>
-					  <td>
-					   <span id="name"></span>
-					  </td>
-		   </tr>
-			 <tr> 
-					  <td>
-					    Date	
-					  </td>
-					  <td>
-					   <span id="date"></span>
-					  </td>
-		     </tr>	
-			  <tr> 
-					  <td>
-					    Time	
-					  </td>
-					  <td>
-					   <span id="time"></span>
-					   <span id="endtime" class="hide"></span>
-					  </td>
-		      </tr>
-			</tbody>
-			</table>
-		</div>
-	
-	
-	
-	<ul class="unstyled inline pull-right" style="margin: 0px;">
-	<li>
-	<button class="btn btn-success  clientlist" id="reschedulebtn">Reschedule</button></li>
-	<li>
-	
-	<a  class="websbutton btn btn-success" id="deleteApp" href="javascript:;" >Cancel</a>
-	
-	</li>
-	</ul>
-    
-	
-	
-	</div>
-  </div>
-</div>---->
+
 
 <div id="bookApp" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >	
 								<div class="aPointer  " style="display: block; z-index: 2; " ></div> 	

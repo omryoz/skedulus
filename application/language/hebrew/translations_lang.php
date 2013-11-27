@@ -134,6 +134,7 @@
 		$lang['Apps_sendremindr'] = "שלח תזכורת על";
 		$lang['Apps_days'] = "ימים";
 		$lang['Apps_sendmetextmsg'] = "שלח לי הודעת טקסט";
+		$lang['Apps_allowpushnotify'] = "Allow push notification from business";
 		/* setting end*/ 
 		
 		/* Business profile end*/ 
@@ -188,6 +189,9 @@
 		$lang['Apps_sendmetxtmsgonbooking'] = "Send me text messages when clients book online";
 		$lang['Apps_sendemailconfm'] = "Send email confirmation"; 
 		$lang['Apps_insert'] = "insert";
+		$lang['Apps_hoursbefore'] = "hours before their appointment";
+		$lang['Apps_hoursbeforetime'] = "hours before start time";
+		$lang['Apps_infuture'] = "in the future";
 		/* business setting end */
 		
 		/* gallery pages start*/
@@ -222,6 +226,7 @@
 		$lang['Apps_assignservicetostaff'] = "Assign services to staff";
 		$lang['Apps_noservicesaddedyet'] = "לא הוגדרו שירותים";
 		$lang['Apps_addstaffavailability'] = "הגדר זמינות עובד";
+		 $lang['Apps_assignstaffsavailability'] = "Assign Staffs Availability";		
 		/* staffs page start */
 		
 		/* classes page start */
@@ -260,6 +265,7 @@
 		$lang['Apps_trainers'] = "Trainers";
 		$lang['Apps_lastdateforenroll'] = "Last date for enroll";
 		$lang['Apps_note'] = "note";
+		$lang['Apps_noclasspostedyet'] = "No classes Posted yet";
 		/* post class popup  end  in calendarbook class.php*/
 		
 		/* post class popup  start */
@@ -331,7 +337,7 @@
 		$lang['Apps_viewdashboard'] = "view dashboard";
 		
 		/*Business dashboard */
-		lang['Apps_businessregistration'] = "Business Registration ";
+		$lang['Apps_businessregistration'] = "Business Registration ";
 		$lang['Apps_basic'] = "Basic";
 		$lang['Apps_information'] = "Information";
 		$lang['Apps_business'] = "Business";
@@ -350,5 +356,30 @@
 	   $lang['Apps_entercode'] = "Kindly enter the code sent to your mobile";
 	   $lang['Apps_sendagain'] = "Send Again";
 	   $lang['Apps_validphonenumber'] = "Kindly provide your valid phone number";
+	   
+	   /* Home page */
+	   $lang['Apps_upcoming'] = "No upcoming appointments";
+	   
+	   /* Client profile page */
+	   $lang['Apps_upcomingapp'] = "Upcoming appointments";
+	   $lang['Apps_pastapp'] = "Past appointments";
+		
+		/* Appoitnments Details */
+	   $lang['Apps_servicewith'] = "Service with";
+	   $lang['Apps_comment'] = "Comment";	
+	   $lang['Apps_reschedule'] = "Reschedule";
+       $lang['Apps_cancel'] = "Cancel";
+	   
+	   /*Calendar*/
+	  $lang['Apps_businesscalendar'] = "Business calendar";
+	  $lang['Apps_mybusiness'] = "My business profile";
+	  
+	   /*Deactivate*/	
+	   $lang['Apps_businessdeactivated'] = "Your business has been deactivated";
+	   $lang['Apps_nofavourite'] = "No favourite businesses yet";	
+	   $lang['Apps_readmore'] = "read more";
+	   $lang['Apps_noresultfound'] = "No result found"; 
+	   $lang['Apps_resetpassword'] = "Reset Password";
+       $lang['Apps_resetnow'] = "Reset Now";	   
 		
 ?>

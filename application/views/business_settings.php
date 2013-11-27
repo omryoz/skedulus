@@ -78,7 +78,7 @@
 						?>
 						
 						
-						<span>hours before their appointment</span>
+						<span><?=(lang('Apps_hoursbefore'))?></span>
 						</div>
 					  </div>
 					</div>
@@ -107,7 +107,7 @@
 						   echo form_dropdown('book_before',$slotlist2,$book_before,'class="input-mini"') 
 						?>
 						
-						<span>hours before start time</span>
+						<span><?=(lang('Apps_hoursbeforetime'))?></span>
 						
 						</div>
 					  </div>
@@ -134,7 +134,7 @@
 						 echo form_dropdown('book_upto', $options, $selectedbook_upto ,'class="input-small"');
 						 
 						?>
-						<span>in the future</span>
+						<span><?=(lang('Apps_infuture'))?></span>
 						<div id="emailErrorContainer"></div>
 					  </div>
 					</div>
@@ -181,7 +181,7 @@
 			
 			            ?>
 						<!---<input type="text" name="remind_before" id="remind_before" class=" inputime span4" value="<?php //echo $remind_before; ?>">--->
-						<span>hours before appointments</span>
+						<span><?=(lang('Apps_hoursbefore'))?></span>
 						</div>
 					  </div>
 					</div>

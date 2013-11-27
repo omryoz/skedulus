@@ -212,9 +212,12 @@ include('include/modal_classes.php');
 							<?php } 
 							}else{ ?>
 								<?php if($type=='Services'){ 
-								?>No services added.
-								<?php }else{ ?>
-								No classes Posted yet.
+								print_r(lang('Apps_noservicesaddedyet'));
+								?>
+								<?php }else{ 
+								print_r(lang('Apps_noclasspostedyet'));
+								?>
+								
 								<?php } ?>
 							<?php } ?>
 								
@@ -524,7 +527,7 @@ include('include/modal_classes.php');
 	</div>
 	
   </div>
- <a href="javascript:;" class="btn btn-success btn-mini">Comment</a>
+ <a href="javascript:;" class="btn btn-success btn-mini"><?=(lang('Apps_comment'))?></a>
    </form>
   </div>
   

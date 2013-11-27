@@ -449,8 +449,8 @@ function readURL(input) {
 										  </div>
 										</div>
 										<div class="control-group">
-										  <label class="control-label"  for="input"> Allow push notification from business : </label>
-										  <!-- <label class="control-label"  for="input">Send me text message : from business manager :  </label> -->
+										 <!-- <label class="control-label"  for="input"> <?=(lang('Apps_sendmetextmsg'))?>: </label>-->
+										   <label class="control-label"  for="input"><?=(lang('Apps_allowpushnotify'))?> : </label> 
 										  <div class="controls">
 										  <?php
 										  //if($settings->appointment_reminder=='no'){

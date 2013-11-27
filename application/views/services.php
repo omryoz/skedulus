@@ -5,7 +5,7 @@
                 <div class="row-fluid">
 					<div class="">
 						<h3 ><?=lang('Services')?>
-						   <a href="javascript:void(0);" class="btn pull-right btn-success" onclick="addServices()" data-toggle="modal">+add</a>
+						   <a href="javascript:void(0);" class="btn pull-right btn-success" onclick="addServices()" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
 						<table class="table table-striped table-staff table-hover" >
@@ -41,11 +41,11 @@
 							<p class="alert"><?=(lang('Apps_noservicesaddedyet'))?></p>
 						 <?php } ?>
 						 <?php if(isset($_GET['register'])) { ?>
-						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left">Back</a>
+						  <a href="<?php echo base_url(); ?>basicinfo" class="btn btn-success pull-left"><?=(lang('Apps_back'))?></a>
 						  <?php $isExist =$this->common_model->getRow("user_business_services","user_business_details_id",$this->session->userdata("business_id"));
 						if(isset($isExist) && $isExist!=""){
 						  ?>
-				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register=Service"  class="btn btn-success ">Save & Continue</a></div>
+				         <div class="pull-right" ><a href="<?php echo base_url(); ?>staffs/list_staffs/?register=Service"  class="btn btn-success "><?=(lang('Apps_savandcon'))?></a></div>
 						 <?php } 
 						 } ?>
 				  </div>

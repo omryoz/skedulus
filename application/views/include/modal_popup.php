@@ -69,9 +69,9 @@
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	
-	<input type="submit" name="submit" value="Book" id="book" class="btn btn-success span3 offset5 book_app "/>
-	<input type="button" name="reschedule" value="Reschedule" id="reschedule_app" class="btn btn-success span3 offset5 reschedule_app "/>
-	<input type="button" name="delete" value="Cancel" id="deleteApp" class="btn btn-success span3 offset5 delete_app "/>
+	<input type="submit" name="submit" value="<?=(lang('Apps_book'))?>" id="book" class="btn btn-success span3 offset5 book_app "/>
+	<input type="button" name="reschedule" value="<?=(lang('Apps_reschedule'))?>" id="reschedule_app" class="btn btn-success span3 offset5 reschedule_app "/>
+	<input type="button" name="delete" value="<?=(lang('Apps_cancel'))?>" id="deleteApp" class="btn btn-success span3 offset5 delete_app "/>
 	<input type="hidden" name="user_id" id="users_id" value="<?=$user_id?>" />
 	<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>

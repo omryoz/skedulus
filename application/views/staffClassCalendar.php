@@ -30,7 +30,7 @@ if(!isset($this->session->userdata['id'])){
 <div class="row-fluid business_profile">
 <!---<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>		---->
 <ul class="breadcrumb">
-  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>">My business profile</a> <span class="divider">/</span></li>
+  <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?=(lang('Apps_businessProfile'))?></a> <span class="divider">/</span></li>
   <li class="active"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></li>
   <li class="pull-right">
   <?php 

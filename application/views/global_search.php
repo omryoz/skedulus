@@ -20,7 +20,7 @@
 	<div class="row-fluid business_profile ">
 		<div class="row-fluid Wrap">
 			<div class="wrap_inner">
-			<h3>Search Businesses</h3>
+			<h3><?=(lang('Apps_searchbusiness'))?></h3>
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="post" name="search">
 					<div class="span4">
@@ -43,7 +43,7 @@
 				
 			</div>
 		</div>
-		<div class="row-fluid global_page">
+		<?php /*<div class="row-fluid global_page">
 					<ul class="inline unstyled g-search">
 						
 						<!-- <li>
@@ -58,18 +58,18 @@
 						</li>
 						
 					</ul>
-		</div>
+		</div> */?>
 		<div class="row-fluid global-block">
 		
 			<div class="span12 ">
 				
-					<ul class="inline unstyled g-search">
+					<!--<ul class="inline unstyled g-search">
 						<li>Sort By:</li>
 						<li><a href="#"><span class="label label-info">Distance from me</span></a>
 						</li>
 						<li><a href="#"><span class="label">Rating</span></a></li>
 						<li><a href="#"><span class="label">pricing</span></a></li>
-					</ul>
+					</ul>-->
 					<hr/>
 					<?php //print_r($searchResult); 
 					if(isset($searchResult) && $searchResult!="") {
@@ -100,16 +100,16 @@
 								<!---<a href="javascript:void(0)" id="addfav<?php echo $result->business_id ?>" onclick="addfav(<?php echo $result->business_id ?>);" ><i class="icon-star-empty icon-2x pull-right tool favourite" data-toggle="tooltip" value="<?php echo $result->business_id ?>" action="add"  data-original-title="add to Favourite " id="star<?php echo $result->business_id ?>"></i></a>	--->
 								<?php }		?>
 								
-								<?php }	?>
-								
+								<?php } ?>
+									<?php $count = $this->utilities->getPhotosLike($result->business_id,"business") ?>
 									<div class="stronger">
-										<h4> <a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?php echo  $result->manager_firstname." ".$result->manager_lastname ?></a> <i class="icon-heart  tool" data-toggle="tooltip"  data-original-title="25 " data-placement="right"></i>
-										</h4>
+										<h4> <a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?php echo  $result->manager_firstname." ".$result->manager_lastname ?></a> <i alt="<?=(!empty($result->business_id))?$result->business_id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>" id="business" class="likes <?=(!empty($favorite) && in_array($result->business_id,$favorite))?"icon-heart":"icon-heart-empty"?>  tool" data-toggle="tooltip"  data-original-title="<?=($count)?$count:""?>" data-placement="right" ></i>
+										</h4> 
 									 </div>
 									
 									<small><?php  echo $result->category_name ?> </small>
 										<br clear="left">				
-									<small class="muted"><?php echo $result->business_description;?><br clear="left">	<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>">read more</a></small>
+									<small class="muted"><?php echo $result->business_description;?><br clear="left">	<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?=(lang('Apps_readmore'))?></a></small>
 									
 								<ul class="unstyled inline pull-right ul-rating">
 								<li><div id="star" class="star-rate"> </div></li>		
@@ -125,7 +125,7 @@
 					}?>
 					<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 <?php					}else{ ?>
-					 <p class="alert">No result found</p>
+					 <p class="alert"><?=(lang('Apps_noresultfound'))?></p>
 					<?php } ?>
 						
 						

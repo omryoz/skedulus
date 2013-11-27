@@ -21,7 +21,7 @@ $("#successaddstaffs").hide();
 </script>
 <?php error_reporting(0); ?>
 					  
-						 <h5>Assign Staffs Availability </h5>
+						 <h5><?=(lang('Apps_assignstaffsavailability'))?></h5>
 <?php //if(isset($isExistBAvailability) && $isExistBAvailability!=''){ ?>
 	<?php 
 	            for($i=1;$i<=7;$i++) { 

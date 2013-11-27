@@ -45,7 +45,7 @@
 					</div>
 		  		</div>
 				<?php }else{?>
-				 <p class="alert">No favourite businesses yet</p>
+				<p class="alert"><?=(lang('Apps_nofavourite'))?></p>
 				<?php }?>
 		</div>
 			
