@@ -25,7 +25,7 @@
                      }
 					},
 					phonenumber :{
-					required: true,
+					//required: true,
 					digits: true
 					}
                 },
@@ -38,7 +38,7 @@
 					remote: "Email already exist"
 					},
 				    phonenumber: {
-					required: 'Phone number is required',
+					//required: 'Phone number is required',
 					digits: "Only numbers are allowed",
 					}
                 },

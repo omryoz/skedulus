@@ -26,7 +26,13 @@
 								<a href="<?php echo base_url(); ?>content/help"><center>
 								<i class="icon-question-sign icon-white icon-large"></i></center><span><?=(lang('Apps_help'))?></span></a>
 							</li>
-							<?php if($this->session->userdata('role')=="manager") { ?>
+							<?php 
+							$status='';
+							if(isset($this->session->userdata['id'])){
+							$status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+							}
+							?>
+							<?php if($status!="") { ?>
 							 <li>
 								
 							</li> 

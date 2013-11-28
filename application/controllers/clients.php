@@ -3,6 +3,7 @@
 class Clients extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->model('bprofile_model');
@@ -14,9 +15,12 @@ class Clients extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		}else{
+		header("Location:" . base_url());
+		}
     }
 	
-	public function list_clients(){
+	public function list_clients($keyword=false){
 	if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
@@ -28,25 +32,43 @@ class Clients extends CI_Controller {
 	// $this->parser->parse('include/header',$this->data);
 	 $this->parser->parse('include/dash_navbar',$this->data);
 	
-	 $where=" user_business_details_id =".$this->session->userdata['business_id'];
-	 $config['total_rows'] = $this->common_model->getCount('view_business_clients','users_id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'clients/list_clients/';
-			$config['per_page'] = '10';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
-			}else{
-			$offset=0;
-			}
-			 $this->data['tableList']=$this->bprofile_model->getclientsList($offset,$config['per_page']);
-			
-            /* End Pagination Code  */
+	
+	$filter = array();
+		$query = "";
+		$where=" user_business_details_id =".$this->session->userdata['business_id'];
+		if(!empty($_GET['keyword']) && $_GET['keyword']){
+			$keyword = $_GET['keyword'];
+			$this->data['search']=$keyword;
+			$where.= " AND first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%'";
 		}
-	 
-	 
+		
+		$inf = $_REQUEST; 
+		if(!empty($inf)){
+			$index=0;
+			foreach($inf as $f){
+				if($index==0){
+					$concat = '?';
+				}else{
+					$concat = '&';
+				}
+				if($index==0)
+					if(isset($_GET['keyword']))
+					$query .= $concat.'keyword='.$_GET['keyword'];
+				
+				$index++;	
+			}
+		}
+	
+	
+		    $config['page_query_string'] = TRUE;
+			$config['per_page'] = '10';
+			
+			$this->data['tableList'] = $this->bprofile_model->getclientsList($keyword,(!empty($_GET['per_page']))?$_GET['per_page']:0,$config['per_page']);
+		    $config['total_rows'] = $this->common_model->getCount('view_business_clients','users_id',$where);
+		    $config['base_url'] = base_url().'clients/list_clients/'.$query;
+		    $this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			
 	  $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
 	 $this->parser->parse('clients',$this->data);

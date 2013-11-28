@@ -59,15 +59,7 @@
     });
 
 })(jQuery, window, document);
-function resetCForm(){
-  $("#addClients")[0].reset();
-    $("#update").hide();
-	$("#insert").show();
-	$("#edit").hide();
-	$("#add").show();
-	$("input").removeClass('error');
 
-}
 </script>
             <div id="myTabContent" class="tab-content tabcontentbg">	  
 			  <!-- basic info start -->
@@ -78,6 +70,24 @@ function resetCForm(){
 						   <a href="#" class="btn pull-right btn-success client" data-toggle="modal" onclick= "addClient();">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php if(isset($tableList)) { ?>
+						<div class="row-fluid strip">
+					<form action="<?php echo base_url() ?>clients/list_clients/" method="GET">
+						<div class="span10">
+						<?php if(isset($search)){
+						 $search=$search;
+						}else{
+						$search='';
+						}?>
+							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_businessfor'))?>">
+							
+						</div>
+						
+						<div class="span2">		
+                         <input type="submit" name="search" class="btn btn-success span12" value="<?=(lang('Apps_search'))?>">						
+						
+						</div>
+					</form>
+				</div>
 						<table class="table table-striped  table-staff table-hover " >
 									  <thead>
 										<tr >

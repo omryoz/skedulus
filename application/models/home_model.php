@@ -76,18 +76,24 @@ function getBusiness($offset=false,$limit=false){
 	
 	function updateUser(){
 	$status=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
+	if($status){
 	if($status->status=='active'){
 	$val="alreadyUser";
 	}else{
 	$sql=mysql_query("update users set status='active' where activationkey='$_GET[activation_link]'");
-	   $sessionVal=array(
+	$val="newUser";
+	$sessionVal=array(
 			 'id'=>$status->id,
 			 'username'=>$status->first_name,
-			 'email'=>$status->email
+			 'email'=>$status->email,
+			 'role'=>$status->user_role
 		 );
-		 $this->session->set_userdata($sessionVal);	
-	$val="newUser";
+		 $this->session->set_userdata($sessionVal);
 	}
+	
+    }else{
+	$val='noUser';
+	}		 
 	 return $val;
 	}
 	
@@ -136,8 +142,28 @@ function getBusiness($offset=false,$limit=false){
     $chars = "0123456789";
     $password = substr( str_shuffle( $chars ), 0, $length );
     return $password;
-}
+   }
 	
+	function deletemyapp(){
+	    if($_POST['type']=='class'){
+		    $sql=("select * from user_business_posted_class where id='".$_POST['postedclassid']."'");
+			$query=$this->db->query($sql);
+			$res= $query->result();
+			foreach($res as $val){
+			$avail=$val->availability;
+			$class_size=$val->class_size;
+			   
+		   $update_avail=($avail+1); 
+		   if($update_avail<=$class_size){
+		   $sql1=mysql_query("update user_business_posted_class set availability='".$update_avail."' where id=".$_POST['postedclassid']);
+	       }
+		   }	
+		}
+		//echo "delete from client_service_appointments  where id=".$_POST['eventId'];
+		$sql2=mysql_query("delete from client_service_appointments  where id=".$_POST['eventId']);
+		echo '1';
+		//return true;
+	}
 	
 }
 ?>

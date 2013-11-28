@@ -463,9 +463,18 @@ $(".delete_app").live("click",function(){
 		str=str+"&type="+$("#type").html(); 
         str=str+"&postedclassid="+$("#services_id").html();		
 		str=str+"&eventId="+$("#eventId").val(); 
+		
+		if($(".page").html()=='home'){
+		var url1=base_url+"cprofile/deletemyapp"; 
+		$.post(url1,{type:$("#type").html(),postedclassid:$("#services_id").html(),eventId:$("#eventId").val()},function(data){
+		window.location.href=base_url+'cprofile';
+		})
+		
+		}else{
 		ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});	
 		$("#book").modal('hide');
 		$("#postclass").modal('hide');
+		}
 		}
 	  }
 	  })

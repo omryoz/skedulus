@@ -21,12 +21,22 @@ class Home extends CI_Controller {
 	public function index() {
 	   $this->page();
 	}
-	public function page(){
+	public function page($msg=false){
 		  $Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->parser->parse('include/header',$this->data);
-		
+		if($msg){
+		  if($msg=='success'){
+		     $this->data['msg']="successfull";
+		  }else if($msg=='fail'){
+             $this->data['msg']="Email does not exist. Try again";		  
+		  } else if($msg=='active'){
+             $this->data['msg']="Your account is active. Kindly login to continue";		  
+		  } else if($msg=='allreadyuser'){
+             $this->data['msg']="Your account is already active. Kindly login to continue";		  
+		  }
+		}
 		
 		$where=" user_status='active' and business_status='active'";
 	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
@@ -60,7 +70,27 @@ class Home extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
-	
+	 public function resend(){
+     $userdetails= $this->common_model->getRow("users","email",$_POST['toemail']);
+	 if($userdetails){
+	  if($userdetails->status=='inactive'){
+	         $this->data['name'] = $userdetails->first_name." ".$userdetails->last_name;
+		     $this->data['activation_key'] = $userdetails->activationkey;
+		     $email = $userdetails->email; 
+			 $subject ="Account Activation";	
+			 $message=$this->load->view('account_activation',$this->data,TRUE);
+			
+			$this->common_model->mail($email,$subject,$message);
+			$msg="success";
+			}else{
+			$msg="active";
+			}
+			}else{
+			$msg="fail";
+			}
+     $this->page($msg);
+ }
+ 
 	public function employee(){
 	$this->data['userRole']="employeelogin";
 	$this->data['signUp']="businessSignUp";
@@ -105,49 +135,45 @@ class Home extends CI_Controller {
    }	
 	
 	public function businesslogin(){
-	//$this->data['userRole']="businesslogin";
-	//$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
 	  $val= $this->home_model->updateUser();
+	  //print_r($val); exit;
 	  if($val=="newUser"){
 	  redirect('basicinfo');
 	  }else if($val=="alreadyUser"){
-	    $this->data['alreadyUser']="alreadyUser";
+	   $msg='allreadyuser';
+	   $this->page($msg);
+	    //$this->data['alreadyUser']="alreadyUser";
+		 // $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
+		 // if($status){
+		      // if($status->status=='active'){
+			  // $sub=$this->common_model->getRow("user_business_subscription","users_id",$this->session->userdata['id']);
+			 // $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual','subscription'=>$sub->subscription_id);
+			  // $this->session->set_userdata($sessionVal);
+			
+			   // if($this->session->userdata['business_type']=="service"){
+						// $id=$this->session->userdata['business_id'];
+						// $link = 'cal/'.$id;		
+					// }else{
+					     // $id=$this->session->userdata['business_id'];
+						 // $link = 'calendar_business/'.$id;	
+					// }
+					// redirect('bcalendar/'.$link);
+					// }else{
+					// $this->deactivated();
+					// }
+			 // }else{
+			 // redirect('basicinfo');
+			 // }
+	  }else if($val=="noUser"){
+	     $msg="fail";
+	     $this->page($msg);
 	  }
 	}
-	//if(isset($_GET['checkinfo'])){
-		// $password= MD5($_POST['password']);
-		 // $where=" And password='".$password."' AND user_role='manager' and status='active'";
-		 // $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
-		 
-		 // if($values==""){
-			 // $this->data['failure']="Failure";
-			 // $this->parser->parse('include/meta_tags',$this->data);
-			 // $this->parser->parse('general/login',$this->data);
-		 // }else{
+	
 		
-		 // $sessionVal=array(
-			 // 'id'=>$values->id,
-			 // 'username'=>$values->first_name,
-			 // 'email'=>$values->email,
-			 // 'role'=>$values->user_role
-		 // );
-		 //$this->session->set_userdata($sessionVal);
-		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
-		 if($status){
-			 $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type);
-			  $this->session->set_userdata($sessionVal);
-			 redirect('overview'); 
-			 }else{
-			 redirect('basicinfo');
-			 }
-		 }
-		//}
-		// else{
-		// $this->parser->parse('include/meta_tags',$this->data);
-		// $this->parser->parse('general/login',$this->data);
-		// }
-	//}
+}
+		
 	
 	public function clientlogin(){ 
 	if(isset($_POST['referal_url'])){
@@ -406,7 +432,29 @@ function hybrid($provider1){
 }
 
 public function clientSignUp(){
+			/*if(isset($user_profile['first_name'])){
+			   $this->data['first_name']=$user_profile['first_name'];
+			   }else{
+			     $this->data['first_name']='';
+			}
+			if(isset($user_profile['last_name'])){
+				$this->data['last_name']=$user_profile['last_name'];
+				   }else{
+					 $this->data['last_name']='';
+				   }
+			   
+			if(isset($user_profile['gender'])){
+				$this->data['gender']=$user_profile['gender'];
+					   }else{
+						 $this->data['gender']='';
+					   }
+					   if(isset($user_profile['email'])){
+				$this->data['email']=$user_profile['email'];
+					   }else{
+						 $this->data['email']='';
+					   }*/
     $this->data['social'] =  $this->session->userdata('social_account'); 
+	//print_r( $this->data['social']);
 	$this->data['userRole']="clientSignUp";
 	$this->data['signUp']="clientlogin";
 	if(isset($_GET['checkino'])){
@@ -456,12 +504,10 @@ public function clientSignUp(){
 		$this->load->view("examples/social_hub/login");
 	}
 	
-	public function resetpassword(){
-		$this->data['signUp']="clientlogin";
+	function reset(){
 		if($this->input->get_post('key')){
-				//if($this->input->post('cpassword')==$this->input->post('password')){
+				
 				$query = $this->db->get_where('users',array('activationkey' => $this->input->get_post('key')));
-				//echo $this->db->last_query();
 				if($query->num_rows()>0){
 					$info = $query->result();
 				}else{
@@ -479,7 +525,8 @@ public function clientSignUp(){
 							//$this->musers->updatePasswordByfilter($info[0]->id,$filter);
 							#$this->muser->updateUserinformation('db_userinfo',$filter,array('id'=>$info[0]->id)); 
 							$this->cprofile_model->updateUserinfoByfilter($filter,$info[0]->id);					 		
-							$this->data['message'] = "Password Reset. Please login now.";
+							$this->data['message'] = "Password Reset successful. Please login now.";
+							
 						} 
 						
 				}
@@ -487,13 +534,55 @@ public function clientSignUp(){
 						$this->data['message'] = "Wrong authentication.";
 						
 				}
-				$this->parser->parse('include/meta_tags',$this->data);
-				$this->load->view("reset_password",$this->data);
+				$this->data['userRole']="clientlogin";
+		        $this->data['signUp']="clientSignUp";
+				$this->data['message']="Password Reset successful. Please login now.";
+		        $this->parser->parse('include/meta_tags',$this->data);
+		        $this->parser->parse('general/login',$this->data);
 				
-				
-		}else{
-			echo 'Wrong Authentication';
 		}
+ 
+	}
+	public function resetpassword(){
+		// $this->data['signUp']="clientlogin";
+		// if($this->input->get_post('key')){
+				
+				// $query = $this->db->get_where('users',array('activationkey' => $this->input->get_post('key')));
+				
+				// if($query->num_rows()>0){
+					// $info = $query->result();
+				// }else{
+					// $info = false;
+				// }
+				
+				// if(!empty($info)){
+						
+						// if($this->input->post('password')){
+							// $this->load->model("cprofile_model");
+							
+							
+							
+							// $filter = array('password'=>md5($this->input->post('password')));	
+							
+							// $this->cprofile_model->updateUserinfoByfilter($filter,$info[0]->id);					 		
+							// $this->data['message'] = "Password Reset. Please login now.";
+						// } 
+						
+				// }
+				// else{
+						// $this->data['message'] = "Wrong authentication.";
+						
+				// }
+				// $this->parser->parse('include/meta_tags',$this->data);
+				// $this->load->view("reset_password",$this->data);
+				
+				
+		// }else{
+			// echo 'Wrong Authentication';
+		// }
+		$this->data['signUp']="clientlogin";
+		$this->load->view('include/meta_tags',$this->data);
+		$this->load->view("reset_password",$this->data);
 	}
 	
 	

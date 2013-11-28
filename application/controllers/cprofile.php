@@ -4,6 +4,7 @@ class Cprofile extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->helper('url');
@@ -17,6 +18,9 @@ class Cprofile extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		}else{
+		header("Location:" . base_url());
+		}
     }
 	
 	public function index() {
@@ -61,13 +65,15 @@ class Cprofile extends CI_Controller {
 		 $this->parser->parse('include/navbar',$this->data);
 		 $this->data['user_id'] = $this->session->userdata('id');
 		 $currentTimestamp=date('Y-m-d H:i:s');
-		 $where=' start_time >="'.$currentTimestamp.'" and users_id= "'.$this->session->userdata('id').'" and booked_by="client" ORDER by start_time DESC';
+		 $where=' start_time >="'.$currentTimestamp.'" and users_id= "'.$this->session->userdata('id').'" and booked_by="client" ORDER by start_time ASC';
 		 
 		 // $where=' users_id= "'.$this->session->userdata('id').'"  and DATE(start_time)>="'.date('Y-m-d').'" ORDER by start_time ASC LIMIT 0,2';
 		 $this->data['appDetails']=$this->cprofile_model->getAllStartDates($where,0,2);
 		 $status=$this->common_model->getRow("users","id",$this->session->userdata('id'));
+		 $this->data['businessId']='';
 		 if($status->status=='active'){
 		 $this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('include/modal_bookclass',$this->data);
 		 $this->parser->parse('include/modal_verifyphone',$this->data);	
 		 $this->parser->parse('business_home',$this->data);
 		 $this->parser->parse('include/footer',$this->data);
@@ -112,7 +118,11 @@ class Cprofile extends CI_Controller {
 		  }
 	   
 	}
-	
+
+    function deletemyapp(){
+	    $this->home_model->deletemyapp();
+	}	
+   
 }
 
 ?>

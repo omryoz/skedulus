@@ -3,6 +3,7 @@
 class Gallery extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('pagination');
 		$this->load->library('parser');
@@ -13,6 +14,9 @@ class Gallery extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		}else{
+		header("Location:" . base_url());
+		}
     }
 	
 	public function list_gallery(){

@@ -4,6 +4,7 @@ class Dash extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
+		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('pagination');
 		$this->load->library('parser');
@@ -19,6 +20,9 @@ class Dash extends CI_Controller {
 		
 	    $this->utilities->language();
 		$this->data['admin']='admin';
+		}else{
+		header("Location:" . base_url());
+		}
     }
 	
 	public function index() { //print_r($_POST); exit;

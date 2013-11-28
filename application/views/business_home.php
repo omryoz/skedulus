@@ -143,6 +143,8 @@
 						  print_r(lang('Apps_upcoming'));
 						}	
 						?>
+						<p id="services_id" class="hide"></p>
+						<span id="type"></span> <span class="page"></span> 
 				</div>
 				</div>
 				<!-- <div class="row-fluid Wrap">
@@ -208,16 +210,18 @@ function Appdetails(eventid){
 	   type:'POST',
 	   success:function(data){ 
 	       $.each(eval(data),function( key, v ) {
+		    $("#type").html(v.type);
+			$(".page").html('home');
 			// $("#business_name").html(v.business_name);
-			 $("#business_id").html(v.business_details_id);
-			 $("#services_id").html(v.services_id);
+			 // $("#business_id").html(v.business_details_id);
+			 // $("#services_id").html(v.services_id);
 			// if(v.e_first_name!="" || v.e_last_name!=""){
 			// $("#name").html(v.e_first_name+" "+v.e_last_name);
 			// }else{
 			// $("#serviceprovider").css("display",'none');
 			// }
 			if(v.type=='class'){ 
-			classDetails(eventid);
+			classDetails(eventid,v.business_details_id,v.services_id);
 			 var type='Class';
 			 $("#type").html(type);
 			}else{
@@ -234,13 +238,17 @@ function Appdetails(eventid){
 	   
 	}
 	
-	function classDetails(eventid){
+	function classDetails(eventid,business_details_id,services_id){
+	$("#business_id").html(business_details_id);
+	$("#services_id").html(services_id);
        $("#schedule").val('1');	
 		$("#updateid").val(eventid);
 		$(".appoint-heading").html("Appointment details");
 	    $("#postclass").modal("show");
 	}
-	function serviceDetails(eventid){
+	function serviceDetails(eventid,business_details_id,services_id){
+	$("#business_id").html(business_details_id);
+	$("#services_id").html(services_id);
 		$("#eventId").val(eventid);
 	   $(".titleAppointment").html("Reschedule an appointment");
 	   $("#book").modal('show');

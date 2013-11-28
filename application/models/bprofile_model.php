@@ -340,7 +340,7 @@ class bprofile_model extends CI_Model {
 	//END
 	
 	//Gallery 
-	function insertPhoto(){
+	function insertPhoto(){ 
 		$insertArray=array();
 		$data=$this->common_model->uploadFile("gallery");
 		$insertArray['user_business_details_id']= $this->session->userdata['business_id']; 
@@ -403,9 +403,14 @@ class bprofile_model extends CI_Model {
 		return true;
 	}
 	
-	function getclientsList($offset,$limit){
+	function getclientsList($keyword=false,$offset,$limit){
 	// echo "Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
-		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
+	$where='1';
+	if($keyword){
+	$where.= " AND first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%'";
+	}
+	
+		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and $where LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

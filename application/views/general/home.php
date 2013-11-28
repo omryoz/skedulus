@@ -18,9 +18,10 @@
 </script>
 	
 	<div class="content ">
-	<?php if(isset($success)){ ?>
-	<p class="alert"><?=(lang('Apps_verificationlink')) ?></p>
+	<?php if(isset($msg)){ ?>
+	<p class="alert"><?=$msg ?></p>
 	<?php } ?>
+	
 		<div class="container">
 			<div class="row-fluid ">
 				<div class="span12">

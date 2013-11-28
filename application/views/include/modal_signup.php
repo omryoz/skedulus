@@ -53,8 +53,57 @@
 		</div>
 		<div class="row-fluid">
     <button type="submit" class="btn btn-success offset3 span6"> <?=(lang('Apps_signup'))?></button>
+	<a href="javascript:;" class="pull-right revert reveall" onClick="$('#form2').toggle();$('#sign_up').toggle();"><?="Send link again?"?></a>
    </div>
   </div>
     </form>
+	<form name="reset" class="reset" id="form2" method="post" action="<?=base_url()?>home/resend">
+		   <input  type="text" class="span3"  placeholder="<?=(lang('Apps_emailaddress'))?>" name="toemail" />
+		   <input type="submit" name="submit" value="<?="Send"?>" class="btn btn-success span4" value="Reset" />
+		   <a href="javascript:;" class="pull-right revert" onClick="$('#form2').toggle();$('#sign_up').toggle();"><?=(lang('Apps_back'))?></a>
+	</form>
 	</div>
 </div>
+
+<script>
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
+            $("#form2").validate({
+                rules: {
+					toemail: {
+                        required: true,
+                        email: true,
+					},
+                },
+                messages: {
+				toemail: {
+					required: "  required",
+					email: "  invalid email id",
+					},					
+                },
+				
+				errorPlacement: function(error, element) {
+				  error.insertAfter( element ); 
+				},
+
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+
+</script>

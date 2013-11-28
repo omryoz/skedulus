@@ -229,19 +229,9 @@ class Common_functions extends CI_Controller {
 			 $this->data['success']="successfull";
 	}
 	 redirect('home/businessSignUp');
-	   //$this->parser->parse('include/header',$this->data);
-	  // $this->data['contentList']=$this->home_model->getBusiness();
-		// if(isset($this->session->userdata['business_id'])){
-			// $this->parser->parse('include/dash_navbar',$this->data);
-		// }
-		// if(!isset($this->session->userdata['business_id']) && isset($this->session->userdata['id'])){
-			// $this->parser->parse('include/navbar',$this->data);
-		// }
-		//$this->parser->parse('general/home',$this->data);
-		//$this->parser->parse('include/footer',$this->data);
-	  //$this->parser->parse('include/meta_tags',$this->data);
-	  //$this->load->view('general/signup',$this->data);
+	   
 }
+ 
 
 
 	public function clientSignUp(){

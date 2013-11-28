@@ -474,9 +474,13 @@ if($("#monthlylist").val()!=""){
     /**
      Clicking delete in Preview window
      */
-    function rzDeleteEvent(){ 
-   if(confirm("Are you sure you want to remove from list?")) {	
-		var str="?";
+     function rzDeleteEvent(){
+	 apprise('Are you sure want to delete posted classes?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deleteclass(); }else{ return false; } });	
+	
+  }  
+  
+  function deleteclass(){
+	var str="?";
 		//str=str+"eventName="+activeEvent.name; 
 		str=str+"&class_id="+$("#updateid").val();
 		if($("#postclass").attr("data-val")=='single'){
@@ -486,9 +490,8 @@ if($("#monthlylist").val()!=""){
 		 str=str+"&seriesid="+$("#postclass").attr("seriesid");
 		}
 		ajaxObj.call("action=deleteclass"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});
-        window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();		
-    } 
-  }  
+        window.location.href=base_url+'bcalendar/calendar_business/'+$("#business_id").html();
+  }
     /**
      * Click of Add in add event box.
      */
