@@ -184,5 +184,5 @@
 	display:inline;
 	}
 </style>
-
+<?php include('include/popupmessages.php'); ?>
 

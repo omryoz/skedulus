@@ -391,4 +391,5 @@ $("#businessType").val('services/list_services/?register');
  $("#business_type").html(selectedMenu);
 }
 </script>
+<?php include('include/popupmessages.php'); ?>
 

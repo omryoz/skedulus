@@ -738,3 +738,4 @@ if($("#tempimg").val()!=1){
 	</script>
 <?php } ?>
 <script src="<?php echo base_url(); ?>js/dates/core.js" type="text/javascript"></script>
+<?php include('include/popupmessages.php'); ?>

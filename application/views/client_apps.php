@@ -46,5 +46,5 @@
 			echo 0;
 			}?>
 		
-			
+	<?php include('include/popupmessages.php'); ?>		
 			

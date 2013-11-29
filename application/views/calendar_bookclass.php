@@ -591,3 +591,4 @@ window.location.href = base_url+'bcalendar/calendar_business/<?php print_r($staf
 	
 
 </script>
+<?php include('include/popupmessages.php'); ?>

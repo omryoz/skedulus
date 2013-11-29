@@ -15,11 +15,11 @@ var url = base_url+"gallery/checkfornum";
 	 $("#edit").hide();
 	 $("#add").show();
 	}else{
-	 apprise('Cannot add more photos for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise(morephotos, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	}
  })
 })
-$(".likes").on("click",function(){
+$(".likes").on("click",function(){ 
  var user_id = $(this).attr("rel");
  if(user_id){
  var details_id = $(this).attr("alt");
@@ -38,7 +38,7 @@ $(".likes").on("click",function(){
 	ele.attr("data-original-title",res[1]);
  });
  }else{
-	apprise("Kindly login to perform the action");
+	apprise(kindlylogin);
  }
 });
 
@@ -51,7 +51,7 @@ $(".alert").hide();
 var url=baseUrl+'cprofile/updatePhone';
  $.post(url,{phone:$("#updatePhone").val()},function(data){
  if(data==0){
-   $(".alert").html("Failed to send a message.Kindly enter a valid phone number");
+   $(".alert").html(failedtosendmessage);
    $(".alert").show();
   
   }else{
@@ -84,9 +84,9 @@ var url=baseUrl+'cprofile/updateStatus';
   $.post(url,{phone:$("#updatePhone").val(),keycode:$("#key").val()},function(data){
     if(data==0){
 	//alert("sorry");
-	$(".alert").html("The entered code does not match the sent code.Try again");
+	$(".alert").html(codenotsent);
 	}else{
-	$(".alert").html("Your phone number has been successfully verified.");
+	$(".alert").html(phoneverified);
 	}
 	$(".alert").show();
   })
@@ -97,9 +97,9 @@ $(".alert").hide();
 var url=baseUrl+'cprofile/sendagain';
   $.post(url,{phone:$("#updatePhone").val()},function(data){
    if(data==1){
-    $(".alert").html("Successfully sent.");
+    $(".alert").html(successfullysent);
 	}else{
-	$(".alert").html("Failed to send the SMS.");
+	$(".alert").html(failed);
 	}
 	$(".alert").show();
   })
@@ -151,7 +151,7 @@ var url = base_url+"staffs/checkfornum";
 	$("#insert").show();
 	$(".alert").hide();
 	}else{
-	 apprise('Cannot add more staffs for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise(morestaffs, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	}
  })
 
@@ -418,7 +418,7 @@ $("#type").val('myself');
  services(id);
  getBavail(businessid);
 }else{
-	 apprise('Cannot add more staffs for the subscribed subscription', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+	 apprise(morestaffs, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	}
 	})
 

@@ -19,3 +19,4 @@
 		</div>
  	</div>
 </div>
+<?php include('include/popupmessages.php'); ?>

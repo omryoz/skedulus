@@ -452,3 +452,4 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($this->session->use
 })
 	
 </script>
+<?php include('include/popupmessages.php'); ?>

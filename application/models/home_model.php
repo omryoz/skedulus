@@ -77,10 +77,12 @@ function getBusiness($offset=false,$limit=false){
 	function updateUser(){
 	$status=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
 	if($status){
-	if($status->status=='active'){
+	if($status->status=='active' && $status->statusflag=='1'){
 	$val="alreadyUser";
-	}else{
-	$sql=mysql_query("update users set status='active' where activationkey='$_GET[activation_link]'");
+	}else if($status->status=='inactive' && $status->statusflag=='1'){
+	$val="deactivated";
+	}else if($status->status=='inactive' && $status->statusflag=='0'){
+	$sql=mysql_query("update users set status='active', statusflag='1' where activationkey='$_GET[activation_link]'");
 	$val="newUser";
 	$sessionVal=array(
 			 'id'=>$status->id,

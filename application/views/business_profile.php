@@ -676,3 +676,4 @@ $(document).ready(function(){
 	
 });	
 </script>
+<?php include('include/popupmessages.php'); ?>

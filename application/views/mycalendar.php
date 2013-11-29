@@ -425,3 +425,4 @@ session_start();
 		});
 	</script>
 <?php } ?>
+<?php include('include/popupmessages.php'); ?>

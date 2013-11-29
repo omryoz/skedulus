@@ -189,3 +189,4 @@
 	
 
 <script src="<?php echo base_url(); ?>js/jquery.raty.js" type="text/javascript"></script>
+<?php include('include/popupmessages.php'); ?>

@@ -112,7 +112,7 @@ $(".favourite").click(function(){
 	var id=$(this).attr('data-val');
 	var action=$(this).attr('action');
 	if($(this).attr('action')=='remove'){
-	apprise('Are you sure you want to unfavourite this business?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ 
+	apprise(unfavouritebusiness, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ 
 	if(r){ 
 	addRemoveFav(id,action);
 	}else{ 
@@ -444,7 +444,7 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 
 	
 $(".delete_app").live("click",function(){ 
-	  apprise('Are you sure want to cancel appointment?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	  apprise(cancelappointment, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
 	 
 	 })
 	 
@@ -456,7 +456,7 @@ $(".delete_app").live("click",function(){
 		type:'POST',
 		success:function(data){  
 		if(data==0){ 
-		$(".message").addClass("alert").html("Cannot cancel the appointment now"); 
+		$(".message").addClass("alert").html(cannotcancelappointment); 
 		return false;
 		}else if(data==1){
 		var str="?";
@@ -642,10 +642,12 @@ $('#book').on('show', function () {
 	 $(".time").attr('disabled',true);
 	 $(".messageNote").attr('disabled',true);
 	 $(".add-on").hide();
+	 $(".st_date").removeClass("span12");
 	 }
       showappDetails();
 	 }else{ 
 	 $(".reschduleId").val('1');
+	 $(".st_date").addClass("span12");
 	  $(".add-on").show();
 	 $("#eventId").val("");
 	 $(".delete_app").hide();
@@ -661,6 +663,7 @@ $('#book').on('show', function () {
 $(".reschedule_app").click(function(){
      $(".reschduleId").val('1');
 	 $(".add-on").show();
+	 $(".st_date").addClass("span12");
      $(".delete_app").show();
 	 $(".reschedule_app").hide();
 	 $(".book_app").show();
@@ -734,7 +737,7 @@ $("#reschedulebtn").live("click",function(){
 		success: function(data) {
 		  //alert(data);
 		  if(data=='1'){
-			 $(".message").addClass("alert").html("Cannot reschedule the appoointment now");
+			 $(".message").addClass("alert").html(cannotrescheduleappointment);
 			 $(".book_appointment").attr("onsubmit","return false;");
 		  }else{
 		     $(".book_appointment").attr("onsubmit","return true;");
@@ -856,16 +859,16 @@ $(".time").live("change",function(){
 			data: { service_id : service_,starttime:starttime,date:date,business_id:business_id ,status:status ,action:$('.time').attr('action'),eventId:$('.time').attr('eventId'),staffid:staffid},
 			success: function(data) {
 				if(data==-2){ 
-				 $(".message").addClass("alert").html("Select atleast one service");
+				 $(".message").addClass("alert").html(selectservice);
 				 $(".book_appointment").attr("onsubmit","return false;");
 				}else if(data==0){
-				   $(".message").addClass("alert").html("Time Slot selected is not enough");
+				   $(".message").addClass("alert").html(timeslot);
 				   $(".book_appointment").attr("onsubmit","return false;");
 				}else if(data==-1){
-				    $(".message").addClass("alert").html("Cannot book an appointment now");
+				    $(".message").addClass("alert").html(cannotbookappointment);
 					$(".book_appointment").attr("onsubmit","return false;");
 				}else if(data==-3){
-				    $(".message").addClass("alert").html("Cannot book an appointment for this day so early");
+				    $(".message").addClass("alert").html(cannotbookfutureappointment);
 					$(".book_appointment").attr("onsubmit","return false;");
 				}else{
 					console.log(data);
@@ -903,8 +906,7 @@ $(".message").removeClass("alert").html(" ");
 
 
  
-  $("#staffSelect").live('change',function(){ //alert("here");
-    //alert($(".staff").val());
+  $("#staffSelect").live('change',function(){ 
 	if($(".staff").val()!='Select staff'){
 	$(".users_id").val($(".staff").val());
 	$staffid=$(".staff").val();
@@ -927,29 +929,27 @@ $(".message").removeClass("alert").html(" ");
 			data: { checked : checked,starttime:starttime,date:date,business_id:business_id,staffid:staffid,eventId:eventId,action:action},
 			success: function(data) {  
 				if(data==0){
-				   // $("#bookAppbtn").attr("href","javascript:;");
+				   
 				   $(".book_appointment").attr("onsubmit","return false;");
-					$(".message").addClass("alert").html("Time Slot selected is not enough").css({"display":"block","margin":"0px"});
-					//alert("Time Slots Not Available Which you are trying with services");
+					$(".message").addClass("alert").html(timeslot).css({"display":"block","margin":"0px"});
+					
 				}else if(data==1){
-				  //  $("#bookAppbtn").attr("href","javascript:;");
+				  
 				  $(".book_appointment").attr("onsubmit","return false;");
-					$(".message").addClass("alert").html("We won't work on selected date kindly select another day").css({"display":"block","margin":"0px"});
-				    //alert("We won't work on selected date kindly select another day");
+					$(".message").addClass("alert").html(nonworkingday).css({"display":"block","margin":"0px"});
+				    
 				}else if(data==-1){
-				   // $("#bookAppbtn").attr("href","javascript:;");
+				  
 				   $(".book_appointment").attr("onsubmit","return false;");
-					$(".message").addClass("alert").html("Cannot book an appointment now").css({"display":"block","margin":"0px"});
-				    //alert("We won't work on selected date kindly select another day");
+					$(".message").addClass("alert").html(cannotbookappointment).css({"display":"block","margin":"0px"});
+				    
 				}else if(data==-2){
 				  $(".book_appointment").attr("onsubmit","return false;");
-					$(".message").addClass("alert").html("Cannot book an appointment for this day so early").css({"display":"block","margin":"0px"});
+					$(".message").addClass("alert").html(cannotbookfutureappointment).css({"display":"block","margin":"0px"});
 				 }else{
 				    $(".end_time").val(data);
 					$(".book_appointment").attr("onsubmit","return true;");
 					
-				   // $("#bookAppbtn").attr("href","javascript:rzAddEvent();");
-					//$("#eventEndTime").val(data);
 				}
 				
 			},
@@ -1016,7 +1016,7 @@ $(".eventGroup").live("click",function(){
  $(".book_app").live('click',function(){
 	if ($('.book_appointment :checkbox:checked').length <= 0){
       //alert("here");
-	  $(".message").addClass("alert").html("Select atleast one service");
+	  $(".message").addClass("alert").html(selectservice);
 				 $(".book_appointment").attr("onsubmit","return false;");
     }
 	// else{
@@ -1073,14 +1073,14 @@ $("#bookclass").live("click",function(){
   type:"POST",
   success:function(data){   
    if(data=="booked"){
-    var messg="Already booked";
+    var messg=alreadybooked;
 	$("#booksuccess").html(messg);
 	 $("#booksuccess").show();
    }else if(data=="login"){ 
     window.location.href=base_url+'home/clientlogin';
    }else{ 
      $("#available").html(data);
-     var messg="Booked Successfully";
+     var messg=bookedsuccessfully;
 	 $("#booksuccess").html(messg);
 	 $("#booksuccess").show();
    }
@@ -1092,7 +1092,7 @@ $("#bookclass").live("click",function(){
 
 $(".launch").on("click",function(){ 
     $(".viewSchedule").hide();
-	$(".titleAppointment").html("Book an appointment");
+	$(".titleAppointment").html(bookappointment);
     $(".message").removeClass("alert").html(" ");
 	var businessid = $("#profileid").html();
 	var staffid='';
@@ -1109,13 +1109,13 @@ $(".launch").on("click",function(){
 	 var url=base_url+"bcalendar/checkfordate";
     $.post(url,{date:date,business_id:businessid,staffid:staffid},function(data){
 	 if(data==-1){
-	 apprise('Its a non working day.Kindly book on another day', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	 apprise(nonworkingday, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	 // alert("Its a non working day.Kindly book on another day");
 	 }else if(data==0){
-	 apprise('Cannot book for past days', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	 apprise(pastdates, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else if(data==-2){
-	 apprise('Cannot book an appointment for this day so early', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	 apprise(cannotbookfutureappointment, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else if(data==-3){
 	 window.location.href=base_url+'businessProfile/redirectUrl/?url='+$("#redirecturl").val();
@@ -1339,7 +1339,7 @@ function getClassfreeslots(start_date,business_id,staff_id,eventId,timeslot){
 			if(info==0){
 			$("#book").attr("href","javascript:;");
 			//$(".book_appointment").attr("onsubmit","return false;");
-			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
+			$(".message").addClass("alert").html(nonworkingday);
 			$(".time").html(""); 
 			}
 			else{
@@ -1374,14 +1374,14 @@ if($("#actionVal").val()==''){
    $("#available").html(v.avail);
    $("#clientform")[0].reset();
    }else{
-   $(".message").addClass("alert").html("Updated Succesfully");
+   $(".message").addClass("alert").html(updatedsuccessfully);
    }
   })
   
  }
  })
 }else{
-  $(".message").addClass("alert").html("Client name is required");
+  $(".message").addClass("alert").html(clientname);
   return false;
 }
 })
@@ -1401,18 +1401,7 @@ $(".clientlist").click(function(){
  $("#clientlist").html("");
  $("#actionVal").val("");
  clientlist($("#eventId").html());
- // $.ajax({
- // url:base_url+"bcalendar/clientlist",
- // data:data,
- // type:'POST',
- // success:function(data){ 
-  // $.each(eval(data),function(i,v){ 
-   // var clientHtml='<li id="app'+v.id+'"><a href="javascript:;" class="editclient" clientid='+v.users_id+' appid='+v.id+' >'+v.clients_first_name+' '+v.clients_last_name+'</a></li>';
-   // $("#clientlist").append(clientHtml);
-  // })
-  
- // }
- // })
+ 
 })
 
 function clientlist(classid){
@@ -1466,12 +1455,12 @@ $("#bookClass").click(function(){
   var messg="";
 //$("#booksuccess").html(messg);  
    if(data==0){ 
-    messg="Cannot Book now";
+    messg=cannotbookappointment;
    }else if(data==1){
-     messg="Already Booked";
+     messg=alreadybooked;
    }else{
 	 $("#available").html(data);
-     messg="Booked Successfully";
+     messg=bookedsuccessfully;
    }  
 	 $("#booksuccess").html(messg);
 	 $("#booksuccess").show();
@@ -1577,11 +1566,11 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 			if(info==0){
 			//$("#book").attr("href","javascript:;");
 			$(".book_appointment").attr("onsubmit","return false;");
-			$(".message").addClass("alert").html("We won't work on selected date kindly select another day");
+			$(".message").addClass("alert").html(nonworkingday);
 			//$(".time").html(""); 
 			}else if(info==-2){
 				$(".book_appointment").attr("onsubmit","return false;");
-				$(".message").addClass("alert").html("Cannot book an appointment for this day so early").css({"display":"block","margin":"0px"});
+				$(".message").addClass("alert").html(cannotbookfutureappointment).css({"display":"block","margin":"0px"});
 		   }
 			else{
 			$(".book_appointment").attr("onsubmit","return true");	
@@ -1773,7 +1762,7 @@ $(document).ready(function(){
 	$(".confirm").on("click",function(e){
 	var this_ele = $(this);
 e.preventDefault();
-apprise('Are you sure want to delete?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
+apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=this_ele.attr("href"); }else{ return false; } });
 	
 });
   
@@ -1800,9 +1789,9 @@ $("#oppintment_reminder_off").click(function() {
 	var url=base_url+'clients/Notification_settings';
 	$.post(url,data,function(data){ 
 	  if(data==0){
-	  $(".message").addClass("alert").html("Settings inserted successfully").css('display','block');
+	  $(".message").addClass("alert").html(settingsinserted).css('display','block');
 	  }else{
-	  $(".message").addClass("alert").html("Settings updated successfully").css('display','block');
+	  $(".message").addClass("alert").html(settingsupdated).css('display','block');
 	  }
 	})
   })

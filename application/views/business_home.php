@@ -277,3 +277,4 @@ function Appdetails(eventid){
 	</script>
 <?php } ?>
 
+<?php include('include/popupmessages.php'); ?>

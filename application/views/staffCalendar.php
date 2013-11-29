@@ -501,3 +501,4 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($staff_details[0]->
 }
 })	
 </script>
+<?php include('include/popupmessages.php'); ?>

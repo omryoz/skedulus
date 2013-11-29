@@ -14,3 +14,11 @@
 <?php }}else{ ?>
 	<!---<div style="line-height:10px;">No Comments found.</div>--->
 <?php }?>
+<script>
+$(document).ready(function(){
+ <?php if(empty($comments)) {?>
+ $(".comment-list").hide();
+ <?php }?>
+})
+</script>
+<?php include('include/popupmessages.php'); ?>

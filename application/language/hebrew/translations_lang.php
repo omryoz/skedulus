@@ -66,6 +66,7 @@
 		$lang['Apps_emailpwdnotmatch'] = ".אימייל וסיסמא אינו תואמת. אנא נסה שוב";
 		$lang['Apps_activeuserforlogin'] = "אתה משתמש פעיל. אנא הירשם כדי להמשיך";
 		$lang['Apps_deactivateduserforlogin'] = "Account has been deactivated";
+		$lang['Apps_emaildoesnotexist'] = "Email does not exist. Try again";
         /* login page end*/  
 		
 		/* signup page start*/ 
@@ -95,7 +96,7 @@
 		$lang['Apps_special'] = "מבצעים";
 		/* client navbar end*/ 
 		
-		// $lang['Apps_confirmdelete'] = "האם אתה בטוח שברצונך למחוק?";
+	    $lang['Apps_confirmdelete'] = "האם אתה בטוח שברצונך למחוק?";
 		/* setting start*/ 
 		$lang['Apps_changepwd'] = "שינוי סיסמא";
 		$lang['Apps_personal'] = "אישי";
@@ -380,6 +381,57 @@
 	   $lang['Apps_readmore'] = "read more";
 	   $lang['Apps_noresultfound'] = "No result found"; 
 	   $lang['Apps_resetpassword'] = "Reset Password";
-       $lang['Apps_resetnow'] = "Reset Now";	   
+       $lang['Apps_resetnow'] = "Reset Now";	
+
+       /* business dashboard alert pop-up messages*/
+	   $lang['Apps_kindlylogin']="Kindly login to perform the action";
+       $lang['Apps_morephotos']="Cannot add more photos for the subscribed subscription";
+	   $lang['Apps_morestaffs']="Cannot add more staffs for the subscribed subscription";
+
+       /*pop-up for phone number verifications*/	   
+       $lang['Apps_failedtosendmessage']="Failed to send a message.Kindly enter a valid phone number";
+       $lang['Apps_codenotsent']="The entered code does not match the sent code.Try again"; 	
+	   $lang['Apps_phoneverified']="Your phone number has been successfully verified.";
+	   $lang['Apps_successfullysent']="Message sent successfully";	
+       $lang['Apps_failed']="Failed to send the SMS.";	
+
+		/* client dashboard alert pop-up messages*/
+		$lang['Apps_unfavouritebusiness']="Are you sure you want to unfavourite this business?";
 		
+		/*booking appointments pop-up*/
+		
+		/*cancel appointment*/
+	   $lang['Apps_cancelappointment']="Are you sure want to cancel the appointment?";
+	   /*if try canceling before the settings set in business settings*/
+	   $lang['Apps_cannotcancelappointment']="Cannot cancel the appointment now";
+	   /*if try rescheduling before the settings set in business settings*/
+	   $lang['Apps_cannotrescheduleappointment']="Cannot reschedule the appointment now";
+	    /*if try booking before the settings set in business settings*/
+	   $lang['Apps_cannotbookappointment']="Cannot book the appointment now";
+	    /*if try booking for future dates before the settings set in business settings*/
+	   $lang['Apps_cannotbookfutureappointment']="Cannot book an appointment for this day so early";
+	   /*if try booking on a non-working day*/
+	   $lang['Apps_nonworkingday']="Its a non-working day kindly select another day";
+	     /*if try booking for past dates */
+	   $lang['Apps_pastdates']="Cannot book for past days";
+	   
+	   /*validation for selecting @least one servcie while booking*/
+	   $lang['Apps_selectservice']="Select atleast one service";
+	   
+	    /*validation if time slot not enough while booking*/
+	   $lang['Apps_timeslot']="Time Slot selected is not enough";
+		
+		 /*validation while booking for class*/
+	   $lang['Apps_alreadybooked']="Already booked";
+	   $lang['Apps_bookedsuccessfully']="Booked Successfully";
+	   $lang['Apps_updatedsuccessfully']="Updated Succesfully";
+	   $lang['Apps_clientname']="Client name is required";
+	   
+	     /*title for the booking pop-up*/
+		$lang['Apps_bookappointment']="Book an appointment"; 
+		
+		/*notification settings*/
+		$lang['Apps_settingsinserted']="Settings inserted successfully";
+		$lang['Apps_settingsupdated']="Settings updated successfully";
 ?>
+

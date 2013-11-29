@@ -28,13 +28,15 @@ class Home extends CI_Controller {
 		$this->parser->parse('include/header',$this->data);
 		if($msg){
 		  if($msg=='success'){
-		     $this->data['msg']="successfull";
+		     $this->data['msg']=lang('Apps_verificationlink');
 		  }else if($msg=='fail'){
-             $this->data['msg']="Email does not exist. Try again";		  
-		  } else if($msg=='active'){
-             $this->data['msg']="Your account is active. Kindly login to continue";		  
+             $this->data['msg']=lang('Apps_emaildoesnotexist');	  
+		  } else if($msg=='active'){ 
+             $this->data['msg']=lang('Apps_activeuserforlogin');	  
 		  } else if($msg=='allreadyuser'){
-             $this->data['msg']="Your account is already active. Kindly login to continue";		  
+             $this->data['msg']=lang('Apps_activeuserforlogin');		  
+		  } else if($msg=='deactivated'){
+             $this->data['msg']=lang('Apps_deactivateduserforlogin');		  
 		  }
 		}
 		
@@ -143,30 +145,11 @@ class Home extends CI_Controller {
 	  }else if($val=="alreadyUser"){
 	   $msg='allreadyuser';
 	   $this->page($msg);
-	    //$this->data['alreadyUser']="alreadyUser";
-		 // $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
-		 // if($status){
-		      // if($status->status=='active'){
-			  // $sub=$this->common_model->getRow("user_business_subscription","users_id",$this->session->userdata['id']);
-			 // $sessionVal=array('business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual','subscription'=>$sub->subscription_id);
-			  // $this->session->set_userdata($sessionVal);
-			
-			   // if($this->session->userdata['business_type']=="service"){
-						// $id=$this->session->userdata['business_id'];
-						// $link = 'cal/'.$id;		
-					// }else{
-					     // $id=$this->session->userdata['business_id'];
-						 // $link = 'calendar_business/'.$id;	
-					// }
-					// redirect('bcalendar/'.$link);
-					// }else{
-					// $this->deactivated();
-					// }
-			 // }else{
-			 // redirect('basicinfo');
-			 // }
 	  }else if($val=="noUser"){
 	     $msg="fail";
+	     $this->page($msg);
+	  } else if($val=="deactivated"){
+	     $msg="deactivated";
 	     $this->page($msg);
 	  }
 	}
@@ -229,7 +212,8 @@ class Home extends CI_Controller {
 		}
 		
 		
-		$this->data['success']="successfull";
+		$this->data['msg']="successfull";
+		$this->parser->parse('include/modal_signup',$this->data);	
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	 

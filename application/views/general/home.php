@@ -309,7 +309,8 @@ function passwordStrength(password)
     $(".managerSignup").click(function(){
 		$('#create-user-modal').modal('show'); 
 		$('.error').html(''); 
-		$("#sign_up")[0].reset();
+		$("#sign_up")[0].reset();$("#form2")[0].reset();
+		$('#sign_up').show();$('#form2').hide();
 	})
 </script>
 
