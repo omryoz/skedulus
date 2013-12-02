@@ -621,26 +621,26 @@ XMLHTTP.prototype = {
 	*@private
 	*/
 	down:function(status) {
-		var notif_div = '<div id="mybic_notification" style="text-align:center;padding:20px;position:absolute;top:100px;left:100px;width:300px;border:thin solid black;background-color:#F8F021;">';
-		notif_div 	+= 	'<span id="mybic_notif_msg"> MSGHERE </span> <br><br><input type="button" value="OK" onclick="document.getElementById(\'mybic_notification\').style.display=\'none\';"></div>';
-		if(status == 'disable') {
-			var notif = 'A network issue has disabled network connections for this page. Please reload this page or contact the site administrator';
-		} else {
-			var notif = 'A network issue has occurred which canceled your last request';
-		}
-		// lets try and find an existing error message or use the current one in the DOM
-		try{
-			if(document.getElementById('mybic_notification')) {
-				document.getElementById('mybic_notification').style.display='block';
-			} else {
-				var new_div = document.createElement('div');
-				new_div.innerHTML = notif_div;
-				document.body.appendChild(new_div);
-			}
-			document.getElementById('mybic_notif_msg').innerHTML = notif;
-		} catch(e) { 
-			alert('Network Unavailable: Please re-load page or contact the site administrator');
-		}
+		// var notif_div = '<div id="mybic_notification" style="text-align:center;padding:20px;position:absolute;top:100px;left:100px;width:300px;border:thin solid black;background-color:#F8F021;">';
+		// notif_div 	+= 	'<span id="mybic_notif_msg"> MSGHERE </span> <br><br><input type="button" value="OK" onclick="document.getElementById(\'mybic_notification\').style.display=\'none\';"></div>';
+		// if(status == 'disable') {
+			// var notif = 'A network issue has disabled network connections for this page. Please reload this page or contact the site administrator';
+		// } else {
+			// var notif = 'A network issue has occurred which canceled your last request';
+		// }
+		//lets try and find an existing error message or use the current one in the DOM
+		// try{
+			// if(document.getElementById('mybic_notification')) {
+				// document.getElementById('mybic_notification').style.display='block';
+			// } else {
+				// var new_div = document.createElement('div');
+				// new_div.innerHTML = notif_div;
+				// document.body.appendChild(new_div);
+			// }
+			// document.getElementById('mybic_notif_msg').innerHTML = notif;
+		// } catch(e) { 
+			// alert('Network Unavailable: Please re-load page or contact the site administrator');
+		// }
 	},
 
 	/**

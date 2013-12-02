@@ -200,7 +200,7 @@
 				<div id="demo"> <input type="hidden" name="clientids" value="" id="clientids"> 
 					<form class="form-horizontal" id="clientform">
 						  <div class="control-group">
-							<label class="control-label" for="inputEmail"><?=(lang('Apps_clientname'))?> </label>
+							<label class="control-label" for="inputEmail"><?=(lang('Apps_clientName'))?> </label>
 							<div class="controls">
 							  <input type="text"  class="input-large tags" name="name" id="name" onkeyup="autosuggest()" required>
 							</div>

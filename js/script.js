@@ -1221,6 +1221,7 @@ function showbookpopup1(date,business_id,service_id){
     $("#eventId").val("");
 	 $(".delete_app").hide();
 	 $(".add-on").show();
+	 $(".st_date").addClass("span12");
 	 $(".reschduleId").val('1');
 	 $(".reschedule_app").hide();
 	 $(".book_app").show();
@@ -1317,7 +1318,9 @@ $("#class_size").val('');
 $("#update").hide();$("#add").show();
 $("#editpost").hide();$("#postnew").show();
 $("#updateid").val(" ");
-
+$("#postclass li:eq(1) ").removeClass("active in");
+$("#postclass #edit_class").addClass("active in");
+$("#postclass li:eq(0)").addClass("active"); $("#postclass #add_client  ").removeClass("active in");
 $("#postclass").modal("show");
 $("#removeClient").hide();
 $("#clientform")[0].reset();
@@ -1796,12 +1799,27 @@ $("#oppintment_reminder_off").click(function() {
 	})
   })
   $(".hidealerttab").click(function(){
-  $("#showDetails").show();
-  $("#editDetails").hide();
-  $("#editicon").show();
-  $("#showProfile").show();
-  $("#action").show();
-  $("#editProfile").hide();
+  if($(this).attr('href')=='#Personal'){
+     $("#showProfile").show();
+	 $("#action").show();
+	 $("#editProfile").hide();
+  }
+  if($(this).attr('href')=='#Password'){
+      $("#password").val("");
+      $("#confirmpassword").val("");
+  }
+  if($(this).attr('href')=='#Credit'){
+      $("#showDetails").show();
+      $("#editDetails").hide();
+	  $("#editicon").show();
+  }
+ // $("#showDetails").show();
+//  $("#editDetails").hide();
+ // $("#editicon").show();
+ // $("#showProfile").show();
+ //$("#action").show();
+ // $("#editProfile").hide();
+ //alert($(this).attr('href'));
    $(".message").removeClass("alert").html(" ").css('display','none');
   })
   

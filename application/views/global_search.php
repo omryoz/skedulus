@@ -1,21 +1,10 @@
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
-<script type="text/javascript">
-    function initialize() {
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var place = autocomplete.getPlace();
-            document.getElementById('city2').value = place.name;
-            document.getElementById('cityLat').value = place.geometry.location.lat();
-            document.getElementById('cityLng').value = place.geometry.location.lng();
-            //alert("This function is working!");
-            //alert(place.name);
-           // alert(place.address_components[0].long_name);
+<?php if($this->session->userdata('language')=='hebrew'){ ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=iw"></script>
+<?php }else{?>
 
-        });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize); 
-</script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<?php }?>
+<script src="<?php echo base_url(); ?>js/googlemap.js"></script>
 <div class="content container">
 	<div class="row-fluid business_profile ">
 		<div class="row-fluid Wrap">
@@ -27,9 +16,13 @@
 						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="Business are you looking for?">
 					</div>
 					<div class="span3">
-					  <input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  
-                      <!----<input type="hidden" id="city2" name="location" value="<?php echo $location ?>" />--->
-						<!---<input type="text" class="span12 " placeholder="Location" name="location" value="<?php //echo $_GET['location'] ?>">	--->
+					  <!---<input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  --->
+					  <input  type="text"  class="postcode span12" id="Postcode" placeholder="<?=(lang('Apps_enterlocation'))?>" name="location" size="50" value="<?php echo $location ?>"  autocomplete="on" runat="server" />  
+					<div id="geomap" style="display:none" style="width:100%; height:400px;">
+					<p><?=(lang('Apps_loadingwait'))?>...</p>
+					
+				   </div>
+                     
 					</div>
 					<div class="span3">	
                     

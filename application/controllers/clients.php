@@ -116,8 +116,8 @@ class Clients extends CI_Controller {
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);
-		$this->session->set_flashdata('message_type', 'error');	
-		 $this->session->set_flashdata('message', 'Client deleted successfully !');
+		 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', lang('Apps_clientdeleted'));
 		 redirect("clients/list_clients");
 		 }
 	}	
@@ -193,7 +193,7 @@ class Clients extends CI_Controller {
 	 $val= $this->common_model->deleteRow("favourite_businesses",$_GET['id']);
 	 //echo $val;
 	 $this->session->set_flashdata('message_type', 'error');	
-		 $this->session->set_flashdata('message', 'Business unfavourite successfully !');
+	 $this->session->set_flashdata('message', lang('Apps_favouritedeleted'));
 	 redirect("clients/favourite");
 	}
 	
@@ -275,6 +275,16 @@ class Clients extends CI_Controller {
 		print_r (json_encode($value));
 		
 	}
+	
+	public function phoneNum(){
+	   $us_number = preg_match( '/^((\+)?[1-9]{1,2})?([-\s\.])?((\(\d{1,4}\))|\d{1,4})(([-\s\.])?[0-9]{1,12}){1,2}(\s*(ext|x)\s*\.?:?\s*([0-9]+))?$/', $_POST['phone']);
+
+    if ( $us_number ) {
+        echo "true";
+    }else{
+	  echo "false";
+	}
+   }
 	
 }
 ?>

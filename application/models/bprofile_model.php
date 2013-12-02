@@ -142,8 +142,8 @@ class bprofile_model extends CI_Model {
 			$i++;
 		}
 		}
-		echo($id);
-		//return $id;
+		//echo($id);
+		return $id;
 	}
 	
 	function assignStaffs(){

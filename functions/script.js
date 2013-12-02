@@ -589,6 +589,7 @@ $("#update").hide();
 $("#insert").show();
 $("#edit").hide();
 $("#add").show();
+$("#email").attr('disabled',false);
 }
 
 
@@ -608,7 +609,11 @@ $('.error').html('');
 			$("#last_name").val(v.lastname);
 			$("#email").val(v.email);
 			$("#phone").val(v.phone);
-			
+			if(v.email!=''){
+			$("#email").attr('disabled',true);
+			}else{
+			$("#email").attr('disabled',false);
+			}
 			$("#update").show();
 			$("#insert").hide();
 			$("#edit").show();

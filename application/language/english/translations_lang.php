@@ -227,7 +227,12 @@
 		$lang['Apps_assignservicetostaff'] = "Assign services to staff";
 		$lang['Apps_noservicesaddedyet'] = "No services added yet";
 		$lang['Apps_addstaffavailability'] = "Add Staff Availability";
-        $lang['Apps_assignstaffsavailability'] = "Assign Staffs Availability";		
+        $lang['Apps_assignstaffsavailability'] = "Assign Staffs Availability";	  
+        $lang['Apps_staffsdeleted'] = "Staff deleted successfully !";
+		$lang['Apps_servicedeleted'] = "Services deleted successfully !";
+        $lang['Apps_classdeleted'] = "Class deleted successfully !";
+        $lang['Apps_clientdeleted'] = "Client deleted successfully !";
+        $lang['Apps_favouritedeleted'] = "Business unfavourite successfully !";		
 		/* staffs page start */
 		
 		/* classes page start */
@@ -293,7 +298,7 @@
 		$lang['Apps_selectservice'] = "Select Service";
 		$lang['Apps_selectstate'] = "Select State";
 		$lang['Apps_selectcity'] = "Select City";
-		$lang['Apps_clientname'] = "Client Name";
+		$lang['Apps_clientName'] = "Client Name";
 		$lang['Apps_addclient'] = "Add Client";
 		$lang['Apps_editclient'] = "Edit Client";
 		$lang['Apps_addphoto'] = "Add Photo";
@@ -433,5 +438,9 @@
 		/*notification settings*/
 		$lang['Apps_settingsinserted']="Settings inserted successfully";
 		$lang['Apps_settingsupdated']="Settings updated successfully";
+		
+		/* Appintments messages in client profile page*/
+		$lang['Apps_nomoreappointmentfound']="No more appointments found";
+		$lang['Apps_noappointmentsfound']="No appointments found";
 ?> 
 	   

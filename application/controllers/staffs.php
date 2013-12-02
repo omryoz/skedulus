@@ -89,45 +89,24 @@ class Staffs extends CI_Controller {
 	 
 	}
 	
-	// public function manage_staffs(){
-		// if(isset($_POST['insert'])){ 
-			// if(isset($_POST['register'])){
-			// $id=$this->bprofile_model->insertStaffs();
-			// $this->send_email($id);
-			//$this->data['success']="successfull";
-			// redirect('staffs/list_staffs/?register');
-			
-			// }else{
-			// $id=$this->bprofile_model->insertStaffs();
-			// $this->send_email($id);
-			// redirect('staffs/list_staffs/success');
-			
-			// }
-		 // }
-		 // if(isset($_GET['id'])){
-			// $val= $this->bprofile_model->getStaffdetails();
-			// echo($val);
-		 // }
-		 // if(isset($_GET['getServices'])){
-			// $val= $this->bprofile_model->getAssignedServices();
-			// echo json_encode($val);
-		 // }
-		 
-		 // if(isset($_GET['getavailability'])){
-			// $val= $this->bprofile_model->getAvailibility();
-			// echo json_encode($val);
-		 // }
-		 
-		 // if(isset($_GET['delete'])){
-		 // $val= $this->common_model->deleteRow("users",$_GET['id']);
-		 // echo $val;
-		 // }
-	// }	
 	
 	public function manage_staffs(){ 
 		if(isset($_POST['insert'])){ 
 		$id=$this->bprofile_model->insertStaffs();
-		$this->send_email($id);
+		//$this->send_email($id);
+		if($_POST['action']!="edit" && $_POST['type']!= 'myself'){
+			$this->data['randomPassword'] =$this->common_model->random_password(8);
+			 $this->bprofile_model->updateEmployee($this->data['randomPassword'],$id);
+			 $userdetails= $this->common_model->getRow("users","id",$id);
+			 
+	         $this->data['name'] = $userdetails->first_name." ".$userdetails->last_name;
+		     $this->data['activation_key'] = $userdetails->activationkey;
+			 $this->data['email'] = $userdetails->email; 
+		     $email = $userdetails->email; 
+			 $subject ="Skedulus - Login Credentials";	
+			 $message=$this->load->view('staff_email',$this->data,TRUE);
+			 $this->common_model->mail($email,$subject,$message);
+		 }
 		if(isset($_POST['register'])){
 			redirect('staffs/list_staffs/?register');
 		}elseif(isset($_POST['page']) && $_POST['page']=='1'){ 
@@ -180,7 +159,7 @@ class Staffs extends CI_Controller {
          $query=$this->db->query("delete from business_employees where users_id='".$_GET['id']."'");		 
 		
 		 $this->session->set_flashdata('message_type', 'error');	
-		 $this->session->set_flashdata('message', 'Staff deleted successfully !');
+		 $this->session->set_flashdata('message', lang('Apps_staffsdeleted'));
 		 if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 		 }else if(isset($_GET['register'])){ 
@@ -204,6 +183,16 @@ class Staffs extends CI_Controller {
 			echo "true";
 			}
 	}
+	
+	public function phoneNum(){
+	   $us_number = preg_match( '/^((\+)?[1-9]{1,2})?([-\s\.])?((\(\d{1,4}\))|\d{1,4})(([-\s\.])?[0-9]{1,12}){1,2}(\s*(ext|x)\s*\.?:?\s*([0-9]+))?$/', $_POST['phonenumber']);
+
+    if ( $us_number ) {
+        echo "true";
+    }else{
+	  echo "false";
+	}
+   }
 	
 	public function send_email($id){
 		     $this->data['randomPassword'] =$this->common_model->random_password(8);

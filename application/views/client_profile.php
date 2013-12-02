@@ -40,7 +40,7 @@
 			 
 			</dl>
 			
-			<?php if(isset($appDetails)) { ?><br/>
+			<?php //if(isset($appDetails)) { ?><br/>
 			<h4><?=(lang('Apps_meetinghistory'))?></h4>
 		
 			<label class="radio inline">
@@ -53,6 +53,7 @@
 			</label>
 			<hr><p class="hide userid"><?php echo $userid; ?></p>
 			<div class="showapps">
+			<?php if(isset($appDetails)) { ?>
 			<?php foreach($appDetails as $val){ ?>
 			<div class="appoint-date"><?php echo date("F j, Y ",strtotime(date('Y-m-d',strtotime($val)))); ?></div>
 			<?php 
@@ -93,12 +94,14 @@
 					<?php } ?>
 			
 			
-			<?php } ?>
+			<?php } ?><?php  }else{
+			echo lang('Apps_noappointmentsfound');
+			}?>
 			</div>
 			
 			<input type="hidden" name="count" value="0" id="count">
 			<a href="javascript:;" class="moreApp"  data-value="<?php print_r($lastDate)  ?>" profile-val="<?php echo $userid;?>"><?=(lang('Apps_viewmore'))?>..</a>
-			<?php }?>
+			<?php// }?>
 		</div>	
 	
 		
@@ -131,6 +134,9 @@
 	   
 	   if(data==0){
 	   $('.moreApp').hide();
+	   <?php if(isset($appDetails)) { ?>
+	   $(".showapps").append(nomoreappointmentsfound);
+	   <?php } ?>
 	   }else{
 	    $(".showapps").append(data);
 	    $("#count").val(Nextcount);
@@ -153,9 +159,13 @@
 	   data: {'type':type,'count':0,'id':$(".userid").html()},
 	   type:'POST',
 	   success:function(data){
+	   if(data==0){
+	   var data=noappointmentsfound;
+	   }
 	   $(".showapps").html(data);
 	   }
 	   })
 	}
 </script>
+
 <?php include('include/popupmessages.php'); ?>

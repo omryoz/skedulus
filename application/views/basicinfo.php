@@ -1,4 +1,9 @@
+<?php if($this->session->userdata('language')=='hebrew'){ ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=iw"></script>
+<?php }else{?>
+
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<?php }?>
 <script src="<?php echo base_url(); ?>js/googlemap.js"></script>
 <script>
 (function($,W,D)

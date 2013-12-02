@@ -12,10 +12,17 @@
 					last_name: "required",
                     phone: {
 						required: true,
-						digits:true
+						remote: {
+						  url: baseUrl+'clients/phoneNum',
+						  type: "post",
+						  data: {
+							phone: function(){ return $("#phone").val(); }
+						  }
+                     }
+						//digits:true
 					},
 					email: {
-                        required: true,
+                        //required: true,
                         email: true,
 						remote: {
 						  url: baseUrl+'clients/checkEmail',
@@ -32,7 +39,8 @@
 					last_name: "  required",
                     phone:{
 					required: '  required',
-					digits: " only numbers",
+					remote: " invalid number"
+					//digits: " only numbers",
 					},	
 				email: {
 					required: "  required",
@@ -69,7 +77,7 @@
 						<h3 ><?=(lang('Apps_clientlist'))?> 
 						   <a href="#" class="btn pull-right btn-success client" data-toggle="modal" onclick= "addClient();">+<?=(lang('Apps_add'))?></a>
 						</h3>
-						<?php if(isset($tableList)) { ?>
+						
 						<div class="row-fluid strip">
 					<form action="<?php echo base_url() ?>clients/list_clients/" method="GET">
 						<div class="span10">
@@ -88,6 +96,7 @@
 						</div>
 					</form>
 				</div>
+				<?php if(isset($tableList)) { ?>
 						<table class="table table-striped  table-staff table-hover " >
 									  <thead>
 										<tr >
@@ -114,8 +123,14 @@
 									<?php $i++; } ?>
 									</table>
 									<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
-									<?php }else{ ?>
-									 <p class="alert"><?=(lang('Apps_noclientaddedyet'))?></p>
+									<?php }else{
+									if(isset($_GET['keyword'])){
+									$msg=lang('Apps_noresultfound');
+									}else{
+									$msg=lang('Apps_noclientaddedyet');
+									}
+									?>
+									 <p class="alert"><?=$msg?></p>
 									<?php } ?>
 								 	
 										

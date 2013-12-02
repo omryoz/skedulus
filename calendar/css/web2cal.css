@@ -1585,8 +1585,14 @@ ul.actions li a{
 
 .agendaEventsForDate td { font-size:12px; }
 .centermsg {
-	color:#000000;
+   visibility: hidden;
 }
+.centermsg:after {
+  content: 'No appointments found' !important;
+  visibility: visible;
+  display: block;
+}
+
 .centermsg a { display:inline-block !important; }
 
 div#searchEvent {

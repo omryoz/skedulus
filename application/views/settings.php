@@ -1,22 +1,11 @@
-<script type="text/javascript" src="<?php echo $this->config->item('base_url'); ?>js/jquery.form.js"></script>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;libraries=places" type="text/javascript"></script>
-<script type="text/javascript">
-    function initialize() {
-        var input = document.getElementById('searchTextField');
-        var autocomplete = new google.maps.places.Autocomplete(input);
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            var place = autocomplete.getPlace();
-            document.getElementById('city2').value = place.name;
-            document.getElementById('cityLat').value = place.geometry.location.lat();
-            document.getElementById('cityLng').value = place.geometry.location.lng();
-            //alert("This function is working!");
-            //alert(place.name);
-           // alert(place.address_components[0].long_name);
+<?php if($this->session->userdata('language')=='hebrew'){ ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=iw"></script>
+<?php }else{?>
 
-        });
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-	
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<?php }?>
+<script src="<?php echo base_url(); ?>js/googlemap.js"></script>
+<script>	
 function readURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -24,8 +13,8 @@ function readURL(input) {
                 reader.onload = function (e) {
                     $('#blah')
                         .attr('src', e.target.result)
-                        .width(150)
-                        .height(200);
+                        .width(100)
+                        .height(100);
 						$("#tempimg").val('1');
 						$("#actualImg").hide();
 						$('#blah').show();
@@ -43,7 +32,7 @@ function readURL(input) {
 			<div class="row-fluid">
 				<div class="span4">
 					<ul class="nav nav-tabs notify setting-tab" id="myTab">
-					  <li class="active"><a href="#Personal" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_personal_details'))?></h4></a>
+					  <li class="active"><a href="#Personal" class="hidealerttab" data-toggle="tab"><h4><i class="icon-user"></i> <?=(lang('Apps_personal_details'))?></h4></a>
 					  </li>
 					  <li><a href="#Password" class="hidealerttab" data-toggle="tab"><h4><i class="icon-key"></i> <?=(lang('Apps_changepwd'))?></h4></a></li>
 					  <li><a href="#Credit"  class="hidealerttab" data-toggle="tab"><h4><i class=" icon-credit-card"></i> <?=(lang('Apps_creditcard'))?></h4></a></li>
@@ -237,8 +226,14 @@ function readURL(input) {
 											  <dt><?=(lang('Apps_phonenumber'))?></dt>
 											  <dd ><input type="text" name="phone" value=<?php echo $personalInfo->phone_number; ?> maxlength=15 class="span9"></dd>
 											  <dt><?=(lang('Apps_address'))?></dt>
-											  <dd class="style-margin-b"><textarea  name="address" id="searchTextField"  class="span9 " size="50" autocomplete="on" runat="server"><?php echo $personalInfo->address;?></textarea></dd>
-											  <!---<dt><?=(lang('Apps_city'))?></dt>
+											  <dd class="style-margin-b">
+											  <textarea class="postcode span9" size="50" id="Postcode" name="address" placeholder="<?=(lang('Apps_country'))?>"><?php echo $personalInfo->address;?></textarea>
+											  </dd>
+											  <div id="geomap" style="display:none" style="width:100%; height:400px;">
+					
+				                             </div>
+											  <!---<textarea  name="address" id="searchTextField"  class="span9 " size="50" autocomplete="on" runat="server"><?php echo $personalInfo->address;?></textarea></dd>
+											  <dt><?=(lang('Apps_city'))?></dt>
 											  <dd class="style-margin-b"></dd>
 											  <dt><?=(lang('Apps_country'))?></dt>
 											  <dd></dd>--->
@@ -512,24 +507,32 @@ function readURL(input) {
     {
         setupFormValidation: function()
         {
+		
+		 jQuery.validator.addMethod('intlphone', function(value) { return (value.match(/^((\+)?[1-9]{1,2})?([-\s\.])?((\(\d{1,4}\))|\d{1,4})(([-\s\.])?[0-9]{1,12}){1,2}(\s*(ext|x)\s*\.?:?\s*([0-9]+))?$/)); }, ' invalid phone number');
+		
+		
+
             $("#userProfile").validate({
                 rules: {
                     firstname: "required",
 					lastname: "required",
 					gender: "required",
 					phone: {
-						digits:true
+						//digits:true,
+						required: true,
+						intlphone: true
 					},	
 					
                     
                 },
                 messages: {
-                    firstname: "Please Fill in your first name",
-					lastname: "Please Fill in your last name",
-					gender: "Please Fill in your gender",
+                    firstname: " required",
+					lastname: " required",
+					gender: " required",
                     
 					phone:{
-					digits: "Only numbers allowed",
+					required: " required",
+					//digits: "Only numbers allowed",
 					},	
 									
                 },
@@ -574,12 +577,12 @@ function readURL(input) {
                 },
                 messages: {
                    password: {
-					required:"Please Fill in your password",	
+					required:"required",	
 					minlength:"Minimum 6 characters is required"
 					},
 					confirmpassword:{
 					//required: "Only numbers allowed",
-					equalTo: "Password does not match"
+					equalTo: "Passwords does not match"
 					},			
                 },
 				

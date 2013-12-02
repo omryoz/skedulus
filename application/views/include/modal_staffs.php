@@ -24,23 +24,31 @@
 						  }
                      }
 					},
-					phonenumber :{
-					//required: true,
-					digits: true
-					}
+					phonenumber: {
+						//digits:true,
+						//intlphone: true
+						remote: {
+						  url: baseUrl+'staffs/phoneNum',
+						  type: "post",
+						  data: {
+							phonenumber: function(){ return $("#phone_number").val(); }
+						  }
+                     }
+					},
+
                 },
                 messages: {
-                    firstname: "First name is required",
-                    lastname: "Last name is required",
+                    firstname: " required",
+                    lastname: " required",
                     email: {
 					//required: "Email is required",
-					email: "Please enter a valid email address",
+					email: " invalid email id",
 					remote: "Email already exist"
 					},
-				    phonenumber: {
-					//required: 'Phone number is required',
-					digits: "Only numbers are allowed",
-					}
+				   phonenumber:{
+					//digits: "Only numbers allowed",
+					remote: " invalid number"
+					},
                 },
 				errorPlacement: function(error, element) {
 				 error.insertAfter( element ); 

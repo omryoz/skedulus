@@ -35,4 +35,6 @@ var confirmdelete = "<?=(lang('Apps_confirmdelete'))?>";
 var settingsinserted = "<?=(lang('Apps_settingsinserted'))?>";
 var settingsupdated = "<?=(lang('Apps_settingsupdated'))?>";
 
+var nomoreappointmentsfound = "<?=(lang('Apps_nomoreappointmentfound'))?>";
+var noappointmentsfound = "<?=(lang('Apps_noappointmentsfound'))?>";
 </script>

@@ -479,6 +479,16 @@ public function clientSignUp(){
 		}
 	}
 	
+	public function phoneNum(){
+	   $us_number = preg_match( '/^((\+)?[1-9]{1,2})?([-\s\.])?((\(\d{1,4}\))|\d{1,4})(([-\s\.])?[0-9]{1,12}){1,2}(\s*(ext|x)\s*\.?:?\s*([0-9]+))?$/', $_POST['phone_number']);
+
+    if ( $us_number ) {
+        echo "true";
+    }else{
+	  echo "false";
+	}
+   }
+	
 	public function logout(){
 		$this->session->sess_destroy();
 		redirect('home');

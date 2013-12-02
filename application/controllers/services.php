@@ -96,7 +96,7 @@ class Services extends CI_Controller {
 		 $val= $this->common_model->deleteRow("user_business_services",$_GET['id']);
 		 $query=$this->db->query("delete from employee_services where service_id=".$_GET['id']);
 		 $this->session->set_flashdata('message_type', 'error');	
-		 $this->session->set_flashdata('message', 'Service deleted successfully !');
+		 $this->session->set_flashdata('message', lang('Apps_servicedeleted'));
 		 if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 		 }else if(isset($_GET['register'])){ 
@@ -181,7 +181,7 @@ class Services extends CI_Controller {
 		 $val= $this->common_model->deleteRow("user_business_classes",$_GET['id']);
 		 $query=$this->db->query("delete from employee_services where service_id=".$_GET['id']);
 		 $this->session->set_flashdata('message_type', 'error');	
-		 $this->session->set_flashdata('message', 'Class delete successfully !');
+		 $this->session->set_flashdata('message', lang('Apps_classdeleted'));
 		  if(!empty($_GET['page'])){
 		 redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 		 }else if(isset($_GET['register'])){ 

@@ -6,6 +6,7 @@
     {
         setupFormValidation: function()
         {
+		jQuery.validator.addMethod('intlphone', function(value) { return (value.match(/^(\s)((\+)?[1-9]{1,2})?([-\s\.])?((\(\d{1,4}\))|\d{1,4})(([-\s\.])?[0-9]{1,12}){1,2}(\s*(ext|x)\s*\.?:?\s*([0-9]+))?$/)); }, ' invalid phone number');
             $("#sign_up").validate({
                 rules: {
                     firstname: "required",
@@ -22,9 +23,17 @@
 						  }
                      }
 					},
-					//phone_number: {
-						//digits:true
-					//},	
+					phone_number: {
+						//digits:true,
+						//intlphone: true
+						remote: {
+						  url: baseUrl+'home/phoneNum',
+						  type: "post",
+						  data: {
+							phone_number: function(){ return $("#phone_number").val(); }
+						  }
+                     }
+					},		
 					password:{ 
 					required: true,
 					minlength: "6",
@@ -32,20 +41,21 @@
                     
                 },
                 messages: {
-                    firstname: "Please Fill in your first name",
-					lastname: "Please Fill in your last name",
-					gender: "Please Fill in your gender",
+                    firstname: " required",
+					lastname: " required",
+					gender: " required",
                     email: {
-					required: "Please Fill in your email",
-					email: "Please enter a valid email address",
-					remote: "Email already exist"
+					required: " required",
+					email: " invalid email id",
+					remote: " email already exist"
 					},	
-					//phone_number:{
-					//digits: "Only numbers allowed",
-					//},	
+					phone_number:{
+					digits: "Only numbers allowed",
+					remote: " invalid number"
+					},	
 					password: {
-					required:"Please Fill in your password",	
-					minlength:"Minimum 6 characters is required"
+					required:" required",	
+					minlength:" minimum 6 characters is required"
 					}				
                 },
 				
