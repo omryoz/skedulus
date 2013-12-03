@@ -40,7 +40,7 @@
 		<?php
 		if($this->session->flashdata('message_type')) { ?>
 					<div class="alert alert-<?=$this->session->flashdata('message_type')?>">
-						<a class="close" data-dismiss="alert">×</a>
+						<a class="close" data-dismiss="alert">&times;</a>
 						<?=$this->session->flashdata('message');?>	
 					</div>
 				<?php } ?> 

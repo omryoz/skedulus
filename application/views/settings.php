@@ -541,7 +541,10 @@ function readURL(input) {
 				 error.insertAfter( element ); 
 
 				},
-
+				highlight: function(element, errorClass, validClass) {
+				$("#calendar").removeClass("error");
+				
+			  },
                 submitHandler: function(form) {
                 form.submit();
                 }

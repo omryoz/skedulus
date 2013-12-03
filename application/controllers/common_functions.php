@@ -308,17 +308,23 @@ class Common_functions extends CI_Controller {
 		}
 
 	function forgotpassword(){
-			
+			CI_Controller::get_instance()->load->helper('language');
+			$this->load->library('utilities');
+			$this->utilities->language();
 			if($this->input->post('submit')){
-			
+			if($this->input->post('email')!=''){
 			$query = $this->db->get_where('users',array('email' => $this->input->post('email')));
-			#echo $this->db->last_query(); exit;
-			//print_r($this->input->post());exit;
+			
 			if($query->num_rows()>0){
 				$info = $query->result();
 			}else{
 				$info = false;
 			}
+			}else{
+			$info = false;
+			}
+			
+			
 			#print_r($info); exit;
 			if($info){
 			/*Send Password*/
@@ -330,10 +336,11 @@ class Common_functions extends CI_Controller {
 			$this->email->subject('Password reset request');
 			$this->email->message("We've recieved a password reset request. Ignore if you've not sent it.<a href='".base_url()."home/resetpassword?key=".$info[0]->activationkey."'>Reset your password here</a>");	
 			$this->email->send();
-			$this->data['messages'] = "Email Sent. Please, check your inbox and click link to reset your password ";
+			$this->load->library('session');
+			$this->data['messages'] =lang('Apps_sendlinktoresetpassword');
 			}
 			else{	
-				$this->data['messages'] = "This email doesn't exist";
+				$this->data['messages'] =lang('Apps_emailnotexist');
 			}
 		}
 		

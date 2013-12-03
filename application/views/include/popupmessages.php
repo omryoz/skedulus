@@ -37,4 +37,6 @@ var settingsupdated = "<?=(lang('Apps_settingsupdated'))?>";
 
 var nomoreappointmentsfound = "<?=(lang('Apps_nomoreappointmentfound'))?>";
 var noappointmentsfound = "<?=(lang('Apps_noappointmentsfound'))?>";
+
+var language="<?=(lang('Apps_lang'))?>";
 </script>

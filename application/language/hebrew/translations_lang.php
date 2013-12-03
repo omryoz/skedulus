@@ -442,5 +442,9 @@
 		/* Appintments messages in client profile page*/
 		$lang['Apps_nomoreappointmentfound']="No more appointments found";
 		$lang['Apps_noappointmentsfound']="No appointments found";
+		
+		/*Reset password*/
+		$lang['Apps_sendlinktoresetpassword']="Email Sent. Please, check your inbox and click link to reset your password";
+		$lang['Apps_emailnotexist']="This email doesn't exist";
 ?>
 

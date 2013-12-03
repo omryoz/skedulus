@@ -14,6 +14,7 @@
     {
         setupFormValidation: function()
         {
+		 
             $("#frm1").validate({
                 rules: {
                     category: "required",
@@ -60,9 +61,14 @@
 				
 				errorPlacement: function(error, element) {
 				 error.insertAfter( element ); 
+				 $("#calendar").removeClass("error");
 				 error.css('padding-left', '10px');
 				},
+				highlight: function(element, errorClass, validClass) {
+				$("#calendar").removeClass("error");
+			  },
                 submitHandler: function(form) {
+				$("#calendar").removeClass("error");
                 form.submit();
                 }
             });
@@ -76,6 +82,10 @@
     });
 
 })(jQuery, window, document);
+
+// $("#calendar").change(function(){ alert("here");
+  // $("#calendar").removeClass("error");
+// })
 </script>          
 		  <div id="myTabContent" class="tab-content tabcontentbg">	  
 			  <!-- basic info start -->		  
@@ -311,9 +321,9 @@ for($i=1;$i<=7;$i++) {
 	 }?>
 	 <input type="hidden" name="businessType" value="<?php echo $url;?>" id="businessType" >
     <?php if($action=="edit"){ ?>
-	<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success">	 
+	<input type="submit" name="save" value="<?=(lang('Apps_update'))?>" class="btn btn-success sub">	 
 		<?php   }elseif($action=="add"){ ?>	
-	<input type="submit" name="save" value="<?=(lang('Apps_savandcon'))?>" class="btn btn-success">
+	<input type="submit" name="save" value="<?=(lang('Apps_savandcon'))?>" class="btn btn-success sub">
 	<?php } ?>
 	 <!---<a href="business_registration/services"  class="btn btn-primary" >Save & Continue</a>-->
 	 </div>   
@@ -395,6 +405,7 @@ $("#businessType").val('services/list_services/?register');
  var selectedMenu='<strong>'+type+'<br><br></strong>';
  $("#business_type").html(selectedMenu);
 }
+
 </script>
 <?php include('include/popupmessages.php'); ?>
 
