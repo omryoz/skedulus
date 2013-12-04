@@ -29,32 +29,29 @@ class Common_functions extends CI_Controller {
 	  
 	}
   }
-	
-   public function employeelogin(){
-	//if(isset($_GET['checkinfo'])){
-		$password= MD5($_POST['password']);
-		 $where=" And password='".$password."' AND user_role='employee' and status='active'";
-		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
-		 
-		 if($values==""){
-		 $this->data['failure']="Failure";
-		 $this->parser->parse('include/meta_tags',$this->data);
-		 $this->parser->parse('general/login',$this->data);
-		 }else{
-		
-		 $sessionVal=array(
-			 'id'=>$values->id,
-			 'username'=>$values->first_name,
-			 'email'=>$values->email
+
+  public function employelogin(){
+	    CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
+         $sessionVal=array(
+			 'role'=>'manager'
+			 //'empid'=>$empid
 		 );
-		 
-		 $this->session->set_userdata($sessionVal);
-		 $status=$this->common_model->getRow("view_business_employees","users_id",$this->session->userdata['id']);
-		 if($status){
-			 $sessionVal=array('business_id'=>$status->user_business_details_id);
-			  $this->session->set_userdata($sessionVal);
-			// redirect('overview'); 
-			    if($this->session->userdata['business_type']=="service"){
+		 $this->session->set_userdata($sessionVal);	
+	    $status=$this->common_model->getRow("employee_services","users_id",$this->session->userdata['id']);
+		 $subscription=$this->common_model->getRow("view_user_subscription","business_id",$status->business_id);
+		 $where1=" and status='active'";
+		 $manager_id=$this->common_model->getRow("user_business_details","id",$status->business_id,$where1);
+		 $mstatus='';
+		 if($manager_id){
+		 $manager_status=$this->common_model->getRow("users","id",$manager_id->users_id);
+		 $mstatus=$manager_status->status;}
+		 if($manager_id && $mstatus=='active'){
+		       $sessionVal=array('id'=>$manager_id->users_id,'managerid'=>$manager_id->users_id,'subscription'=>$subscription->subscription_id,'business_id'=>$status->business_id,'business_type'=> $manager_id->business_type,'type'=>'dual');
+			   $this->session->set_userdata($sessionVal);
+			
+			        if($this->session->userdata['business_type']=="service"){
 						$id=$this->session->userdata['business_id'];
 						$link = 'cal/'.$id;		
 					}else{
@@ -63,8 +60,59 @@ class Common_functions extends CI_Controller {
 					}
 					//redirect('overview');
 					redirect('bcalendar/'.$link);
-			 }
+		 }else{ 
+		     $this->data['userRole']="clientlogin";
+		     $this->data['signUp']="clientSignUp";
+		     $this->session->sess_destroy();
+		     $this->data['inactive']="Inactive";
+		     $this->parser->parse('include/meta_tags',$this->data);
+		     $this->parser->parse('general/login',$this->data);
 		 }
+  
+  }
+  
+   public function employeelogin(){ 
+	   CI_Controller::get_instance()->load->helper('language');
+		$this->load->library('utilities');
+	    $this->utilities->language();
+	
+	    $this->data['userRole']="employeelogin";
+		$this->data['signUp']="clientSignUp";
+		if(isset($_GET['checkinfo'])){
+		if($_POST['password']!='' && $_POST['email']!=""){
+		$password= MD5($_POST['password']);
+		 $where=" And password='".$password."'";
+		 $values=$this->common_model->getRow("users","email",$_POST['email'],$where);
+		 }else{
+		 $values="";
+		 }
+		 
+		 if($values==""){
+		 //redirect('home/clientlogin/?failure');
+	    $this->data['failure']="Failure";
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->parser->parse('general/login',$this->data);
+		 }elseif($values->status=='inactive'){
+		
+		 //redirect('home/clientlogin/?failure');
+	    $this->data['inactive']="Inactive";
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->parser->parse('general/login',$this->data);
+		 }else{
+		  
+		  $sessionVal=array(
+			 'id'=>$values->id,
+			 'empid'=>$values->id,
+			 'username'=>$values->first_name,
+			 'email'=>$values->email,
+			 //'role'=>$values->user_role
+			 'role'=>'manager'
+		 );
+		 $this->session->set_userdata($sessionVal);	
+		 $this->employelogin(); 
+		 }
+		}
+	
 		
    }	
 	
@@ -161,6 +209,12 @@ class Common_functions extends CI_Controller {
 		 }else{
 			if($values->user_role=='manager'){
 			$this->businesslogin();
+			}elseif($values->user_role=='employee'){
+			$sessionVal=array(
+			 'empid'=>$values->id,
+		 );
+		 $this->session->set_userdata($sessionVal);
+			$this->employelogin();
 			}elseif($values->user_role=='client'){
 			redirect('cprofile');
 			}else{
@@ -172,7 +226,14 @@ class Common_functions extends CI_Controller {
 	}
 	
 	function mydashboard($type=false){
-	    if($type=='my'){
+	    if($type=='my'){ 
+		if($this->session->userdata['empid']){
+		   $this->session->unset_userdata('id');
+		   $sessionVal=array(
+			 'id'=>$this->session->userdata['empid']
+		    );
+			 $this->session->set_userdata($sessionVal);	
+		}
 		 $this->session->unset_userdata('role');
 		 $this->session->unset_userdata('business_id');
 			$sessionVal=array(
@@ -181,8 +242,19 @@ class Common_functions extends CI_Controller {
 		 $this->session->set_userdata($sessionVal);	
 		 redirect('cprofile');
 		 }else if($type=='business'){
+		 if($this->session->userdata['empid']){
+		  $id=$this->session->userdata['managerid'];
+		   $this->session->unset_userdata('id');
+		   $sessionVal=array(
+			 'id'=>$this->session->userdata['managerid']
+		    );
+			$this->session->set_userdata($sessionVal);
+		}else{
+		$id=$this->session->userdata['id'];
+		}
+		 
 		 $this->session->unset_userdata('role');
-		 $res=$this->common_model->getRow('user_business_details','users_id',$this->session->userdata['id']);
+		 $res=$this->common_model->getRow('user_business_details','users_id',$id);
 		  $sessionVal=array(
 			 'role'=>'manager',
 			 'business_id'=>$res->id
@@ -202,6 +274,13 @@ class Common_functions extends CI_Controller {
 	 }
 	 
 	 function mysettings(){
+	    if($this->session->userdata['empid']){
+		   $this->session->unset_userdata('id');
+		   $sessionVal=array(
+			 'id'=>$this->session->userdata['empid']
+		    );
+			 $this->session->set_userdata($sessionVal);	
+		}
 		 $this->session->unset_userdata('role');
 		 $this->session->unset_userdata('business_id');
 			$sessionVal=array(
@@ -310,7 +389,7 @@ class Common_functions extends CI_Controller {
 	function forgotpassword(){
 			CI_Controller::get_instance()->load->helper('language');
 			$this->load->library('utilities');
-			$this->utilities->language();
+			$this->utilities->language(); 
 			if($this->input->post('submit')){
 			if($this->input->post('email')!=''){
 			$query = $this->db->get_where('users',array('email' => $this->input->post('email')));
@@ -336,11 +415,10 @@ class Common_functions extends CI_Controller {
 			$this->email->subject('Password reset request');
 			$this->email->message("We've recieved a password reset request. Ignore if you've not sent it.<a href='".base_url()."home/resetpassword?key=".$info[0]->activationkey."'>Reset your password here</a>");	
 			$this->email->send();
-			$this->load->library('session');
 			$this->data['messages'] =lang('Apps_sendlinktoresetpassword');
 			}
 			else{	
-				$this->data['messages'] =lang('Apps_emailnotexist');
+			$this->data['messages'] =lang('Apps_emailnotexist');
 			}
 		}
 		

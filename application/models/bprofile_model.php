@@ -260,11 +260,17 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function updateEmployee($password,$id){
+	      $rand=$this->random_password(5);
 		  $Password= MD5($password);
-		  $sql=mysql_query("update users set password= '".$Password."' where id= '".$id."'");
+		  $sql=mysql_query("update users set password= '".$Password."',random_key='".$rand."' where id= '".$id."'");
 		  return true;
 	}
 	
+	function random_password( $length = 5 ) {
+		$chars = "0123456789";
+		$password = substr( str_shuffle( $chars ), 0, $length );
+		return $password;
+   }
 //End
 
 //Offers Module

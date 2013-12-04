@@ -97,10 +97,10 @@ class Home extends CI_Controller {
 	$this->data['userRole']="employeelogin";
 	$this->data['signUp']="businessSignUp";
 	if(isset($_GET['activation_link'])){
-	  $val= $this->home_model->updateEmpUser();
-	  if($val=="alreadyUser"){
-	    $this->data['alreadyUser']="alreadyUser";
-		}
+	  //$val= $this->home_model->updateEmpUser();
+	  // if($val=="alreadyUser"){
+	    // $this->data['alreadyUser']="alreadyUser";
+		// }
 		 $this->parser->parse('include/meta_tags',$this->data);
 		 $this->parser->parse('general/login',$this->data);
 	  

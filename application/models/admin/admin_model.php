@@ -36,9 +36,9 @@ function getdetails($tablename,$offset,$limit,$where){
 	}
 	
 	function updateUserStatus(){
-		if($_POST['status']=='active'){
+		if(trim($_POST['status'])=='active'){
 		 $insertArray['status']= 'inactive';
-		}elseif($_POST['status']=='inactive'){
+		}elseif(trim($_POST['status'])=='inactive'){
 		$insertArray['status']= 'active';
 		} 
 		if($_POST['type']=='user'){
@@ -47,7 +47,7 @@ function getdetails($tablename,$offset,$limit,$where){
 		$this->db->update('user_business_details',$insertArray,array('id' => $_POST['id']));
 		}
 		if($this->db->affected_rows()>0){
-         print_r($insertArray['status']);	
+         print_r(trim($insertArray['status']));	
 		}else{
 	     echo 0;
 		}

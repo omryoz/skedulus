@@ -93,6 +93,8 @@ var preStatus=$(this).attr('data-status');
   url=baseUrl+'admin/dash/updateStatus',
   data= {'id': $(this).attr('data-val'),'type':type,'status':$(this).attr('data-status')},
  $.post(url,data,function(data){ 
+ var str=data;
+ var data=str.trim();
  if(data!=0){
 	$("#"+type+id).attr('data-status',data);
 	$("#"+type+'Status'+id).html(data);
@@ -289,6 +291,7 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 		var evId=$("#eventId").html();
 		$("#clientform")[0].reset();
 		$("#removeClient").hide();
+		$("#addClient").show();
 		$("#actionVal").val("");
 		$("#clientlist").html("");
 		$.ajax({
@@ -354,6 +357,7 @@ function getClassEndtime(starttime,class_id,date,business_id,staffid,eventid){
 	  var evId=$("#eventId").html();
 	  $("#clientform")[0].reset();
 	  $("#removeClient").hide();
+	  $("#addClient").show();
 	  $("#clientlist").html("");
 	  $("#actionVal").val("");
       var enddate="";	  
@@ -1323,6 +1327,7 @@ $("#postclass #edit_class").addClass("active in");
 $("#postclass li:eq(0)").addClass("active"); $("#postclass #add_client  ").removeClass("active in");
 $("#postclass").modal("show");
 $("#removeClient").hide();
+$("#addClient").show();
 $("#clientform")[0].reset();
 $("#action").val("javascript:rzAddEvent();");  
 $(".postclassbtn").attr("href",$("#action").val()); 
@@ -1357,6 +1362,7 @@ function getClassfreeslots(start_date,business_id,staff_id,eventId,timeslot){
 $("#addClient").on("click",function(){
 $(".message").removeClass("alert").html(""); 
 $("#removeClient").hide();
+$("#addClient").show();
 if($("#actionVal").val()==''){
  $("#actionVal").val('add');
 }
@@ -1395,6 +1401,7 @@ $("#removeClient").click(function(){
 	 $("#available").html(data); 
 	 $("#clientform")[0].reset();
 	 $("#removeClient").hide();
+	 $("#addClient").show();
 	 clientlist($("#eventId").html());
 	 //$("#app"+$(this).attr('appid')).remove();
 	})
@@ -1431,6 +1438,7 @@ $(".editclient").live('click',function(){
 	$(".message").removeClass("alert").html(""); 
 $("#removeClient").val($(this).attr('clientid'));
 $("#removeClient").show();
+$("#addClient").hide();
     $.ajax({
 	 url:base_url+'bcalendar/getclientdetails',
 	 type:'POST',

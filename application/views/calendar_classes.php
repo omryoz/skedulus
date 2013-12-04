@@ -474,7 +474,7 @@ if($("#monthlylist").val()!=""){
     /**
      Clicking delete in Preview window
      */
-     function rzDeleteEvent(){
+    function rzDeleteEvent(){
 	 apprise('Are you sure want to delete posted classes?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deleteclass(); }else{ return false; } });	
 	
   }  
@@ -595,6 +595,7 @@ if($("#monthlylist").val()!=""){
 	 $("#clientform")[0].reset();
 	 $(".message").removeClass("alert").html(""); 
 	 $("#removeClient").hide();
+	 $("#addClient").show();
 	 //$(".client-form").show();
 	})
 
