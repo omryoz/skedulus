@@ -99,8 +99,8 @@ class bprofile_model extends CI_Model {
 			}
 		}else{
 			 $insertArray['user_role']= 'employee';		
-			$this->db->insert('users',$insertArray);
-			$id=mysql_insert_id();
+			 $this->db->insert('users',$insertArray);
+			 $id=mysql_insert_id();
 		}
 		
 		$insertEmployee=array();
@@ -108,6 +108,7 @@ class bprofile_model extends CI_Model {
 		$insertEmployee['users_id']=$id; 
 		$insertEmployee['employee_type']='employee'; 
 		$this->db->insert('business_employees',$insertEmployee);
+		    
 		}
 		
 		//to insert/update the staffs availability
@@ -261,16 +262,18 @@ class bprofile_model extends CI_Model {
 	
 	function updateEmployee($password,$id){
 	      $rand=$this->random_password(5);
+		  
 		  $Password= MD5($password);
 		  $sql=mysql_query("update users set password= '".$Password."',random_key='".$rand."' where id= '".$id."'");
 		  return true;
 	}
 	
 	function random_password( $length = 5 ) {
-		$chars = "0123456789";
-		$password = substr( str_shuffle( $chars ), 0, $length );
-		return $password;
+    $chars = "0123456789";
+    $password = substr( str_shuffle( $chars ), 0, $length );
+    return $password;
    }
+	
 //End
 
 //Offers Module
@@ -866,7 +869,172 @@ class bprofile_model extends CI_Model {
 		}
 	}
 	
+	function getbusydetails(){
+		$sql="Select * from client_service_appointments where id =".$_POST['evid'];
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		if($data){
+			foreach($data as $dataP){
+			    $values['seriesid']= $dataP->seriesid;
+				$values['employee_id']= $dataP->employee_id;
+				$values['users_id']= $dataP->users_id;
+				$values['note']= $dataP->note;
+				$values['type']= $dataP->type;
+				$values['startdate']=date("Y-m-d",strtotime($dataP->start_time));
+				
+				$time=date("h:iA",strtotime($dataP->start_time));
+				$endtime=date("h:iA",strtotime($dataP->end_time));
+				$values['date'] =$date;
+				$values['starttime'] =$time;
+				$values['endtime'] =$endtime;
+				if($this->input->post('busytype')=='multi'){
+				 $values['enddate']=$this->getMaxendDate($dataP->seriesid);
+				 $values['weeklist']= $dataP->repeat_week_days;
+				}
+				$i++;
+			}
+			return $values;
+		}
+	}
 	
+	function getMaxendDate($seriesid){
+	  $sql="SELECT max(Date(end_time)) as enddate FROM `client_service_appointments` WHERE seriesid=".$seriesid;
+	  $query=$this->db->query($sql);	
+		$data=$query->result();	
+		$value['enddate']= $data[0]->enddate;
+	    return $value['enddate'];
+	}
+	
+	function editbusytime(){ //print_r($_POST); exit;
+	    $date=date("Y-m-d h:m:s");
+	     $staffid=0;
+	   if($_POST['staff']!='Select Staff'){
+	     $staffid=$_POST['staff'];
+	   }
+	   
+		 
+	     if($this->input->post('btype')=='single'){
+		   if($_POST['repeatstatus']=='Add Repeat'){ 
+		   $start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('starttime');	
+		   $end_time =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');
+		   $input = array("seriesid"=>$this->input->post('seriesid'),'modifiedStatus'=>'1',"users_id"=>$this->input->post('user_id'),"booked_by"=>'manager',"start_time"=>$start_time,"end_time"=>$end_time,"note"=>$this->input->post('note'),"status"=>"busytime","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->session->userdata['business_id'],'employee_id'=>$staffid);
+		 
+		   $this->db->update('client_service_appointments',$input,array('id' => $_POST['type']));
+		   }else{
+		    mysql_query("delete from client_service_appointments where id='".$_POST['type']."'");
+			$info=array("business_id"=>$this->session->userdata['business_id'],"date_added"=>$date);
+			$query = $this->db->insert("posted_class_series",$info);
+			$seriesid= mysql_insert_id();
+			$this->insertmultibusytime($seriesid,$this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('note'),$this->input->post('user_id'),$this->input->post('weeklist'),$this->input->post('starttime'),$this->input->post('endtime'),$staffid);
+		   }
+		 }else{
+		    $info=array("business_id"=>$this->session->userdata['business_id'],"date_added"=>$date);
+			$query = $this->db->insert("posted_class_series",$info);
+			$seriesid= mysql_insert_id();
+			if($_POST['repeatstatus']=='Remove Repeat'){
+              $sql="Select * from client_service_appointments where seriesid='".$this->input->post('seriesid')."' and modifiedStatus='0' and Date(start_time) between '".$_POST['startdate']."' AND '".$_POST['enddate']."'";
+		     $query=$this->db->query($sql);
+		     $data= $query->result();
+		   
+			foreach($data as $dataP){
+			  $start_time = date("Y-m-d",strtotime($dataP->start_time)).' '.$this->input->post('starttime');	
+		      $end_time =   date("Y-m-d",strtotime($dataP->end_time)).' '.$this->input->post('endtime');
+			     $input = array("seriesid"=>$seriesid,"start_time"=>$start_time,"end_time"=>$end_time,"note"=>$this->input->post('note'),'employee_id'=>$staffid);
+				   $this->db->where('id', $dataP->id);
+				  $this->db->update('client_service_appointments', $input); 
+			}
+			 
+		   }else{
+		   $start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('starttime');	
+		   $end_time =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');
+		     $where=" and Date(start_time) between '".$_POST['startdate']."' AND '".$_POST['enddate']."'";
+		     mysql_query("delete from client_service_appointments where seriesid='".$_POST['seriesid']."'".$where);
+		     $input = array("seriesid"=>$seriesid,"modifiedStatus"=>'0',"users_id"=>$this->input->post('user_id'),"booked_by"=>'manager',"start_time"=>$start_time,"end_time"=>$end_time,"note"=>$this->input->post('note'),"status"=>"busytime","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->session->userdata['business_id'],'employee_id'=>$staffid);
+		 
+		     $query = $this->db->insert("client_service_appointments",$input);
+		   }
+		 }
+		
+	   
+	}
+	
+	function insertbusytime(){
+	  
+	   $staffid=0;
+	   if($_POST['staff']!='Select Staff'){
+	     $staffid=$_POST['staff'];
+	   }
+	  $date=date("Y-m-d h:m:s");		
+	  $info=array("business_id"=>$this->session->userdata['business_id'],"date_added"=>$date);
+	  $query = $this->db->insert("posted_class_series",$info);
+	  $seriesid= mysql_insert_id();
+		  
+	   if($_POST['repeatstatus']=='Add Repeat'){
+		$start_time = date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('starttime');	
+		$endtime =   date("Y-m-d",strtotime($this->input->post('startdate'))).' '.$this->input->post('endtime');
+	   
+	   
+	     $input = array("seriesid"=>$seriesid,"modifiedStatus"=>'0',"users_id"=>$this->input->post('user_id'),"booked_by"=>'manager',"start_time"=>$start_time,"end_time"=>$endtime,"note"=>$this->input->post('note'),"status"=>"busytime","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->session->userdata['business_id'],'employee_id'=>$staffid);
+		 
+		   $query = $this->db->insert("client_service_appointments",$input);
+			if($this->db->affected_rows()>0){
+				return true;
+			}else{
+				return false;
+			}
+	   }else{
+				$this->insertmultibusytime($seriesid,$this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('note'),$this->input->post('user_id'),$this->input->post('weeklist'),$this->input->post('starttime'),$this->input->post('endtime'));
+	        }
+	  
+	}
+	
+	function insertmultibusytime($seriesid=false,$startdate=false,$enddate=false,$note=false,$user_id=false,$weeklist=false,$starttime=false,$endtime=false,$staff_id=false){
+	//print_r($seriesid); exit;
+	 $date=date("Y-m-d h:m:s");
+		    $start_date=date("Y-m-d",strtotime($startdate));
+			$end_date=date("Y-m-d",strtotime($enddate));
+			$check_date = $start_date;
+			$repeat_week_day= explode(",",$weeklist);
+			while ($check_date <= $end_date) { 
+			$day= date('N',strtotime($check_date));
+			 if(in_array($day,$repeat_week_day)){
+				$date3 = strtolower(date("l", strtotime($check_date)));
+				
+				if($staff_id!='0'){
+				   $staffid= $staff_id;
+				}else{
+				   $staffid='0';
+				}
+				 if($this->getworkingday($date3,$staffid)){
+				$start_time = date($check_date.' '.$starttime);	
+				$end_time =   date($check_date.' '.$endtime);
+
+				$input = array("seriesid"=>$seriesid,"modifiedStatus"=>'0',"users_id"=>$user_id,"booked_by"=>'manager',"start_time"=>$start_time,"end_time"=>$end_time,"note"=>$note,"status"=>"busytime","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->session->userdata['business_id'],"repeat_week_days"=>$weeklist,'employee_id'=>$staffid);
+ 
+				$query = $this->db->insert("client_service_appointments",$input);
+				}	
+			 }
+			 $check_date = date ("Y-m-d", strtotime ("+1 day", strtotime($check_date))); 
+			}
+	}
+	
+	function getworkingday($date,$staffid){
+	   
+	   if($staffid!=''){
+	   
+	   $query = $this->db->query("select * from view_service_availablity where users_id='".$staffid."' and type='employee' and name='".$date."'"); 
+	   }else{
+	    $query = $this->db->query("select * from view_service_availablity where user_business_details_id='".$this->session->userdata['business_id']."' and type='business' and name='".$date."'");
+	    
+	   }
+	   $data= $query->result();
+		if($data){
+	   return true;	
+	   }else{
+			return false;
+	   }
+	}
 	
 	
 }

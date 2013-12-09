@@ -273,15 +273,11 @@ if($("#monthlylist").val()!=""){
 	 })
 	}
 	
-	function agendaShowEventDetail(startTime){  
-	 // $(".message").removeClass("alert").html(" ");
-	 // $("#editClass").modal("show");
-	 // $("#eventId").html(eventid);
-	 // $("#multiClass").hide();
-	 var startTime= new Date();
-	 loadCalendarEvents(startTime, endTime);
-	 //showoptions(eventid);
-	}
+	function agendaShowEventDetail(eventid){  
+	   $("#editClass").modal("show");
+	   $("#eventId").html(eventid);
+	   showoptions(eventid);
+	} 
 	
     /*
      Method invoked when event is moved or resized

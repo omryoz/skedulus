@@ -59,7 +59,9 @@ class Bcalendar extends CI_Controller {
 		 if(isset($this->session->userdata['business_id'])){
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		 if($status->status=='active'){
+		  	
 		 $this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('include/modal_busytime',$this->data);
 		 $this->parser->parse('calendar',$this->data);
 		 }else{
 		  $this->parser->parse('deactivated',$this->data);
@@ -310,7 +312,10 @@ function getstaffnameByfilter(){
 		$filter = array('service_id'=>$this->input->post('service_id'));
 		$resuls = $this->common_model->getserviceByfilter($filter);	
 		print_r(json_encode($resuls));
-		
+	}else  if($this->input->post('business_id')){
+		//$filter = array('business_id'=>$this->input->post('business_id'));
+		$resuls = $this->common_model->getAllRows('view_business_employees','user_business_details_id',$this->input->post('business_id'));	
+		print_r(json_encode($resuls));
 	}else{
 		return false;
 	}
@@ -357,32 +362,41 @@ function getstaffnamesByfilter(){
 	}
 }
 
-// function getstaffnamesByfilter1(){
-	// if($this->input->post('service_id')){
-	// $string = rtrim($this->input->post('service_id'), ',');
-	// $service = explode(",",$this->input->post('service_id'));
-	//print_r($service); exit;
-	// $resultsArr='';
-	// foreach($service as $val){
-	 // if($val!=''){
-	     // $filter = array('service_id'=>$val);
-		 // $results[] = $this->common_model->getserviceByfilter($filter); 
-	     // $resultsArr.=$results;
-		 // $resultsArr.=',';
-	 // }	
-	// }
-	// print_r($resultsArr); exit;
+function getfreeslots(){
+   $where=1;
+	if($this->input->post('date')){
+		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
+			 $day = $this->checkweekendDayName($this->input->post('date'));
+			 if($this->input->post('staff_id')!=''){
+			 $filter = array("users_id"=>$this->input->post('staff_id'),"name"=>$day,"type"=>'employee'); 
+			 $where.=" AND employee_id=".$this->input->post('staff_id');
+			 }else{
+			 $filter = array("user_business_details_id"=>$this->input->post('business_id'),"name"=>$day,"type"=>'business'); 
+			 $where.=" AND user_business_details_id=".$this->input->post('business_id');
+			 }
+			 $this->data['slots'] = $this->common_model->getAllslots($filter);
+			 //$where=1;
+			 if($this->input->post('timeslot')!=''){
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			 }else{
+			  $this->data['selectedTimeSlot']='';
+			 }
+			 if($this->input->post('eventId')!=''){ 
+			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			  $where.=' AND id!='.$this->input->post('eventId');
+			 }
+			 
+			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
+			 $this->load->view("options",$this->data);
+			
+		}else{
+			echo 0;
+		}
+	}else{
+		return false;
+	}
 	
-	
-// $result_array = array_intersect_assoc($results[0],$results[1]);
-      	// $filter = 'service_id  IN ('.$string.')'; 
-	
-	// $resuls = $this->common_model->getserviceByfilters($filter);	
-	// print_r(json_encode($resuls));
-	// }else{
-		// return false;
-	// }
-// }
+}
 
 function getfreeslotsbydate(){
    $where=1;
@@ -515,6 +529,68 @@ function checkweekendDayName($date=false){
 		$date2 = date("l", $date1);
 		$date3 = strtolower($date2);
 		return $date3;
+}
+
+function bussytime(){ //print_r($_POST); exit;
+ if($this->input->post('submit')){
+ if($this->input->post('seriesid')){
+ $this->bprofile_model->editbusytime();
+ }else{
+    $this->bprofile_model->insertbusytime();
+}
+     redirect("/bcalendar/cal/".$this->session->userdata['business_id']);
+ }
+}
+
+function checkbusyfordate(){ 
+if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
+		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
+		  echo 0;
+		}else{
+	      echo 1;
+		}
+	}else{
+	   echo -1;
+	}	
+		
+}
+
+function checkbusytime(){
+  $val=$this->common_model->getRow('client_service_appointments','id',$this->input->post('evid'));
+   if($val->status=='busytime'){
+     $res=$this->common_model->getAllRows("client_service_appointments","seriesid",$val->seriesid); 
+	 if(count($res)==1){
+	   echo 1;
+	 }else{ 
+	     if($val->modifiedStatus=='0'){
+		  echo 0;
+		 }else{
+		  echo 1;
+		 }
+	 
+	 } 
+   
+   }else{
+    echo -1;
+   }
+}
+
+function getbusytimedetails(){
+   $detail.="[";
+   $val=$this->bprofile_model->getbusydetails('client_service_appointments','id',$this->input->post('evid'));
+	  $detail.=json_encode($val);
+	  $detail.="]";
+	  print_r($detail);
+	
+}
+
+function deletebusytime(){
+	if($this->input->post('type')=='id'){
+	  $id='id';
+	}else{
+	  $id='seriesid';
+	}
+	mysql_query("delete from client_service_appointments where $id=".$_POST['id']);
 }
 
 function createappointment(){ 
@@ -663,6 +739,60 @@ function referal_url($url){
 		  }
 		}else{ 
 		  echo -1;
+		}
+	}
+	
+	function checkfortime(){
+	    $where=1;
+		$returned = true;
+	     if(strtotime($this->input->post('date'))<=strtotime(date("d-m-Y"))){
+		  echo -1;
+		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
+		  echo 0;
+		 }elseif(strtotime($this->input->post('starttime'))>strtotime($this->input->post('endtime'))){
+		  echo -3;
+		 }else{
+		    $total_slotlist = array();
+			$start = strtotime($this->input->post('starttime'));
+			$end = strtotime($this->input->post('endtime'));
+			for( $i = $start; $i <= $end; $i += (60*15)){
+				$total_slotlist[] = date('g:iA', $i);
+			}
+			
+		$day = $this->checkweekendDayName($this->input->post('date'));
+		if($this->input->post('employeeid')!='Select Staff' || $this->input->post('employeeid')!=''){
+		$where.=" AND employee_id=".$this->input->post('employeeid')."  AND user_business_details_id=".$this->session->userdata['business_id'];
+		}else{
+		$where.=" AND user_business_details_id=".$this->session->userdata['business_id']." AND employee_id=0";
+		}
+		
+		if($this->input->post('eventId')!=''){
+		  $where.=' AND id!='.$this->input->post('eventId');
+		}
+		
+		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
+		
+		/*Get all empty slots*/
+		
+		$booked_container = array();
+		foreach($booked_slots as $key =>$booked){	
+			$start_booked = strtotime($booked->start_time);
+			$end_booked = strtotime($booked->end_time);
+			for( $i = $start_booked; $i < $end_booked; $i += (60*15)){
+				$booked_container[] = date('g:iA', $i);
+			}
+		  }
+		 // print_r($booked_container);
+		foreach($total_slotlist as $single_total){
+			if(in_array($single_total,$booked_container)){
+				$returned = false;
+			}
+		}
+		 if($returned){
+		  echo 1;
+		 }else{
+		   echo -2;
+		 }
 		}
 	}
 	
@@ -992,7 +1122,7 @@ function checkIfblocked(){
   }
 }
 	
-	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId){
+	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId=false){
 	    $where=1;
 		//$where1=1;
 	    $day = $this->checkweekendDayName($date);
@@ -1006,11 +1136,11 @@ function checkIfblocked(){
 		$where1=' AND user_business_details_id="'.$business_id.'"';
 		}
 		$getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
-		//$getEndtime=$this->common_model->getAllRows('view_service_availablity','name',$day,$where1); 
-		//print_r($getEndtime->end_time); exit;
-		$slots = $this->common_model->getAllslots($filter);
-		if($eventId!=''){
-		  $where.=' AND id!='.$eventId;
+		
+		$slots = $this->common_model->getAllslots($filter); 
+		//print_r("<pre>".$eventId."</pre>"); exit;
+		if(!empty($eventId)){ 
+		  $where.=' AND id!='.(!empty($eventId))?$eventId:''; //echo $where;
 		}
 		
 		$booked_slots = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
@@ -1122,7 +1252,7 @@ function checkIfblocked(){
 		$Actualtime = explode(":",$this->addTime($t_Actualtime,$t));
 		$endtime = $time[0].':'.$time[1];
 		$Actualendtime = $Actualtime[0].':'.$Actualtime[1];
-		$this->checkClassAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('class_id'),$this->input->post('staffid'),$this->input->post('starttime'),$endtime,$Actualendtime,$this->input->post('eventId'));
+		$this->checkClassAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('class_id'),$this->input->post('staffid'),$this->input->post('starttime'),$endtime,$Actualendtime,$this->input->post('eventid'));
 		//echo $Actualtime;
 	}
 	

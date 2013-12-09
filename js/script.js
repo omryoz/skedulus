@@ -132,6 +132,8 @@ $.ajax({
    data: {'id': id,'action':action},
    type:'POST',
    success:function(data){
+    var str=data;
+    var data=str.trim();
    if(action=="add"){
 	$("#star"+data).attr("class","icon-star icon-2x pull-right tool").attr("data-original-title","Remove to Favourite");
 	$("#star"+data).attr("action","remove");
@@ -1094,6 +1096,261 @@ $("#bookclass").live("click",function(){
  
 })
 
+
+function getAllStaffs(business_id,staffid){
+ var url = base_url+"bcalendar/getstaffnameByfilter";
+  $.post(url,{business_id:business_id}, function(data){ 
+		$(".bstaff").html(""); 
+		var append_option = "<option id='-1' >Select Staff</option>";
+		$(".bstaff").append(append_option);
+		$.each(eval(data), function( key, value ) {
+		var selected='';
+		   if(value.users_id==staffid){
+		     var selected='selected';
+		   }
+			var append_option = "<option id="+key+" value="+value.users_id+" "+selected+">"+value.first_name+""+value.last_name+"</option>";
+			$(".bstaff").append(append_option);
+		});
+	});
+}
+
+function getfreetimeslots(start_date,business_id,staff_id,eventId,timeslot,timetype){ 
+	var url = base_url+"bcalendar/getfreeslots";
+			$.post(url,{date:start_date,business_id:business_id,staff_id:staff_id,eventId:eventId,timeslot:timeslot},function(info){
+			var str=info;
+            var info=str.trim();
+			if(info==0){
+			$(".message").addClass("alert").html(nonworkingday);
+			 $("#book_busytime").attr("onsubmit","return false;");
+			//$(".time").html(""); 
+			}else{
+			$("#book_busytime").attr("onsubmit","return true");	
+			$("."+timetype).html(""); 
+			$("."+timetype).append(info);
+			$(".message").removeClass("alert").html("");
+			}
+			});
+}
+
+$("#multibusytime").click(function(){
+$('.busytype').attr('type-name','multi');
+$(".btype").val('multi');
+$("#busytime").modal('show');
+$(".deletebusytime").show();
+$("#editbusytime").modal('hide');
+getbusytimedetails();
+})
+
+
+function checkforbusytime(employeeid,date,starttime,endtime,eventId){
+  var url = base_url+"bcalendar/checkfortime";
+  $.post(url,{employeeid:employeeid,date:date,starttime:starttime,endtime:endtime,eventId:eventId},function(data){
+     var str=data;
+     var data=str.trim();
+	 if(data==-1){
+	    $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html(pastdates).css({"display":"block","margin":"0px"});
+	 }else if(data==0){
+	     $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html("starttime same as endtime ").css({"display":"block","margin":"0px"});
+	 }else if(data==-2){
+	    $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html("Cannot schedule the bussy time now").css({"display":"block","margin":"0px"});
+	 }else if(data==-3){
+	    $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html("Start time less than the end time").css({"display":"block","margin":"0px"});
+	 }else{
+	    $("#book_busytime").attr("onsubmit","return true;");
+	 }
+   })
+}
+
+$(".busyendtime").change(function(){
+$(".message").val("");
+ if($('.busytype').val()!=''){
+   var eventId=$('.busytype').val(); 
+  } 
+     checkforbusytime($(".bstaff").val(),$(".StartDate").val(),$(".busystarttime").val(),$(".busyendtime").val(),eventId);
+})
+
+$(".bstaff").change(function(){
+$(".message").val("");
+var eventId='';
+ if($('.busytype').val()!=''){
+   var eventId=$('.busytype').val(); 
+  } 
+   var staffid='';
+  if($('.bstaff').val()!='Select Staff'){
+      var staffid=$('.bstaff').val();
+  }
+  var businessid = $("#profileid").html();
+  var d=new Date($("#eventStartDate").val());
+	 var curr_date = d.getDate();
+	 var curr_month = d.getMonth() + 1; 
+	 var curr_year = d.getFullYear();
+	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 var busystarttime='busystarttime';
+	 var busyendtime='busyendtime';
+	 var  starttimeslot=$(".busystarttime").val(); 
+     var  endtimeslot=$(".busyendtime").val(); 
+   getfreetimeslots(date,businessid,staffid,eventId,starttimeslot,busystarttime);
+   getfreetimeslots(date,businessid,staffid,eventId,endtimeslot,busyendtime);
+     checkforbusytime($(".bstaff").val(),$(".StartDate").val(),$(".busystarttime").val(),$(".busyendtime").val(),eventId);
+})
+
+$("#singlebusytime").click(function(){
+$('.busytype').attr('type-name','single');
+$(".btype").val('single');
+$("#busytime").modal('show');
+$("#editbusytime").modal('hide');
+$(".deletebusytime").show();
+getbusytimedetails();
+})
+
+$(".deletebusytime").click(function(){
+	  apprise("Are you sure you want to delete busy time?", {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deletebussytime(); }else{ return false; } });
+})
+
+function deletebussytime(){
+  var url = base_url+"bcalendar/deletebusytime";
+  if($('.busytype').attr('type-name')=='multi'){
+    var val=$('.seriesid').val();
+	var vals='seriesid';
+  }else{
+    var val=$('.busytype').val();
+	var vals='id';
+  }
+  $.post(url,{id:val,type:vals},function(data){
+    window.location.href=base_url+'bcalendar/cal/'+$("#business_id").val();
+  })
+}
+
+function getbusytimedetails(){
+$(".note").val("");
+$(".message").val("");
+  var url = base_url+"bcalendar/getbusytimedetails";
+  $.post(url,{evid:$('.busytype').val(),busytype:$('.busytype').attr('type-name')},function(data){ 
+      $.each(eval(data),function(i,v){ 
+	       $(".StartDate").val(v.startdate);
+		   $(".seriesid").val(v.seriesid);
+		    var d=new Date(v.startdate);
+			 var curr_date = d.getDate();
+			 var curr_month = d.getMonth() + 1; 
+			 var curr_year = d.getFullYear();
+			 var date = curr_date+"-"+curr_month+"-"+curr_year;
+		     var eventId=$('.busytype').val();
+			 var staffid='';
+			 if(v.employee_id!=0){
+				  $('.bstaff').val(v.employee_id);
+				  var staffid=v.employee_id;
+			  }
+			  getAllStaffs($("#business_id").val(),staffid);
+		    var busystarttime='busystarttime';
+			 var busyendtime='busyendtime';
+		   getfreetimeslots(date,$("#profileid").html(),staffid,eventId,v.starttime,busystarttime);
+		   getfreetimeslots(date,$("#profileid").html(),staffid,eventId,v.endtime,busyendtime);
+		   //$(".busystarttime").val(v.starttime);
+		  // $(".busyendtime").val(v.endtime);
+		   $(".note").val(v.note);
+		   if($('.busytype').attr('type-name')=='multi'){
+		    $("#weeklist").val(v.weeklist);
+			 var myString = v.weeklist, splitted = myString.split(","), i;
+				for(i = 0; i < splitted.length; i++){ 
+				$("#w"+splitted[i]).attr("class","btn weekly active");
+				}
+		     $(".endDate").val(v.enddate);
+		     var removediv="Remove Repeat";
+             $("#repeatdiv").show();
+             $("#weeks").css("display",'block');
+			 $("#repeathtml").html(removediv);
+             $("#repeatstatus").val(removediv);
+		   }else{
+		      var removediv="Add Repeat";
+			   $("#repeatdiv").hide();
+			   $("#weeks").css("display",'none');
+			   $("#repeathtml").html(removediv);
+			   $("#repeatstatus").val(removediv);
+		   }
+	  })
+  })
+}
+
+
+$(".busytime").on("click",function(){
+$(".note").val("");
+$(".bstaff").val("");
+$(".message").val("");
+$(".btype").val(''); 
+$(".deletebusytime").hide();
+$('.busytype').attr('type-name','');
+$('.busytype').val("");
+$('.seriesid').val("");
+var d=new Date($("#eventStartDate").val());
+	 var curr_date = d.getDate();
+	 var curr_month = d.getMonth() + 1; 
+	 var curr_year = d.getFullYear();
+	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 var businessid = $("#profileid").html();
+	 var  timeslot=$("#eventStartTime").val(); 
+	 var eventId=''; 
+	 var staffid='';
+	 if($('.bstaff').val()!='Select Staff'){
+      var staffid=$('.bstaff').val();
+     }
+	 var url1 = base_url+"bcalendar/checkbusyfordate";
+$.post(url1,{date:date,business_id:businessid,staffid:staffid},function(data){
+var str=data; var data=str.trim();
+   if(data==0){
+       apprise(pastdates, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } }); 
+   }else if(data==-1){
+      apprise(nonworkingday, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+   }else{
+      $("#busytime").modal('show');
+      var url = base_url+"bcalendar/getstaffnameByfilter";
+		getAllStaffs($("#business_id").val(),staffid);
+		  var busystarttime='busystarttime';
+		  var busyendtime='busyendtime';
+		 getfreetimeslots(date,businessid,staffid,eventId,timeslot,busystarttime);
+		 getfreetimeslots(date,businessid,staffid,eventId,timeslot,busyendtime);
+		 var removediv="Add Repeat";
+		   $("#repeatdiv").hide();
+		   $("#weeks").css("display",'none');
+		   $("#repeathtml").html(removediv);
+		   $("#repeatstatus").val(removediv);
+		$(".StartDate").val($("#eventStartDate").val()); 
+		$(".StartTime").val($(".eventStartTime1").val());
+		$("#eventEndTime").val('');
+   }
+})
+
+
+})
+
+$(".StartDate").on('changeDate',function(){
+$(".message").val("");
+  var  starttimeslot=$(".busystarttime").val(); 
+  var  endtimeslot=$(".busyendtime").val(); 
+  var eventId='';
+  if($('.busytype').val()!=''){
+   var eventId=$('.busytype').val(); 
+  } 
+  var staffid='';
+  if($('.bstaff').val()!='Select Staff'){
+      var staffid=$('.bstaff').val();
+  }
+  var businessid = $("#profileid").html();
+  var d=new Date($(this).val());
+	 var curr_date = d.getDate();
+	 var curr_month = d.getMonth() + 1; 
+	 var curr_year = d.getFullYear();
+	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 var busystarttime='busystarttime';
+	 var busyendtime='busyendtime';
+   getfreetimeslots(date,businessid,staffid,eventId,starttimeslot,busystarttime);
+   getfreetimeslots(date,businessid,staffid,eventId,endtimeslot,busyendtime);
+   checkforbusytime($(".bstaff").val(),$(".StartDate").val(),$(".busystarttime").val(),$(".busyendtime").val(),eventId);
+})
+
 $(".launch").on("click",function(){ 
     $(".viewSchedule").hide();
 	$(".titleAppointment").html(bookappointment);
@@ -1339,6 +1596,10 @@ getClassfreeslots($("#StartDate").val(),$("#login_id").html(),$("#trainer").val(
 }
 	//$("body").append('<div class="modal-backdrop fade in" id="darker"></div>');
 })
+
+
+
+
 
 function getClassfreeslots(start_date,business_id,staff_id,eventId,timeslot){
   var url = base_url+"bcalendar/getClassfreeslotsbydate";
@@ -1597,7 +1858,12 @@ function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){
 
 $("#eventStartTime").live('change',function(){ 
  $(".message").removeClass("alert").html("");
- getClassEndtime($("#eventStartTime").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid='');
+ if($("#updateid").val()!=''){
+  var eventid=$("#updateid").val();
+ }else{
+ var eventid='';
+ }
+ getClassEndtime($("#eventStartTime").val(),$("#eventGroup").val(),$("#StartDate").val(),$("#business_id").html(),$("#trainer").val(),eventid);
 })
 
 _page = window.location.pathname.split('/')[2];

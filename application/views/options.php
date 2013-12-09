@@ -15,7 +15,7 @@
 		}
 		
 	
-		
+		print_r($slots); exit;
 		$total_slotlist = array();
 		$start = strtotime($slots->start_time);
 		$end = strtotime($slots->end_time);

@@ -268,7 +268,7 @@
 					
 					+'						<td > '
 					+'							(<span class="TextSizeXSmall"><span>${formattedStartTime}</span> - <span>${formattedEndTime}</span> </span>)  '
-					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${_localId}\')"><span style="font-weight:bold; "> ${classname} with ${classSize} </span> </a>'
+					+'							<a href="javascript:void(0)" onclick="agendaShowEventDetail(\'${eventId}\')"><span style="font-weight:bold; "> ${classname} with ${classSize} </span> </a>'
 					+'						</td>'
 					
 					+'					</tr>'

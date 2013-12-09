@@ -1,8 +1,18 @@
 <script>
 $(document).ready(function(){
-		_page = window.location.pathname.split('/')[2];
-	  // $('a[href="'base_url+_page+'"] ,a[href="'base_url+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
-	   $('a[href="'+base_url+''+_page+'"] ,a[href="'+base_url+''+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+		// _page = window.location.pathname.split('/')[2];
+	   // $('a[href="'+base_url+''+_page+'"] ,a[href="'+base_url+''+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
+	   
+	   var url = window.location.pathname;  
+var activePage = url.substring(url.lastIndexOf('/')+1);  
+$('.business-navbar li a').each(function(){  
+var currentPage = this.href.substring(this.href.lastIndexOf('/')+1); 
+if (activePage == currentPage) { 
+$(this).parent().addClass('active'); 
+}else if(activePage ==''){
+$(".businessProfile").addClass('active');
+}
+});
 
 });
 
@@ -30,7 +40,7 @@ $(document).ready(function(){
 						$class="";
 					}*/
 					?> 
-					<li>
+					<li class="">
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p><?=(lang('Apps_overview')) ?></p></center></a>
 					</li>
 					<?php 
@@ -42,7 +52,7 @@ $(document).ready(function(){
 						 $link = 'calendar_business/'.$id;	
 					}
 					?>
-					<li>
+					<li class=" ">
 						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p><?=(lang('Apps_calendar')) ?></p></center></a>
 					</li>
 					<?php 
@@ -52,31 +62,31 @@ $(document).ready(function(){
 								
 						}
 					?>
-					<li >
+					<li class="businessProfile">
 						<a href="<?php echo base_url() ?>businessProfile/<?php echo $link;?>"><center><i class="icon-briefcase"></i><p><?=(lang('Apps_businessProfile')) ?>
 						</p></center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p><?=(lang('Apps_businessSettings')) ?>
+					<li class="" ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p><?=(lang('Apps_businessSettings')) ?>
 					</p></center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p><?=(lang('Apps_photoGallery')) ?></p>
+					<li class=""><a href="<?php echo base_url(); ?>gallery/list_gallery"><center><i class="icon-camera"></i><p><?=(lang('Apps_photoGallery')) ?></p>
 					</center>
 						</a>
 					</li>
 					
-					<li ><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p><?=(lang('Apps_MyClients')) ?></p>
+					<li class=""><a href="<?php echo base_url(); ?>clients/list_clients"><center><i class="icon-sitemap"></i><p><?=(lang('Apps_MyClients')) ?></p>
 					</center></a>
 					</li>
 					
-					<li ><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p><?=(lang('Apps_staffs')) ?></p>
+					<li class=""><a href="<?php echo base_url() ?>staffs/list_staffs"><center><i class="icon-group"></i><p><?=(lang('Apps_staffs')) ?></p>
 					</center></a>
 					</li>
 					
-					<li >
+					<li class="">
 					<?php 
 					if($this->session->userdata['business_type']=="class"){
 							$link = "list_classes";
