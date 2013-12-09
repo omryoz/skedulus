@@ -192,7 +192,7 @@
 		$lang['Apps_insert'] = "insert";
 		$lang['Apps_hoursbefore'] = "hours before their appointment";
 		$lang['Apps_hoursbeforetime'] = "hours before start time";
-        $lang['Apps_infuture'] = "in the future";		
+        $lang['Apps_infuture'] = "in advance";		
 		/* business setting end */
 		
 		/* gallery page start*/
@@ -414,14 +414,14 @@
 	    /*if try booking before the settings set in business settings*/
 	   $lang['Apps_cannotbookappointment']="Cannot book the appointment now";
 	   /*if try booking for future dates before the settings set in business settings*/
-	   $lang['Apps_cannotbookfutureappointment']="Cannot book an appointment for this day so early";
+	   $lang['Apps_cannotbookfutureappointment']="Cannot book an appointment for this day so long in advance";
 	   /*if try booking on a non-working day*/
 	   $lang['Apps_nonworkingday']="Its a non-working day kindly select another day";
 	   /*if try booking for past dates */
 	   $lang['Apps_pastdates']="Cannot book for past days";
 	   
 	   /*validation for selecting @least one servcie while booking*/
-	   $lang['Apps_selectservice']="Select atleast one service";
+	   $lang['Apps_selectservice']="Select at least one service";
 	   
 	   /*validation if time slot not enough while booking*/
 	   $lang['Apps_timeslot']="Time Slot selected is not enough";
