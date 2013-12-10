@@ -126,7 +126,9 @@
 							+' 	${formattedStartTime} - ${formattedEndTime}'
 							+' </div>	'
 							+' <div class="body"  style="padding:1px;">'
-							+' 	${eventName}'
+							+' <ul class="ul-inline unstyled"><li>${classname}</li>'
+							+' 	<li>${serviceProvider}</li>' 
+							+' <li>	${servicetime} mins - ${classsize}/${availability}</li></ul>' 
 							+' </div> '
 							+''
 						+' </div>';
@@ -206,6 +208,7 @@
 			var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate " style="width: 150px; height: 30px;">	'
 							+'<div>'
 							+'<center style="padding-top: 5px;"><a  href="javascript:;" class=" launchClass" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Book class</a></center>'
+							+'<center style="padding: 5px;"><a  href="javascript:;" class=" busytime" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Busy time</a></center>'
 							+'          <td style="width:10px;"></td> '
 							+'			<td  valign="top">	'
 							+'			<div style="display:none">	'

@@ -173,40 +173,7 @@
 
 
 <script>
-$("#repeat").click(function(){
- if($("#repeathtml").html()=="Add Repeat"){
- var removediv="Remove Repeat";
-  $("#repeatdiv").show();
-  
-     $("#weeks").css("display",'block');
-     $("#months").css("display",'none');
-  
- }else{
- var removediv="Add Repeat";
-   $("#repeatdiv").hide();
-   $("#weeks").css("display",'none');
-   $("#months").css("display",'none');
- }
- $("#repeathtml").html(removediv);
- $("#repeatstatus").val(removediv);
-})
- var myVar="";
- $(".weekly").click(function(e){  
- if($("#weeklist").val()!=""){
- myVar=$("#weeklist").val();
- }
-  $(this).toggleClass("weekly active");
-  if(jQuery.inArray($(this).val(),myVar) == -1){
-  myVar+=$(this).val()+",";
-  }else{
-  myVar=removeValue(myVar,$(this).val()); // "1,3"
- }
-  $("#weeklist").val(myVar);
- })
 
-function removeValue(list, value) {  
-  return list.replace(new RegExp(value + ',?'), '')
-}
 
     var ical; 
     /*

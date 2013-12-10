@@ -252,63 +252,43 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
         ical.build();
     }
  	var activeEvent;
-    function onPreview(evt, dataObj, html) 
-	{  
-	  Appdetails($(evt).attr('eventid'));
+    // function onPreview(evt, dataObj, html) 
+	// {  
+	  // Appdetails($(evt).attr('eventid'));
+	// }
+	  function onPreview(evt, dataObj, html) 
+	{ 
+	  var url = base_url+"bcalendar/checkbusytime";
+	  $.post(url,{evid:$(evt).attr('eventid')}, function(data){
+	    if(data==-1){
+		Appdetails($(evt).attr('eventid'));
+		}else{
+		 if(data==0){
+		  $('.busytype').val($(evt).attr('eventid'));
+		  $("#multibusytime").show();
+		  $("#editbusytime").modal('show');
+		 }else{
+		  $('.busytype').attr('type-name','single');
+		  $('.busytype').val($(evt).attr('eventid'));
+		  $("#multibusytime").hide();
+		  $("#editbusytime").modal('show');
+		  
+		 // $("#busytime").modal('show');
+		 }
+		}
+	  })	
 	}
 	
 	function Appdetails(eventid){
 		if($("#userrole").val()=='manager'){
 	   $(".message").removeClass("alert").html(" ");
 	   $("#eventid").html(eventid);
-	  
-	    // $.ajax({
-	   // url:base_url+'bcalendar/getAppDetails',
-	   // data:{eventID:eventid},
-	   // type:'POST',
-	   // success:function(data){ 
-	       // $.each(eval(data),function( key, v ) {
-			// $("#business_name").html(v.business_name);
-			// $("#cname").html(v.c_first_name+" "+v.c_last_name);
-			// $("#business_id").html(v.business_details_id);
-			// if(v.e_first_name!="" || v.e_last_name!=""){
-			// $("#name").html(v.e_first_name+" "+v.e_last_name);
-			// }else{
-			// $("#serviceprovider").css("display",'none');
-			// }
-			// if(v.type=='class'){
-			// var type='Class';
-			// $("#type").html(type);
-			// $("#typeName").html(v.services);
-			// $("#reschedulebtn").hide();
-			// }else{
-			// var type='Services';
-			// $("#type").html(type);
-			// $("#typeName").html(v.services);
-			// $("#services_id").html(v.services_id);
-			// $("#employee_id").html(v.employee_id);
-			// $("#note").html(v.note);
-			// $("#user_id").html(v.user_id);
-			// if(v.status=='active'){
-			// $("#reschedulebtn").show();
-			// }else{
-			// $("#reschedulebtn").hide();
-			// }
-			// }
-			// $("#date").html(v.date);
-			// $("#time").html(v.time);
-			// $("#endtime").html(v.endtime);
-		  // })
-	   // }
-	   // })
 	   
 	   $("#eventId").val(eventid);
 	   $(".titleAppointment").html("Reschedule an appointment");
 	   $("#book").modal('show');
 	   $(".viewSchedule").hide();
-	   //$("#reschedule").modal('show');
-		//activeEvent=dataObj;
-		//ical.showPreview(evt, html);
+	   
 		}
 	}
 	

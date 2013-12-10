@@ -32,6 +32,7 @@ if(!isset($this->session->userdata['id'])){
   $role='none';
   $crumb=(!empty($buisness_details))?($buisness_details[0]->name):'';
  } ?>
+ 
 <div class="content container">
 <div class="row-fluid business_profile">
 <!----<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($buisness_details[0]->id) ?>"><?php (!empty($buisness_details))?print_r($buisness_details[0]->name):'';?></a></h3>		--->
@@ -52,7 +53,7 @@ if(!isset($this->session->userdata['id'])){
 	
 <div id="calendarContainer" ></div>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
-
+<p id="profileid" class="hide"><?php print_r($buisness_details[0]->id) ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
@@ -249,13 +250,41 @@ if($("#monthlylist").val()!=""){
     }
 	
  	var activeEvent;
-    function onPreview(evt, dataObj, html)
+	function onPreview(evt, dataObj, html) 
 	{ 
-	 $(".message").removeClass("alert").html(" ");
-	 $("#editClass").modal("show");
-	 $("#eventId").html($(evt).attr('eventid'));
-	 showoptions($(evt).attr('eventid'));
+	  var url = base_url+"bcalendar/checkbusytime";
+	  $.post(url,{evid:$(evt).attr('eventid')}, function(data){
+	    if(data==-1){
+		 $(".message").removeClass("alert").html(" ");
+		 $("#editClass").modal("show");
+		 $("#eventId").html($(evt).attr('eventid'));
+		 showoptions($(evt).attr('eventid'));
+		}else{
+		 if(data==0){
+		  $('.busytype').val($(evt).attr('eventid'));
+		  $("#multibusytime").show();
+		  $("#editbusytime").modal('show');
+		 }else{
+		  $('.busytype').attr('type-name','single');
+		  $('.busytype').val($(evt).attr('eventid'));
+		  $("#multibusytime").hide();
+		  $("#editbusytime").modal('show');
+		  
+		 // $("#busytime").modal('show');
+		 }
+		}
+	  })	
 	}
+	
+	
+	
+    // function onPreview(evt, dataObj, html)
+	// { 
+	 // $(".message").removeClass("alert").html(" ");
+	 // $("#editClass").modal("show");
+	 // $("#eventId").html($(evt).attr('eventid'));
+	 // showoptions($(evt).attr('eventid'));
+	// }
 	
 	function showoptions(eventid){
 	  $.ajax({

@@ -313,9 +313,23 @@ function getstaffnameByfilter(){
 		$resuls = $this->common_model->getserviceByfilter($filter);	
 		print_r(json_encode($resuls));
 	}else  if($this->input->post('business_id')){
-		//$filter = array('business_id'=>$this->input->post('business_id'));
+		
 		$resuls = $this->common_model->getAllRows('view_business_employees','user_business_details_id',$this->input->post('business_id'));	
-		print_r(json_encode($resuls));
+		
+		$day = $this->checkweekendDayName($this->input->post('date'));
+		$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
+	foreach($resuls as $res){ 
+	 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
+	 $where1=' AND users_id="'.$res->users_id.'" and name="'.$day.'" and type="employee"';
+	 $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+	 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
+	    $results1[]=$res;
+	 }else{
+	   //$results1[]='';
+	 }
+	 }
+	 }
+		print_r(json_encode($results1));
 	}else{
 		return false;
 	}
@@ -351,7 +365,7 @@ function getstaffnamesByfilter(){
 	 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
 	    $results1[]=$res;
 	 }else{
-	   $results1[]=$res;
+	   //$results1[]='';
 	 }
 	     
 	 } 
@@ -742,16 +756,46 @@ function referal_url($url){
 		}
 	}
 	
+	function checkforenddate(){
+         if(strtotime($this->input->post('startdate'))>strtotime($this->input->post('enddate'))){
+		  echo -1;
+		 }else{
+		  echo 0;
+		 }
+	}
+	
+	function checkstarttime(){
+	   $staffid='';
+		if($this->input->post('employeeid')!='Select Staff'){
+		$staffid=$this->input->post('employeeid');
+		}
+         if(strtotime($this->input->post('date'))<=strtotime(date("d-m-Y"))){
+		  echo -1;
+		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
+		  echo 0;
+		 }elseif(strtotime($this->input->post('starttime'))>strtotime($this->input->post('endtime'))){
+		  echo -3;
+		 }elseif($this->checkday($this->input->post('date'),$this->session->userdata['business_id'],$staffid)){
+		    echo 1;
+		 }else{
+		   echo -2;
+		 }	
+	}
+	
 	function checkfortime(){
 	    $where=1;
 		$returned = true;
+		$staffid='';
+		if($this->input->post('employeeid')!='Select Staff'){
+		$staffid=$this->input->post('employeeid');
+		}
 	     if(strtotime($this->input->post('date'))<=strtotime(date("d-m-Y"))){
 		  echo -1;
 		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
 		  echo 0;
 		 }elseif(strtotime($this->input->post('starttime'))>strtotime($this->input->post('endtime'))){
 		  echo -3;
-		 }else{
+		 }elseif($this->checkday($this->input->post('date'),$this->session->userdata['business_id'],$staffid)){
 		    $total_slotlist = array();
 			$start = strtotime($this->input->post('starttime'));
 			$end = strtotime($this->input->post('endtime'));
@@ -760,7 +804,7 @@ function referal_url($url){
 			}
 			
 		$day = $this->checkweekendDayName($this->input->post('date'));
-		if($this->input->post('employeeid')!='Select Staff' || $this->input->post('employeeid')!=''){
+		if($this->input->post('employeeid')!='Select Staff'){
 		$where.=" AND employee_id=".$this->input->post('employeeid')."  AND user_business_details_id=".$this->session->userdata['business_id'];
 		}else{
 		$where.=" AND user_business_details_id=".$this->session->userdata['business_id']." AND employee_id=0";
@@ -793,6 +837,8 @@ function referal_url($url){
 		 }else{
 		   echo -2;
 		 }
+		}else{
+		  echo -4;
 		}
 	}
 	
@@ -947,6 +993,7 @@ function referal_url($url){
 		 // $this->parser->parse('calendar',$this->data);
 			if($this->session->userdata['role']=="manager"){
 			$this->parser->parse('include/modal_classpopup',$this->data);
+			$this->parser->parse('include/modal_busytime',$this->data);
 			$this->parser->parse('calendar_classes',$this->data);
 			}else{
 			$this->parser->parse('include/modal_bookclass',$this->data);
@@ -1309,6 +1356,7 @@ function checkIfblocked(){
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
 		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
+		 $this->parser->parse('include/modal_busytime',$this->data);
 		 $this->parser->parse('staffCalendar',$this->data);
 		 }
 		 $this->parser->parse('include/footer',$this->data);
