@@ -265,14 +265,14 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
 		}else{
 		 if(data==0){
 		  $('.busytype').val($(evt).attr('eventid'));
-		  $("#multibusytime").show();
+		  //$("#multibusytime").show();
 		  $("#editbusytime").modal('show');
 		 }else{
 		  $('.busytype').attr('type-name','single');
 		  $('.busytype').val($(evt).attr('eventid'));
-		  $("#multibusytime").hide();
-		  $("#editbusytime").modal('show');
-		  
+		  //$("#multibusytime").hide();
+		  //$("#editbusytime").modal('show');
+		   getsinglebusytime();
 		 // $("#busytime").modal('show');
 		 }
 		}
@@ -468,6 +468,17 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
             onTimeSelect: updateDateForTime,
             dateField: "eventEndDate"
         });
+		<?php 
+    if(isset($this->session->userdata['id'])){
+      if(isset($this->session->userdata['business_id'])){
+	     ?>
+		 $(".busytime").show();
+		 //window.sessionStorage.setItem('show', 'show');
+        <?php }else{ ?>
+		$(".busytime").hide();
+       <?php } }else{ ?>
+	   $(".busytime").hide();
+	   <?php }?>
 	/*$(".data").css("display","block");	
 	$(".data").css("color","black");*/	
 	
@@ -481,4 +492,5 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($staff_details[0]->
 }
 })	
 </script>
+<script src="<?php echo base_url() ?>functions/script.js">  </script> 
 <?php include('include/popupmessages.php'); ?>

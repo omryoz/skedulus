@@ -960,7 +960,7 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function insertbusytime(){
-	  
+	  //print_r($_POST); exit;
 	   $staffid=0;
 	   if($_POST['staff']!='Select Staff'){
 	     $staffid=$_POST['staff'];
@@ -1021,12 +1021,10 @@ class bprofile_model extends CI_Model {
 	
 	function getworkingday($date,$staffid){
 	   
-	   if($staffid!=''){
-	   
+	   if($staffid!='0'){
 	   $query = $this->db->query("select * from view_service_availablity where users_id='".$staffid."' and type='employee' and name='".$date."'"); 
 	   }else{
 	    $query = $this->db->query("select * from view_service_availablity where user_business_details_id='".$this->session->userdata['business_id']."' and type='business' and name='".$date."'");
-	    
 	   }
 	   $data= $query->result();
 		if($data){

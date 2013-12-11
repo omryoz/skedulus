@@ -99,6 +99,17 @@ class getevents
 						$eventsarray[$evCount]=$event; 
 					
 				}
+				$resEvents1 = $db->get_results("select * from holidays_list where calendar_id='1'");  
+				   foreach($resEvents1 as $evVal1)	
+				{
+						$evCount=$evCount+1;
+						$event["eventId"]='c'.$evVal1->id;
+						$event['serviceProvider']=$evVal1->name;
+						$event['startTime']=$evVal1->holiday_date." ".'08:00:00';
+						$event['endTime']=$evVal1->holiday_date." ".'23:00:00';
+						
+						$eventsarray[$evCount]=$event; 
+				}
 				$calendar['events']=$eventsarray;
 			}
 			

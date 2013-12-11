@@ -56,7 +56,7 @@
 					     </select> 
 						 <a href="javascript:;" id="brepeat" class="add-repeat">
 						 <p id="brepeathtml" value="add">Add Repeat</p></a>
-						 <input type="hidden" name="repeatstatus" id="brepeatstatus">
+						 <input type="hidden" name="repeatstatus" id="brepeatstatus" value="Add Repeat">
 					   </td>
 					   
 					   
@@ -105,7 +105,7 @@
 					<input type="hidden" name="type" type-name="" class="busytype" value="">
 					<input type="hidden" name="seriesid" class="seriesid" value="">	
 					<input type="hidden" name="btype" class="btype" value="">
-					<input type="hidden" name="btype" class="alltrue" value="">
+					<input type="hidden" name="alltrue" class="alltrue" value="">
                    
 					
             </tbody>

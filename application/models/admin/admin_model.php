@@ -1,7 +1,7 @@
 <?php 
 class Admin_model extends CI_Model {
 
-function getdetails($tablename,$offset,$limit,$where){
+function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
 //echo "Select * from $tablename where $where LIMIT $offset,$limit";
 		$sql="Select * from $tablename where $where LIMIT $offset,$limit";
 		$query=$this->db->query($sql);

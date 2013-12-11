@@ -43,12 +43,12 @@ $(document).ready(function(){
 						</p></center>
 						</a>
 					</li>
-					<!---<li class="">
-						<a href="admin_offer.php"><center><i class="icon-thumbs-up"></i><p> Offers
+					<li class="">
+						<a href="<?php echo base_url() ?>admin/dash/holidays"><center><i class="icon-plane"></i><p> Holidays 
 						</p></center>
 						</a>
 					</li>
-					<li class="">
+					<!---<li class="">
 						<a href="admin_photo.php"><center><i class="icon-camera"></i><p> Photos
 						</p></center>
 						</a>

@@ -6,7 +6,12 @@
         <script src="<?php echo base_url() ?>calendar/js/web2cal.support.js">  </script>
         <script src="<?php echo base_url() ?>calendar/js/web2cal.default.template.js">  </script> 
 		<script type="text/javascript" src="<?php echo base_url() ?>calendar/src/js/mybic.js"></script> 
-	
+<script>
+//window.sessionStorage.setItem('show', 'hide');
+ 
+ 
+	   
+</script>	
 
 		
 <!---End--------------->
@@ -193,6 +198,8 @@
  	var activeEvent;
     function onPreview(evt, dataObj, html) 
 	{ 
+	var str=$(evt).attr('eventid');
+	if(str.charAt(0)!='c'){
 	  var url = base_url+"bcalendar/checkbusytime";
 	  $.post(url,{evid:$(evt).attr('eventid')}, function(data){
 	    if(data==-1){
@@ -200,18 +207,14 @@
 		}else{
 		 if(data==0){
 		  $('.busytype').val($(evt).attr('eventid'));
-		  $("#multibusytime").show();
 		  $("#editbusytime").modal('show');
 		 }else{
-		  $('.busytype').attr('type-name','single');
 		  $('.busytype').val($(evt).attr('eventid'));
-		  $("#multibusytime").hide();
-		  $("#editbusytime").modal('show');
-		  
-		 // $("#busytime").modal('show');
+		  getsinglebusytime();
 		 }
 		}
-	  })	
+	  })
+     }	  
 	}
 	
 	
@@ -417,6 +420,18 @@
             onTimeSelect: updateDateForTime,
             dateField: "eventEndDate"
         });
+		
+		<?php 
+    if(isset($this->session->userdata['id'])){
+      if(isset($this->session->userdata['business_id'])){
+	     ?>
+		 $(".busytime").show();
+		 //window.sessionStorage.setItem('show', 'show');
+        <?php }else{ ?>
+		$(".busytime").hide();
+       <?php } }else{ ?>
+	   $(".busytime").hide();
+	   <?php }?>
 	/*$(".data").css("display","block");	
 	$(".data").css("color","black");*/	
 	
@@ -430,5 +445,8 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($this->session->use
 }
 })
 	
+
+
 </script>
+<script src="<?php echo base_url() ?>functions/script.js">  </script> 
 <?php include('include/popupmessages.php'); ?>

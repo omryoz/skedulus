@@ -243,7 +243,7 @@
 				var _html='<div id="defaultNewEventTemplate" class="calendarTemplate newEventTemplate" style="width: 150px; height: auto;" >'
 							+'<div>'
 							+'<center style="padding-top: 5px;"><a  href="javascript:;" class=" launch" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Book appointment</a></center>'
-							+'<center style="padding: 5px;"><a  href="javascript:;" class=" busytime" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Busy time</a></center>'
+							+'<center style="padding: 5px;"><a  href="javascript:busytime();" class=" busytime" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Busy time</a></center>'
 							
 							+'</div>'
 							

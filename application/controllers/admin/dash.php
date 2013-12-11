@@ -21,7 +21,7 @@ class Dash extends CI_Controller {
 	    $this->utilities->language();
 		$this->data['admin']='admin';
 		}else{
-		header("Location:" . base_url());
+		header("Location:" . base_url() .'admin/login');
 		}
     }
 	
@@ -105,30 +105,9 @@ class Dash extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
-	public function users($keyword=false,$role=false,$status=false){ //print_r($_REQUEST); exit; 
+	public function users($keyword=false,$role=false,$status=false){ 
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
-		
-		// $where=' 1';
-		// if(isset($_POST['keyword']) && $_POST['keyword']!=''){
-		// $this->data['search']=$_POST['keyword'];
-		// $where.= " AND first_name LIKE '%" .$_POST['keyword']. "%' OR last_name LIKE '%" .$_POST['keyword']. "%'";
-		// }
-		// $config['total_rows'] = $this->common_model->getCount('users','id',$where);
-		// if($config['total_rows']){
-		    // $config['base_url'] = base_url().'admin/dash/users/';
-			// $config['per_page'] = '15';
-			// $this->pagination->initialize($config);
-			// $this->data['pagination']=$this->pagination->create_links();
-			// if($this->uri->segment(4)!=''){
-			// $offset=$this->uri->segment(4);
-			// }else{
-			// $offset=0;
-			// }
-			// //print_r($this->uri->segment(5));exit;
-			// $this->data['contentList']=$this->admin_model->getdetails('users',$offset,$config['per_page'],$where);
-            // /* End Pagination Code  */
-		// }
 		$filter = array();
 		$query = "";
 		if(!empty($_GET['keyword']) && $_GET['keyword']){
@@ -230,11 +209,52 @@ class Dash extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
+	public function holidays(){  
+	    $this->parser->parse('include/admin_header',$this->data);
+		$this->parser->parse('include/admin_navbar',$this->data);
+		$where=' 1';
+		if(isset($_POST['insert']) && $_POST['insert']!=''){
+		$this->uploadFile('calendar',$this->input->post('holiday_name'));
+		$filter=array('filename'=>$this->input->post('holiday_name').'.csv','calendar_name'=>$this->input->post('holiday_name'));
+		$this->admin_model->insertCategory('calendar',$filter,$_POST['holidayid']);
+		}
+		
+		$this->data['category']=$this->admin_model->getdetails('calendar',0,1000,$where);
+		$this->parser->parse('admin/holiday',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
+	// application/vnd.ms-excel', 'text/anytext', 'text/plain', 'text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'
+	function uploadFile($foldername,$filename){ 
+			$config['upload_path'] = './uploads/'.$foldername.'/';  
+			 $config['allowed_types'] = 'text/x-comma-separated-values';   
+                $config['max_size']      = '4096';
+			$config['file_name']=$filename;
+			//$config['max_width'] = '5000';
+			//$config['max_height'] = '5000';
+			
+			$this->load->library('upload', $config);
+			if ( ! $this->upload->do_upload("userfile"))
+			{  
+				$error = array('error' => $this->upload->display_errors());print_r($error); exit;
+			}
+			else
+			{  print_r($data); exit;
+				$data = array('upload_data' => $this->upload->data());
+				return $data;
+			}
+		}
+	
 	public function deleteCat($id){
 	     $val= $this->common_model->deleteRow("category",$id);
 		 $this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', 'Category deleted successfully !');
 		 redirect("admin/dash/category");
+	}
+	public function deleteHoliday($id){
+	     $val= $this->common_model->deleteRow("calendar",$id);
+		 $this->session->set_flashdata('message_type', 'error');	
+		 $this->session->set_flashdata('message', 'Holidays list deleted successfully !');
+		 redirect("admin/dash/holidays");
 	}
 	
 	public function businesslist(){

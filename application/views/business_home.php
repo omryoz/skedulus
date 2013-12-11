@@ -97,7 +97,7 @@
 						?>
 						<div class="appoint-date"><?php echo date("F j, Y ",strtotime(date('Y-m-d',strtotime($val)))); ?></div>
 						<?php 
-						$where=' and users_id= "'.$this->session->userdata('id').'" ';
+						$where=' and users_id= "'.$this->session->userdata('id').'" and booked_by="client"';
 						$res=$this->common_model->getAllRows("view_client_appoinment_details","DATE(start_time)",$val,$where); 
 						
 						foreach($res as $resval){ ?>

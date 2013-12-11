@@ -339,7 +339,7 @@ function getstaffnamesByfilter(){
 //if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
 	if($this->input->post('service_id')){
 	$string = rtrim($this->input->post('service_id'), ',');
-   $filter = 'service_id  IN ('.$string.')'; 
+   $filter = 'service_id  IN ('.$string.') and users_id!=0'; 
 	$this->load->model("bprofile_model");
 	$results = $this->bprofile_model->getserviceByfilter($filter);	
 	
@@ -365,7 +365,7 @@ function getstaffnamesByfilter(){
 	 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
 	    $results1[]=$res;
 	 }else{
-	   //$results1[]='';
+	   $results1[]=$res;
 	 }
 	     
 	 } 
@@ -600,11 +600,13 @@ function getbusytimedetails(){
 
 function deletebusytime(){
 	if($this->input->post('type')=='id'){
-	  $id='id';
+	  $where=" id=".$_POST['id'];
+	 // $id='id';
 	}else{
-	  $id='seriesid';
+	  //$id='seriesid';
+	  $where=" Date(start_time) between '".$this->input->post('startdate')."' and  '".$this->input->post('enddate')."' and  seriesid='".$_POST['id']."'";
 	}
-	mysql_query("delete from client_service_appointments where $id=".$_POST['id']);
+	mysql_query("delete from client_service_appointments where $where ");
 }
 
 function createappointment(){ 
