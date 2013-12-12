@@ -71,6 +71,13 @@ $(".category_id").val("");
 $("#category_add").modal("show");
 })
 
+$("#hadd").click(function(){
+$(".title").html('Add Holiday');
+$(".holiday_name").val("");
+$(".uploadedfile").html("");
+$(".holiday_id").val("");
+$("#holiday_add").modal("show");
+})
 $(".editCategory").click(function(){
  //alert($(this).attr('data-val'));
  //alert($(this).attr('data-name'));
@@ -78,6 +85,14 @@ $(".editCategory").click(function(){
  $(".category_name").val($(this).attr('data-name'));
  $(".category_id").val($(this).attr('data-val'));
  $("#category_add").modal("show");
+})
+
+$(".editHoliday").click(function(){
+ $(".title").html('Edit Holiday');
+ $(".uploadedfile").html($(this).attr('filename'));
+ $(".holiday_name").val($(this).attr('data-name'));
+ $(".holiday_id").val($(this).attr('data-val'));
+ $("#holiday_add").modal("show");
 })
 
 $(document).ready(function(){

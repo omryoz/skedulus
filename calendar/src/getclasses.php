@@ -83,6 +83,9 @@ class getclasses
 						}else{
 						$event['classSize']=$classSize." participants";
 						}
+						$event['classsize']=$classSize;
+						$event['availability']=$evVal->availability;
+						
 						$difference = strtotime($evVal->end_time) - strtotime($evVal->start_time);
 						// getting the difference in minutes
 						$difference_in_minutes = $difference / 60;
@@ -92,6 +95,18 @@ class getclasses
 						
 						$eventsarray[$evCount]=$event; 
 					
+				}
+				$resEvents1 = $db->get_results("select * from holidays_list where calendar_id=".$this->queryVars['calendarid']);  
+				foreach($resEvents1 as $evVal1)	
+				{
+						$evCount=$evCount+1;
+						$event["eventId"]='c'.$evVal1->id;
+						$event['serviceProvider']=$evVal1->name_en;
+						$event['startTime']=$evVal1->holiday_date." ".$this->queryVars['starttime'].':00:00';
+						$event['endTime']=$evVal1->holiday_date." ".$this->queryVars['endtime'].':00:00';
+						$event['classname']='';
+						$event['servicetime']='';
+						$eventsarray[$evCount]=$event; 
 				}
 				$calendar['events']=$eventsarray;
 			}

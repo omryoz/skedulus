@@ -12,9 +12,12 @@ function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
  function insertCategory($table=false,$insertArray=false,$id=false){
      if($id!=''){
       $this->db->update($table,$insertArray,array('id' => $id));
+	  $id=$id;
 	 }else{
 	 $this->db->insert($table,$insertArray);
+	 $id=mysql_insert_id();
 	 }
+	 return $id;
  }
  
   function getPlanDetails(){		

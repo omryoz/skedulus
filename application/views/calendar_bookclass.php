@@ -18,6 +18,7 @@
 if(isset($type) && $type=='staffscalendar'){
 $_SESSION['profileid'] = $staff_details[0]->user_business_details_id;
 $bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+$calendartype=$bname->calendar_type;
 $bname=$bname->name;
 $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
 $url=$staff_details[0]->user_business_details_id;
@@ -29,7 +30,7 @@ $_SESSION['profileid'] = $buisness_details[0]->id;
 $url=$buisness_details[0]->id;
 }
 ?>
-
+<p id="calendartype" class="hide" ><?php  print_r($calendartype)  ?></p>
 <ul class="breadcrumb">
   <li><a href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($url) ?>"><?php print_r($bname); ?> </a> <span class="divider">/</span></li>
   <li class="active"><?php print_r($crumb); ?></li>
@@ -376,6 +377,10 @@ $url=$buisness_details[0]->id;
 	    str=str+"&st="+stStr;
 		str=str+"&et="+edStr; 
 		str=str+"&instructor="+$("#instructor_id").html(); 
+		
+		str=str+"&starttime="+$("#Bstarttime").html();
+		str=str+"&endtime="+$("#Bendtime").html();
+		//str=str+"&calendarid="+$("#calendartype").html(); 
 		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
 		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  
@@ -583,12 +588,5 @@ if($(this).val()!="-1"){
 window.location.href = base_url+'bcalendar/calendar_business/<?php print_r($staff_details[0]->user_business_details_id); ?>';
 }
 })
-	
-
-
-	
-	
-	
-
 </script>
 <?php include('include/popupmessages.php'); ?>

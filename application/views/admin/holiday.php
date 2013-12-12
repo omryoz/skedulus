@@ -8,10 +8,10 @@
         {
             $("#addCategory").validate({
                 rules: {
-                    category_name: "required",
+                    holiday_name: "required",
                 },
                 messages: {
-                    category_name: "  required", 				
+                    holiday_name: "  required", 				
                 },
 				
 				errorPlacement: function(error, element) {
@@ -38,9 +38,9 @@ $(document).ready(function(){
  $("#cadd").click(function(){
 $("#addCategory")[0].reset();
 $('.error').html('');
-$("#category_add").modal('show');
+$("#holiday_add").modal('show');
 })
-$(".editCategory").click(function(){
+$(".editHoliday").click(function(){
 $('.error').html('');
 })
 })
@@ -48,7 +48,7 @@ $('.error').html('');
 </script>
 		</div>
 		<h3> <? echo "Holidays list"?>
-						   <a href="javascript:;"  class="btn pull-right btn-success" id="cadd" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
+						   <a href="javascript:;"  class="btn pull-right btn-success" id="hadd" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3> 
 						<br/>
 
@@ -59,16 +59,15 @@ $('.error').html('');
 						  <thead>
 							<tr >
 							  <th><h4> <? echo "Calendar name"?></h4></th>
-							  <th><h4> <? echo "File name"?></h4></th>
 							  <th><h4> <?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
 						  <?php foreach($category as $list){ ?>
 							<tr >
-							  <td><?php echo $list->calendar_name; ?> </td>
-							  <td><?php echo $list->filename; ?> </td>
+							  <td><?php echo $list->calendar_name; ?>
+							  </td>
 							  <td>
-							  <a href="javascript:;" data-toggle="tooltip" data-name="<?php echo $list->calendar_name; ?>" data-val="<?php echo $list->id; ?>" class="tool editCategory" data-original-title="<?=(lang('Apps_edit'))?>"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;
+							  <a href="javascript:;" data-toggle="tooltip" data-name="<?php echo $list->calendar_name; ?>" filename="<?php echo $list->filename; ?>" data-val="<?php echo $list->id; ?>" class="tool editHoliday" data-original-title="<?=(lang('Apps_edit'))?>"><i class="icon-edit"></i></a>&nbsp;&nbsp;&nbsp;
 							  <a href="<?=base_url()?>admin/dash/deleteHoliday/<?php echo $list->id; ?>"  data-toggle="tooltip" class="tool confirmcat" data-original-title=" <?=(lang('Apps_delete'))?>"><i class="icon-trash"></i></a>
 							  
 							  </td>
@@ -88,10 +87,10 @@ $('.error').html('');
           </div>
 		
 		<!--start add category Modal -->
-<div id="category_add" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="holiday_add" data-backdrop="static" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel" class="title"></h3>
+    <h3 id="myModalLabel" class="title">Add Holiday</h3>
   </div>
   <form class="form-horizontal" action="<?php echo base_url() ?>admin/dash/holidays" enctype="multipart/form-data" id="addCategory" class="Category" method="POST">
   <div class="modal-body">
@@ -100,13 +99,14 @@ $('.error').html('');
 			<label class="control-label" for="inputEmail"> Calendar Name</label>
 			<div class="controls">
 			  <input type="text" name="holiday_name" class="holiday_name"  placeholder="<? echo "Holiday name"?>">
-			  <input type="hidden" value="" name="holidayid" class="category_id">
+			  <input type="hidden" value="" name="holidayid" class="holiday_id">
 			</div>
 		  </div>  
 		  <div class="control-group">
 			<label class="control-label" for="inputEmail">Upload holidays list file </label>
 			<div class="controls">
 			   <input type="file" name="userfile" size="100" class="uploadedfile"/>
+			   <p class="uploadedfile"></p>
 			</div>
 		  </div>  
   </div>

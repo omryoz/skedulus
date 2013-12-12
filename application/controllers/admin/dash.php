@@ -209,40 +209,74 @@ class Dash extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
-	public function holidays(){  
+	public function holidays(){ //print_r($_REQUEST); exit;  
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
 		$where=' 1';
 		if(isset($_POST['insert']) && $_POST['insert']!=''){
-		$this->uploadFile('calendar',$this->input->post('holiday_name'));
-		$filter=array('filename'=>$this->input->post('holiday_name').'.csv','calendar_name'=>$this->input->post('holiday_name'));
-		$this->admin_model->insertCategory('calendar',$filter,$_POST['holidayid']);
+		$data=$this->uploadFile('calendar');
+		$filename=$data['upload_data']['file_name'];
+		$filter=array('filename'=>$data['upload_data']['file_name'],'calendar_name'=>$this->input->post('holiday_name'));
+		$id=$this->admin_model->insertCategory('calendar',$filter,$_POST['holidayid']);
+		$this->insertcsvdatas($filename,$id);
 		}
 		
 		$this->data['category']=$this->admin_model->getdetails('calendar',0,1000,$where);
 		$this->parser->parse('admin/holiday',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
-	// application/vnd.ms-excel', 'text/anytext', 'text/plain', 'text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel'
-	function uploadFile($foldername,$filename){ 
-			$config['upload_path'] = './uploads/'.$foldername.'/';  
-			 $config['allowed_types'] = 'text/x-comma-separated-values';   
-                $config['max_size']      = '4096';
-			$config['file_name']=$filename;
+	
+	function uploadFile($foldername){ 
+			$config['upload_path'] = './uploads/'.$foldername.'/'; 
+			$config['allowed_types'] = 'csv';   
+            $config['max_size']      = '4096';
+			$config['overwrite']     =  TRUE;
+			$config['file_name']="list".$this->session->userdata('id').'_'.time();
 			//$config['max_width'] = '5000';
 			//$config['max_height'] = '5000';
 			
 			$this->load->library('upload', $config);
 			if ( ! $this->upload->do_upload("userfile"))
 			{  
-				$error = array('error' => $this->upload->display_errors());print_r($error); exit;
+				$error = array('error' => $this->upload->display_errors());
 			}
 			else
-			{  print_r($data); exit;
+			{  
 				$data = array('upload_data' => $this->upload->data());
 				return $data;
 			}
 		}
+	
+	 function insertcsvdatas($filename,$id){
+			//path where your CSV file is located
+			// define('CSV_PATH','C:/xampp/htdocs/');
+			define('CSV_PATH',base_url().'uploads/calendar/');
+			//Name of your CSV file
+			$csv_file = CSV_PATH . $filename; 
+
+			if (($getfile = fopen($csv_file, "r")) !== FALSE) {
+					 $data = fgetcsv($getfile, 0, ",");
+				while (($data = fgetcsv($getfile, 0, ",")) !== FALSE) {
+					$num = count($data);
+					//for ($c=0; $c < $num; $c++) {
+						$result = $data;
+						$str = implode(",", $result);
+						$slice = explode(",", $str);
+					
+						$col1 = $slice[0];
+						$col2 = $slice[1];
+						$col3 = date("Y-m-d",strtotime($slice[2]));
+						$col4 = $slice[3];
+
+			//SQL Query to insert data into DataBase
+			$query = "INSERT INTO holidays_list(calendar_id,name_en,name_heb,holiday_date,length) VALUES('".$id."','".$col1."','".$col2."','".$col3."','".$col4."')";
+			$s=mysql_query($query);
+						
+					//}
+				}
+			}
+
+	 }
 	
 	public function deleteCat($id){
 	     $val= $this->common_model->deleteRow("category",$id);

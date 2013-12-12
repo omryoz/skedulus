@@ -22,12 +22,13 @@
 
 ?>
 <?php
-//print_r($staff_details);
-$bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+
+$bname1=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+
 if(isset($this->session->userdata['role']) && ($this->session->userdata['role']=='manager')) {
 $bname='My business profile';
 }else{
-$bname=$bname->name;
+$bname=$bname1->name;
 }
 $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';
  ?>
@@ -342,9 +343,12 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
      */
     function loadCalendarEvents(startTime, endTime)
     {   
-	    var str="?"; 		
+	    var str="?1=1"; 
 		str=str+"&staffid="+$("#staffsid").val();
 		str=str+"&businessid="+$("#bid").val(); 
+		str=str+"&starttime="+$("#Bstarttime").html();
+		str=str+"&endtime="+$("#Bendtime").html();
+		str=str+"&calendarid="+<?=$bname1->calendar_type ?>; 
 		ajaxObj.call("action=getStaffevents"+str, function(list){ical.render(list);});
     }  
     

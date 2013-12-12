@@ -101,6 +101,18 @@ class getStaffevents
 						$eventsarray[$evCount]=$event; 
 					
 				}
+				$resEvents1 = $db->get_results("select * from holidays_list where calendar_id=".$this->queryVars['calendarid']);  
+				 foreach($resEvents1 as $evVal1)	
+				{
+						$evCount=$evCount+1;
+						$event["eventId"]='c'.$evVal1->id;
+						$event['serviceProvider']=$evVal1->name_en;
+						$event['startTime']=$evVal1->holiday_date." ".$this->queryVars['starttime'].':00:00';
+						$event['endTime']=$evVal1->holiday_date." ".$this->queryVars['endtime'].':00:00';
+						$event['clientname']='';
+						$event['serviceName']='';
+						$eventsarray[$evCount]=$event; 
+				}
 				$calendar['events']=$eventsarray;
 			}
 			

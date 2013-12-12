@@ -20,7 +20,7 @@
     $INC_PATH=base_url().'calendar/src/'; 
 ?>
 <?php 
-//print_r($buisness_availability); 
+//print_r($buisness_details); 
 		
 @session_start();
  $_SESSION['profileid'] = $buisness_details[0]->id;
@@ -282,7 +282,11 @@
      */
     function loadCalendarEvents(startTime, endTime)
     {   
-		ajaxObj.call("action=getevents", function(list){ical.render(list);});
+	    var str="?1=1";
+		str=str+"&starttime="+$("#Bstarttime").html();
+		str=str+"&endtime="+$("#Bendtime").html();
+		str=str+"&calendarid="+<?=$buisness_details[0]->calendar_type ?>; 
+		ajaxObj.call("action=getevents"+str, function(list){ical.render(list);});
     }  
     
     /*
