@@ -24,6 +24,7 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
 $url=$staff_details[0]->user_business_details_id;
 }else{
 $bname=$this->common_model->getRow('user_business_details','id',$buisness_details[0]->id);
+$calendartype=$bname->calendar_type;
 $bname=$bname->name;
 $crumb='Business calendar';
 $_SESSION['profileid'] = $buisness_details[0]->id;
@@ -380,7 +381,7 @@ $url=$buisness_details[0]->id;
 		
 		str=str+"&starttime="+$("#Bstarttime").html();
 		str=str+"&endtime="+$("#Bendtime").html();
-		//str=str+"&calendarid="+$("#calendartype").html(); 
+		str=str+"&calendarid="+$("#calendartype").html();  
 		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
 		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  

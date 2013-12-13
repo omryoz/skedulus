@@ -28,6 +28,11 @@ class Basicinfo extends CI_Controller {
 		$Category=$this->common_model->getDDArray('category','id','name');
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
+		$where=" and filename!=''";
+		$calendar=$this->common_model->getDDArray('calendar','id','calendar_name',$where);
+		$calendar[""]=" Select Calendar";
+		$this->data['getCalendar']=$calendar;
+		
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 		$this->data['action']="add";
 		
@@ -90,6 +95,10 @@ class Basicinfo extends CI_Controller {
 		$Category[""]=" Select Category";
 		$this->data['getCategory']=$Category;
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
+		$where=" and filename!=''";
+		$calendar=$this->common_model->getDDArray('calendar','id','calendar_name',$where);
+		$calendar[""]=" Select Calendar";
+		$this->data['getCalendar']=$calendar;
 		
 		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		$this->data['action']="edit";

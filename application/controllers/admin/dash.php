@@ -215,10 +215,17 @@ class Dash extends CI_Controller {
 		$where=' 1';
 		if(isset($_POST['insert']) && $_POST['insert']!=''){
 		$data=$this->uploadFile('calendar');
+		if(isset($data)){
 		$filename=$data['upload_data']['file_name'];
 		$filter=array('filename'=>$data['upload_data']['file_name'],'calendar_name'=>$this->input->post('holiday_name'));
+		}else{
+		$filter=array('calendar_name'=>$this->input->post('holiday_name'));
+		}
+		
 		$id=$this->admin_model->insertCategory('calendar',$filter,$_POST['holidayid']);
-		$this->insertcsvdatas($filename,$id);
+		if(isset($data)){
+		$this->insertcsvdatas($filename,$id,$_POST['holidayid']);
+		 }
 		}
 		
 		$this->data['category']=$this->admin_model->getdetails('calendar',0,1000,$where);
@@ -247,7 +254,7 @@ class Dash extends CI_Controller {
 			}
 		}
 	
-	 function insertcsvdatas($filename,$id){
+	 function insertcsvdatas($filename,$id,$update){
 			//path where your CSV file is located
 			// define('CSV_PATH','C:/xampp/htdocs/');
 			define('CSV_PATH',base_url().'uploads/calendar/');
@@ -267,9 +274,12 @@ class Dash extends CI_Controller {
 						$col2 = $slice[1];
 						$col3 = date("Y-m-d",strtotime($slice[2]));
 						$col4 = $slice[3];
-
+            if($update==''){
 			//SQL Query to insert data into DataBase
-			$query = "INSERT INTO holidays_list(calendar_id,name_en,name_heb,holiday_date,length) VALUES('".$id."','".$col1."','".$col2."','".$col3."','".$col4."')";
+			$query = "INSERT INTO holidays_list(calendar_id,name_heb,name_en,holiday_date,length) VALUES('".$id."','".$col1."','".$col2."','".$col3."','".$col4."')";
+			}else{
+			$query = "Update holidays_list set name_heb ='".$col1."',name_en='".$col2."',holiday_date='".$col3."',length='".$col4."' where calendar_id= '".$id."' "; 
+			}
 			$s=mysql_query($query);
 						
 					//}

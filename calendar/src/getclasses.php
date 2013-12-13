@@ -96,7 +96,9 @@ class getclasses
 						$eventsarray[$evCount]=$event; 
 					
 				}
-				$resEvents1 = $db->get_results("select * from holidays_list where calendar_id=".$this->queryVars['calendarid']);  
+				
+			}
+			    $resEvents1 = $db->get_results("select * from holidays_list where calendar_id=".$this->queryVars['calendarid']);  
 				foreach($resEvents1 as $evVal1)	
 				{
 						$evCount=$evCount+1;
@@ -109,8 +111,6 @@ class getclasses
 						$eventsarray[$evCount]=$event; 
 				}
 				$calendar['events']=$eventsarray;
-			}
-			
 			$calendar["groupId"]=$calendarId;
 			$calendar["name"]=$name;
 			$ax[$count]=$calendar;

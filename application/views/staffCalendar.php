@@ -348,7 +348,7 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
 		str=str+"&businessid="+$("#bid").val(); 
 		str=str+"&starttime="+$("#Bstarttime").html();
 		str=str+"&endtime="+$("#Bendtime").html();
-		str=str+"&calendarid="+<?=$bname1->calendar_type ?>; 
+		str=str+"&calendarid="+<?=$bname1->calendar_type ?>;
 		ajaxObj.call("action=getStaffevents"+str, function(list){ical.render(list);});
     }  
     

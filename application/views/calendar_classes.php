@@ -487,7 +487,9 @@ if($("#monthlylist").val()!=""){
 		if($("#postclass").attr("data-val")=='single'){
 		str=str+"&status=single";
 		}else if($("#postclass").attr("data-val")=='multi'){
-		 str=str+"&status=multi";
+		 str=str+"&status=multi"; 
+		 str=str+"&startdate="+$("#StartDate").val();
+		 str=str+"&enddate="+$("#EndDate").val(); 
 		 str=str+"&seriesid="+$("#postclass").attr("seriesid");
 		}
 		ajaxObj.call("action=deleteclass"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});

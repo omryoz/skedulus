@@ -27,7 +27,7 @@ class deleteclass
 	     }
 	  
 		  if(isset($this->queryVars['class_id']) && $this->queryVars['class_id']!="" && $this->queryVars['status']=='multi'){
-			  $db->query("delete from user_business_posted_class  where seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
+			  $db->query("delete from user_business_posted_class  where start_date between '".$this->queryVars['startdate']."' and  '".$this->queryVars['enddate']."' and seriesid='".$this->queryVars['seriesid']."' AND modifiedStatus='0'");
 		  }
 		
 		

@@ -23,9 +23,10 @@ $_SESSION['profileid'] = $staff_details[0]->user_business_details_id;
 if(!isset($this->session->userdata['id'])){
  redirect('home/clientlogin');
 }
-
+$bname=$this->common_model->getRow('user_business_details','id',$staff_details[0]->user_business_details_id);
+$calendartype=$bname->calendar_type;
 ?>
-
+<p id="calendartype" class="hide" ><?php  print_r($calendartype)  ?></p>
 <div class="content container">
 <div class="row-fluid business_profile">
 <!---<h3 ><a style="color: #517fa4;" href="<?php echo base_url() ?>businessProfile/?id=<?php print_r($staff_details[0]->user_business_details_id) ?>"><?php (!empty($staff_details))?print_r($staff_details[0]->first_name." ".$staff_details[0]->last_name):'';?></a></h3>		---->
@@ -321,6 +322,10 @@ if($("#monthlylist").val()!=""){
 	    str=str+"&st="+stStr;
 		str=str+"&et="+edStr; 
 		str=str+"&instructor="+$("#instructor_id").html(); 
+		
+		str=str+"&starttime="+$("#Bstarttime").html();
+		str=str+"&endtime="+$("#Bendtime").html();
+		str=str+"&calendarid="+$("#calendartype").html();
 		ajaxObj.call("action=getclasses"+str, function(list){ical.render(list);});
 		//ajaxObj.call("action=getclasses", function(list){ical.render(list);});
     }  
@@ -452,7 +457,7 @@ if($("#monthlylist").val()!=""){
     /**
      Clicking delete in Preview window
      */
-   function rzDeleteEvent(){
+    function rzDeleteEvent(){
 		 apprise('Are you sure want to delete posted classes?', {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deleteclass(); }else{ return false; } });	
   }  
   
