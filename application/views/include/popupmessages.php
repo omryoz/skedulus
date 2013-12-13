@@ -38,5 +38,9 @@ var settingsupdated = "<?=(lang('Apps_settingsupdated'))?>";
 var nomoreappointmentsfound = "<?=(lang('Apps_nomoreappointmentfound'))?>";
 var noappointmentsfound = "<?=(lang('Apps_noappointmentsfound'))?>";
 
-var language="<?=(lang('Apps_lang'))?>";
+var enddatelessthanstartdate = "<?=(lang('Apps_enddatelessthanstartdate'))?>";
+var deletebusytime = "<?=(lang('Apps_deletebusytime'))?>";
+var endtimelessthanstarttime = "<?=(lang('Apps_endtimelessthanstarttime'))?>";
+var startendtimesame = "<?=(lang('Apps_startendtimesame'))?>";
+
 </script>

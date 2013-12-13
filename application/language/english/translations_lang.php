@@ -192,7 +192,7 @@
 		$lang['Apps_insert'] = "insert";
 		$lang['Apps_hoursbefore'] = "hours before their appointment";
 		$lang['Apps_hoursbeforetime'] = "hours before start time";
-        $lang['Apps_infuture'] = "in advance";		
+        $lang['Apps_infuture'] = "in the future";		
 		/* business setting end */
 		
 		/* gallery page start*/
@@ -227,12 +227,12 @@
 		$lang['Apps_assignservicetostaff'] = "Assign services to staff";
 		$lang['Apps_noservicesaddedyet'] = "No services added yet";
 		$lang['Apps_addstaffavailability'] = "Add Staff Availability";
-        $lang['Apps_assignstaffsavailability'] = "Assign Staffs Availability";	  
-        $lang['Apps_staffsdeleted'] = "Staff deleted successfully !";
+        $lang['Apps_assignstaffsavailability'] = "Assign Staffs Availability";
+		$lang['Apps_staffsdeleted'] = "Staff deleted successfully !";	
 		$lang['Apps_servicedeleted'] = "Services deleted successfully !";
-        $lang['Apps_classdeleted'] = "Class deleted successfully !";
-        $lang['Apps_clientdeleted'] = "Client deleted successfully !";
-        $lang['Apps_favouritedeleted'] = "Business unfavourite successfully !";		
+		$lang['Apps_classdeleted'] = "Class deleted successfully !";	
+		$lang['Apps_clientdeleted'] = "Client deleted successfully !";	
+		$lang['Apps_favouritedeleted'] = "Business unfavourite successfully !";
 		/* staffs page start */
 		
 		/* classes page start */
@@ -414,14 +414,14 @@
 	    /*if try booking before the settings set in business settings*/
 	   $lang['Apps_cannotbookappointment']="Cannot book the appointment now";
 	   /*if try booking for future dates before the settings set in business settings*/
-	   $lang['Apps_cannotbookfutureappointment']="Cannot book an appointment for this day so long in advance";
+	   $lang['Apps_cannotbookfutureappointment']="Cannot book an appointment for this day so early";
 	   /*if try booking on a non-working day*/
 	   $lang['Apps_nonworkingday']="Its a non-working day kindly select another day";
 	   /*if try booking for past dates */
 	   $lang['Apps_pastdates']="Cannot book for past days";
 	   
 	   /*validation for selecting @least one servcie while booking*/
-	   $lang['Apps_selectservice']="Select at least one service";
+	   $lang['Apps_selectservice']="Select atleast one service";
 	   
 	   /*validation if time slot not enough while booking*/
 	   $lang['Apps_timeslot']="Time Slot selected is not enough";
@@ -446,6 +446,12 @@
 		/*Reset password*/
 		$lang['Apps_sendlinktoresetpassword']="Email Sent. Please, check your inbox and click link to reset your password";
 		$lang['Apps_emailnotexist']="This email doesn't exist";
+		
+		/*Busy time */
+		$lang['Apps_enddatelessthanstartdate']="End date less than start date.";
+		$lang['Apps_deletebusytime']="Are you sure you want to delete busy time?";
+		$lang['Apps_endtimelessthanstarttime']="End time less than the Start time";
+		$lang['Apps_startendtimesame']="starttime same as endtime";
 		
 ?> 
 	   

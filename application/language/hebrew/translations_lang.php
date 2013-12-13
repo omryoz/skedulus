@@ -449,5 +449,11 @@
 		/*Reset password*/
 		$lang['Apps_sendlinktoresetpassword']='הודעת דוא"ל נשלחה, אנא בדוק את תיבת הדואר הנכנס והקלק על הקישור לאיפוס הסיסמא';
 		$lang['Apps_emailnotexist']="כתובת הדואר האלקטרוני אינה קיימת במערכת";
+		
+		/*Busy time */
+		$lang['Apps_enddatelessthanstartdate']="End date less than start date.";
+		$lang['Apps_deletebusytime']="Are you sure you want to delete busy time?";
+		$lang['Apps_endtimelessthanstarttime']="End time less than the Start time";
+		$lang['Apps_startendtimesame']="starttime same as endtime";
 ?>
 

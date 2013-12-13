@@ -792,15 +792,15 @@ function checkforbusytime(employeeid,date,starttime,endtime,eventId){
 	 }else if(data==0){
 	     $(".alltrue").val("0");
 	     $("#book_busytime").attr("onsubmit","return false;");
-		$(".message").addClass("alert").html("starttime same as endtime ").css({"display":"block","margin":"0px"});
+		$(".message").addClass("alert").html(startendtimesame).css({"display":"block","margin":"0px"});
 	 }else if(data==-2){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
-		$(".message").addClass("alert").html("Cannot schedule the bussy time now").css({"display":"block","margin":"0px"});
+		$(".message").addClass("alert").html(timeslot).css({"display":"block","margin":"0px"});
 	 }else if(data==-3){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
-		$(".message").addClass("alert").html("End time less than the start time").css({"display":"block","margin":"0px"});
+		$(".message").addClass("alert").html(endtimelessthanstarttime).css({"display":"block","margin":"0px"});
 	 }else if(data==-4){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
@@ -830,11 +830,11 @@ var d=new Date($(".StartDate").val());
 	 }else if(data==0){
 	     $(".alltrue").val("0");
 	     $("#book_busytime").attr("onsubmit","return false;");
-		$(".message").addClass("alert").html("starttime same as endtime ").css({"display":"block","margin":"0px"});
+		$(".message").addClass("alert").html(startendtimesame).css({"display":"block","margin":"0px"});
 	 }else if(data==-3){
 	   $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
-		$(".message").addClass("alert").html("End time less than the Start time").css({"display":"block","margin":"0px"});
+		$(".message").addClass("alert").html(endtimelessthanstarttime).css({"display":"block","margin":"0px"});
 	 }else if(data==-2){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
@@ -901,7 +901,7 @@ $("#singlebusytime").click(function(){
 })
 
 $(".deletebusytime").click(function(){
-	  apprise("Are you sure you want to delete busy time?", {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deletebussytime(); }else{ return false; } });
+	  apprise(deletebusytime, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deletebussytime(); }else{ return false; } });
 })
 
 function deletebussytime(){
@@ -1031,7 +1031,7 @@ $(".endDate").on('changeDate',function(){
 	   if(data==-1){
 	      $(".alltrue").val("0");
 	      $("#book_busytime").attr("onsubmit","return false;");
-		  $(".message").addClass("alert").html("End date less than start date.").css({"display":"block","margin":"0px"});
+		  $(".message").addClass("alert").html(enddatelessthanstartdate).css({"display":"block","margin":"0px"});
 	   }else{
 	   $(".alltrue").val("1");
 	      $("#book_busytime").attr("onsubmit","return true;");
