@@ -90,6 +90,7 @@ class getclasses
 						// getting the difference in minutes
 						$difference_in_minutes = $difference / 60;
 						$event['servicetime']=$difference_in_minutes;
+						$event['show']=$event['servicetime'].' mins - '.$event['classsize'].'/'.$event['availability'];
 						$event['serviceProvider']=$evVal->instructor_firstname." ".$evVal->instructor_lastname;
 						$event['group']['groupId']=$evVal->user_business_classes_id;
 						
@@ -108,6 +109,7 @@ class getclasses
 						$event['endTime']=$evVal1->holiday_date." ".$this->queryVars['endtime'].':00:00';
 						$event['classname']='';
 						$event['servicetime']='';
+						$event['show']='';
 						$eventsarray[$evCount]=$event; 
 				}
 				$calendar['events']=$eventsarray;

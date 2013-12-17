@@ -249,12 +249,15 @@ if($("#monthlylist").val()!=""){
     }
 	
  	var activeEvent;
-    function onPreview(evt, dataObj, html)
+     function onPreview(evt, dataObj, html)
 	{ 
+	 var str=$(evt).attr('eventid');
+	 if(str.charAt(0)!='c'){
 	 $(".message").removeClass("alert").html(" ");
 	 $("#editClass").modal("show");
 	 $("#eventId").html($(evt).attr('eventid'));
 	 showoptions($(evt).attr('eventid'));
+	 }
 	}
 	
 	function showoptions(eventid){

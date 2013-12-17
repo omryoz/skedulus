@@ -416,10 +416,10 @@ XMLHTTP.prototype = {
 								}
 							} catch(e) {
 								if(this.jsErrorHandler == '') {
-									alert('An error occurred in your response function, NOT mybic related. Error Name: ' + e.name + '  Message:' + e.message);
+									// alert('An error occurred in your response function, NOT mybic related. Error Name: ' + e.name + '  Message:' + e.message);
 								} else {
 									// try to call the users javascript error handling function, have to show a popup if that sucker has en error in it too
-									try { this.jsErrorHandler(e); } catch(err) { alert('Error: your errorhandling function has an error - name: '+err.name + ' message: '+err.message)}
+									// try { this.jsErrorHandler(e); } catch(err) { alert('Error: your errorhandling function has an error - name: '+err.name + ' message: '+err.message)}
 								}
 							}
 

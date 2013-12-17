@@ -103,11 +103,9 @@ if($("#Bstarttime").html()!=''){
 if($("#Bendtime").html()!=''){
  end_time=$("#Bendtime").html();
 }
-if(language=='hebrew'){
-Web2Cal.LANG=Web2CalLanguage_FR;
-}else{
+
 Web2Cal.LANG=Web2CalLanguage_EN;
-}
+
 Web2Cal.defaultSettings=new Array();
 Web2Cal.defaultSettings['leftNavTitle']						=  Web2Cal.LANG.HIDESHOW; 
 Web2Cal.defaultSettings['startOfWeek']			 			= 0;
