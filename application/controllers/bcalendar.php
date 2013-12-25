@@ -1,4 +1,5 @@
  <?php
+ 
  error_reporting(0);
 /* Manage Business registration Controller */
 class Bcalendar extends CI_Controller {

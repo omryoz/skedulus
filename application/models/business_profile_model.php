@@ -1,6 +1,7 @@
 <?php 
 class Business_profile_model extends CI_Model {
 
+
 function getProfileDetails(){
 		$sql="Select * from view_business_details where ";
 		$query=$this->db->query($sql);

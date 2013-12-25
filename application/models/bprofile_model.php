@@ -2,6 +2,7 @@
 error_reporting(0);
 class bprofile_model extends CI_Model {
  
+ 
  //Services Module
 	function insertServices(){
 	//print_r($_POST); exit;
