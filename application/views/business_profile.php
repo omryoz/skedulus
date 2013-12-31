@@ -302,7 +302,7 @@ include('include/modal_classes.php');
 				<h3> <?=(lang('Apps_workinghour'))?></h3>
 				<dl class="dl-horizontal days_dl">
 				<?php foreach($availability as $available) { ?>
-				<dt><?php echo $available->name ?></dt>
+				<dt><?=(lang('Apps_'.$available->name))?><?php //echo $available->name ?></dt>
 				<dd><?php echo date('H:i',strtotime($available->start_time)) ?> - <?php echo date('H:i',strtotime($available->end_time)) ?>  </dd>
 				<?php } ?>
 				
