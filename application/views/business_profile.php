@@ -74,6 +74,9 @@ include('include/modal_classes.php');
 								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
 							<?php }		?>
+							<p id="profileid" class="hide"><?php print_r($_GET['id']) ?></p>
+							<input type="hidden" class="startDateClass"  name="eventStartDate" style="width:6em; border:1px solid #C3D9FF;" id="eventStartDate" value="<?=date('D M d Y H:i:s O')?>"/>
+							<input type="hidden" name="staffid" id="staffsid" value="">
 							</div>
 							<div class="span6">
 							<ul class="unstyled inline pull-right ul-rating">

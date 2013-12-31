@@ -109,7 +109,7 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_length'))?></label>
 						<div class="controls">
-						 <input class="input-small" type="text" id="length" name="length" maxlength="2" placeholder="">&nbsp;&nbsp;
+						 <input class="input-mini" type="text" id="length" name="length" maxlength="2" placeholder="">
 						<select class="input-small" name="type" id="type">
 						  <option><?=(lang('Apps_minutes'))?></option>
 						  <option><?=(lang('Apps_hours'))?></option>

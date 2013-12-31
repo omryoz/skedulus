@@ -700,7 +700,7 @@ function deletePhoto(id){
   $("#brepeatdiv").show();
   $(".endDate").val("");
   $("#bweeklist").val("");
-  $(".active").toggleClass("weekly");
+  //$(".active").toggleClass("weekly");
   $(".weekly").removeClass("active");
   $("#bweeks").css("display",'block');
   
@@ -819,8 +819,9 @@ var d=new Date($(".StartDate").val());
 	 var curr_month = d.getMonth() + 1; 
 	 var curr_year = d.getFullYear();
 	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	// $(".StartDate").val(date);
  var url = base_url+"bcalendar/checkstarttime";
-  $.post(url,{date:date,starttime:$(".busystarttime").val(),endtime:$(".busyendtime").val(),employeeid:$(".bstaff").val()},function(data){
+  $.post(url,{date:$(".StartDate").val(),starttime:$(".busystarttime").val(),endtime:$(".busyendtime").val(),employeeid:$(".bstaff").val()},function(data){
      var str=data;
      var data=str.trim();
 	 if(data==-1){
@@ -856,7 +857,8 @@ $(".message").removeClass("alert").html(" ");
 	 var curr_month = d.getMonth() + 1; 
 	 var curr_year = d.getFullYear();
 	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
-     checkforbusytime($(".bstaff").val(),date,$(".busystarttime").val(),$(".busyendtime").val(),eventId);
+	 //$(".StartDate").val(date);
+     checkforbusytime($(".bstaff").val(),$(".StartDate").val(),$(".busystarttime").val(),$(".busyendtime").val(),eventId);
 })
 
 $(".bstaff").change(function(){
@@ -874,7 +876,8 @@ var eventId='';
 	 var curr_date = d.getDate();
 	 var curr_month = d.getMonth() + 1; 
 	 var curr_year = d.getFullYear();
-	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	// var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 var date=$(".StartDate").val();
 	 var busystarttime='busystarttime';
 	 var busyendtime='busyendtime';
 	 var  starttimeslot=$(".busystarttime").val(); 
@@ -914,7 +917,7 @@ function deletebussytime(){
 	var vals='id';
   }
   $.post(url,{id:val,type:vals,startdate:$(".StartDate").val(),enddate:$(".endDate").val()},function(data){
-    window.location.href=base_url+'bcalendar/cal/'+$("#business_id").val();
+    window.location.href=base_url+'bcalendar/cal/'+$("#profileid").html();
   })
 }
 
@@ -923,20 +926,21 @@ $(".note").val("");
   var url = base_url+"bcalendar/getbusytimedetails";
   $.post(url,{evid:$('.busytype').val(),busytype:$('.busytype').attr('type-name')},function(data){ 
       $.each(eval(data),function(i,v){ 
-	       $(".StartDate").val(v.startdate);
+	       
 		   $(".seriesid").val(v.seriesid);
 		    var d=new Date(v.startdate);
 			 var curr_date = d.getDate();
 			 var curr_month = d.getMonth() + 1; 
 			 var curr_year = d.getFullYear();
 			 var date = curr_date+"-"+curr_month+"-"+curr_year;
+			 $(".StartDate").val(date);
 		     var eventId=$('.busytype').val();
 			 var staffid='';
 			 if(v.employee_id!=0){
 				  $('.bstaff').val(v.employee_id);
 				  var staffid=v.employee_id;
 			  }
-			  getAllStaffs($("#business_id").val(),staffid,date,v.starttime);
+			  getAllStaffs($("#profileid").html(),staffid,date,v.starttime);
 		    var busystarttime='busystarttime';
 			 var busyendtime='busyendtime';
 		   getfreetimeslots(date,$("#profileid").html(),staffid,eventId,v.starttime,busystarttime);
@@ -950,7 +954,13 @@ $(".note").val("");
 				for(i = 0; i < splitted.length; i++){ 
 				$("#w"+splitted[i]).attr("class","btn weekly active");
 				}
-		     $(".endDate").val(v.enddate);
+				var d1=new Date(v.enddate);
+			 var curr_date1 = d1.getDate();
+			 var curr_month1 = d1.getMonth() + 1; 
+			 var curr_year1 = d1.getFullYear();
+			 var date1 = curr_date1+"-"+curr_month1+"-"+curr_year1;
+			 $(".endDate").val(date1);
+		    // $(".endDate").val(v.enddate);
 		     var removediv="Remove Repeat";
              $("#brepeatdiv").show();
              $("#bweeks").css("display",'block');
@@ -978,6 +988,14 @@ $(".deletebusytime").hide();
 $('.busytype').attr('type-name','');
 $('.busytype').val("");
 $('.seriesid').val("");
+
+var removediv="Add Repeat";
+   $("#brepeatdiv").hide();
+   $("#bweeks").css("display",'none');
+   $(".weekday").addClass("weekly");
+   $(".weekday").removeClass("active");
+   $("#brepeathtml").html(removediv);
+   $("#brepeatstatus").val(removediv);
 var d=new Date($("#eventStartDate").val());
 	 var curr_date = d.getDate();
 	 var curr_month = d.getMonth() + 1; 
@@ -1003,7 +1021,7 @@ var str=data; var data=str.trim();
    }else{
       $("#busytime").modal('show');
       var url = base_url+"bcalendar/getstaffnameByfilter";
-		getAllStaffs($("#business_id").val(),staffid,date,timeslot);
+		getAllStaffs(businessid,staffid,date,timeslot);
 		  var busystarttime='busystarttime';
 		  var busyendtime='busyendtime';
 		 getfreetimeslots(date,businessid,staffid,eventId,timeslot,busystarttime);
@@ -1013,7 +1031,7 @@ var str=data; var data=str.trim();
 		   $("#weeks").css("display",'none');
 		   $("#repeathtml").html(removediv);
 		   $("#repeatstatus").val(removediv);
-		$(".StartDate").val($("#eventStartDate").val()); 
+		$(".StartDate").val(date); 
 		$(".StartTime").val($(".eventStartTime1").val());
 		$("#eventEndTime").val('');
    }
@@ -1024,6 +1042,14 @@ var str=data; var data=str.trim();
 
 
 $(".endDate").on('changeDate',function(){
+
+var d=new Date($(this).val());
+	 var curr_date = d.getDate();
+	 var curr_month = d.getMonth() + 1; 
+	 var curr_year = d.getFullYear();
+	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 //$(".endDate").val(date); 
+	 
    var url = base_url+"bcalendar/checkforenddate";
     $.post(url,{startdate:$(".StartDate").val(),enddate:$(".endDate").val()},function(data){
 	   var str=data;
@@ -1057,6 +1083,7 @@ $(".message").removeClass("alert").html(" ");
 	 var curr_month = d.getMonth() + 1; 
 	 var curr_year = d.getFullYear();
 	 var date = curr_date+"-"+curr_month+"-"+curr_year; 
+	 //$(".StartDate").val(date); 
 	 var busystarttime='busystarttime';
 	 var busyendtime='busyendtime';
    getAllStaffs($("#business_id").val(),staffid,date,starttimeslot);

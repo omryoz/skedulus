@@ -105,7 +105,11 @@
   <!--  <script src="js/bootstrap-carousel.js"></script>-->
   <!--  <script src="js/bootstrap-typeahead.js"></script>-->
 <!--	<script src="js/modernizr.custom.88281.js"></script>.-->
+<?php if($this->session->userdata('language')=='hebrew'){ ?>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap-datepicker.he.js"></script>
+<?php }else{?>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap-datepicker.js"></script>
+<?php }?>
 <!--Mouse over image slider for business_profile scripts Start-->
 <script type="text/javascript" src="<?php echo base_url(); ?>js/simplyscroll/jquery.simplyscroll.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/script.js"></script>

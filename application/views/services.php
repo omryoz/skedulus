@@ -4,7 +4,7 @@
               <div class="tab-pane fade active in" id="service">
                 <div class="row-fluid">
 					<div class="">
-						<h3 ><?=lang('Services')?>
+						<h3><?=lang('Services')?>
 						   <a href="javascript:void(0);" class="btn pull-right btn-success" onclick="addServices()" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 						</h3>
 						<?php  if(isset($tableList)){  ?>
@@ -62,5 +62,5 @@
 
  </div>
 </div>
-
 <?php include('include/popupmessages.php'); ?>
+

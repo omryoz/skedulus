@@ -373,7 +373,7 @@
 	   /* Appoitnments Details */
 	   $lang['Apps_servicewith'] = "Service with";
        $lang['Apps_comment'] = "Comment";
-	   $lang['Apps_reschedule'] = "Reschedulesss";
+	   $lang['Apps_reschedule'] = "Reschedule";
        $lang['Apps_cancel'] = "Cancel";
 
       /*Calendar*/
@@ -446,12 +446,51 @@
 		/*Reset password*/
 		$lang['Apps_sendlinktoresetpassword']="Email Sent. Please, check your inbox and click link to reset your password";
 		$lang['Apps_emailnotexist']="This email doesn't exist";
-		
+		$lang['Apps_noclassScheduled']="No classes scheduled";
 		/*Busy time */
 		$lang['Apps_enddatelessthanstartdate']="End date less than start date.";
 		$lang['Apps_deletebusytime']="Are you sure you want to delete busy time?";
 		$lang['Apps_endtimelessthanstarttime']="End time less than the Start time";
 		$lang['Apps_startendtimesame']="starttime same as endtime";
+		$lang['Apps_repeatbusytime']="This busy time is the part of the repeat series";
+		$lang['Apps_allfuturebusytime']="All future busy time";
+		$lang['Apps_onlythisbusytime']="Only this busy time";
+		
+		$lang['Apps_addbusytime']="Add Busy Time";
+		
+		
+		/*Week days*/
+		$lang['Apps_sun']="Sun";
+		$lang['Apps_mon']="Mon";
+		$lang['Apps_tue']="Tue";
+		$lang['Apps_wed']="Wed";
+		$lang['Apps_thu']="Thu";
+		$lang['Apps_fri']="Fri";
+		$lang['Apps_sat']="Sat";
+		
+		/*Months*/
+		$lang['Apps_jan']="Jan";
+		$lang['Apps_feb']="Feb";
+		$lang['Apps_mar']="Mar";
+		$lang['Apps_apr']="Apr";
+		$lang['Apps_may']="May";
+		$lang['Apps_jun']="Jun";
+		$lang['Apps_jul']="Jul";
+		$lang['Apps_aug']="Aug";
+		$lang['Apps_sep']="Sep";
+		$lang['Apps_oct']="Oct";
+		$lang['Apps_nov']="Nov";
+		$lang['Apps_dec']="Dec";
+		
+		/*Week days*/
+		$lang['Apps_Sunday']="Sunday";
+		$lang['Apps_Monday']="Monday";
+		$lang['Apps_Tuesday']="Tuesday";
+		$lang['Apps_Wednesday']="Wednesday";
+		$lang['Apps_Thursday']="Thursday";
+		$lang['Apps_Friday']="Friday";
+		$lang['Apps_Saturday']="Saturday";
+		
 		
 ?> 
 	   

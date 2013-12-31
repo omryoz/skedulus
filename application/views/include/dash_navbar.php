@@ -1,19 +1,15 @@
 <script>
 $(document).ready(function(){
-		// _page = window.location.pathname.split('/')[2];
-	   // $('a[href="'+base_url+''+_page+'"] ,a[href="'+base_url+''+_page+'/'+window.location.pathname.split('/')[3]+'"]').parent().addClass('active');
-	   
-	   var url = window.location.pathname;  
-var activePage = url.substring(url.lastIndexOf('/')+1);  
-$('.business-navbar li a').each(function(){  
-var currentPage = this.href.substring(this.href.lastIndexOf('/')+1); 
-if (activePage == currentPage) { 
-$(this).parent().addClass('active'); 
-}else if(activePage ==''){
-$(".businessProfile").addClass('active');
-}
-});
-
+		var url = window.location.pathname;  
+		var activePage = url.substring(url.lastIndexOf('/')+1);  
+		$('.business-navbar li a').each(function(){  
+		var currentPage = this.href.substring(this.href.lastIndexOf('/')+1); 
+		if (activePage == currentPage) { 
+		$(this).parent().addClass('active'); 
+		}else if(activePage ==''){
+		$(".businessProfile").addClass('active');
+		}
+		});
 });
 
 </script>
@@ -32,14 +28,6 @@ $(".businessProfile").addClass('active');
 			?>
 			<div class="nav-collapse collapse menu_dash">			
 				<ul class="nav business-navbar justify-nav">
-					<?php 
-					//$active = (!empty($results && $results[1]=='overview')?"active":"");
-					/*if($results[1]=='overview'){ 
-						$class=" class='active'";
-					}else{
-						$class="";
-					}*/
-					?> 
 					<li class="">
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p><?=(lang('Apps_overview')) ?></p></center></a>
 					</li>
@@ -52,7 +40,7 @@ $(".businessProfile").addClass('active');
 						 $link = 'calendar_business/'.$id;	
 					}
 					?>
-					<li class=" ">
+					<li class="">
 						<a href="<?php echo base_url() ?>bcalendar/<?php echo $link;?>"><center><i class="icon-calendar"></i><p><?=(lang('Apps_calendar')) ?></p></center></a>
 					</li>
 					<?php 
@@ -68,7 +56,7 @@ $(".businessProfile").addClass('active');
 						</a>
 					</li>
 					
-					<li class="" ><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p><?=(lang('Apps_businessSettings')) ?>
+					<li class=""><a href="<?php echo base_url(); ?>settings/business"><center><i class="icon-wrench"></i><p><?=(lang('Apps_businessSettings')) ?>
 					</p></center>
 						</a>
 					</li>
@@ -96,13 +84,11 @@ $(".businessProfile").addClass('active');
 							$text = "Services";		
 						}
 					?>
-					<a href="<?php echo base_url() ?>services/<?=$link?>"><center><i class="icon-cogs"></i><p><?=$text?></p>
+					<a href="<?php echo base_url() ?>services/<?=$link?>"><center><i class="icon-cogs"></i><p>
+					<?=(lang($text)) ?></p>
 					</center></a>
 					</li>
 					
-					<!-- <li><a href="<?php echo base_url() ?>offers/list_offers"><center><i class="icon-thumbs-up"></i><p>Offers</p>
-					</center></a>
-					</li> -->
 				</ul>
 			</div>
 		  </div>

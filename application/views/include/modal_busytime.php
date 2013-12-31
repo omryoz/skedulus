@@ -1,14 +1,14 @@
 <div id="editbusytime" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
     <button type="button" class="close closeapp" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4 id="myModalLabel">This busy time is the part of the repeat series</h4>
+    <h4 id="myModalLabel"><?=(lang('Apps_repeatbusytime'))?></h4>
   </div>
   <div class="modal-body">
 	<p id="eventId" class="hide"></p>
 	<div class="row-fluid">
 	
-	<button class="btn span6" id="multibusytime">All future busy time</button>
-    <button class="btn btn-success span6" id="singlebusytime" >Only this busy time</button>
+	<button class="btn span6" id="multibusytime"><?=(lang('Apps_allfuturebusytime'))?></button>
+    <button class="btn btn-success span6" id="singlebusytime" ><?=(lang('Apps_onlythisbusytime'))?></button>
 	
 	</div>
   </div>
@@ -22,7 +22,7 @@
  <form class="form-horizontal" name="bussy_time" action="<?php echo base_url();?>bcalendar/bussytime" method="post" id="book_busytime" onsubmit="return false;" >	
   <div class="modal-header">
     <button type="button" class="close closeapp" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel">Add Busy Time</h3>
+    <h3 id="myModalLabel"><?=(lang('Apps_addbusytime'))?></h3>
   </div><p class="message"></p>	
   <div class="modal-body">
     
@@ -31,31 +31,31 @@
 			
 			<tr> 
 				<td >
-					   <div class="labelBlock"> Trainers</div>
+					   <div class="labelBlock"><?=(lang('Apps_trainers'))?> </div>
 					   	  <select name="staff" class="bstaff"> 
 			              </select>
 				</td>
 				<td >
-					     <div class="labelBlock">Date</div>
-						 <input type="text" class=" date_picker StartDate" value="" id="startDate" name="startdate">
+					     <div class="labelBlock"><?=(lang('Apps_date'))?></div>
+						 <input type="text" class=" date_picker StartDate" value="" id="startDate" name="startdate" data-date-format="dd-mm-yyyy">
 					  </td>
 			</tr>
 
 			<tr>
 					  
 					  <td style="display:table;">
-					     <div class="labelBlock">Time</div>
+					     <div class="labelBlock"><?=(lang('Apps_starttime'))?></div>
 						 <select name="starttime"  class="busytimeslot busystarttime" id="eventStartTime1">
 					     </select> 
 						  
 					
 					   </td>
 					   <td style="position:relative;">
-					     <div class="labelBlock">To</div>
+					     <div class="labelBlock"><?=(lang('Apps_endtime'))?></div>
 						 <select name="endtime"  class="busytimeslot busyendtime" id="eventEndTime1">
 					     </select> 
 						 <a href="javascript:;" id="brepeat" class="add-repeat">
-						 <p id="brepeathtml" value="add">Add Repeat</p></a>
+						 <p id="brepeathtml" value="add"><?=(lang('Apps_addrepeat'))?></p></a>
 						 <input type="hidden" name="repeatstatus" id="brepeatstatus" value="Add Repeat">
 					   </td>
 					   
@@ -65,13 +65,13 @@
 					<tr style="display: none;" id="brepeatdiv">
 					
 						<td>
-							<div class="labelBlock">Weekly</div>
+							<div class="labelBlock"><?=(lang('Apps_weekly'))?></div>
 						    
 						</td>
 					  
 					  <td>
-					    <div class="labelBlock"> End Date</div>
-						<input type="text" class=" date_picker endDate" name="enddate" value="" id="EndDate">
+					    <div class="labelBlock"><?=(lang('Apps_enddate'))?></div>
+						<input type="text" class=" date_picker endDate" name="enddate" value="" id="EndDate" data-date-format="dd-mm-yyyy">
 					  </td>
 						
 					</tr>
@@ -80,13 +80,13 @@
 					    <td class="select-day" colspan="2">
 							 <div class="btn-toolbar" id="bweeks" style="display: none;">
 							  <div class="btn-group">
-								<button class="btn weekly" type="button" name="week" value="1" id="w1">Mon</button>
-								<button class="btn weekly" type="button" name="week" value="2" id="w2">Tue</button>
-								<button class="btn weekly" type="button" name="week" value="3" id="w3">Wed</button>
-								<button class="btn weekly" type="button" name="week" value="4" id="w4">Thu</button>
-								<button class="btn weekly" type="button" name="week" value="5" id="w5">Fri</button>
-								<button class="btn weekly" type="button" name="week" value="6" id="w6">Sat</button>
-								<button class="btn weekly" type="button" name="week" value="7" id="w7">Sun</button>
+								<button class="btn weekday weekly" type="button" name="week" value="1" id="w1"><?=(lang('Apps_mon'))?></button>
+								<button class="btn weekday weekly" type="button" name="week" value="2" id="w2"><?=(lang('Apps_tue'))?></button>
+								<button class="btn  weekday weekly" type="button" name="week" value="3" id="w3"><?=(lang('Apps_wed'))?></button>
+								<button class="btn weekday weekly" type="button" name="week" value="4" id="w4"><?=(lang('Apps_thu'))?></button>
+								<button class="btn weekday weekly" type="button" name="week" value="5" id="w5"><?=(lang('Apps_fri'))?></button>
+								<button class="btn weekday weekly" type="button" name="week" value="6" id="w6"><?=(lang('Apps_sat'))?></button>
+								<button class="btn weekday weekly" type="button" name="week" value="7" id="w7"><?=(lang('Apps_sun'))?></button>
 								 <input type="hidden" name="weeklist" id="bweeklist" value="">
 							 </div>
 							</div>
@@ -96,7 +96,7 @@
 					<tr>
 					  
 					  <td colspan="2">
-					  <div class="labelBlock"> Description</div>
+					  <div class="labelBlock"> <?=(lang('Apps_description'))?></div>
 					  <textarea rows="4" class="input-block-level note" name='note'></textarea>
 					  </td> 
 					</tr>

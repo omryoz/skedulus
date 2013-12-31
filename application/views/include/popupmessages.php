@@ -38,6 +38,8 @@ var settingsupdated = "<?=(lang('Apps_settingsupdated'))?>";
 var nomoreappointmentsfound = "<?=(lang('Apps_nomoreappointmentfound'))?>";
 var noappointmentsfound = "<?=(lang('Apps_noappointmentsfound'))?>";
 
+var noclassScheduled = "<?=(lang('Apps_noclassScheduled'))?>";
+
 var enddatelessthanstartdate = "<?=(lang('Apps_enddatelessthanstartdate'))?>";
 var deletebusytime = "<?=(lang('Apps_deletebusytime'))?>";
 var endtimelessthanstarttime = "<?=(lang('Apps_endtimelessthanstarttime'))?>";

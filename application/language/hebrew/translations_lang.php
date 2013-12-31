@@ -6,7 +6,7 @@
          */
          
 		$lang = array();
-		$lang['Apps_lang'] = "עברית";
+		$lang['Apps_lang'] = "hebrew"; //Do not change this to hebrew language
 		$lang['Apps_hey'] = "מה שלומך";
 		/* subscription page start */
 		$lang['Apps_settings'] = "הגדרות";
@@ -449,11 +449,49 @@
 		/*Reset password*/
 		$lang['Apps_sendlinktoresetpassword']='הודעת דוא"ל נשלחה, אנא בדוק את תיבת הדואר הנכנס והקלק על הקישור לאיפוס הסיסמא';
 		$lang['Apps_emailnotexist']="כתובת הדואר האלקטרוני אינה קיימת במערכת";
-		
+		$lang['Apps_noclassScheduled']="No classes scheduled";
 		/*Busy time */
 		$lang['Apps_enddatelessthanstartdate']="End date less than start date.";
 		$lang['Apps_deletebusytime']="Are you sure you want to delete busy time?";
 		$lang['Apps_endtimelessthanstarttime']="End time less than the Start time";
 		$lang['Apps_startendtimesame']="starttime same as endtime";
+		$lang['Apps_repeatbusytime']="This busy time is the part of the repeat series";
+		$lang['Apps_allfuturebusytime']="All future busy time";
+		$lang['Apps_onlythisbusytime']="Only this busy time";
+		
+		$lang['Apps_addbusytime']="Add Busy Time";
+		
+		
+		/*Week days*/ 
+		$lang['Apps_sun']="א";
+		$lang['Apps_mon']="ב";
+		$lang['Apps_tue']="ג";
+		$lang['Apps_wed']="ד";
+		$lang['Apps_thu']="ה";
+		$lang['Apps_fri']="ו";
+		$lang['Apps_sat']="ש";
+		
+		/*Months*/
+		$lang['Apps_jan']="ינו";
+		$lang['Apps_feb']="פבר";
+		$lang['Apps_mar']="מרץ";
+		$lang['Apps_apr']="אפר";
+		$lang['Apps_may']="מאי";
+		$lang['Apps_jun']="יונ";
+		$lang['Apps_jul']="יול";
+		$lang['Apps_aug']="אוג";
+		$lang['Apps_sep']="ספט";
+		$lang['Apps_oct']="אוק";
+		$lang['Apps_nov']="נוב";
+		$lang['Apps_dec']="דצמ";
+		
+		/*Week days*/ 
+		$lang['Apps_Sunday']="ראשון";
+		$lang['Apps_Monday']="שני";
+		$lang['Apps_Tuesday']="שלישי";
+		$lang['Apps_Wednesday']="רביעי";
+		$lang['Apps_Thursday']="חמישי";
+		$lang['Apps_Friday']="שישי";
+		$lang['Apps_Saturday']="שבת";
 ?>
 

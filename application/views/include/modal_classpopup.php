@@ -21,8 +21,10 @@
     <div class="aPointer  " style="display: block; z-index: 2; "></div>
 	
 <ul class="nav nav-tabs" id="postclasstab">
-  <li class="active"><a href="#edit_class" id="addclass"><?=(lang('Apps_postclass'))?></a><a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
-  <li><a href="#add_client"><?=(lang('Apps_clientlist'))?></a></li>
+  <li class="active">
+  <a href="#edit_class" id="addclass" ><?=(lang('Apps_postclass'))?></a>
+  <a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
+  <li><a href="#add_client" id="addclient" ><?=(lang('Apps_clientlist'))?></a></li>
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button>
 </ul>
  <hr/>
@@ -57,7 +59,7 @@
 					<tr>
 					  <td>
 					     <div class="labelBlock"><?=(lang('Apps_date'))?></div>
-						 <input type="text" class=" date_picker" value="" id="StartDate" name='startdate'>
+						 <input type="text" class=" date_picker class_stdate" value="" id="StartDate" name='startdate' data-date-format="dd-mm-yyyy">
 					    <!--- <input type="text" class="inputboxblue" id="StartDate">--->
 					  </td>
 
@@ -82,7 +84,7 @@
 					  </td>
 					  <td>
 					    <div class="labelBlock"> <?=(lang('Apps_enddate'))?></div>
-						<input type="text" class=" date_picker" value="" id="EndDate">
+						<input type="text" class=" date_picker class_eddate" value="" id="EndDate" data-date-format="dd-mm-yyyy">
 					  </td>
 						<td>
 							
@@ -94,18 +96,18 @@
 						    
 							 <div class="btn-toolbar"  id="months" style="display:none">
 							  <div class="btn-group">
-								<button class="btn month " type="button" name="monthly" value="1" id="m1">Jan</button>
-								<button class="btn month "  type="button" name="monthly" value="2" id="m2">Feb</button>
-								<button class="btn month " type="button" name="monthly" value="3" id="m3">Apr</button>
-								<button class="btn month " type="button" name="monthly" value="4" id="m4">Mar</button>
-								<button class="btn month " type="button" name="monthly" value="5" id="m5">May</button>
-								<button class="btn month " type="button" name="monthly" value="6" id="m6">Jun</button>
-								<button class="btn month " type="button" name="monthly" value="7" id="m7">Jul</button>
-								<button class="btn month " type="button" name="monthly" value="8" id="m8">Aug</button>
-								<button class="btn month " type="button" name="monthly" value="9" id="m9">Sep</button>
-								<button class="btn month " type="button" name="monthly" value="10" id="m10">Oct</button>
-								<button class="btn month " type="button" name="monthly" value="11" id="m11">Nov</button>
-								<button class="btn month " type="button" name="monthly" value="12" id="m12">Dec</button>
+								<button class="btn month " type="button" name="monthly" value="1" id="m1"><?=(lang('Apps_jan'))?></button>
+								<button class="btn month "  type="button" name="monthly" value="2" id="m2"><?=(lang('Apps_feb'))?></button>
+								<button class="btn month " type="button" name="monthly" value="3" id="m3"><?=(lang('Apps_mar'))?></button>
+								<button class="btn month " type="button" name="monthly" value="4" id="m4"><?=(lang('Apps_apr'))?></button>
+								<button class="btn month " type="button" name="monthly" value="5" id="m5"><?=(lang('Apps_may'))?></button>
+								<button class="btn month " type="button" name="monthly" value="6" id="m6"><?=(lang('Apps_jun'))?></button>
+								<button class="btn month " type="button" name="monthly" value="7" id="m7"><?=(lang('Apps_jul'))?></button>
+								<button class="btn month " type="button" name="monthly" value="8" id="m8"><?=(lang('Apps_aug'))?></button>
+								<button class="btn month " type="button" name="monthly" value="9" id="m9"><?=(lang('Apps_sep'))?></button>
+								<button class="btn month " type="button" name="monthly" value="10" id="m10"><?=(lang('Apps_oct'))?></button>
+								<button class="btn month " type="button" name="monthly" value="11" id="m11"><?=(lang('Apps_nov'))?></button>
+								<button class="btn month " type="button" name="monthly" value="12" id="m12"><?=(lang('Apps_dec'))?></button>
 								 <input type="hidden" name="monthlylist"  id="monthlylist" value="" >
 								
 							  </div>
@@ -117,13 +119,13 @@
 					    <td class="select-day">
 							 <div class="btn-toolbar"  id="weeks" style="display:none">
 							  <div class="btn-group">
-								<button class="btn weekly" type="button" name="week" value="1" id="w1">Mon</button>
-								<button class="btn weekly" type="button" name="week" value="2" id="w2">Tue</button>
-								<button class="btn weekly" type="button" name="week" value="3" id="w3">Wed</button>
-								<button class="btn weekly" type="button" name="week" value="4" id="w4">Thu</button>
-								<button class="btn weekly" type="button" name="week" value="5" id="w5">Fri</button>
-								<button class="btn weekly" type="button" name="week" value="6" id="w6">Sat</button>
-								<button class="btn weekly" type="button" name="week" value="7" id="w7">Sun</button>
+								<button class="btn weekly" type="button" name="week" value="1" id="w1"><?=(lang('Apps_mon'))?></button>
+								<button class="btn weekly" type="button" name="week" value="2" id="w2"><?=(lang('Apps_tue'))?></button>
+								<button class="btn weekly" type="button" name="week" value="3" id="w3"><?=(lang('Apps_wed'))?></button>
+								<button class="btn weekly" type="button" name="week" value="4" id="w4"><?=(lang('Apps_thu'))?></button>
+								<button class="btn weekly" type="button" name="week" value="5" id="w5"><?=(lang('Apps_fri'))?></button>
+								<button class="btn weekly" type="button" name="week" value="6" id="w6"><?=(lang('Apps_sat'))?></button>
+								<button class="btn weekly" type="button" name="week" value="7" id="w7"><?=(lang('Apps_sun'))?></button>
 								 <input type="hidden" name="weeklist"  id="weeklist" value="" >
 							 </div>
 							</div>
@@ -236,6 +238,9 @@
 							  <input type="hidden" name="users_id" id="users_id" >
 							  <input type="hidden" name="actionVal" id="actionVal" value="">
 							  <input type="hidden" name="bookbusiness" value="<?php print_r($buisness_details[0]->id); ?>">
+							  <input type="hidden" name="oldstdate" id="oldstdate" >
+							  <input type="hidden" name="oldeddate" id="oldeddate" >
+							   <input type="hidden" name="apptype" class="apptype" id="apptype" value="" data-val=""> 
 							</div>
 						  </div>
 					</form>

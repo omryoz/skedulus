@@ -1,5 +1,4 @@
  <?php
- 
  error_reporting(0);
 /* Manage Business registration Controller */
 class Bcalendar extends CI_Controller {
@@ -23,7 +22,11 @@ class Bcalendar extends CI_Controller {
 	
 	function cal($id=false){ 
 	if($id){
-	
+	$filter1="user_business_details_id = '".$id."' and type='service'";
+	$filter=array('id'=>$id);
+	$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
+	$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
+	$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1);
 	if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
@@ -45,8 +48,8 @@ class Bcalendar extends CI_Controller {
 		  }
 		  
 		  $filter=array('id'=>$id);
-		  $this->data['buisness_details'] = $this->business_profile_model->getProfileDetailsByfilter($filter);
-		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
+		  $this->data['buisness_details'] = $buisness_details;
+		  $this->data['buisness_availability'] = $buisness_availability;
 		  
 		  
 		}
@@ -125,6 +128,7 @@ class Bcalendar extends CI_Controller {
 		  redirect('home/clientlogin');
 		}
 		//$this->data['user_id'] = $id;
+		$this->data['appointments'] = $this->business_profile_model->getmyappointments($this->session->userdata('id'));
 	    $this->parser->parse('include/modal_popup',$this->data);
 		$this->parser->parse('include/modal_bookclass',$this->data);
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
@@ -299,8 +303,14 @@ function addTime($a, $b)
 
 function getserviceBybusinessfilter(){
 	if($this->input->post('business_id')){
+	    if($this->input->post('staffid')){
+		$filter = array('users_id'=>$this->input->post('staffid'),'business_id'=>$this->input->post('business_id'));
+		$table='view_employee_services';
+		}else{
 		$filter = array('user_business_details_id'=>$this->input->post('business_id'));
-		$resuls = $this->common_model->getservices($filter);	
+		$table='user_business_services';
+		}
+		$resuls = $this->common_model->getservices($filter,$table);	
 		print_r(json_encode($resuls));
 		
 	}else{
@@ -343,19 +353,6 @@ function getstaffnamesByfilter(){
    $filter = 'service_id  IN ('.$string.') and users_id!=0'; 
 	$this->load->model("bprofile_model");
 	$results = $this->bprofile_model->getserviceByfilter($filter);	
-	
-	// $serviceid = explode(',', $this->input->post('service_id'));
-	// $list = array();
-	// foreach($serviceid as $val){
-	// if($val!=''){
-	   // $filter = 'service_id='.$val;
-	   // $list[] = $this->bprofile_model->getserviceByfilter($filter);	
-	   // }
-	// }
-	 
-	// $intersect = call_user_func_array('array_intersect', $list);
-	// print_r($intersect); exit;
-	
 	$day = $this->checkweekendDayName($this->input->post('date'));
 	//date('H:i', strtotime($this->input->post('timeslot')
 	$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
@@ -522,7 +519,9 @@ $value=$this->common_model->getRow('business_notification_settings','user_busine
 
 
 function checkday($date=false,$business_id=false,$staffid=false){
+    
 	if($date){
+	   if($this->checkholidaydates($date,$business_id)){
 		$date = $this->checkweekendDayName($date);
 		if($staffid!=''){
 		$filter = array("users_id"=>$staffid,"name"=>$date,"type"=>'employee');
@@ -534,9 +533,23 @@ function checkday($date=false,$business_id=false,$staffid=false){
 		}else{
 			return false;
 		}
+		}else{
+	     return false;
+	   }
 	}else{
 		return false;
 	}
+	
+}
+
+function checkholidaydates($date=false,$business_id=false){
+      $val=$this->common_model->getRow("user_business_details",'id',$business_id);
+	  $holidayslist=$this->bprofile_model->getholidaylist($val->calendar_type);
+	  if(in_array((date("Y-m-d",strtotime($date))),$holidayslist)){
+	  return false;
+	  }else{
+	  return true;
+	  }
 }
 
 function checkweekendDayName($date=false){
@@ -552,7 +565,7 @@ function bussytime(){ //print_r($_POST); exit;
  $this->bprofile_model->editbusytime();
  }else{
     $this->bprofile_model->insertbusytime();
-}
+ }
      redirect("/bcalendar/cal/".$this->session->userdata['business_id']);
  }
 }
@@ -605,13 +618,12 @@ function deletebusytime(){
 	 // $id='id';
 	}else{
 	  //$id='seriesid';
-	  $where=" Date(start_time) between '".$this->input->post('startdate')."' and  '".$this->input->post('enddate')."' and  seriesid='".$_POST['id']."'";
+	  $where=" Date(start_time) between '".date('Y-m-d',strtotime($this->input->post('startdate')))."' and  '".date('Y-m-d',strtotime($this->input->post('enddate')))."' and  seriesid='".$_POST['id']."'";
 	}
 	mysql_query("delete from client_service_appointments where $where ");
 }
 
 function createappointment(){ 
-
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
 		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
@@ -663,6 +675,11 @@ function createappointment(){
 }
 
 
+function deleteapp(){
+  $this->business_profile_model->deleteapp();
+}
+
+
 function referal_url($url){
 //print_r($_REQUEST);exit;
     $this->data['url']=$this->input->get('url');
@@ -674,6 +691,7 @@ function referal_url($url){
 /*Get End Time by Selected Services*/
 
 	function getendtimeByservice(){
+	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 	   if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		
@@ -757,6 +775,9 @@ function referal_url($url){
 		}else{ 
 		  echo -1;
 		}
+		}else{
+		  echo -4;
+		}
 	}
 	
 	function checkforenddate(){
@@ -785,6 +806,7 @@ function referal_url($url){
 		 }	
 	}
 	
+
 	function checkfortime(){
 	    $where=1;
 		$returned = true;
@@ -865,8 +887,8 @@ function referal_url($url){
 		
 		$slots = $this->common_model->getAllslots($filter);
 		
-		if($eventId!=''){
-		  $where.=' AND id!='.$eventId;
+		if(!empty($eventId)){ 
+		  $where.=' AND id!='.(!empty($eventId))?$eventId:''; //echo $where;
 		}
 		
 		$booked_slots = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
@@ -955,7 +977,9 @@ function referal_url($url){
 	if($id==""){
        $id=$this->session->userdata['business_id'];
     }
-	$this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'business');
+	$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
+	$this->data['buisness_availability']=$buisness_availability;
+	
 	if($id){
 	//$this->parser->parse('include/header',$this->data);
 	$this->data['role']="";
@@ -987,10 +1011,13 @@ function referal_url($url){
 		}
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$bid);
 		$this->data['businessId']=$id;
+		$status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		
+		$this->data['appointments'] = $this->business_profile_model->getpostedclasses($buisness_availability['start_time'],$buisness_availability['end_time'],$status->calendar_type,$id,$instructor='');
 		
 		
 		 if(isset($this->session->userdata['business_id'])){
-		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		 
 		 if($status->status=='active'){
 		 // $this->parser->parse('include/modal_popup',$this->data);
 		 // $this->parser->parse('calendar',$this->data);
@@ -1133,6 +1160,10 @@ function referal_url($url){
 			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
 			  $where.=' AND id!='.$this->input->post('eventId');
 			 }
+			 if($this->input->post('seriesid')!=''){ 
+			// $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
+			  $where.=' AND seriesid!='.$this->input->post('seriesid');
+			 }
 			 //else{
 			// $where='1';
 			
@@ -1172,7 +1203,7 @@ function checkIfblocked(){
   }
 }
 	
-	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId=false){
+	function checkClassAvailable($date,$business_id,$class_id,$staffid,$start_time,$end_time,$actual_endtime,$eventId=false,$seriesid=false){
 	    $where=1;
 		//$where1=1;
 	    $day = $this->checkweekendDayName($date);
@@ -1191,6 +1222,9 @@ function checkIfblocked(){
 		//print_r("<pre>".$eventId."</pre>"); exit;
 		if(!empty($eventId)){ 
 		  $where.=' AND id!='.(!empty($eventId))?$eventId:''; //echo $where;
+		}
+		if(!empty($seriesid)){
+		  $where.=' AND seriesid!='.(!empty($seriesid))?$seriesid:''; //echo $where;
 		}
 		
 		$booked_slots = $this->common_model->getClassBookedslotsByDate(date("Y-m-d",strtotime($date)),$where);
@@ -1302,7 +1336,11 @@ function checkIfblocked(){
 		$Actualtime = explode(":",$this->addTime($t_Actualtime,$t));
 		$endtime = $time[0].':'.$time[1];
 		$Actualendtime = $Actualtime[0].':'.$Actualtime[1];
-		$this->checkClassAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('class_id'),$this->input->post('staffid'),$this->input->post('starttime'),$endtime,$Actualendtime,$this->input->post('eventid'));
+		if($this->checkvaliddate($this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('repeatStatus'))){
+		$this->checkClassAvailable($this->input->post('date'),$this->input->post('business_id'),$this->input->post('class_id'),$this->input->post('staffid'),$this->input->post('starttime'),$endtime,$Actualendtime,$this->input->post('eventid'),$this->input->post('seriesid'));
+		}else{
+		 echo -2;
+		}
 		//echo $Actualtime;
 	}
 	
@@ -1334,15 +1372,21 @@ function checkIfblocked(){
 		  $filter=array('users_id'=>$id);
 		  $staffdetails = $this->business_profile_model->getstaffDetailsByfilter($filter);
 		  $this->data['staff_details'] =$staffdetails;
-		  $this->data['buisness_availability'] = $this->business_profile_model->user_business_availability($id,'employee');
+		  $buisness_availability = $this->business_profile_model->user_business_availability($id,'employee');
+		  $this->data['buisness_availability']=$buisness_availability;
+		  $caltype=$this->common_model->getRow('user_business_details','id',$staffdetails[0]->user_business_details_id);
 		}
 		if($type=='Classes'){
 		$this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
 		  $this->data['trainerid'] =$staffdetails[0]->users_id;
 		  $this->data['firstname'] =$staffdetails[0]->first_name;
 		  $this->data['lastname'] =$staffdetails[0]->last_name;
+		  $this->data['appointments'] = $this->business_profile_model->getpostedclasses($buisness_availability['start_time'],$buisness_availability['end_time'],$caltype->calendar_type,$staffdetails[0]->user_business_details_id,$staffdetails[0]->users_id);
+		  
+		  
 		if($this->session->userdata['role']=="manager"){
-		  $where=" And business_id='".$staffdetails[0]->user_business_details_id."' and users_id='".$staffdetails[0]->users_id."'"; 
+		  $where=" And business_id='".$staffdetails[0]->user_business_details_id."' and users_id='".$staffdetails[0]->users_id."'";
+		  
 		  $classes=$this->common_model->getDDArray("view_employee_classes","service_id","name",$where);
 		  $classes[""]=" Select";
 		  $this->data['classes']=$classes; 
@@ -1356,6 +1400,16 @@ function checkIfblocked(){
 		 $this->parser->parse('calendar_bookclass',$this->data);
 		 }
 		 }else{
+		 
+		 
+		 
+		 $filter1="employee_id = '".$id."'";
+		//$filter=array('id'=>$id);
+		//$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$caltype->calendar_type,$filter1);
+		 
+		 
+		 
 		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
 		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
@@ -1368,7 +1422,8 @@ function checkIfblocked(){
 	function checkStatus(){
 	 $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classID']); 
 	// print_r($val); exit;
-	 $res=$this->common_model->getAllRows("user_business_posted_class","seriesid",$val->seriesid); 
+	$where=" and modifiedStatus='0'";
+	 $res=$this->common_model->getAllRows("user_business_posted_class","seriesid",$val->seriesid,$where); 
 	 if(count($res)==1){
 	   echo 1;
 	 }else{
@@ -1447,6 +1502,38 @@ function checkIfblocked(){
 		  }
 	
 	}
+	
+	function checkCstartdate(){
+		if($this->checkvaliddate($this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('repeatStatus'))){
+		echo 1;
+		}else{
+		echo -1;
+		} 	
+	}
+	
+	function checkvaliddate($startdate,$enddate,$repeatStatus){
+	  if(strtotime($startdate)>strtotime($enddate) && $repeatStatus=='Remove Repeat'){
+		   return false;
+		 }else{
+		   return true;
+		 }
+	}
+	
+	function insertPostedClass(){
+	  $this->bprofile_model->insertscheduledclass();
+	}
+	
+	function editPostedClass(){
+	 $this->bprofile_model->editscheduledclass();
+	}
+	
+	function deletePostedClass(){
+	  $this->bprofile_model->deletePostedClass();
+	}
+	
+	// function showdiv(){ 
+	  // $this->parser->parse('showdiv');
+	// }
 }
 
 ?>

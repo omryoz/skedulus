@@ -66,7 +66,7 @@ $("#successaddstaffs").hide();
 	
 	<div class="<?php echo $class; ?>">
 								<div class="span3"> <label class="checkbox">
-								<input type="checkbox" <?php //echo $Cdisabled ?> <?php echo $checked;?> id="<?php echo $i; ?>" onclick="<?php echo $onclickevent ?>" class="avail"  name="<?php echo $i; ?>"><?php echo $weekdays[$i] ?></label> </div>
+								<input type="checkbox" <?php //echo $Cdisabled ?> <?php echo $checked;?> id="<?php echo $i; ?>" onclick="<?php echo $onclickevent ?>" class="avail"  name="<?php echo $i; ?>"><?=(lang('Apps_'.$weekdays[$i]))?><?php //echo $weekdays[$i] ?></label> </div>
 							
 								<div class="span3">
 									<div >
@@ -98,6 +98,6 @@ $("#successaddstaffs").hide();
 
 <?php //} ?>
 
-						 
+<?php include('include/popupmessages.php'); ?>					 
 						 
 			

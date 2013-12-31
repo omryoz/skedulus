@@ -112,6 +112,7 @@
 </div>
 <script>
  function Appdetails(eventid){
+       $("#apptype").val('rescheduleapp');
 	   $(".titleAppointment").html("Appointment Details");
 	   $(".modal-footer").hide();
 	   $(".viewSchedule").hide();
@@ -134,9 +135,13 @@
 	   
 	   if(data==0){
 	   $('.moreApp').hide();
+	   if($(".showapps").html()=='No appointments found'){
+	   $(".showapps").html(nomoreappointmentsfound);
+	   }else{
 	   <?php if(isset($appDetails)) { ?>
 	   $(".showapps").append(nomoreappointmentsfound);
 	   <?php } ?>
+	   }
 	   }else{
 	    $(".showapps").append(data);
 	    $("#count").val(Nextcount);

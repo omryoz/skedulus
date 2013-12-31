@@ -1,7 +1,6 @@
 <?php 
 class Business_profile_model extends CI_Model {
 
-
 function getProfileDetails(){
 		$sql="Select * from view_business_details where ";
 		$query=$this->db->query($sql);
@@ -119,6 +118,322 @@ function getClasses($id){
 		}
 	}
 	
+	function getappointments($bstarttime,$bendtime,$calendarid,$filter){ 
+	//$where="type='service'";
+		$sql="Select * from view_client_appoinment_details where ". $filter;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$value='';
+		//$value='';
+		if($data){
+			foreach($data as $dataP){
+			  // getend time for business calendar 
+						 $total=0;
+						 $endtime=date("H:i",strtotime($dataP->end_time)); 
+						 $serviceid=explode(',',$dataP->services_id);
+						 $Sname='';
+						foreach($serviceid as $val){
+						if($val!=''){
+							$query1 = $this->db->query("select * from user_business_services where id='".$val."'"); 
+                            $res= $query1->result();							
+						if($res[0]->padding_time_type=="Before & After"){
+						  $twice=2;
+						}else{
+						  $twice=1;
+						}	
+						$total = $total + $res[0]->padding_time * $twice;
+                        $Sname.=$res[0]->name.',';						
+						}   
+					  }
+					    $time = $this->convertToHoursMins($total,'%d:%d');						
+						$end_time1 = $this->addTime($endtime,$time);
+						
+						$endTime= date('Y-m-d',strtotime($dataP->end_time))." ".$end_time1;
+						$difference = strtotime($dataP->end_time) - strtotime($dataP->start_time);
+						// getting the difference in minutes
+						$difference_in_minutes = $difference / 60;
+						$servicetime="<i class=' icon-time'></i>".$difference_in_minutes." mins";
+					  if($dataP->status=='busytime'){
+					    $serviceName=$dataP->note; 
+						$clientname='';
+						$showServicename=$dataP->note;
+						$serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
+						$showserviceProvider='';
+						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
+						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name."";
+						}
+						$category_name=$showserviceProvider;
+						
+						
+					  }else{
+			            $serviceName=rtrim($Sname,','); 
+						$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
+						
+						$showserviceProvider='';
+						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
+						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name;
+						}
+						$category_name=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP->category_name;
+						
+						//$category_name=$dataP->category_name;
+						$showServicename=$serviceName;
+					    if($dataP->employee_id!=0){
+						   $serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
+						   $showServicename=$serviceName." with ".$serviceProvider;
+						 }
+					 }
+					
+					
+			   $value.='{"id": "'.$dataP->id.'","start": "'.$dataP->start_time.'","end": "'.$endTime.'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
+			   $value.=",";
+			}
+			
+			//echo $value;
+		}
+		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full'";
+		$queryh=$this->db->query($sqlh);
+		$datah= $queryh->result();
+		if($datah){
+			foreach($datah as $dataPh){
+			         if($this->session->userdata('language')=='hebrew'){ 
+					  $calname=$dataPh->name_heb;
+					 }else{
+					  $calname=$dataPh->name_en;
+					 }
+			            $serviceName=$calname; 
+						$clientname='';
+						$bstartTime=$dataPh->holiday_date." ".$bstarttime.':00:00';
+						$bendTime=$dataPh->holiday_date." ".$bendtime.':00:00';
+						$id='c'.$dataPh->id;
+						$showServicename=$calname;
+						$servicetime='';
+						$category_name='';
+			   $value.='{"id": "'.$id.'","start": "'.$bstartTime.'","end": "'.$bendTime.'","service_name": "'.$serviceName.'","allDay": false,"client_name": "'.$clientname.'","serviceProvider": " ","servicetime":" ","showServicename":"'.$showServicename.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'"}';
+			   $value.=",";
+			}
+		}
+			//print_r($value); exit;
+		 return $value;
 	
+	}
+	
+	function deleteapp(){
+		if($this->input->post('type')=='class'){
+		   $query = $this->db->query("select * from user_business_posted_class where id='".$this->input->post('postedclassid')."'");
+		   $res= $query->result();
+			foreach($res as $val){
+			$avail=$val->availability;
+			$class_size=$val->class_size;
+			   
+		   $update_avail=($avail+1); 
+		   if($update_avail<=$class_size){
+		   $this->db->query("update user_business_posted_class set availability='".$update_avail."' where id=".$this->input->post('postedclassid'));
+	       }
+		  }	
+		}
+		
+		$this->db->query("delete from client_service_appointments  where id=".$this->input->post('eventId'));
+	
+	}
+	
+	function getmyappointments($userid){ 
+	//$where="type='service'";
+		$sql="select * from view_client_appoinment_details where users_id=".$userid." and booked_by='client'";
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$value='';
+		//$value='';
+		if($data){
+			foreach($data as $dataP){
+			  // getend time for business calendar 
+						 $total=0;
+						 $endtime=date("H:i",strtotime($dataP->end_time)); 
+						 $serviceid=explode(',',$dataP->services_id);
+						 $Sname='';
+						 if($dataP->type=='service'){
+						foreach($serviceid as $val){
+						if($val!=''){
+							$query1 = $this->db->query("select * from user_business_services where id='".$val."'"); 
+                            $res= $query1->result();							
+						
+                        $Sname.=$res[0]->name.',';						
+						}   
+					   }
+			            $serviceName=rtrim($Sname,','); 
+						}else{
+						 $getclassname=$this->common_model->getRow("view_classes_posted_business",'id',$dataP->services_id);
+						 $serviceName=$getclassname->name; 
+						}
+						$clientname=$dataP->business_name;
+						
+						
+						$difference = strtotime($dataP->end_time) - strtotime($dataP->start_time);
+						// getting the difference in minutes
+						$difference_in_minutes = $difference / 60;
+						$servicetime="<i class=' icon-time'></i>".$difference_in_minutes." mins";
+						
+						$showserviceProvider='';
+						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
+						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name;
+						}
+						$category_name=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP->category_name;
+						
+						//$category_name="<i class=' icon-map-marker'></i>".$dataP->category_name;
+						$showServicename=$serviceName;
+					    if($dataP->employee_id!=0){
+						   $serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
+						   $showServicename=$serviceName." with ".$dataP->business_name;
+						}
+
+			   $value.='{"id": "'.$dataP->id.'","start": "'.$dataP->start_time.'","end": "'.$dataP->end_time.'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
+			   $value.=",";
+			}
+			
+			//echo $value;
+		}
+		
+		 return $value;
+	
+	}
+	
+	function getpostedclasses($bstarttime,$bendtime,$calendarid,$bid,$instructor=false){ 
+		if(isset($instructor) && $instructor!=''){
+		 $where=" instructor= ".$instructor;
+		}else{
+		 $where=1;
+		} 
+	
+		$sql="select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id='".$bid."' and ".$where;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		$i=0;
+		$value=''; 
+		foreach($data as $dataP){
+		       $sql1="select * from view_classes_posted_business where user_business_classes_id='".$dataP->user_business_classes_id."' and ".$where;
+				$query=$this->db->query($sql1);
+				$data1= $query->result();
+				
+				foreach($data1 as $dataP1){
+						$startTime=$dataP1->start_date." ".$dataP1->start_time;
+						$endtime=$dataP1->end_time;
+						if($dataP1->padding_time_type=="Before & After"){
+						  $twice=2;
+						}else{
+						  $twice=1;
+						}	
+						$Totalpaddingtime = $dataP1->padding_time * $twice;	
+						$time = $this->convertToHoursMins($Totalpaddingtime,'%d:%d');
+						$end_time = $this->addTime($endtime,$time);
+						$endTime= $dataP1->end_date." ".$end_time;
+					    $serviceProvider=$dataP1->instructor_firstname." ".$dataP1->instructor_lastname;
+						
+						$classSize=$dataP1->class_size - $dataP1->availability;
+						$classsize=$classSize;
+						if($classSize==1){
+						$classSize=$classSize." participant";
+						}else{
+						$classSize=$classSize." participants";
+						}
+						
+						$availability=$dataP1->availability;
+						
+						$difference = strtotime($dataP1->end_time) - strtotime($dataP1->start_time);
+						// getting the difference in minutes
+						$difference_in_minutes = $difference / 60;
+						$servicetime=$difference_in_minutes;
+						$show=$servicetime.' mins - '.$classsize.'/'.$availability;
+						
+						$showClassDetails=$dataP1->name." with ".$classSize;
+						$showServicetime="<i class=' icon-time'></i>".$servicetime.' mins';
+						$showserviceProvider='';
+						if($dataP1->instructor_firstname!='' || $dataP1->instructor_lastname!=''){
+						$showserviceProvider ="<i class=' icon-user'></i>".$serviceProvider;
+						}
+						$category=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP1->category_name;
+						
+			   $value.='{"id": "'.$dataP1->id.'","start": "'.$startTime.'","end": "'.$endTime.'","service_name": "'.$dataP1->name.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"show": "'.$show.'","showClassDetails": "'.$showClassDetails.'","showServicetime": "'.$showServicetime.'","category": "'.$category.'"}';
+			   $value.=",";
+			}
+		}
+		
+		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full'";
+		$queryh=$this->db->query($sqlh);
+		$datah= $queryh->result();
+		if($datah){
+			foreach($datah as $dataPh){
+			           if($this->session->userdata('language')=='hebrew'){ 
+					   $calname=$dataPh->name_heb;
+					   }else{
+					   $calname=$dataPh->name_en;
+					   }
+			            $serviceName=$calname; 
+						$clientname='';
+						$bstartTime=$dataPh->holiday_date." ".$bstarttime.':00:00';
+						$bendTime=$dataPh->holiday_date." ".$bendtime.':00:00';
+						$id='c'.$dataPh->id;
+						$showClassDetails=$calname;
+						$showServicetime='';
+						$category='';
+						
+			   $value.='{"id": "'.$id.'","start": "'.$bstartTime.'","end": "'.$bendTime.'","service_name": "'.$serviceName.'","allDay": false,"client_name": "'.$clientname.'","showClassDetails": "'.$showClassDetails.'","showServicetime": "'.$showServicetime.'","category": "'.$category.'"}';
+			   $value.=",";
+			 }
+			}
+			//print_r($value); exit;
+		 return $value;
+	
+	}
+	
+	
+	function convertToHoursMins($time, $format = '%d:%d') {
+		settype($time, 'integer');
+		if ($time < 1) {
+			return;
+		}
+		
+		$hours = floor($time/60);
+		$minutes = $time%60;
+		return sprintf($format, $hours, $minutes);
+	}
+	function addTime($a, $b)
+		{
+		   $sec=$min=$hr=0;
+		   $a = explode(':',$a);
+		   $b = explode(':',$b);
+
+		   if(($a[2]+$b[2])>= 60)
+		   {
+			 $sec=($a[2]+$b[2]) % 60;
+			 $min+=1;
+
+		   }
+		   else
+		   $sec=($a[2]+$b[2]);
+		   
+
+		   if(($a[1]+$b[1]+$min)>= 60)
+		   {
+			  $min=($a[1]+$b[1]+$min) % 60;
+			 $hr+=1;
+		   }
+		   else
+			$min=$a[1]+$b[1]+$min;
+			$hr=$a[0]+$b[0]+$hr;
+
+		  if(strlen($hr)=='1'){
+		   $hr='0'.$hr;
+		  }	
+		  if(strlen($min)=='1'){
+		   $min='0'.$min;
+		  }
+          if(strlen($sec)=='1'){
+		   $sec='0'.$sec;
+		  }			  
+		   $added_time=$hr.":".$min.":".$sec;
+		   
+		   return $added_time;
+		}
 }
 ?>

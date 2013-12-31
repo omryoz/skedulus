@@ -185,11 +185,11 @@ public function mail($emailTo,$subject,$message){
 	}
 	
 	//Get business services
-	function getservices($filter=false){
+	function getservices($filter=false,$table=false){
 		if($filter){
 			$this->db->where($filter);
 		}
-		$query = $this->db->get("user_business_services");
+		$query = $this->db->get($table);
 		if($query->num_rows()>0){
 			return $query->result();
 		}else{
