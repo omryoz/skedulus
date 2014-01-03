@@ -3,12 +3,21 @@ $(document).ready(function(){
 		var url = window.location.pathname;  
 		var activePage = url.substring(url.lastIndexOf('/')+1);  
 		$('.business-navbar li a').each(function(){  
-		var currentPage = this.href.substring(this.href.lastIndexOf('/')+1); 
+		var currentPage = this.href.substring(this.href.lastIndexOf('/')+1);   
 		if (activePage == currentPage) { 
 		$(this).parent().addClass('active'); 
-		}else if(activePage ==''){
-		$(".businessProfile").addClass('active');
+		}else if(window.location.search!=""){
+	     var value=window.location.search.split('&');
+		 var searchValue= value[1]; 
+		 if(searchValue=='search=Search'){
+		   $(".clientList").addClass('active');
+		 }else{
+		  $(".businessProfile").addClass('active');
+		 }
 		}
+		// else if(activePage ==''){
+		// $(".businessProfile").addClass('active');
+		// }
 		});
 });
 

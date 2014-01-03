@@ -16,13 +16,14 @@ class BusinessProfile extends CI_Controller {
 	
 	public function index(){
 	
-	// $this->parser->parse('include/header',$this->data);
-	 // if($this->session->userdata['role']=="manager"){
-		// $this->parser->parse('include/dash_navbar',$this->data);
-	// }
-	 // if($this->session->userdata['role']=="client"){
-		// $this->parser->parse('include/navbar',$this->data);
-	// }
+	if($this->session->userdata('role')=='admin'){
+	 $business_id=$_GET['id'];
+     $details=$this->common_model->getRow("view_user_subscription","business_id",$business_id);
+	 $users_id=$details->users_id;
+	 $sessionVal=array('subscription'=>$details->subscription_id,'users_id'=>$users_id,'business_id'=>$business_id,'role'=> 'manager','admin'=>'admin');
+	 $this->session->set_userdata($sessionVal);
+	 //$this->viewPage();
+	}
 	
 	if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];

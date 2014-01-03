@@ -416,7 +416,7 @@ class bprofile_model extends CI_Model {
 	// echo "Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 	$where='1';
 	if($keyword){
-	$where.= " AND first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%'";
+       $where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
 	}
 	
 		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and $where LIMIT $offset,$limit";

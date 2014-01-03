@@ -6130,48 +6130,44 @@ function agendaListView(element, calendar) {
 	var getCellsPerWeek = t.getCellsPerWeek;
 	
 	var formatDates = calendar.formatDates;
-	     if (delta) {
-			addDays(date, delta * 7);
-		}
-
-		var start = addDays(cloneDate(date), -((date.getDay() - opt('firstDay') + 7) % 7));
-		var end = addDays(cloneDate(start), 7);
-
-		var visStart = cloneDate(start);
-		skipHiddenDays(visStart);
-
-		var visEnd = cloneDate(end);
-		skipHiddenDays(visEnd, -1, true);
-
-		var colCnt = getCellsPerWeek();
-         t.title = formatDates(
-			visStart,
-			addDays(cloneDate(visEnd), -1),
-			opt('titleFormat')
-		);       
-	 
-		t.start = start;
-		t.end = end;
-		t.visStart = visStart;
-		t.visEnd = visEnd;
-	
-	    // if (delta) {
-		   // addMonths(date, delta);
-		   // date.setDate(1);
+	     // if (delta) {
+			// addDays(date, delta * 7);
 		// }
-		// var start, end, visStart, visEnd;
-        // start		= cloneDate(date, true);
-		// start.setDate(1);
-		// end = addMonths(cloneDate(start), 1);
-		// visStart = cloneDate(start);
-		// visEnd   = cloneDate(end);
+		// var start = addDays(cloneDate(date), -((date.getDay() - opt('firstDay') + 7) % 7));
+		// var end = addDays(cloneDate(start), 7);
+		// var visStart = cloneDate(start);
+		// skipHiddenDays(visStart);
+		// var visEnd = cloneDate(end);
+		// skipHiddenDays(visEnd, -1, true);
+		// var colCnt = getCellsPerWeek();
+         // t.title = formatDates(
+			// visStart,
+			// addDays(cloneDate(visEnd), -1),
+			// opt('titleFormat')
+		// );       
+	 
+		// t.start = start;
+		// t.end = end;
+		// t.visStart = visStart;
+		// t.visEnd = visEnd;
+	
+	    if (delta) {
+		   addMonths(date, delta);
+		   date.setDate(1);
+		}
+		var start, end, visStart, visEnd;
+        start		= cloneDate(date, true);
+		//start.setDate(1);
+		end = addMonths(cloneDate(start), 1);
+		visStart = cloneDate(start);
+		visEnd   = cloneDate(end);
 
 		
-		//t.title = formatDate(start, opt('titleFormat'));
-		// t.start = start;
-		// t.end   = end;
-		// t.visStart = visStart;
-		// t.visEnd   = visEnd;	
+		t.title = formatDate(start, opt('titleFormat'));
+		t.start = start;
+		t.end   = end;
+		t.visStart = visStart;
+		t.visEnd   = visEnd;	
 	}
 }
 
@@ -6249,15 +6245,17 @@ function agendaListView(element, calendar) {
             var displayeventlist = [];
             var tstart, tend;
             var j = 0;
+			var k = 20;
             for(i in events) {
-              
+             
                 tstart = cloneDate(events[i].start);
 				
 				t1start= formatDate(tstart, 'MMMM d, yyyy');  
 				t1end= formatDate(events[i].end, 'MMMM d, yyyy');
                 tend   = cloneDate(events[i].end);  
 				//if(new Date(t1start) >= new Date(formatDate(t.start, 'MMMM d, yyyy')) && new Date(t1start) < new Date(formatDate(t.end, 'MMMM d, yyyy'))){ 
-				if(new Date(tstart) >= new Date(t.start) && new Date(tstart) < new Date(t.end)){ 
+				//if(new Date(tstart) >= new Date(t.start) && new Date(tstart) < new Date(t.end)){ 
+				if(new Date(tstart) >= new Date(t.start) && k>=0){ 
 				 displayeventlist[j] = Object.create(events[i]);
                // while( (tend - tstart) > 0 ) {
                    // j = j + 1;
@@ -6266,6 +6264,7 @@ function agendaListView(element, calendar) {
                     displayeventlist[j].start = cloneDate(tstart);
                // }
                 j = j + 1;
+				k = k - 1;
 				}
             }
         

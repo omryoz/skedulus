@@ -934,6 +934,8 @@ $(".note").val("");
 			 var curr_year = d.getFullYear();
 			 var date = curr_date+"-"+curr_month+"-"+curr_year;
 			 $(".StartDate").val(date);
+			 $(".date_picker").datepicker("setValue", date);
+	         $(".date_picker").datepicker('update');
 		     var eventId=$('.busytype').val();
 			 var staffid='';
 			 if(v.employee_id!=0){
@@ -960,6 +962,8 @@ $(".note").val("");
 			 var curr_year1 = d1.getFullYear();
 			 var date1 = curr_date1+"-"+curr_month1+"-"+curr_year1;
 			 $(".endDate").val(date1);
+			 $(".endDate").datepicker("setValue", date1);
+	         $(".endDate").datepicker('update');
 		    // $(".endDate").val(v.enddate);
 		     var removediv="Remove Repeat";
              $("#brepeatdiv").show();
@@ -1032,6 +1036,8 @@ var str=data; var data=str.trim();
 		   $("#repeathtml").html(removediv);
 		   $("#repeatstatus").val(removediv);
 		$(".StartDate").val(date); 
+		$(".date_picker").datepicker("setValue", date);
+	    $(".date_picker").datepicker('update');
 		$(".StartTime").val($(".eventStartTime1").val());
 		$("#eventEndTime").val('');
    }

@@ -270,7 +270,7 @@
 		$lang['Apps_editclass'] = "Edit Class";
 		$lang['Apps_trainers'] = "Trainers";
 		$lang['Apps_lastdateforenroll'] = "Last date for enroll";
-		$lang['Apps_note'] = "note";
+		$lang['Apps_note'] = "Note";
 		$lang['Apps_noclasspostedyet'] = "No classes Posted yet";
 		/* post class popup  end  in calendarbook class.php*/
 		
@@ -373,8 +373,10 @@
 	   /* Appoitnments Details */
 	   $lang['Apps_servicewith'] = "Service with";
        $lang['Apps_comment'] = "Comment";
-	   $lang['Apps_reschedule'] = "Reschedule";
+	   $lang['Apps_reschedule'] = "Reschedule Appointment";
        $lang['Apps_cancel'] = "Cancel";
+	   $lang['Apps_cancelapp'] = "Cancel Appointment";
+	   $lang['Apps_appointmentsavedsuccess'] = "Appointment booked successfully";
 
       /*Calendar*/
 	  $lang['Apps_businesscalendar'] = "Business calendar";

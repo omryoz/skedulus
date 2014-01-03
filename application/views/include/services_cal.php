@@ -157,6 +157,7 @@
 	
 	function showdiv(){
 		 $(".viewSchedule").hide();
+		 $("#selectedService").val("");
 	$(".titleAppointment").html(bookappointment);
     $(".message").removeClass("alert").html(" ");
 	var businessid = $("#profileid").html();

@@ -12,6 +12,9 @@
  } ?>
  <input type="hidden" name="userrole" value="<?php print_r($role);?>" id="userrole">
  <span class="page hide">home</span>
+ <?php if(isset($_GET['success'])){ ?>
+	<p class="alert"><?=(lang('Apps_appointmentsavedsuccess'))?></p>
+	<?php } ?>
 <div class="content container">
 		<div class="row-fluid business_profile">
 			<h3><?=(lang('Apps_myappointments'))?></h3>		

@@ -378,6 +378,8 @@
 	   $lang['Apps_comment'] = "הערה";	
 	   $lang['Apps_reschedule'] = "שנה מועד";
        $lang['Apps_cancel'] = "ביטול";
+	   $lang['Apps_cancelapp'] = "Cancel Appointment";
+	   $lang['Apps_appointmentsavedsuccess'] = "Appointment booked successfully";
 	   
 	   /*Calendar*/
 	  $lang['Apps_businesscalendar'] = "יומן העסק";

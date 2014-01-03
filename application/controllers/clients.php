@@ -39,7 +39,7 @@ class Clients extends CI_Controller {
 		if(!empty($_GET['keyword']) && $_GET['keyword']){
 			$keyword = $_GET['keyword'];
 			$this->data['search']=$keyword;
-			$where.= " AND first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%'";
+			$where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
 		}
 		
 		$inf = $_REQUEST; 
@@ -116,7 +116,7 @@ class Clients extends CI_Controller {
 		 }
 		 if(isset($_GET['delete'])){
 		 $val= $this->common_model->deleteRow("users",$_GET['id']);
-		 $this->session->set_flashdata('message_type', 'error');	
+		$this->session->set_flashdata('message_type', 'error');	
 		 $this->session->set_flashdata('message', lang('Apps_clientdeleted'));
 		 redirect("clients/list_clients");
 		 }

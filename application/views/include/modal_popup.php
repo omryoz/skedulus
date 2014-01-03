@@ -8,12 +8,24 @@
   <div class="modal-body row-fluid">
 		   <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_service'))?></label>
-			<div class="controls">
+			<div class="controls showdropdown">
 			<p id="checkbox"><p>
 			 
 			</div>
+			
+			<div class="controls showlist">			
+			<div class="list-service">
+				<!---<span class="label">Hair cut</span><span class="label">Hair color</span><span class="label">massage</span><span class="label">mens hair cut</span><span class="label">woman hair cut</span>--->
+			</div>
+		   </div>
+			
 		<input type="hidden" name="services" class="services" id="selectedService" value="" />
 		  </div>
+		  
+		  
+		  
+		  
+		  
 		  <div class="control-group">
 			<label class="control-label" > <?=(lang('Apps_date'))?></label>
 			<div class="controls">
@@ -46,9 +58,9 @@
 		  </div>
 		  
 		  <div class="control-group">
-			<label class="control-label" > <?=(lang('Apps_message'))?></label>
+			<label class="control-label" > <?=(lang('Apps_note'))?></label>
 			<div class="controls">
-			  <textarea type="text" class="messageNote" name="note" id="note" placeholder="Message"></textarea>
+			  <textarea type="text" class="messageNote" name="note" id="note" placeholder="<?=(lang('Apps_note'))?>"></textarea>
 			  <?php if(isset($_GET['id'])){
 			   $id=$_GET['id'];
 			  }else{
@@ -71,12 +83,13 @@
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
 	
 	<input type="submit" name="submit" value="<?=(lang('Apps_book'))?>" id="book" class="btn btn-success span3 offset5 book_app "/>
-	<input type="button" name="reschedule" value="<?=(lang('Apps_reschedule'))?>" id="reschedule_app" class="btn btn-success span3 offset5 reschedule_app "/>
-	<input type="button" name="delete" value="<?=(lang('Apps_cancel'))?>" id="deleteApp" class="btn btn-success span3 offset5 delete_app "/>
+	<input type="button" name="reschedule" value="<?=(lang('Apps_reschedule'))?>" id="reschedule_app" class="btn btn-success reschedule_app "/>
+	<input type="button" name="delete" value="<?=(lang('Apps_cancelapp'))?>" id="deleteApp" class="btn btn-danger  delete_app "/>
 	<input type="hidden" name="user_id" id="users_id" value="<?=$user_id?>" />
 	<input type="hidden" name="eventId"  class="eventId" id="eventId" value="" />
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
 	<input type="hidden" name="reschdule"  class="reschduleId" id="reschduleId" value="0" />
+	<input type="hidden" name="reschdule"  class="show" value="0" />
   </div>
   </form>
 </div>
@@ -117,7 +130,9 @@
 				 error.insertAfter( element ); 
 				 error.css('padding-left', '0px');
 				},
-
+				highlight: function(element, errorClass, validClass) {
+				$(".time").removeClass("error");
+			    },
                 submitHandler: function(form) {
                 form.submit();
                 }
@@ -135,6 +150,7 @@
 
 $(".closeapp").click(function(){
 $(".reschduleId").val('0');
+$(".show").val('0');
 })
 
 </script>
