@@ -78,7 +78,27 @@ class Bcalendar extends CI_Controller {
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
-	
+	function getappointmentsAgenda(){
+	if($this->input->post('business_id')!=''){
+	 $id=$this->input->post('business_id');
+	}else{
+	  $id=$this->session->userdata['business_id'];
+    }
+	  if($this->input->post('staffsid')!=''){
+	  $filter1="employee_id = '".$this->input->post('staffsid')."'";
+	  }else{
+		$filter1="user_business_details_id = '".$id."' and type='service'";
+	  }
+	  
+	  if($this->input->post('userid')!=''){
+		$appointments = $this->business_profile_model->getmyappointments($this->input->post('userid'),'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'));
+	  }else{
+	    $filter=array('id'=>$id);
+		$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
+		  $appointments = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1,'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'));
+	  }
+	}
 	
 	public function index(){
 		 $this->parser->parse('include/header',$this->data);
@@ -656,9 +676,9 @@ function createappointment(){
 		}
 		if($val){
 		   if($this->session->userdata['role']=='manager'){
-		    redirect("/bcalendar/cal/".$this->input->post('businessid'));
+		    redirect("/bcalendar/cal/".$this->input->post('businessid')."/?success");
 		   }else{
-			redirect("bcalendar/mycalender");
+			redirect("bcalendar/mycalender/?success");
 			}
 		}else{
 			redirect("");
@@ -1042,6 +1062,30 @@ function referal_url($url){
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	 
+	 
+	function getpostedclassesAgenda(){
+	  if($this->input->post('business_id')!=''){
+	   $id=$this->input->post('business_id');
+	   }else{
+	    $id=$this->session->userdata['business_id'];
+      }
+	  if($this->input->post('staffsid')!=''){
+	  $staffid=$this->input->post('staffsid');
+	  //$filter1="employee_id = '".$this->input->post('staffsid')."'";
+	  }else{
+	  $staffid='';
+		//$filter1="user_business_details_id = '".$id."' and type='service'";
+	  }
+	    $filter=array('id'=>$id);
+		$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
+		$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
+		
+		$appointments = $this->business_profile_model->getpostedclasses($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$id,$staffid,'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'));
+		
+		 // $appointments = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1,'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'));
+	  
+	} 
+	
 	function getStaffClass(){
 	 $detail="[";
 	 $this->load->model("bprofile_model");

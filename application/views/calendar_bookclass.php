@@ -49,6 +49,7 @@ $url=$buisness_details[0]->id;
 <div id='calendar'></div>
 <p class="role hide" id="instructor_id"><?=(!empty($type))?$staff_details[0]->users_id:''?></p>
 <p class="hide" id="login_id"><?php print_r($_SESSION['profileid']); ?></p>
+<p class="hide" id="profileid"><?php print_r($_SESSION['profileid']); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	

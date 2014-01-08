@@ -106,7 +106,7 @@
 		}
 	});
 
-	function onPreview(eventid){
+	function onPreview(eventid){ 
 	$("#apptype").val('editpostedclass');
 	 var str=eventid;
 	 if(str.charAt(0)!='c'){
@@ -235,14 +235,7 @@
     //alert("here");
   }
 </script>
-<div style="display:none;" id="popup">
-        <table cellpadding="5px" border="1" style="margin-top:12px; margin-bottom:12px; color:#fff; font-size:.7em;">
-            <tr>
-                <td>
-                    <a  href="javascript:;" class=" launchClass" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Post class</a>
-                </td></tr><tr>
-                
-            </tr>
-        </table>
-    </div>
+<input type="hidden" name="count" value="0" id="count">
+<input type="hidden" name="showmore" value="0" id="showmore">
+<input type="hidden" name="showtype" value="upcoming" id="showtype">
 

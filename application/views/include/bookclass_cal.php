@@ -150,4 +150,6 @@
 	
 	}
 </script>
-
+<input type="hidden" name="count" value="0" id="count">
+<input type="hidden" name="showmore" value="0" id="showmore">
+<input type="hidden" name="showtype" value="upcoming" id="showtype">

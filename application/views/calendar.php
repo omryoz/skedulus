@@ -52,7 +52,19 @@
 
 </div>
 
+<!-- Button to trigger modal -->
+<!---<a href="#alertpopup" role="button" class="btn" data-toggle="modal">Launch </a>-->
+ 
+
+
 <script>
+$(document).ready(function(){
+  <?php if(isset($_GET['success'])){?>
+  $("#alertpopup").modal('show');
+  <?php }?>
+})
+
+
 $("#staffCal").change(function(){
 if($(this).val()!="-1"){
 window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Services';
@@ -64,3 +76,11 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($this->session->use
 
 <script src="<?php echo base_url() ?>functions/script.js">  </script> 
 <?php include('include/popupmessages.php'); ?>
+
+<!-- Modal -->
+<div id="alertpopup" class="modal hide fade popup-alert-box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <center><h4>Appointment Booked Successfully</h4></center>
+	<center><a href="javascript:;" class="btn btn-success confirmbutton">Ok</a></center>
+  </div>
+</div>

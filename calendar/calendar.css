@@ -604,3 +604,10 @@ table.fc-border-separate {
 th.fc-agenda-axis.fc-widget-header.fc-first ,thead tr.fc-first.fc-last{
 background:url("img/background1.jpg");
 }
+.fc-view.fc-view-agendaList{
+position: relative;
+overflow-y: scroll;
+height: 350px;
+min-height:100px;
+}
+.fc-agendaList.no-result{ margin-top:20px; }

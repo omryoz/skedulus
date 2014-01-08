@@ -2649,7 +2649,8 @@ function AgendaWeekView(element, calendar) {
 	
 	// exports
 	t.render = render;
-	
+	$('.fc-button-next').show();
+	$('.fc-button-prev').show();
 	
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaWeek');
@@ -2704,7 +2705,8 @@ function AgendaDayView(element, calendar) {
 	
 	// exports
 	t.render = render;
-	
+	$('.fc-button-next').show();
+	$('.fc-button-prev').show();
 	
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaDay');
@@ -6110,9 +6112,10 @@ defaults.titleFormat.agendaList="MMM d[ yyyy]{ '&#8212;'[ MMM] d yyyy}";
 defaults.agendaDisType   = true;
 
 function agendaListView(element, calendar) {
+$("#showmore").val('0');
+$("#count").val('0');
+$("#showtype").val('upcoming');
         var t = this;
-
-
         // exports
         t.render = render;
 
@@ -6130,26 +6133,6 @@ function agendaListView(element, calendar) {
 	var getCellsPerWeek = t.getCellsPerWeek;
 	
 	var formatDates = calendar.formatDates;
-	     // if (delta) {
-			// addDays(date, delta * 7);
-		// }
-		// var start = addDays(cloneDate(date), -((date.getDay() - opt('firstDay') + 7) % 7));
-		// var end = addDays(cloneDate(start), 7);
-		// var visStart = cloneDate(start);
-		// skipHiddenDays(visStart);
-		// var visEnd = cloneDate(end);
-		// skipHiddenDays(visEnd, -1, true);
-		// var colCnt = getCellsPerWeek();
-         // t.title = formatDates(
-			// visStart,
-			// addDays(cloneDate(visEnd), -1),
-			// opt('titleFormat')
-		// );       
-	 
-		// t.start = start;
-		// t.end = end;
-		// t.visStart = visStart;
-		// t.visEnd = visEnd;
 	
 	    if (delta) {
 		   addMonths(date, delta);
@@ -6162,7 +6145,8 @@ function agendaListView(element, calendar) {
 		visStart = cloneDate(start);
 		visEnd   = cloneDate(end);
 
-		
+		$('.fc-button-next').hide();
+		$('.fc-button-prev').hide();
 		t.title = formatDate(start, opt('titleFormat'));
 		t.start = start;
 		t.end   = end;
@@ -6234,74 +6218,102 @@ function agendaListView(element, calendar) {
 		
 		var reportEventClear = t.reportEventClear;
 		var getDaySegmentContainer = t.getDaySegmentContainer;
-
-        
-		function renderEvents(events, modifiedEventId) {
-            //Duplicate the list of events to be used during the display
-            //For repeating and multi-days events, we wanna make sure we add those days each event happens
-            //for example event that start from 1st to 4th, we will add on our list displayeventlist 1,2,3 and 4th this event
-            // We could have used other methods like scanning the dates and checking each event, but this seem to be more efficient
-          
-            var displayeventlist = [];
+        var html    = $("<ul class='fc-agendaList'></ul>");
+        $('.fc-view-agendaList').after('<a href="javascript:;" class="past-label showpastapp"><span class="label">Show Past Appointment</span></a>');
+		
+		function renderEvents() { 
+		 $('.fc-button-today').removeClass('fc-state-disabled');
+	     $('.fc-button-today').attr('id','agendatoday');
+		 $("#showtype").val('upcoming');
+	     agendashowlist('upcoming','0'); 
+		 
+		  $('#agendatoday').click(function(){
+		  $('.fc-view-agendaList').scrollTop(0);
+		   $(".showpastapp").show();
+		   $(".fc-agendaList").html("");
+		   $("#showmore").val('0');
+		   $("#scroll").val('no');
+           $("#count").val('0');
+		   $("#showtype").val('upcoming');
+		   agendashowlist('upcoming','0');
+			})
+        }
+		
+		function agendashowlist(statusType,startsfrom){ 
+		
+		var count=$("#count").val(); 
+	    var Nextcount=parseInt(count)+parseInt(10);
+		var stopsat=10;
+		var data = {'statusType':statusType,'startsfrom':count,'stopsat':stopsat,'business_id':$("#profileid").html(),'staffsid':$("#staffsid").val(),'userid':$("#user_id").html()};
+		$.ajax({
+		 url:base_url+'bcalendar/getappointmentsAgenda',
+		 type:'POST',
+		 data:data,
+		 success:function(data){ 
+  
+	        var events=eval(data);
+			
+	        var displayeventlist = [];
             var tstart, tend;
             var j = 0;
-			var k = 20;
-            for(i in events) {
+            for(i in events) { 
+			 if(events[i].flag=='0'){
+			      displayeventlist[j] = Object.create(events[i]);
+			    //var displayeventlist = [];
+			 }else{
+			   var starttime=new Date(events[i].start);
+			   var endtime=new Date(events[i].end);
              
-                tstart = cloneDate(events[i].start);
+                tstart = cloneDate(starttime);
 				
 				t1start= formatDate(tstart, 'MMMM d, yyyy');  
-				t1end= formatDate(events[i].end, 'MMMM d, yyyy');
-                tend   = cloneDate(events[i].end);  
-				//if(new Date(t1start) >= new Date(formatDate(t.start, 'MMMM d, yyyy')) && new Date(t1start) < new Date(formatDate(t.end, 'MMMM d, yyyy'))){ 
-				//if(new Date(tstart) >= new Date(t.start) && new Date(tstart) < new Date(t.end)){ 
-				if(new Date(tstart) >= new Date(t.start) && k>=0){ 
+				t1end= formatDate(endtime, 'MMMM d, yyyy');
+                tend   = cloneDate(endtime);  
+				
 				 displayeventlist[j] = Object.create(events[i]);
-               // while( (tend - tstart) > 0 ) {
-                   // j = j + 1;
                     displayeventlist[j] = Object.create(events[i]);
                     //tstart = addDays(tstart, 1);
                     displayeventlist[j].start = cloneDate(tstart);
                // }
                 j = j + 1;
-				k = k - 1;
-				}
+			 }
             }
         
-            // sort our display list, makes easier to display
-			displayeventlist.sort(function(a,b) {
-                           var  dateA = new Date(a.start); 
-                           var dateB = new Date(b.start);
-                           return dateA-dateB;
-                           });
-           
-            //Start displaying our sorted list 
-			var html    = $("<ul class='fc-agendaList'></ul>");
+						  
 			var mm, dd, tt, dt, lurl, ltitle, em;
 			var temp, i = 0;
             var vm = formatDate(t.visStart, 'MM'); 
-     if(displayeventlist!=''){
-            for (i in displayeventlist) {  
+          if(displayeventlist!=''){
+            for (i in displayeventlist) { 
+			if(displayeventlist[i].flag==0){
+               if($("#showmore").val()=='0'){
+			   $("<li class='no-result'>" +
+                            noappointmentsfound+
+                        "</li>").appendTo(html);
+						
+						$("#showmore").val('1');
+						}
+			}else{			
+			var starttime=new Date(displayeventlist[i].start);
+			var endtime=new Date(displayeventlist[i].end);
                 z = i;
-                em = formatDate(displayeventlist[i].start, 'MM'); 
-                // make sure we display the current view month events only
-                // this can be changed and may be display events from today + 30 days (google does sth like this)
-                // these css classes, can cleaned up much better to have skCalendar consistent view
+                em = formatDate(starttime, 'MM'); 
+               
                 
-                    dd      = formatDate(displayeventlist[i].start, 'dddd');
-                    lday    = formatDate(displayeventlist[i].start, 'MMMM d, yyyy');
+                    dd      = formatDate(starttime, 'dddd');
+                    lday    = formatDate(starttime, 'MMMM d, yyyy');
                     showServicename  = displayeventlist[i].showServicename;
 					serviceProvider  = displayeventlist[i].serviceProvider;
 					servicetime  = displayeventlist[i].servicetime;
 					category_name  = displayeventlist[i].category_name;
                     allDay  = displayeventlist[i].allDay;
 					
-                    st      = formatDate(displayeventlist[i].start, 'HH:mm');
-                    et      = formatDate(displayeventlist[i].end, 'HH:mm');
+                    st      = formatDate(starttime, 'HH:mm');
+                    et      = formatDate(endtime, 'HH:mm');
                     lurl    = displayeventlist[i].url;
                     classes = displayeventlist[i].className;
                    
-						  if (lday != temp && st!='00:00') {
+						  if (lday != temp) {
 						     $("<li class='fc-agendaList-dayHeader ui-widget-header'>" +
                             "<span class='fc-agendaList-day'>"+dd+"</span>" +
                             "<span class='fc-agendaList-date'>"+lday+"</span>" +
@@ -6324,16 +6336,66 @@ function agendaListView(element, calendar) {
                                         "</li>").appendTo(html); 
   
                     eventElementHandlers(displayeventlist[i], eventdisplay);
+					if($("#count").val()==0){
+					$(element).html(html);
+					}
+					$("#count").val(Nextcount);
                 
 			}
-			}else{
-			eventdisplay =$("<li class='no-result'>" +
-                            noappointmentsfound+
-                        "</li>").appendTo(html);
+			if($("#count").val()==0){
+			$(element).html(html);
+			 }
 			}
-			 $(element).html(html);
+			}
+			// else{
+			// if($("#showmore").val()=='0'){
+			// eventdisplay =$("<li class='no-result'>" +
+                            // noappointmentsfound+
+                        // "</li>").appendTo(html);
+						// $(element).html(html);
+						// $("#showmore").val('1');
+						// }
+						
+			// }
             trigger('eventAfterAllRender');
-        }
+			
+		 }
+		 })
+		}
+		
+		$(".showpastapp").click(function(){
+		 $('.fc-view-agendaList').scrollTop(0);
+		 $(".showpastapp").hide();
+		 $(".fc-agendaList").html("");
+		  $("#showmore").val('0');
+          $("#count").val('0');
+		  $("#showtype").val('past');
+		  agendashowlist('past','0');
+		  //agendatoday();
+		   
+		})
+		
+	    $('.fc-view-agendaList').scroll(function(){
+		 var $this = $(this);
+		 if($(this).scrollTop() > 0){
+            var height = this.scrollHeight - $this.height(); // Get the height of the div
+            var scroll = $this.scrollTop(); // Get the vertical scroll position
+            
+            var isScrolledToEnd = (scroll >= height);
+
+            $(".scroll-pos").text(scroll);
+            $(".scroll-height").text(height);
+
+            if (isScrolledToEnd) { 
+			  agendashowlist($("#showtype").val());
+            }
+		}
+			$("#agendatoday").click(function(){
+			 $this.scrollTop(0);
+			})
+      })
+	  
+		
 
     }
 function clearEvents() {

@@ -156,8 +156,8 @@
 	}
 	
 	function showdiv(){
-		 $(".viewSchedule").hide();
-		 $("#selectedService").val("");
+	$("#selectedService").val("");
+    $(".viewSchedule").hide();
 	$(".titleAppointment").html(bookappointment);
     $(".message").removeClass("alert").html(" ");
 	var businessid = $("#profileid").html();
@@ -217,19 +217,7 @@
 	})
 	}
 </script>
+<input type="hidden" name="count" value="0" id="count">
+<input type="hidden" name="showmore" value="0" id="showmore">
+<input type="hidden" name="showtype" value="upcoming" id="showtype">
 
-<div style="display:none;" id="popup">
-      <table cellpadding="5px" border="1" style="margin-top:12px; margin-bottom:12px; color:#fff; font-size:.7em;">
-            <tr>
-                <td>
-                    <a  href="javascript:;" class=" launch" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">Book appointment</a>
-                </td></tr>
-				<?php if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){?>
-				<tr>
-                <td>
-                    <a  href="javascript:busytime()" class=" busytime" style="color: #40454a !important; text-shadow: 0px 1px 1px #fff; font-size: 14px; font-weight: 600;">busytime</a>
-                </td>
-                </tr>
-				<?php }?>
-        </table>
-    </div>

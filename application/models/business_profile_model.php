@@ -118,14 +118,24 @@ function getClasses($id){
 		}
 	}
 	
-	function getappointments($bstarttime,$bendtime,$calendarid,$filter){ 
-	//$where="type='service'";
+	function getappointments($bstarttime=false,$bendtime=false,$calendarid=false,$filter=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false){ 
+	
+	   if($agenda!=''){
+		 $value='[';
+		 if($statusType=='upcoming'){
+		    $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
+		 }
+	   }else{
+		$value='';
+	   }
 		$sql="Select * from view_client_appoinment_details where ". $filter;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
-		$value='';
-		//$value='';
+		
+		
 		if($data){
 			foreach($data as $dataP){
 			  // getend time for business calendar 
@@ -191,7 +201,15 @@ function getClasses($id){
 			
 			//echo $value;
 		}
-		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full'";
+		$where='1';
+		if($agenda!=''){
+		 if($statusType=='upcoming'){
+		    $where.=' and holiday_date>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $where.=' and holiday_date<"'.date("Y-m-d").'"';
+		 }
+	   }
+		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full' and ".$where;
 		$queryh=$this->db->query($sqlh);
 		$datah= $queryh->result();
 		if($datah){
@@ -213,9 +231,36 @@ function getClasses($id){
 			   $value.=",";
 			}
 		}
-			//print_r($value); exit;
+		$value=rtrim($value,',');
+		if($agenda!=''){
+		$value.=']';
+		}
+		
+		if($agenda!=''){
+		   $vals=json_decode($value);
+		   //usort($vals, function($a, $b) {
+		    if($statusType=='upcoming'){
+		    usort($vals, function($a, $b) {
+			return strtotime($a->start) - strtotime($b->start);
+		   });
+		   }elseif($statusType=='past'){
+		    usort($vals, function($a, $b) {
+			return strtotime($b->start) - strtotime($a->start);
+		   });
+		   }
+		$vals1=array_slice($vals, $startsfrom,$stopsat);
+		if(empty($vals1)){
+		$val1='[{"flag": 0}]';
+		echo $val1;
+		//$vals1 = array('flag'=>0);
+		}else{
+		print_r(json_encode($vals1));
+		}
+		}else{
+
 		 return $value;
-	
+		}
+		
 	}
 	
 	function deleteapp(){
@@ -237,13 +282,25 @@ function getClasses($id){
 	
 	}
 	
-	function getmyappointments($userid){ 
-	//$where="type='service'";
-		$sql="select * from view_client_appoinment_details where users_id=".$userid." and booked_by='client'";
+	function getmyappointments($userid=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false){ 
+	   $filter=1;
+	   if($agenda!=''){
+		 $value='[';
+		 if($statusType=='upcoming'){
+		    $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
+		 }
+	   }else{
+		$value='';
+	   }
+	
+	
+		$sql="select * from view_client_appoinment_details where users_id=".$userid." and booked_by='client' and ".$filter;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
-		$value='';
+		
 		//$value='';
 		if($data){
 			foreach($data as $dataP){
@@ -293,23 +350,61 @@ function getClasses($id){
 			
 			//echo $value;
 		}
-		
+		$value=rtrim($value,',');
+		if($agenda!=''){
+		$value.=']';
+		}
+		 if($agenda!=''){
+		   $vals=json_decode($value);
+		   //usort($vals, function($a, $b) {
+		    if($statusType=='upcoming'){
+		    usort($vals, function($a, $b) {
+			return strtotime($a->start) - strtotime($b->start);
+		   });
+		   }elseif($statusType=='past'){
+		    usort($vals, function($a, $b) {
+			return strtotime($b->start) - strtotime($a->start);
+		   });
+		   }
+		  $vals1=array_slice($vals, $startsfrom,$stopsat);
+		  if(empty($vals1)){
+			$val1='[{"flag": 0}]';
+			echo $val1;
+			//$vals1 = array('flag'=>0);
+			}else{
+			print_r(json_encode($vals1));
+			}
+		  //print_r(json_encode($vals1));
+		}else{
 		 return $value;
+		}
+		 //return $value;
 	
 	}
 	
-	function getpostedclasses($bstarttime,$bendtime,$calendarid,$bid,$instructor=false){ 
+	function getpostedclasses($bstarttime=false,$bendtime=false,$calendarid=false,$bid=false,$instructor=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false){ 
 		if(isset($instructor) && $instructor!=''){
 		 $where=" instructor= ".$instructor;
 		}else{
 		 $where=1;
 		} 
 	
+	   if($agenda!=''){
+		 $value='[';
+		 if($statusType=='upcoming'){
+		    $where.=' and start_date>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $where.=' and start_date<"'.date("Y-m-d").'"';
+		 }
+	   }else{
+		$value='';
+	   }
+	//echo "select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id='".$bid."' and ".$where; exit;
 		$sql="select DISTINCT user_business_classes_id from view_classes_posted_business where user_business_details_id='".$bid."' and ".$where;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
-		$value=''; 
+		//$value=''; 
 		foreach($data as $dataP){
 		       $sql1="select * from view_classes_posted_business where user_business_classes_id='".$dataP->user_business_classes_id."' and ".$where;
 				$query=$this->db->query($sql1);
@@ -357,8 +452,15 @@ function getClasses($id){
 			   $value.=",";
 			}
 		}
-		
-		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full'";
+		$where='1';
+		if($agenda!=''){
+		 if($statusType=='upcoming'){
+		    $where.=' and holiday_date>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $where.=' and holiday_date<"'.date("Y-m-d").'"';
+		 }
+	   }
+		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full' and ".$where;
 		$queryh=$this->db->query($sqlh);
 		$datah= $queryh->result();
 		if($datah){
@@ -381,8 +483,40 @@ function getClasses($id){
 			   $value.=",";
 			 }
 			}
+			
+			$value=rtrim($value,',');
+			if($agenda!=''){
+			$value.=']';
+			}
+		
+		    if($agenda!=''){
+		   $vals=json_decode($value);
+		   //usort($vals, function($a, $b) {
+		    if($statusType=='upcoming'){
+		    usort($vals, function($a, $b) {
+			return strtotime($a->start) - strtotime($b->start);
+		   });
+		   }elseif($statusType=='past'){
+		    usort($vals, function($a, $b) {
+			return strtotime($b->start) - strtotime($a->start);
+		   });
+		   }
+			$vals1=array_slice($vals, $startsfrom,$stopsat);
+			 if(empty($vals1)){
+			$val1='[{"flag": 0}]';
+			echo $val1;
+			//$vals1 = array('flag'=>0);
+			}else{
+			print_r(json_encode($vals1));
+			}
+			//print_r(json_encode($vals1));
+			}else{
+
+			 return $value;
+			}
+		
 			//print_r($value); exit;
-		 return $value;
+		 //return $value;
 	
 	}
 	

@@ -2107,7 +2107,9 @@ $('#postclass,#bookApp').modal({
   show:false
 })
 
-
+$(".confirmbutton").click(function(){
+   $("#alertpopup").modal('hide');
+})
 
 $(document).click(function(event) {
    if($(event.target).parents().index($('#defaultNewEventTemplate')) == -1) {

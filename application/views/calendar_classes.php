@@ -26,7 +26,7 @@
 	
 <div id='calendar'></div>
 <p class="hide" id="login_id"><?php print_r($buisness_details[0]->id); ?></p>
-
+<p class="hide" id="profileid"><?php print_r($buisness_details[0]->id); ?></p>
 <p class="role hide" id="role"><?=(!empty($role))?$role:''?></p>
 <p id="Bstarttime" class="hide" ><?php  print_r($buisness_availability['start_time'])  ?></p>
 <p id="Bendtime" class="hide"><?php  print_r($buisness_availability['end_time'])  ?></p>	
