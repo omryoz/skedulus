@@ -227,4 +227,6 @@
 
 <input type="hidden" name="pastcount" value="0" id="pastcount">
 
+<input type="hidden" name="nextcount" value="0" id="nextcount">
+
 

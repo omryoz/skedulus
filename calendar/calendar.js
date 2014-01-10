@@ -79,21 +79,23 @@ var defaults = {
 
 // right-to-left defaults
 var rtlDefaults = {
+
 	header: {
 		left: 'next,prev היום',
 		center: '',
 		right: 'title'
 	},
 	buttonText: {
-		prev: "<span class='fc-text-arrow'>&rsaquo;</span>",
-		next: "<span class='fc-text-arrow'>&lsaquo;</span>",
-		prevYear: "<span class='fc-text-arrow'>&raquo;</span>",
-		nextYear: "<span class='fc-text-arrow'>&laquo;</span>"
+		prev: "<span class='fc-text-arrow'>&lsaquo;</span>",
+		next: "<span class='fc-text-arrow'>&rsaquo;</span>",
+		prevYear: "<span class='fc-text-arrow'>&laquo;</span>",
+		nextYear: "<span class='fc-text-arrow'>&raquo;</span>"
 	},
 	buttonIcons: {
 		prev: 'circle-triangle-e',
 		next: 'circle-triangle-w'
 	},
+	
 	//monthNames: ['January','February','March','April','May','June','July','August','September','October','November','December'],
 	//monthNamesShort: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
 	//dayNames: ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
@@ -6463,7 +6465,7 @@ $("#showtype").val('upcoming');
                                             "</div>"+
                                           "</" + (lurl ? "a" : "div") + ">"+                                        
                                         "</li>").prependTo(html);
-										
+						//temp = lday;				
 						if (lday != temp) {
 							 $("<li class='fc-agendaList-dayHeader ui-widget-header pastapps'>" +
 							"<span class='fc-agendaList-day'>"+dd+"</span>" +

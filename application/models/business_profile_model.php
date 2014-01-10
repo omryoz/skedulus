@@ -122,11 +122,11 @@ function getClasses($id){
 	
 	   if($agenda!=''){
 		 $value='[';
-		 if($statusType=='upcoming'){
-		    $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
-		 }else if($statusType=='past'){
-		    $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
-		 }
+		 // if($statusType=='upcoming'){
+		    // $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
+		 // }else if($statusType=='past'){
+		    // $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
+		 // }
 	   }else{
 		$value='';
 	   }
@@ -218,11 +218,11 @@ function getClasses($id){
 		}
 		$where='1';
 		if($agenda!=''){
-		 if($statusType=='upcoming'){
-		    $where.=' and holiday_date>="'.date("Y-m-d").'"';
-		 }else if($statusType=='past'){
-		    $where.=' and holiday_date<"'.date("Y-m-d").'"';
-		 }
+		 // if($statusType=='upcoming'){
+		    // $where.=' and holiday_date>="'.date("Y-m-d").'"';
+		 // }else if($statusType=='past'){
+		    // $where.=' and holiday_date<"'.date("Y-m-d").'"';
+		 // }
 	   }
 		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full' and ".$where;
 		$queryh=$this->db->query($sqlh);
@@ -258,11 +258,12 @@ function getClasses($id){
 		    usort($vals, function($a, $b) {
 			return strtotime($a->start) - strtotime($b->start);
 		   });
-		   }elseif($statusType=='past'){
-		    usort($vals, function($a, $b) {
-			return strtotime($b->start) - strtotime($a->start);
-		   });
 		   }
+		   // elseif($statusType=='past'){
+		    // usort($vals, function($a, $b) {
+			// return strtotime($b->start) - strtotime($a->start);
+		   // });
+		   // }
 		$vals1=array_slice($vals, $startsfrom,$stopsat);
 		if(empty($vals1)){
 		$val1='[{"flag": 0}]';

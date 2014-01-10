@@ -81,8 +81,8 @@
   </div>
   <div class="modal-footer">
     <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	
-	<input type="submit" style="display:none" name="submit" value="<?=(lang('Apps_book'))?>" id="book" class="btn btn-success span3 offset5 book_app "/>
+	<div class="pull-right">
+	<input type="submit" style="display:none" name="submit" value="<?=(lang('Apps_book'))?>" id="book" class="btn btn-success  book_app "/>
 	<input type="button" style="display:none" name="reschedule" value="<?=(lang('Apps_reschedule'))?>" id="reschedule_app" class="btn btn-success reschedule_app "/>
 	<input type="button" style="display:none" name="delete" value="<?=(lang('Apps_cancelapp'))?>" id="deleteApp" class="btn btn-danger  delete_app "/>
 	<input type="hidden" name="user_id" id="users_id" value="<?=$user_id?>" />
@@ -90,6 +90,7 @@
 	<input type="hidden" name="end_time" id="end_time" class="end_time" value="" required/>
 	<input type="hidden" name="reschdule"  class="reschduleId" id="reschduleId" value="0" />
 	<input type="hidden" name="reschdule"  class="show" value="0" />
+  </div>
   </div>
   </form>
 </div>

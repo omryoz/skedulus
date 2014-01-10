@@ -45,4 +45,6 @@ var deletebusytime = "<?=(lang('Apps_deletebusytime'))?>";
 var endtimelessthanstarttime = "<?=(lang('Apps_endtimelessthanstarttime'))?>";
 var startendtimesame = "<?=(lang('Apps_startendtimesame'))?>";
 
+var cancelapp = "<?=(lang('Apps_cancelapp'))?>";
+
 </script>
