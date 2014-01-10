@@ -18,7 +18,11 @@
 			header: {
 				left: 'prev,next today',
 				center: 'title',
+				<?php if($this->session->userdata['role']=='manager'){ ?>
 				right: 'agendaWeek,agendaDay,agendaList'
+				<?php }else{?>
+				right: 'agendaWeek,agendaDay'
+				<?php }?>
 			},
 			minTime: <?php print_r($buisness_availability['start_time']) ?>,
 	        maxTime: <?php print_r($buisness_availability['end_time']) ?>,
@@ -220,4 +224,7 @@
 <input type="hidden" name="count" value="0" id="count">
 <input type="hidden" name="showmore" value="0" id="showmore">
 <input type="hidden" name="showtype" value="upcoming" id="showtype">
+
+<input type="hidden" name="pastcount" value="0" id="pastcount">
+
 

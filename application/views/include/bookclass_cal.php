@@ -16,7 +16,11 @@
 			header: {
 				left: 'prev,next today',
 				center: 'title',
+				<?php if($this->session->userdata['role']=='manager'){ ?>
 				right: 'agendaWeek,agendaDay,agendaList'
+				<?php }else{?>
+				right: 'agendaWeek,agendaDay'
+				<?php }?>
 			},
 			minTime: <?php print_r($buisness_availability['start_time']) ?>,
 	        maxTime: <?php print_r($buisness_availability['end_time']) ?>,

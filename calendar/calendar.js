@@ -2651,6 +2651,7 @@ function AgendaWeekView(element, calendar) {
 	t.render = render;
 	$('.fc-button-next').show();
 	$('.fc-button-prev').show();
+	$('.fc-header-center').show();
 	
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaWeek');
@@ -2707,7 +2708,7 @@ function AgendaDayView(element, calendar) {
 	t.render = render;
 	$('.fc-button-next').show();
 	$('.fc-button-prev').show();
-	
+	$('.fc-header-center').show();
 	// imports
 	AgendaView.call(t, element, calendar, 'agendaDay');
 	var opt = t.opt;
@@ -6114,6 +6115,7 @@ defaults.agendaDisType   = true;
 function agendaListView(element, calendar) {
 $("#showmore").val('0');
 $("#count").val('0');
+$("#pastcount").val('0'); 
 $("#showtype").val('upcoming');
         var t = this;
         // exports
@@ -6147,6 +6149,7 @@ $("#showtype").val('upcoming');
 
 		$('.fc-button-next').hide();
 		$('.fc-button-prev').hide();
+		$('.fc-header-center').hide();
 		t.title = formatDate(start, opt('titleFormat'));
 		t.start = start;
 		t.end   = end;
@@ -6219,6 +6222,8 @@ $("#showtype").val('upcoming');
 		var reportEventClear = t.reportEventClear;
 		var getDaySegmentContainer = t.getDaySegmentContainer;
         var html    = $("<ul class='fc-agendaList'></ul>");
+		
+		
         $('.fc-view-agendaList').after('<a href="javascript:;" class="past-label showpastapp"><span class="label">Show Past Appointment</span></a>');
 		
 		function renderEvents() { 
@@ -6230,12 +6235,13 @@ $("#showtype").val('upcoming');
 		  $('#agendatoday').click(function(){
 		  $('.fc-view-agendaList').scrollTop(0);
 		   $(".showpastapp").show();
-		   $(".fc-agendaList").html("");
-		   $("#showmore").val('0');
-		   $("#scroll").val('no');
-           $("#count").val('0');
+		  // $(".fc-agendaList").html("");
+		  // $("#showmore").val('0');
+           //$("#count").val('10');
 		   $("#showtype").val('upcoming');
-		   agendashowlist('upcoming','0');
+		   $('.pastapps').remove();
+		   $("#pastcount").val('0'); 
+		   //agendashowlist('upcoming','0');
 			})
         }
 		
@@ -6329,7 +6335,7 @@ $("#showtype").val('upcoming');
                                                 "<span class='fc-event-start-time'>"+servicetime+"</span> "+
                                             "</div>"+
                                             "<div class='fc-agendaList-eventDetails'>"+
-                                              "<div class='fc-eventlist-title'>"+showServicename+"</div>"+
+                                              "<div class='fc-eventlist-title' onclick=onPreview('"+displayeventlist[i].id+"')>"+showServicename+"</a></div>"+
                                               "<div class='fc-eventlist-desc'>"+category_name+"</div>"+
                                             "</div>"+
                                           "</" + (lurl ? "a" : "div") + ">"+                                        
@@ -6364,16 +6370,127 @@ $("#showtype").val('upcoming');
 		}
 		
 		$(".showpastapp").click(function(){
+	//	var html1    = $("<ul class='fc-pastagendaList'></ul>");
+		//html1.insertBefore(".fc-agendaList");
 		 $('.fc-view-agendaList').scrollTop(0);
-		 $(".showpastapp").hide();
-		 $(".fc-agendaList").html("");
-		  $("#showmore").val('0');
-          $("#count").val('0');
-		  $("#showtype").val('past');
-		  agendashowlist('past','0');
+		// $(".showpastapp").hide();
+		 //$(".fc-agendaList").html("");
+		 // $("#showmore").val('0');
+         // $("#count").val('0');
+		  //$("#showtype").val('past');
+		  agendashowpastlist('past');
 		  //agendatoday();
 		   
 		})
+		
+		function agendashowpastlist(statusType){ 
+		//var html1    = $("<ul class='fc-pastagendaList'></ul>");
+		var pastcount=$("#pastcount").val(); 
+	    var Nextpastcount=parseInt(pastcount)+parseInt(3);
+		var stopsat=3;
+		var data = {'statusType':statusType,'startsfrom':pastcount,'stopsat':stopsat,'business_id':$("#profileid").html(),'staffsid':$("#staffsid").val(),'userid':$("#user_id").html()};
+		$.ajax({
+		 url:base_url+'bcalendar/getappointmentsAgenda',
+		 type:'POST',
+		 data:data,
+		 success:function(data){ 
+ // alert(data);
+	        var events=eval(data);
+			
+	        var displayeventlist = [];
+            var tstart, tend;
+            var j = 0;
+            for(i in events) { 
+			 if(events[i].flag=='0'){
+			      displayeventlist[j] = Object.create(events[i]);
+			    
+			 }else{
+			   var starttime=new Date(events[i].start);
+			   var endtime=new Date(events[i].end);
+             
+                tstart = cloneDate(starttime);
+				
+				t1start= formatDate(tstart, 'MMMM d, yyyy');  
+				t1end= formatDate(endtime, 'MMMM d, yyyy');
+                tend   = cloneDate(endtime);  
+				
+				 displayeventlist[j] = Object.create(events[i]);
+                    displayeventlist[j] = Object.create(events[i]);
+                    
+                    displayeventlist[j].start = cloneDate(tstart);
+              
+                j = j + 1;
+			 }
+            }
+        
+						  
+			var mm, dd, tt, dt, lurl, ltitle, em;
+			var temp, i = 0;
+            var vm = formatDate(t.visStart, 'MM'); 
+          if(displayeventlist!=''){
+            for (i in displayeventlist) { 
+			if(displayeventlist[i].flag==0){
+               $(".showpastapp").hide();
+			}else{				
+			var starttime=new Date(displayeventlist[i].start);
+			var endtime=new Date(displayeventlist[i].end);
+                z = i;
+                em = formatDate(starttime, 'MM'); 
+               
+                
+                    dd      = formatDate(starttime, 'dddd');
+                    lday    = formatDate(starttime, 'MMMM d, yyyy');
+                    showServicename  = displayeventlist[i].showServicename;
+					serviceProvider  = displayeventlist[i].serviceProvider;
+					servicetime  = displayeventlist[i].servicetime;
+					category_name  = displayeventlist[i].category_name;
+                    allDay  = displayeventlist[i].allDay;
+					
+                    st      = formatDate(starttime, 'HH:mm');
+                    et      = formatDate(endtime, 'HH:mm');
+                    lurl    = displayeventlist[i].url;
+                    classes = displayeventlist[i].className;
+
+                        eventdisplay = $("<li class='fc-agendaList-item fc-today fc-thu pastapps'>"+
+                                        "<"+ (lurl ? "a href='"+ lurl +"'" : "div") + " class='fc-agendaList-event fc-eventlist "+classes+"'>"+
+                                            "<div class='fc-event-time'>"+
+											"<ul class='unstyled inline'><li>("+st+"</li><li>-</li><li>"+et+")</li></ul>"+
+                                                "<span class='fc-event-start-time'>"+servicetime+"</span> "+
+                                            "</div>"+
+                                            "<div class='fc-agendaList-eventDetails'>"+
+                                              "<div class='fc-eventlist-title' onclick=onPreview('"+displayeventlist[i].id+"')>"+showServicename+"</a></div>"+
+                                              "<div class='fc-eventlist-desc'>"+category_name+"</div>"+
+                                            "</div>"+
+                                          "</" + (lurl ? "a" : "div") + ">"+                                        
+                                        "</li>").prependTo(html);
+										
+						if (lday != temp) {
+							 $("<li class='fc-agendaList-dayHeader ui-widget-header pastapps'>" +
+							"<span class='fc-agendaList-day'>"+dd+"</span>" +
+							"<span class='fc-agendaList-date'>"+lday+"</span>" +
+							"</li>").prependTo(html);                           
+							temp = lday;
+					    }
+										
+  
+                    eventElementHandlers(displayeventlist[i], eventdisplay);
+					if($("#pastcount").val()==0){
+					$(element).html(html);
+					}
+					$("#pastcount").val(Nextpastcount);
+                
+			 }
+				if($("#count").val()==0){
+				$(element).html(html);
+				 }
+			}
+			}
+			
+            trigger('eventAfterAllRender');
+			
+		 }
+		 })
+		}
 		
 	    $('.fc-view-agendaList').scroll(function(){
 		 var $this = $(this);

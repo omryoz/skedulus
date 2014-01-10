@@ -234,8 +234,13 @@
   $("#postclass").modal('show');
     //alert("here");
   }
+  
+  $(".showform").click(function(){ 
+	 $("#clientform")[0].reset();
+	})
 </script>
 <input type="hidden" name="count" value="0" id="count">
 <input type="hidden" name="showmore" value="0" id="showmore">
 <input type="hidden" name="showtype" value="upcoming" id="showtype">
+<input type="hidden" name="pastcount" value="0" id="pastcount">
 

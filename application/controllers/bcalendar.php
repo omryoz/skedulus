@@ -366,29 +366,59 @@ function getstaffnameByfilter(){
 	}
 }
 
-function getstaffnamesByfilter(){
-//if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staff_id'))){
-	if($this->input->post('service_id')){
-	$string = rtrim($this->input->post('service_id'), ',');
-   $filter = 'service_id  IN ('.$string.') and users_id!=0'; 
-	$this->load->model("bprofile_model");
-	$results = $this->bprofile_model->getserviceByfilter($filter);	
-	$day = $this->checkweekendDayName($this->input->post('date'));
-	//date('H:i', strtotime($this->input->post('timeslot')
-	$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
-	foreach($results as $res){ 
-	 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
-	 $where1=' AND users_id="'.$res->users_id.'" and name="'.$day.'" and type="employee"';
-	 $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
-	 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
-	    $results1[]=$res;
-	 }else{
-	   $results1[]=$res;
-	 }
+// function getstaffnamesByfilter(){
+	// if($this->input->post('service_id')){
+	// $string = rtrim($this->input->post('service_id'), ',');
+   // $filter = 'service_id  IN ('.$string.') and users_id!=0'; 
+	// $this->load->model("bprofile_model");
+	// $results = $this->bprofile_model->getserviceByfilter($filter);	
+	// $day = $this->checkweekendDayName($this->input->post('date'));
+	
+	// $starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
+	// foreach($results as $res){ 
+	 // if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res->users_id)){
+	 // $where1=' AND users_id="'.$res->users_id.'" and name="'.$day.'" and type="employee"';
+	 // $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+	 // if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
+	    // $results1[]=$res;
+	 // }else{
+	   // $results1[]=$res;
+	 // }
 	     
-	 } 
-	}//print_r($results1);exit;
-	print_r(json_encode($results1));
+	 // } 
+	// }
+	// print_r(json_encode($results1));
+	// }else{
+		// return false;
+	// }
+// }
+
+
+function getstaffnamesByfilter(){
+	if($this->input->post('service_id')){
+	$results = $this->bprofile_model->getserviceByfilter1($this->input->post('service_id'));	
+	$vals='[';
+	$day = $this->checkweekendDayName($this->input->post('date'));
+	$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
+	
+	foreach($results as $res){ 
+		 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res)){
+		 $where1=' AND users_id="'.$res.'" and name="'.$day.'" and type="employee"';
+		 $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
+		 $res1=$this->common_model->getRow('view_employee_services','users_id',$res);
+		 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
+			//$results1[]=$res;
+			$vals.='{"users_id":"'.$res1->users_id.'","first_name":"'.$res1->first_name.'","last_name":"'.$res1->last_name.'"},';
+		 }else{
+		   //$results1[]=$res;
+		   $vals.='{"users_id":"'.$res1->users_id.'","first_name":"'.$res1->first_name.'","last_name":"'.$res1->last_name.'"},';
+		 }
+			 
+		 } 
+	 
+	}
+	$vals.=']';
+	print_r($vals);
 	}else{
 		return false;
 	}

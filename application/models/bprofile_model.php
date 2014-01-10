@@ -416,7 +416,7 @@ class bprofile_model extends CI_Model {
 	// echo "Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
 	$where='1';
 	if($keyword){
-       $where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
+	$where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
 	}
 	
 		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and $where LIMIT $offset,$limit";
@@ -810,6 +810,36 @@ class bprofile_model extends CI_Model {
 		}
 		
 	  }
+	}
+	
+	function getserviceByfilter1($string){ 
+	  $string=rtrim($string,',');
+	  $serviceArray=explode(',',$string); $i=0;
+	  $list=array();
+	 foreach($serviceArray as $s){ 
+	 if($s!=''){
+	 $filter = 'service_id  ='. $s;
+     $query = $this->db->query("SELECT distinct(users_id),first_name,last_name FROM `view_employee_services` where  ".$filter."");	 
+	 $data= $query->result();
+	 foreach($data as $dataP){
+	            if($dataP->users_id!=0)
+			    $values[$dataP->users_id] =$dataP->users_id;
+			}
+			 $list[]=$values;
+			 $values=array();
+			}	
+	}
+	
+	if(count($serviceArray)==1){
+	 $intersect=$list[0];
+	}else{
+      $intersect = call_user_func_array('array_intersect', $list);
+	}
+	if($intersect){
+	return $intersect;
+	}else{
+	return false;
+	}
 	}
 	
 	function likes_business($where=false){

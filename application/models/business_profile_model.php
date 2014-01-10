@@ -177,8 +177,9 @@ function getClasses($id){
 						
 						
 					  }else{
-			            $serviceName=rtrim($Sname,','); 
-						$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
+			            $serviceName=''; 
+						$clientname='';
+						$serviceProvider='';
 						
 						$showserviceProvider='';
 						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
@@ -186,16 +187,30 @@ function getClasses($id){
 						}
 						$category_name=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP->category_name;
 						
-						//$category_name=$dataP->category_name;
+						if($this->session->userdata['role']=='manager'){
+						$serviceName=rtrim($Sname,','); 
+						$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
 						$showServicename=$serviceName;
 					    if($dataP->employee_id!=0){
 						   $serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
 						   $showServicename=$serviceName." with ".$serviceProvider;
 						 }
+						}elseif($this->session->userdata['role']=='client'){ 
+						   if($this->session->userdata['id']==$dataP->users_id && $dataP->booked_by=='client'){
+						    $serviceName=rtrim($Sname,','); 
+							$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
+							$showServicename=$serviceName;
+							if($dataP->employee_id!=0){
+							   $serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
+							   $showServicename=$serviceName." with ".$serviceProvider;
+							 }
+						   }
+						}
+						 
 					 }
 					
 					
-			   $value.='{"id": "'.$dataP->id.'","start": "'.$dataP->start_time.'","end": "'.$endTime.'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
+			   $value.='{"id": "'.$dataP->id.'","start": "'.date('Y/m/d H:i:s',strtotime($dataP->start_time)).'","end": "'.date('Y/m/d H:i:s',strtotime($endTime)).'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
 			   $value.=",";
 			}
 			
@@ -221,8 +236,8 @@ function getClasses($id){
 					 }
 			            $serviceName=$calname; 
 						$clientname='';
-						$bstartTime=$dataPh->holiday_date." ".$bstarttime.':00:00';
-						$bendTime=$dataPh->holiday_date." ".$bendtime.':00:00';
+						$bstartTime=date('Y/m/d',strtotime($dataPh->holiday_date))." ".$bstarttime.':00:00';
+						$bendTime=date('Y/m/d',strtotime($dataPh->holiday_date))." ".$bendtime.':00:00';
 						$id='c'.$dataPh->id;
 						$showServicename=$calname;
 						$servicetime='';
@@ -344,7 +359,7 @@ function getClasses($id){
 						   $showServicename=$serviceName." with ".$dataP->business_name;
 						}
 
-			   $value.='{"id": "'.$dataP->id.'","start": "'.$dataP->start_time.'","end": "'.$dataP->end_time.'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
+			   $value.='{"id": "'.$dataP->id.'","start": "'.date('Y/m/d H:i:s',strtotime($dataP->start_time)).'","end": "'.date('Y/m/d H:i:s',strtotime($dataP->end_time)).'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
 			   $value.=",";
 			}
 			
@@ -448,7 +463,7 @@ function getClasses($id){
 						}
 						$category=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP1->category_name;
 						
-			   $value.='{"id": "'.$dataP1->id.'","start": "'.$startTime.'","end": "'.$endTime.'","service_name": "'.$dataP1->name.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"show": "'.$show.'","showClassDetails": "'.$showClassDetails.'","showServicetime": "'.$showServicetime.'","category": "'.$category.'"}';
+			   $value.='{"id": "'.$dataP1->id.'","start": "'.date('Y/m/d H:i:s',strtotime($startTime)).'","end": "'.date('Y/m/d H:i:s',strtotime($endTime)).'","service_name": "'.$dataP1->name.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"show": "'.$show.'","showClassDetails": "'.$showClassDetails.'","showServicetime": "'.$showServicetime.'","category": "'.$category.'"}';
 			   $value.=",";
 			}
 		}
@@ -472,8 +487,8 @@ function getClasses($id){
 					   }
 			            $serviceName=$calname; 
 						$clientname='';
-						$bstartTime=$dataPh->holiday_date." ".$bstarttime.':00:00';
-						$bendTime=$dataPh->holiday_date." ".$bendtime.':00:00';
+						$bstartTime=date('Y/m/d',strtotime($dataPh->holiday_date))." ".$bstarttime.':00:00';
+						$bendTime=date('Y/m/d',strtotime($dataPh->holiday_date))." ".$bendtime.':00:00';
 						$id='c'.$dataPh->id;
 						$showClassDetails=$calname;
 						$showServicetime='';
