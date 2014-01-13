@@ -151,7 +151,7 @@
 	   $("#eventid").html(eventid);
 	   $("#eventId").val(eventid);
 	  // $("#reschedule").modal('show');
-	  $(".titleAppointment").html("Reschedule an appointment");
+	  $(".titleAppointment").html(appsreschedule);
 	  $(".viewSchedule").hide();
 	   $("#book").modal('show');
 		//activeEvent=dataObj;
@@ -226,7 +226,7 @@
 <input type="hidden" name="showtype" value="upcoming" id="showtype">
 
 <input type="hidden" name="pastcount" value="0" id="pastcount">
-
-<input type="hidden" name="nextcount" value="0" id="nextcount">
+<input type="hidden" name="headcount" value="1" id="headcount">
+<input type="hidden" name="lasthead" value="" id="lasthead">
 
 

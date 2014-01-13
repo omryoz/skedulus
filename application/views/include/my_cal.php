@@ -84,14 +84,15 @@
 	function classDetails(eventid){
        $("#schedule").val('1');	
 		$("#updateid").val(eventid);
-		$(".appoint-heading").html("Appointment details");
+		$(".appoint-heading").html(appdetails);
+		$(".perclassbasis").hide();
 	    $("#postclass").modal("show");
 	}
 	
 	function serviceDetails(eventid){
 	  $("#apptype").val('rescheduleapp');
 	  $("#eventId").val(eventid);
-	  $(".titleAppointment").html("Reschedule an appointment");
+	  $(".titleAppointment").html(appsreschedule);
 	  $("#book").modal('show');
 	}
 </script>
@@ -99,4 +100,5 @@
 <input type="hidden" name="showmore" value="0" id="showmore">
 <input type="hidden" name="showtype" value="upcoming" id="showtype">
 <input type="hidden" name="pastcount" value="0" id="pastcount">
-
+<input type="hidden" name="headcount" value="1" id="headcount">
+<input type="hidden" name="lasthead" value="" id="lasthead">

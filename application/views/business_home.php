@@ -238,7 +238,8 @@ function Appdetails(eventid){
 	$("#services_id").html(services_id);
        $("#schedule").val('1');	
 		$("#updateid").val(eventid);
-		$(".appoint-heading").html("Appointment details");
+		$(".appoint-heading").html(appdetails);
+		$(".perclassbasis").hide();
 	    $("#postclass").modal("show");
 	}
 	function serviceDetails(eventid,business_details_id,services_id){
@@ -246,7 +247,7 @@ function Appdetails(eventid){
 	$("#business_id").html(business_details_id);
 	$("#services_id").html(services_id);
 		$("#eventId").val(eventid);
-	   $(".titleAppointment").html("Reschedule an appointment");
+	   $(".titleAppointment").html(appsreschedule);
 	   $("#book").modal('show');
 	}
 	

@@ -6119,6 +6119,8 @@ $("#showmore").val('0');
 $("#count").val('0');
 $("#pastcount").val('0'); 
 $("#showtype").val('upcoming');
+$('#headcount').val('1');
+$('#lasthead').val("");
         var t = this;
         // exports
         t.render = render;
@@ -6427,7 +6429,7 @@ $("#showtype").val('upcoming');
         
 						  
 			var mm, dd, tt, dt, lurl, ltitle, em;
-			var temp, i = 0;
+			var temp, i = 0;var temp1; var n=$('#headcount').val();
             var vm = formatDate(t.visStart, 'MM'); 
           if(displayeventlist!=''){
             for (i in displayeventlist) { 
@@ -6452,7 +6454,20 @@ $("#showtype").val('upcoming');
                     et      = formatDate(endtime, 'HH:mm');
                     lurl    = displayeventlist[i].url;
                     classes = displayeventlist[i].className;
-
+						 if(lday ==  $('#lasthead').val()){
+					       eventdisplay = $("<li class='fc-agendaList-item fc-today fc-thu pastapps'>"+
+                                        "<"+ (lurl ? "a href='"+ lurl +"'" : "div") + " class='fc-agendaList-event fc-eventlist "+classes+"'>"+
+                                            "<div class='fc-event-time'>"+
+											"<ul class='unstyled inline'><li>("+st+"</li><li>-</li><li>"+et+")</li></ul>"+
+                                                "<span class='fc-event-start-time'>"+servicetime+"</span> "+
+                                            "</div>"+
+                                            "<div class='fc-agendaList-eventDetails'>"+
+                                              "<div class='fc-eventlist-title' onclick=onPreview('"+displayeventlist[i].id+"')>"+showServicename+"</a></div>"+
+                                              "<div class='fc-eventlist-desc'>"+category_name+"</div>"+
+                                            "</div>"+
+                                          "</" + (lurl ? "a" : "div") + ">"+                                        
+                                        "</li>").insertAfter($(".header"+(parseInt($('#headcount').val()) - parseInt(1)))); 
+					  }else{
                         eventdisplay = $("<li class='fc-agendaList-item fc-today fc-thu pastapps'>"+
                                         "<"+ (lurl ? "a href='"+ lurl +"'" : "div") + " class='fc-agendaList-event fc-eventlist "+classes+"'>"+
                                             "<div class='fc-event-time'>"+
@@ -6465,13 +6480,19 @@ $("#showtype").val('upcoming');
                                             "</div>"+
                                           "</" + (lurl ? "a" : "div") + ">"+                                        
                                         "</li>").prependTo(html);
+										
+						}
 						//temp = lday;				
-						if (lday != temp) {
-							 $("<li class='fc-agendaList-dayHeader ui-widget-header pastapps'>" +
+						if (lday != temp && lday != $('#lasthead').val()) {
+							 $("<li class='fc-agendaList-dayHeader ui-widget-header pastapps header"+n+"'>" +
 							"<span class='fc-agendaList-day'>"+dd+"</span>" +
 							"<span class='fc-agendaList-date'>"+lday+"</span>" +
 							"</li>").prependTo(html);                           
 							temp = lday;
+							$('#headcount').val(parseInt(n)+parseInt(1));
+							n=$('#headcount').val();
+						   // temp1=parseInt(n)+parseInt(1);
+						   $('#lasthead').val(lday);
 					    }
 										
   

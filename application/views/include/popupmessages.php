@@ -46,5 +46,11 @@ var endtimelessthanstarttime = "<?=(lang('Apps_endtimelessthanstarttime'))?>";
 var startendtimesame = "<?=(lang('Apps_startendtimesame'))?>";
 
 var cancelapp = "<?=(lang('Apps_cancelapp'))?>";
+var cancel = "<?=(lang('Apps_cancel'))?>";
+var appsdone = "<?=(lang('Apps_done'))?>";
+var appsclose = "<?=(lang('Apps_close'))?>";
+var appsbook = "<?=(lang('Apps_book'))?>";
+var appsreschedule = "<?=(lang('Apps_reschedule'))?>";
+var appdetails = "<?=(lang('Apps_appdetails'))?>";
 
 </script>

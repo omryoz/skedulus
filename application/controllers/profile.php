@@ -45,12 +45,15 @@ class Profile extends CI_Controller {
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){
 	 $this->data['type']="Classes";
+	 $this->data['services1']=$this->business_profile_model->getClasses($id);
 	 $this->data['services']=$this->business_profile_model->getClasses($id);
 	 //$this->data['services']=$this->common_model->getAllRows("view_classes_posted_business","user_business_details_id",$id); 
 	 }else if($this->data['content']->business_type=='service'){
-     $this->data['type']="Services";	 
+     $this->data['type']="Services";	
+     $this->data['services1']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);		 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
 	 }
+	 
 	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
 	 $where1=" order by  orderNum ASC";
 	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);	

@@ -3,7 +3,7 @@
  <div class="modal-header">
     <button type="button" class="close closeapp" data-dismiss="modal" aria-hidden="true">&times;</button>
     <h3 id="addclass" class="appoint-heading"><?=(lang('Apps_classdetails'))?></h3>
-	 <h4 id="myModalLabel"><?=(lang('Apps_bookedperclassbasis'))?>.</h4>
+	 <h4 id="myModalLabel" class="perclassbasis"><?=(lang('Apps_bookedperclassbasis'))?>.</h4>
   </div> 	
 	
   <!---<h3 id="addclass" class="appoint-heading"> <?=(lang('Apps_postclass'))?><button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button></h3>  
@@ -67,7 +67,8 @@
 				<?php }else{ ?>
 	            <a class="websbutton btn btn-success " href="javascript:;" id="bookClass" ><?=(lang('Apps_book'))?></a>
 				<!---<a class="cancelClass websbuttonbtn btn-success delete_app " href="javascript:;" id="deleteApp" ><?=(lang('Apps_delete'))?></a>--->
-				<input type="button" name="delete" value="<?=(lang('Apps_cancelapp'))?>" data-type="class"  id="deleteApp" class=" cancelClass websbuttonbtn btn btn-danger delete_app "/>
+				<input type="button" name="delete" value="<?=(lang('Apps_cancelapp'))?>" data-type="class"  id="deleteApp" class=" cancelClass websbuttonbtn btn btn-danger delete_app " data-val=''/>
+				<input type="button" name="close" value="<?=(lang('Apps_close'))?>" data-type="class"  id="closeapp" class=" closeclassapp websbuttonbtn btn" data-val=''/>
 				<?php }?>
 	        </li>
 	    </ul>

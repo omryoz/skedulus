@@ -244,3 +244,6 @@
 <input type="hidden" name="showtype" value="upcoming" id="showtype">
 <input type="hidden" name="pastcount" value="0" id="pastcount">
 
+<input type="hidden" name="headcount" value="1" id="headcount">
+<input type="hidden" name="lasthead" value="" id="lasthead">
+

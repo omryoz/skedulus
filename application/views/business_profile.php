@@ -523,7 +523,7 @@ include('include/modal_classes.php');
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
-		<img src="../img/ID1.png">
+		<img src="<?php  echo base_url();?>img/ID1.png">
 	</div>
 	<div class="span11">
 		 <textarea placeholder="Write your comment here" class="span12" rows="2"></textarea>

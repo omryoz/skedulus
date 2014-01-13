@@ -484,8 +484,21 @@ $("#addclient").attr('data-toggle','tab').addClass('tab');
 	})
 
 	
+$(".closeclassapp").click(function(){
+  $("#postclass").modal('hide');
+})
+
 $(".delete_app").live("click",function(){ 
+      if($(this).attr('data-val')=='Cancel' || $(this).attr('data-val')=='Close'){
+	     $(".reschduleId").val('0');
+		$(".show").val('0');
+		$("#book").modal('hide');
+		$("#postclass").modal('hide');
+		$("#reschedule_app").attr('display','none');
+		$("#deleteApp").attr('display','none');
+	  }else{
 	  apprise(cancelappointment, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ cancelApp(); }else{ return false; } });
+	  }
 	 
 	 })
 	 
@@ -594,13 +607,16 @@ function showappDetails(){
 		  if(data=='1'){
 			 $(".book_app").hide();
 	         $(".reschedule_app").hide();
+			 $("#deleteApp").attr('value',cancelapp).addClass('btn-danger').attr('data-val','Cancel Appointment');
 			 $(".delete_app").hide();
 		  }else{
 		    if($(".reschduleId").val()=='1'){
 			$(".eventGroup").attr('disabled',false);
+			//$(".book_app").attr('value','Done');
 			   $(".book_app").show();
 			   $(".reschedule_app").hide();
 			}else{
+			  $("#deleteApp").attr('value',cancelapp).addClass('btn-danger').attr('data-val','Cancel Appointment');
 		      $(".delete_app").show();
 			  $(".reschedule_app").show();
 			  $(".book_app").hide();
@@ -610,7 +626,8 @@ function showappDetails(){
 	})
 	    
 	   }else{
-	   $(".delete_app").hide();
+	   $("#deleteApp").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
+	   $(".delete_app").show();
 	   $(".reschedule_app").hide();
 	   $(".book_app").hide();
 			 
@@ -662,13 +679,17 @@ $('#postclass').on('show', function () {
 					success: function(data) {
 					  if(data==0){ 
 						$(".cancelClass").hide();
+                        $(".closeclassapp").show();	//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
 						}else if(data==1){
 						$(".cancelClass").show();
+						$(".closeclassapp").show();
 						}
 					}
 				})
 			}else{
 			$(".cancelClass").hide();
+			$(".closeclassapp").show();
+			//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
 			}
 		  })
 	   }
@@ -678,6 +699,7 @@ $('#postclass').on('show', function () {
 	 $("#details").show();
 	$("#type").html('class');
 	$(".cancelClass").hide();
+	$(".closeclassapp").hide();
 	$("#bookClass").show();
 	$(".business_id").val(" "); 
     $("#eventId").val(" ");
@@ -690,7 +712,7 @@ $('#book').on('show', function () {
 // if($("#apptype").val()=='booknewapp'){ alert("s");
 // getdetails();
 // }else{  
- 
+ $('.error').html('');
  if($("#eventId").val()!=" " && $("#apptype").val()=='rescheduleapp'){  
    if($(".reschduleId").val()=='0' && $(".show").val()=='0'){
      $(".show").val('1');
@@ -713,9 +735,12 @@ $('#book').on('show', function () {
 	 $(".st_date").addClass("span12");
 	  $(".add-on").show();
 	 $("#eventId").val("");
+	 $("#deleteApp").attr('value',cancelapp).addClass('btn-danger').attr('data-val','Cancel Appointment');
 	 $(".delete_app").hide();
 	 $(".reschedule_app").hide();
+	 $(".book_app").attr('value',appsbook);
 	 $(".book_app").show();
+	
 	 //$(".eventGroup").attr('disabled',false);
 	 $(".staff").attr('disabled',false);
 	 $(".time").attr('disabled',false);
@@ -733,6 +758,8 @@ $(".reschedule_app").click(function(){
 	 $(".st_date").addClass("span12");
      $(".delete_app").show();
 	 $(".reschedule_app").hide();
+	 $(".book_app").attr('value',appsdone);
+	 $("#deleteApp").attr('value',cancel).removeClass('btn-danger').attr('data-val','Cancel');
 	 $(".book_app").show();
 	 $(".eventGroup").attr('disabled',false);
 	 $(".staff").attr('disabled',false);
@@ -1230,9 +1257,9 @@ $("#bookclass").live("click",function(){
 	   var selected='';
 	   var starttime='';
 	   getserviceStaffs($("#selectedService").val(),selected,businessid,starttime);
-	 }else{
-	  getMultiService(businessid,serviceid,staffid);
 	 }
+	  getMultiService(businessid,serviceid,staffid);
+	 
 	if($("#staffsid").val()!=''){
 	    //$(".time").attr('staff','1');
 	    staffid=$("#staffsid").val();
@@ -1872,36 +1899,7 @@ _page = window.location.pathname.split('/')[2];
 
 });
 
-
-			
-			
-
-	
-			//$('.date_pick').datepicker();
-            // $('.endtime').timepicker({
-			// showInputs: false,						  
-			// showMeridian: false,
-			   // minuteStep: 15,
-               // disableFocus: true,
-			    // defaultTime:'19:45' 
-			
-			// });
-			// $('.starttime').timepicker({
-			// showInputs: false,						  
-			// showMeridian: false,
-			   // minuteStep: 15,
-               // disableFocus: true,
-			    // defaultTime:'10:45' 
-			
-			// });
-			  // $('.disabletime').timepicker({                                  
-                               // showMeridian: false,
-                               // minuteStep: 15,
-                               // showInputs: false,        
-                               // disableFocus: true,
-                               // template: false,
-                               // defaultTime:'11:45' 
-                       // });         
+        
 			
 			 
     /* $('.date_pick').datepicker('hide')*/

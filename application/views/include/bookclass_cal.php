@@ -129,6 +129,7 @@
 		$.each(eval(data),function( key, v ) {
 		   $("#postclass").attr("data-val","single");
 		   $("#postclass").modal("show");
+		   $(".perclassbasis").show();
 		  // $("#editClass").modal("hide");
            $("#update").show();$("#add").hide();
 		   $("#updateid").val(evId);

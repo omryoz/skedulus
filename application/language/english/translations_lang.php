@@ -264,6 +264,7 @@
 		/* classes page end */
 		
 		/* post class popup  start */
+		$lang['Apps_appdetails'] = "Appointment details";
 		$lang['Apps_bookedperclassbasis'] = "Booked on a per-class basis";
 		$lang['Apps_viewdetails'] = "View Details";
 		$lang['Apps_postclass'] = "Post Class";
@@ -459,7 +460,7 @@
 		$lang['Apps_onlythisbusytime']="Only this busy time";
 		
 		$lang['Apps_addbusytime']="Add Busy Time";
-		
+		$lang['Apps_close']="Close";
 		
 		/*Week days*/
 		$lang['Apps_sun']="Sun";
