@@ -109,7 +109,7 @@
 									</a>
 									</div>
 									<div class="caption">
-											<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>"><p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
+											<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>"><p class="text-left"><strong><?php echo $content['business_name']; ?></strong></p>
 											<small> <?php echo $content['category_name']; ?> </small>
 											</a>
 										</div>

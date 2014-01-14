@@ -33,7 +33,7 @@
 									</div>
 									<div class="caption">
 									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content->user_business_details_id ?>">
-										<p class="text-left"><strong><?php echo $content->manager_firstname." ".$content->manager_lastname ?></strong></p>
+										<p class="text-left"><strong><?php echo $content->business_name ?></strong></p>
 										<small> <?php echo $content->category_name; ?> </small>
 										</a>
 									</div>
@@ -45,7 +45,7 @@
 					</div>
 		  		</div>
 				<?php }else{?>
-				<p class="alert"><?=(lang('Apps_nofavourite'))?></p>
+				 <p class="displayalert"><?=(lang('Apps_nofavourite'))?></p>
 				<?php }?>
 		</div>
 			
@@ -84,3 +84,4 @@ $('.li-element li:nth-child(4n + 5)').addClass('no-margin');
 	</script>
 <?php } ?>
 <?php include('include/popupmessages.php'); ?>
+

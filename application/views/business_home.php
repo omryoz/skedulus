@@ -66,7 +66,7 @@
 								</div>
 									<div class="caption">
 									<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-											<p class="text-left"><strong><?php echo $content['name']; ?></strong></p>
+											<p class="text-left"><strong><?php echo $content['business_name']; ?></strong></p>
 											<small> <?php echo $content['category_name']; ?> </small>
 											</a>
 										</div>
@@ -139,7 +139,7 @@
 						}	
 						?>
 						<p id="services_id" class="hide"></p>
-						<span id="type"></span> <span class="page"></span> 
+						<span id="type" class="hide"></span> <span class="page hide"></span> 
 				</div>
 				</div>
 				<!-- <div class="row-fluid Wrap">

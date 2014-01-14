@@ -1,3 +1,12 @@
+<?php if($this->session->userdata('language')=='hebrew'){ ?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&language=iw"></script>
+<?php }else{?>
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<?php }?>
+<script src="<?php echo base_url(); ?>js/googlemap.js">
+
+</script>
 <?php include('include/modal_staffs.php'); ?>
 <?php if($type=='Services'){
 include('include/modal_services.php');
@@ -17,7 +26,7 @@ include('include/modal_classes.php');
 						</div>
 					</div>
 					<div class="span9 rating-block">
-					<h3><?php echo $content->manager_firstname."".$content->manager_lastname; ?>   <i class="<?=($checkFavourite)?"icon-heart":"icon-heart-empty"?> tool likes" data-toggle="tooltip"  data-original-title="<?=(!empty($checkFavouritecounts))?count($checkFavouritecounts):0?>" data-placement="right" alt="<?=(!empty($content->business_id))?$content->business_id:""?>" id="business" rel="<?=(!empty($user_id))?$user_id:""?>"></i> 
+					<h3 class="remove-margin"><?php echo $content->business_name; ?> <i class="<?=($checkFavourite)?"icon-heart":"icon-heart-empty"?> tool likes" data-toggle="tooltip"  data-original-title="<?=(!empty($checkFavouritecounts))?count($checkFavouritecounts):0?>" data-placement="right" alt="<?=(!empty($content->business_id))?$content->business_id:""?>" id="business" rel="<?=(!empty($user_id))?$user_id:""?>"></i> 
 					<ul class="unstyled inline pull-right ul-rating">
 						<li>
 						
@@ -41,15 +50,18 @@ include('include/modal_classes.php');
 					</ul>
 						
 					</h3>
-					
-						<strong><?php echo $content->category_name; ?></strong><br clear="left"/>
-						<span> <?=(lang('Apps_phonenumber'))?><?php echo $content->mobile_number; ?> </span><br clear="left"/>
-						<span><?php echo  $content->address; ?></span><br clear="left"/>							
+					<h4><?php echo $content->manager_firstname." ".$content->manager_lastname; ?>  
+					<small><em><?php echo $content->category_name; ?></em></small>
+					</h4>
+						<!---<strong><?php //echo $content->category_name; ?></strong><br clear="left"/>--->
+						<p><?php echo $content->mobile_number; ?> | <?php echo  $content->address; ?></p>
+						<!---<span><?php echo $content->mobile_number; ?> </span><br clear="left"/>
+						<span><?php echo  $content->address; ?></span><br clear="left"/>	--->						
 						
 						<span id="fullContent" style="display:none"> <?php echo $content->business_description;?></span>
 						<span id="smallContent"><?php 
 						$des =  $content->business_description;
-						echo substr($des,0,50)."....";?>
+						echo substr($des,0,150)."....";?>
 						<br clear="left"/>
 						<a href="javascript:void(0);" onclick="showFullContent()"> <?=(lang('Apps_viewmore'))?>..</a>
 						</span>
@@ -308,7 +320,15 @@ include('include/modal_classes.php');
 				
 				</dl>
 				
-				<!--<img src="../img/map.png">-->
+				<!---<img src="../img/map.png">-->
+				
+				<input id="hidLat" name="hidLat" type="hidden" value="<?php echo $content->map_latitude //echo $map_latitude; ?>">
+                <input id="hidLong" name="hidLong" type="hidden" value="<?php echo $content->map_longitude//echo $map_longitude ?>"> 
+		        <div class="">
+				<div id="geomap" style="width:100%; height:200px;">
+				<p><?=(lang('Apps_loadingwait'))?>...</p>
+			    </div>
+		         </div>
 			</div>
 		</div>
 		
@@ -523,7 +543,7 @@ include('include/modal_classes.php');
   <form class="form-horizontal">
   <div class="row-fluid thumbnail">
   	<div class="span1">
-		<img src="<?php  echo base_url();?>img/ID1.png">
+		<img src="../img/ID1.png">
 	</div>
 	<div class="span11">
 		 <textarea placeholder="Write your comment here" class="span12" rows="2"></textarea>

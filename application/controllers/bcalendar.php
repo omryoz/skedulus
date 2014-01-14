@@ -86,8 +86,10 @@ class Bcalendar extends CI_Controller {
     }
 	  if($this->input->post('staffsid')!=''){
 	  $filter1="employee_id = '".$this->input->post('staffsid')."'";
+	  $staff='staff';
 	  }else{
 		$filter1="user_business_details_id = '".$id."' and type='service'";
+		$staff='';
 	  }
 	  
 	  if($this->input->post('userid')!=''){
@@ -96,7 +98,7 @@ class Bcalendar extends CI_Controller {
 	    $filter=array('id'=>$id);
 		$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
-		  $appointments = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1,'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'));
+		  $appointments = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1,'agenda',$this->input->post('statusType'),$this->input->post('startsfrom'),$this->input->post('stopsat'),$staff,$id);
 	  }
 	}
 	
@@ -222,6 +224,7 @@ class Bcalendar extends CI_Controller {
 	// }else{
 	// $id=$this->input->post('business_id');
 	// }
+	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
@@ -262,18 +265,21 @@ class Bcalendar extends CI_Controller {
 		$return = $time[0].':'.$time[1];
 		$returnActual = $timeActual[0].':'.$timeActual[1];
 		//if($this->input->post('date'))
-		if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
+		// if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		$this->checkAvailable(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('staffid'),$this->input->post('starttime'),$return,$returnActual,$this->input->post('eventId'));
 		}else{
 		 echo -2;
 		}
-		}else{
-			echo 1;
-		}
+		// }else{
+			// echo 1;
+		// }
 	}else{
 	    echo -1;
 	}
+	}else{
+			echo 1;
+		}
 		//echo $return;
 		
 	}
@@ -1480,7 +1486,7 @@ function checkIfblocked(){
 		 $filter1="employee_id = '".$id."'";
 		//$filter=array('id'=>$id);
 		//$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
-		$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$caltype->calendar_type,$filter1);
+		$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$caltype->calendar_type,$filter1,'','','','','staff',$staffdetails[0]->user_business_details_id);
 		 
 		 
 		 

@@ -13,7 +13,7 @@
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="post" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="Business are you looking for?">
+						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
 					  <!---<input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  --->
@@ -96,11 +96,13 @@
 								<?php } ?>
 									<?php $count = $this->utilities->getPhotosLike($result->business_id,"business") ?>
 									<div class="stronger">
-										<h4> <a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?php echo  $result->manager_firstname." ".$result->manager_lastname ?></a> <i alt="<?=(!empty($result->business_id))?$result->business_id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>" id="business" class="likes <?=(!empty($favorite) && in_array($result->business_id,$favorite))?"icon-heart":"icon-heart-empty"?>  tool" data-toggle="tooltip"  data-original-title="<?=($count)?$count:""?>" data-placement="right" ></i>
+										<h4> <a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?php echo $result->business_name; ?></a> <i alt="<?=(!empty($result->business_id))?$result->business_id:""?>" rel="<?=(!empty($user_id))?$user_id:""?>" id="business" class="likes <?=(!empty($favorite) && in_array($result->business_id,$favorite))?"icon-heart":"icon-heart-empty"?>  tool" data-toggle="tooltip"  data-original-title="<?=($count)?$count:""?>" data-placement="right" ></i>
 										</h4> 
 									 </div>
-									
-									<small><?php  echo $result->category_name ?> </small>
+									<h5><?php echo $result->manager_firstname." ".$result->manager_lastname; ?>  
+									<small><em><?php echo $result->category_name; ?></em></small>
+									</h5>
+									<!---<small><?php  //echo $result->category_name ?> </small>--->
 										<br clear="left">				
 									<small class="muted"><?php echo $result->business_description;?><br clear="left">	<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $result->business_id ?>"><?=(lang('Apps_readmore'))?></a></small>
 									

@@ -25,7 +25,7 @@
   $options=array();
   $options["-1"]="Select Staffs Calendar";
   foreach($staffs as $val){
-  $options[$val->users_id]=$val->first_name."".$val->last_name;
+  $options[$val->users_id]=$val->first_name." ".$val->last_name;
   }
   
   $selected='';  ?>

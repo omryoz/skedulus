@@ -118,15 +118,15 @@ function getClasses($id){
 		}
 	}
 	
-	function getappointments($bstarttime=false,$bendtime=false,$calendarid=false,$filter=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false){ 
+	function getappointments($bstarttime=false,$bendtime=false,$calendarid=false,$filter=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false,$staff=false,$business_id=false){ 
 	
 	   if($agenda!=''){
 		 $value='[';
-		 // if($statusType=='upcoming'){
-		    // $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
-		 // }else if($statusType=='past'){
-		    // $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
-		 // }
+		 if($statusType=='upcoming'){
+		    $filter.=' and Date(start_time)>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $filter.=' and Date(start_time)<"'.date("Y-m-d").'"';
+		 }
 	   }else{
 		$value='';
 	   }
@@ -165,16 +165,23 @@ function getClasses($id){
 						$difference_in_minutes = $difference / 60;
 						$servicetime="<i class=' icon-time'></i>".$difference_in_minutes." mins";
 					  if($dataP->status=='busytime'){
+					  
+					    $serviceName=''; 
+						$clientname='';
+						$serviceProvider='';
+						$showserviceProvider='';
+						$showServicename='';
+						
+						if($this->session->userdata['role']=='manager'){
 					    $serviceName=$dataP->note; 
 						$clientname='';
 						$showServicename=$dataP->note;
 						$serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
-						$showserviceProvider='';
 						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
 						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name."";
 						}
 						$category_name=$showserviceProvider;
-						
+						}
 						
 					  }else{
 			            $serviceName=''; 
@@ -216,13 +223,51 @@ function getClasses($id){
 			
 			//echo $value;
 		}
+		
+		if($staff!=''){
+		$where=1;
+		if($agenda!=''){
+		 if($statusType=='upcoming'){
+		     $where.=' and Date(start_time)>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $where.=' and Date(start_time)<"'.date("Y-m-d").'"';
+		 }
+	   }
+		
+		     $sqlb="select * from view_client_appoinment_details where user_business_details_id='".$business_id."' and status='busytime' and employee_id='0' and ".$where;
+		$queryb=$this->db->query($sqlb);
+		$datab= $queryb->result();
+		if($datab){
+			foreach($datab as $databh){
+			         $serviceName=''; 
+						$clientname='';
+						$serviceProvider='';
+						$showserviceProvider='';
+						$showServicename='';
+						
+						if($this->session->userdata['role']=='manager'){
+					    $serviceName=$databh->note; 
+						$clientname='';
+						$showServicename=$databh->note;
+						$serviceProvider=$databh->employee_first_name." ".$databh->employee_last_name;
+						if($databh->employee_first_name!='' || $databh->employee_last_name!=''){
+						$showserviceProvider ="<i class=' icon-user'></i>".$databh->employee_first_name." ".$databh->employee_last_name."";
+						}
+						$category_name=$showserviceProvider;
+						}
+						 $value.='{"id": "'.$databh->id.'","start": "'.date('Y/m/d H:i:s',strtotime($databh->start_time)).'","end": "'.date('Y/m/d H:i:s',strtotime($databh->end_time)).'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
+			   $value.=",";
+			}
+		}
+		}
+		
 		$where='1';
 		if($agenda!=''){
-		 // if($statusType=='upcoming'){
-		    // $where.=' and holiday_date>="'.date("Y-m-d").'"';
-		 // }else if($statusType=='past'){
-		    // $where.=' and holiday_date<"'.date("Y-m-d").'"';
-		 // }
+		 if($statusType=='upcoming'){
+		    $where.=' and holiday_date>="'.date("Y-m-d").'"';
+		 }else if($statusType=='past'){
+		    $where.=' and holiday_date<"'.date("Y-m-d").'"';
+		 }
 	   }
 		$sqlh="select * from holidays_list where calendar_id='".$calendarid."' and length='Full' and ".$where;
 		$queryh=$this->db->query($sqlh);
@@ -258,12 +303,11 @@ function getClasses($id){
 		    usort($vals, function($a, $b) {
 			return strtotime($a->start) - strtotime($b->start);
 		   });
+		   }elseif($statusType=='past'){
+		    usort($vals, function($a, $b) {
+			return strtotime($b->start) - strtotime($a->start);
+		   });
 		   }
-		   // elseif($statusType=='past'){
-		    // usort($vals, function($a, $b) {
-			// return strtotime($b->start) - strtotime($a->start);
-		   // });
-		   // }
 		$vals1=array_slice($vals, $startsfrom,$stopsat);
 		if(empty($vals1)){
 		$val1='[{"flag": 0}]';

@@ -12,6 +12,7 @@ function getBusiness($offset=false,$limit=false){
 				$values[$i]['category_name']= $dataP->category_name;
 				$values[$i]['image']= $dataP->image;
 				$values[$i]['name']= $dataP->manager_firstname." ".$dataP->manager_lastname;
+				$values[$i]['business_name']= $dataP->business_name;
 				$i++;
 			}
 			return $values;
