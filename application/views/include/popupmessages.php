@@ -53,4 +53,7 @@ var appsbook = "<?=(lang('Apps_book'))?>";
 var appsreschedule = "<?=(lang('Apps_reschedule'))?>";
 var appdetails = "<?=(lang('Apps_appdetails'))?>";
 
+var bookedsuccess = "<?=(lang('Apps_appointmentsavedsuccess'))?>";
+var cancelledsuccess = "<?=(lang('Apps_appointmentcancelledsuccess'))?>";
+
 </script>

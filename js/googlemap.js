@@ -5,6 +5,17 @@
         var map;
         var marker;
 
+		
+		var noPOILabels = [
+    { 
+      featureType: "poi", 
+      elementType: "labels", 
+      stylers: [ { visibility: "off" } ] 
+
+    }
+  ];
+  var noPOIMapType = new google.maps.StyledMapType(noPOILabels,
+    {name: "NO POI"});
         function initialize() {
             //MAP
             var initialLat = $(latval).val();
@@ -14,15 +25,42 @@
                 initialLong = "34.85161199999993";
             }
             var latlng = new google.maps.LatLng(initialLat, initialLong);
-            var options = {
+            if($("#draggable").val()=='false'){
+				var options = {
+                zoom: 16,
+				zoomControl: false,
+				  scaleControl: false,
+				  scrollwheel: false,
+				  disableDoubleClickZoom: true,
+                  center: latlng,
+				  draggable: false,
+				  disableDefaultUI: true,
+				  mapTypeControlOptions: {
+                  mapTypeIds: [google.maps.MapTypeId.ROADMAP, 'no_poi']
+                 },
+                
+                 };
+				 //mapTypeId: google.maps.MapTypeId.ROADMAP
+				 map = new google.maps.Map(document.getElementById("geomap"), options);
+			
+			map.mapTypes.set('no_poi', noPOIMapType);
+            map.setMapTypeId('no_poi');
+            geocoder = new google.maps.Geocoder();
+				}else{
+				var options = {
                 zoom: 16,
                 center: latlng,
+				disableDefaultUI: true,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
+               };
+			    map = new google.maps.Map(document.getElementById("geomap"), options);
+			
+			
+				}
+			//Associate the styled map with the MapTypeId and set it to display.
+  
         
-            map = new google.maps.Map(document.getElementById("geomap"), options);
-        
-            geocoder = new google.maps.Geocoder();    
+               
         
             marker = new google.maps.Marker({
                 map: map,
@@ -84,6 +122,7 @@
                     }
                 });
             });
+
         
         });
 

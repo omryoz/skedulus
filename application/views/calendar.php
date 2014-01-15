@@ -59,9 +59,17 @@
 
 <script>
 $(document).ready(function(){
-  <?php if(isset($_GET['success'])){?>
-  $("#alertpopup").modal('show');
+  <?php //if(isset($_GET['success'])){
+   if(isset($_GET['success'])){
+  ?>
+  $(".alertMessage").html(bookedsuccess);
+   $("#alertpopup").modal('show');
+  <?php }elseif(isset($_GET['deletesuccess'])){ ?>
+  $(".alertMessage").html(cancelledsuccess);
+   $("#alertpopup").modal('show');
   <?php }?>
+  //$("#alertpopup").modal('show');
+  <?php //}?>
 })
 
 
@@ -80,7 +88,7 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($this->session->use
 <!-- Modal -->
 <div id="alertpopup" class="modal hide fade popup-alert-box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-body">
-    <center><h4>Appointment Booked Successfully</h4></center>
+    <center><h4 class="alertMessage"></h4></center>
 	<center><a href="javascript:;" class="btn btn-success confirmbutton">Ok</a></center>
   </div>
 </div>

@@ -406,6 +406,14 @@ class Common_functions extends CI_Controller {
 			
 			#print_r($info); exit;
 			if($info){
+			$date=date("Y-m-d H:i:s");
+			$data = array(
+               'passwordresetdate' => $date,
+            );
+
+            $this->db->where('email', $this->input->post('email'));
+            $this->db->update('users', $data); 
+			
 			/*Send Password*/
 			$emailaddresses=$this->input->get_post('email');
 			$config['mailtype'] = 'html';

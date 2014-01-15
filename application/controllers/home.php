@@ -574,9 +574,23 @@ public function clientSignUp(){
 		// }else{
 			// echo 'Wrong Authentication';
 		// }
+		
+		$res=$this->common_model->getRow('users','activationkey',$_GET['key']);
+		$date =  $res->passwordresetdate;
+        $now =  date("Y-m-d H:i:s");
+        $diff = abs(strtotime($now) - strtotime($date));
+		$expires_in = 8 * 60 * 60; //expires after 8 hours
+        if($diff <= $expires_in){
 		$this->data['signUp']="clientlogin";
 		$this->load->view('include/meta_tags',$this->data);
 		$this->load->view("reset_password",$this->data);
+		}else{
+		$this->data['userRole']="clientlogin";
+		$this->data['signUp']="clientSignUp";
+		$this->data['message']="The link is expired.";
+		$this->parser->parse('include/meta_tags',$this->data);
+		$this->parser->parse('general/login',$this->data);
+		}
 	}
 	
 	

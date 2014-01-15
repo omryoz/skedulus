@@ -517,14 +517,15 @@ $(".delete_app").live("click",function(){
 		if($(".page").html()=='home'){
 		var url1=base_url+"cprofile/deletemyapp"; 
 		$.post(url1,{type:$("#type").html(),postedclassid:$("#services_id").html(),eventId:$("#eventId").val()},function(data){
-		window.location.href=base_url+'cprofile';
+		window.location.href=base_url+'bcalendar/mycalender/?deletesuccess';
+		//window.location.href=base_url+'cprofile';
 		})
 		
 		}else{
 		var url2=base_url+"bcalendar/deleteapp"; 
 		//ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});
 		$.post(url2,{type:$("#type").html(),postedclassid:$("#services_id").html(),eventId:$("#eventId").val()},function(data){
-		window.location.href=base_url+'bcalendar/cal/'+$(".business_id").val();
+		window.location.href=base_url+'bcalendar/cal/'+$(".business_id").val()+'/?deletesuccess';
 		})
 		$("#book").modal('hide');
 		$("#postclass").modal('hide');

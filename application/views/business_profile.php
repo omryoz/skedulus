@@ -4,6 +4,7 @@
 
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <?php }?>
+<input type="hidden" name="showdraggable" id="draggable" value="false" >
 <script src="<?php echo base_url(); ?>js/googlemap.js">
 
 </script>
@@ -697,6 +698,13 @@ $(document).ready(function(){
 	});
 	
 	
+	$('.star-rate').raty({
+      half     : true,
+      size     : 24,
+      starHalf : '../img/star-off-big.png',
+      starOff  : '../img/star-off-big.png',
+      starOn   : '../img/star-off-big.png'
+     })
 });	
 </script>
 <?php include('include/popupmessages.php'); ?>

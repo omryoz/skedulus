@@ -378,6 +378,7 @@
        $lang['Apps_cancel'] = "Cancel";
 	   $lang['Apps_cancelapp'] = "Cancel Appointment";
 	   $lang['Apps_appointmentsavedsuccess'] = "Appointment booked successfully";
+	   $lang['Apps_appointmentcancelledsuccess'] = "Appointment cancelled Successfully";
 
       /*Calendar*/
 	  $lang['Apps_businesscalendar'] = "Business calendar";
