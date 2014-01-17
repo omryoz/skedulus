@@ -109,7 +109,8 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_length'))?></label>
 						<div class="controls">
-						 <input class="input-mini" type="text" id="length" name="length" maxlength="2" placeholder="">&nbsp;&nbsp;
+						 <!--- <input class="input-mini" type="text" id="length" name="length" maxlength="2" placeholder="">&nbsp;&nbsp;--->
+						 <input type="number" name="length" id="length" max="120" min="5" class=" input-mini valid" step="5">
 						<select class="input-small" name="type" id="type">
 						  <option><?=(lang('Apps_minutes'))?></option>
 						  <option><?=(lang('Apps_hours'))?></option>
@@ -121,7 +122,8 @@ function showSelected(){
 					  <div class="control-group">
 						<label class="control-label" for="Lenth"><?=(lang('Apps_padding'))?></label>
 						<div class="controls">
-						 <input class="input-mini" type="text" id="paddingTime" name="padding_time" maxlength="2" placeholder="">&nbsp;&nbsp;<?=(lang('Apps_min'))?>
+						 <!---<input class="input-mini" type="text" id="paddingTime" name="padding_time" maxlength="2" placeholder="">&nbsp;&nbsp;<?=(lang('Apps_min'))?>--->
+						 <input type="number" name="padding_time" id="paddingTime" max="120" min="5" class=" input-mini valid" step="5" placeholder="">
 						<select class="input-small" name="padding_time_type" id="padding_time_type">
 						  <option><?=(lang('Apps_before'))?></option>
 						  <option><?=(lang('Apps_after'))?></option>

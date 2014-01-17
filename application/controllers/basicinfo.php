@@ -49,6 +49,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['category']=$isExist->category_id;
 		$this->data['map_latitude']=$isExist->map_latitude;
 		$this->data['map_longitude']=$isExist->map_longitude;
+		$this->data['image']=$isExist->image;
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		$this->data['disabled']="disabled";
 		// echo "<pre>";print_r($this->data['isExistAvailability']); exit;
@@ -66,6 +67,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['category']="";
 		$this->data['map_latitude']="31.046051";
 		$this->data['map_longitude']="34.85161199999993";
+		$this->data['image']="";
 		}
 		
 		if(isset($_GET['checkinfo'])){
@@ -114,6 +116,7 @@ class Basicinfo extends CI_Controller {
 		$this->data['category']=$isExist->category_id;
 		$this->data['map_latitude']=$isExist->map_latitude;
 		$this->data['map_longitude']=$isExist->map_longitude;
+		$this->data['image']=$isExist->image;
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		
 		if(isset($_GET['checkinfo'])){

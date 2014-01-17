@@ -212,7 +212,7 @@ class Home extends CI_Controller {
 		}
 		
 		
-		$this->data['msg']="successfull";
+		$this->data['msg']=lang('Apps_verificationlink');
 		$this->parser->parse('include/modal_signup',$this->data);	
 		$this->parser->parse('general/home',$this->data);
 		$this->parser->parse('include/footer',$this->data);

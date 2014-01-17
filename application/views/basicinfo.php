@@ -127,6 +127,9 @@
 			  <div>
 			    <input type="file" name="userfile" size="20" />
 			<!--	<input id="files-upload" name="image"  type="file" multiple >--->
+			<?php if($image!=''){ ?>
+			<img src="<?php echo base_url(); ?>common_functions/display_image/<?php echo $image; ?>/280/1/1/business_logo">
+			<?php } ?>
 			  </div>
 			  
 			  <label><h5>
@@ -171,7 +174,7 @@
 		
 		<br clear="left"/>
 		
-	<input  type="text" placeholder="Mobile<?=(lang('Apps_mobileapp'))?>" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
+	<input  type="text" placeholder="<?=(lang('Apps_mobilenumber'))?>" name="mobile" maxlength="15" value="<?php echo $mobile ?>" id="mobile">
 	    
          <input id="hidLat" name="hidLat" type="hidden" value="<?php echo $map_latitude; ?>">
          <input id="hidLong" name="hidLong" type="hidden" value="<?php echo $map_longitude ?>"> 
@@ -259,7 +262,7 @@ for($i=1;$i<=7;$i++) {
 		  <div class="<?php echo $class; ?>">
 			<div class="span1">
 			<input type="checkbox" <?php  echo $checked; ?> name="<?php echo $i; ?>" onClick="getchecked(this,<?php echo $i ?>);" id="<?php echo $i; ?>"></div>
-			<div class="span2"><?php echo $weekdays[$i] ?></div>
+			<div class="span2"><?=(lang('Apps_'.$weekdays[$i]))?><?php //echo $weekdays[$i] ?></div>
 			<div class="span2">
 			<div >
 			<?php 

@@ -26,7 +26,7 @@ class Bcalendar extends CI_Controller {
 	$filter=array('id'=>$id);
 	$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
 	$buisness_availability = $this->business_profile_model->user_business_availability($id,'business');
-	$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1);
+	$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$buisness_details[0]->calendar_type,$filter1,'','','','','',$id);
 	if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
@@ -219,11 +219,16 @@ class Bcalendar extends CI_Controller {
     }
 	
 	function getendtime(){ 
-	// if($this->input->post('staffid')!=''){
-	 // $id=$this->input->post('staffid');
-	// }else{
-	// $id=$this->input->post('business_id');
-	// }
+	if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
+    	if($this->checkduplicate($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'))){
+		$status='1';
+		}else{
+		$status='0';
+		} 
+	 }else{
+	  $status='1';
+	 }
+	if($status=='1'){
 	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
@@ -280,6 +285,10 @@ class Bcalendar extends CI_Controller {
 	}else{
 			echo 1;
 		}
+	}else{
+			echo -3;
+		}
+		
 		//echo $return;
 		
 	}
@@ -538,8 +547,10 @@ if($this->checkday($this->input->post('date'),$this->input->post('business_id'),
 			   echo '6';
 			   }else if(empty($val->phone_number) && $val->verify_phone=='inactive'){	
 			   echo '7';
-			   }else{
+			   }else if($this->checkduplicate($this->input->post('date'),$this->input->post('business_id'),$this->input->post('timeslot'))){
 			   echo 1;
+			   }else{
+			   echo 2;
 			   }
 		  }else{
 		   echo 1;
@@ -555,6 +566,16 @@ if($this->checkday($this->input->post('date'),$this->input->post('business_id'),
 	   echo -1;
 	}	
 		
+}
+
+
+function checkduplicate($date,$business_id,$timeslot){
+ $results = $this->bprofile_model->checkduplicate($date,$business_id,$timeslot);
+ if($results==1){
+ return false;
+ }else{
+ return true;
+ }
 }
 
 function checkFutureDay($date,$business_id){
@@ -747,6 +768,16 @@ function referal_url($url){
 /*Get End Time by Selected Services*/
 
 	function getendtimeByservice(){
+	 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='client'){
+    	if($this->checkduplicate($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'))){
+		$status='1';
+		}else{
+		$status='0';
+		} 
+	 }else{
+	  $status='1';
+	 }
+	if($status=='1'){
 	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 	   if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
@@ -833,6 +864,9 @@ function referal_url($url){
 		}
 		}else{
 		  echo -4;
+		}
+		}else{
+		  echo -5;
 		}
 	}
 	

@@ -119,7 +119,9 @@ function getClasses($id){
 	}
 	
 	function getappointments($bstarttime=false,$bendtime=false,$calendarid=false,$filter=false,$agenda=false,$statusType=false,$startsfrom=false,$stopsat=false,$staff=false,$business_id=false){ 
-	
+	$csql="SELECT COUNT( * ) as Empcount FROM employee_services WHERE business_id =".$business_id;
+	$cquery=$this->db->query($csql);
+	$cdata= $cquery->result();
 	   if($agenda!=''){
 		 $value='[';
 		 if($statusType=='upcoming'){
@@ -164,8 +166,10 @@ function getClasses($id){
 						// getting the difference in minutes
 						$difference_in_minutes = $difference / 60;
 						$servicetime="<i class=' icon-time'></i>".$difference_in_minutes." mins";
+						$eventid=$dataP->id;
 					  if($dataP->status=='busytime'){
-					  
+						if($staff!='' || ($staff=='' && $cdata[0]->Empcount=='1') || ($staff=='' && $dataP->employee_id=='0'))
+						{ 
 					    $serviceName=''; 
 						$clientname='';
 						$serviceProvider='';
@@ -182,8 +186,10 @@ function getClasses($id){
 						}
 						$category_name=$showserviceProvider;
 						}
-						
-					  }else{
+						}else{
+						$eventid='';
+						}
+					  }elseif($dataP->status=='booked'){
 			            $serviceName=''; 
 						$clientname='';
 						$serviceProvider='';
@@ -216,9 +222,10 @@ function getClasses($id){
 						 
 					 }
 					
-					
+			   if($eventid!=''){	
 			   $value.='{"id": "'.$dataP->id.'","start": "'.date('Y/m/d H:i:s',strtotime($dataP->start_time)).'","end": "'.date('Y/m/d H:i:s',strtotime($endTime)).'","service_name": "'.$serviceName.'","serviceProvider": "'.$serviceProvider.'","allDay": false,"client_name": "'.$clientname.'","servicetime":"'.$servicetime.'","category_name":"'.$category_name.'","showServicename":"'.$showServicename.'"}';
 			   $value.=",";
+			   }
 			}
 			
 			//echo $value;
