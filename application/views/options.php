@@ -15,7 +15,7 @@
 		}
 		
 	
-		print_r($slots); exit;
+		
 		$total_slotlist = array();
 		$start = strtotime($slots->start_time);
 		$end = strtotime($slots->end_time);
@@ -23,7 +23,7 @@
 			//$total_slotlist[] = date('g:iA', $i);
 			$total_slotlist[] = date('H:i', $i);
 		}
-	
+	    $show="";
 		$option = "";
 		$last_slots = "";
 		$option .= "<option value=''>Select time slot</option>";
@@ -34,12 +34,15 @@
 			if(in_array($single_total,$booked_container)){
 				echo "Not Availble Slots".$single_total;
 					
-			}else{
+			}else{ 
 			     if($selectedTimeSlot!='' && $selectedTimeSlot == $single_total){
 				  $selected='selected';
+				 }elseif($selectedTimeSlot!='' && $selectedTimeSlot != $single_total && strtotime($single_total)>strtotime($selectedTimeSlot) && $show=='' ){
+				  $option .= "<option id=".$i." value=".$selectedTimeSlot." selected>".$selectedTimeSlot."</option>";
+				  $show='1';
 				 }else{
-				$selected='';
-				}
+				  $selected='';
+				 }
 				$option .= "<option id=".$i." value=".$single_total." ".$selected.">".$single_total."</option>"; 
 			}
 			$last_slots = $single_total; 
