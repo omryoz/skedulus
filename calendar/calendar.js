@@ -2746,8 +2746,8 @@ setDefaults({
 	allDaySlot: true,
 	allDayText: 'all-day',
 	firstHour: 6,
-	slotMinutes: 5,
-	//slotMinutes: 15,
+	//slotMinutes: 5,
+	slotMinutes: 15,
 	defaultEventMinutes: 120,
 	//axisFormat: 'h(:mm)tt',
 	axisFormat: 'HH:mm',
@@ -3006,8 +3006,8 @@ function AgendaView(element, calendar, viewName) {
 			s +=
 				"<tr class='fc-slot" + i + ' ' + (!minutes ? '' : 'fc-minor') + "'>" +
 				"<th class='fc-agenda-axis " + headerClass + "'>" +
-				//((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;') +
-				((!slotNormal || !minutes) ? timedis : '&nbsp;') +
+				((!slotNormal || !minutes) ? formatDate(d, opt('axisFormat')) : '&nbsp;') +
+				//((!slotNormal || !minutes) ? timedis : '&nbsp;') +
 				"</th>" +
 				"<td class='" + contentClass + "'>" +
 				"<div style='position:relative'>&nbsp;</div>" +

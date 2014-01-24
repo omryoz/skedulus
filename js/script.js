@@ -230,7 +230,7 @@ function getserviceStaffs(checked,selected,business_id,starttime){
 		 if(selected!='' && selected==value.users_id){
 		    select=' selected';
 		 }
-			var append_option = "<option id="+key+" value="+value.users_id+" "+select+">"+value.first_name+""+value.last_name+"</option>";
+			var append_option = "<option id="+key+" value="+value.users_id+" "+select+">"+value.first_name+" "+value.last_name+"</option>";
 			$(".staff").append(append_option);
 			
 		});
@@ -878,7 +878,7 @@ function getStaffs(serviceid,business_id){
 		var append_option = "<option id='-1' >Select Staff</option>";
 		$(".staff").append(append_option);
 		$.each(eval(data), function( key, value ) {
-			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
+			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+" "+value.last_name+"</option>";
 			$(".staff").append(append_option);
 		});
 	});
@@ -893,7 +893,7 @@ function getStaffs(serviceid,business_id){
 var append_option = "<option id='-1' >Select staff</option>";
 		$(".staff").append(append_option);		
 		$.each(eval(data), function( key, value ) { 
-			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+""+value.last_name+"</option>";
+			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+" "+value.last_name+"</option>";
 			$(".staff").append(append_option);
 		});
 	});
@@ -968,6 +968,9 @@ $(".time").live("change",function(){
 				}else if(data==-4){
 				    $(".message").addClass("alert").html(nonworkingday);
 					$(".book_appointment").attr("onsubmit","return false;");
+				}else if(data==-5){
+				    $(".message").addClass("alert").html(duplicatedate);
+					$(".book_appointment").attr("onsubmit","return false;");
 				}else{
 					console.log(data);
 					$(".end_time").val(data);
@@ -1025,29 +1028,27 @@ $(".message").removeClass("alert").html(" ");
 			type: "POST",
 			url: myUrl,
 			data: { checked : checked,starttime:starttime,date:date,business_id:business_id,staffid:staffid,eventId:eventId,action:action},
-			success: function(data) {  
+			success: function(data) { 
+             var str=data;
+             var data=str.trim();			
 				if(data==0){
-				   
-				   $(".book_appointment").attr("onsubmit","return false;");
+				    $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html(timeslot).css({"display":"block","margin":"0px"});
-					
 				}else if(data==1){
-				  
-				  $(".book_appointment").attr("onsubmit","return false;");
+				    $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html(nonworkingday).css({"display":"block","margin":"0px"});
-				    
 				}else if(data==-1){
-				  
-				   $(".book_appointment").attr("onsubmit","return false;");
+				    $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html(cannotbookappointment).css({"display":"block","margin":"0px"});
-				    
 				}else if(data==-2){
-				  $(".book_appointment").attr("onsubmit","return false;");
+				    $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html(cannotbookfutureappointment).css({"display":"block","margin":"0px"});
+				 }else if(data==-3){
+				   $(".book_appointment").attr("onsubmit","return false;");
+					$(".message").addClass("alert").html(duplicatedate).css({"display":"block","margin":"0px"});
 				 }else{
 				    $(".end_time").val(data);
 					$(".book_appointment").attr("onsubmit","return true;");
-					
 				}
 				
 			},
@@ -1861,12 +1862,11 @@ function checkforclassDate(startdate,enddate,repeatStatus){
 function gettimeslots(start_date,business_id,staff_id,eventId,timeslot){ 
 	var url = base_url+"bcalendar/getfreeslotsbydate";
 			$.post(url,{date:start_date,business_id:business_id,staff_id:staff_id,eventId:eventId,timeslot:timeslot},function(info){
-			//alert(info);
-			if(info==0){
-			//$("#book").attr("href","javascript:;");
+			var str=info;
+            var info=str.trim();
+			if(info==0){  
 			$(".book_appointment").attr("onsubmit","return false;");
 			$(".message").addClass("alert").html(nonworkingday);
-			//$(".time").html(""); 
 			}else if(info==-2){
 				$(".book_appointment").attr("onsubmit","return false;");
 				$(".message").addClass("alert").html(cannotbookfutureappointment).css({"display":"block","margin":"0px"});
