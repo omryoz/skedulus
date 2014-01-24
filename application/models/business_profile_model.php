@@ -180,6 +180,7 @@ function getClasses($id){
 					    $serviceName=$dataP->note; 
 						$clientname='';
 						$showServicename=$dataP->note;
+						$endTime=$endTime;
 						$serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;
 						if($dataP->employee_first_name!='' || $dataP->employee_last_name!=''){
 						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name."";
@@ -199,7 +200,7 @@ function getClasses($id){
 						$showserviceProvider ="<i class=' icon-user'></i>".$dataP->employee_first_name." ".$dataP->employee_last_name;
 						}
 						$category_name=$showserviceProvider."<i class=' icon-map-marker'></i>".$dataP->category_name;
-						
+						$endTime=$dataP->paddingendtime;
 						if($this->session->userdata['role']=='manager'){
 						$serviceName=rtrim($Sname,','); 
 						$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
@@ -598,6 +599,22 @@ function getClasses($id){
 		$minutes = $time%60;
 		return sprintf($format, $hours, $minutes);
 	}
+	
+	function getendtimeslot($selectedTimeSlot,$appdate,$businessid){
+	   $appdate=date("Y-m-d",strtotime($appdate));
+	    $sql="Select * from view_client_appoinment_details where (Date(start_time)= '".$appdate."') && (TIME(start_time) < '".$selectedTimeSlot.':00'."' < TIME(paddingendtime)) && ('".$selectedTimeSlot.':00'."' between TIME(start_time) and TIME(paddingendtime))&& user_business_details_id='".$businessid."' ORDER BY id DESC LIMIT 1"; 
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		foreach($data as $dataP){
+		   $val = date("H:i",strtotime($dataP->paddingendtime));
+		}
+		if($val){
+		return $val;
+		}else{
+		return false;
+		}
+	}
+	
 	function addTime($a, $b)
 		{
 		   $sec=$min=$hr=0;

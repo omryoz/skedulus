@@ -14,7 +14,11 @@
 			//$end_booked[] = strtotime($booked->end_time);
 		}
 		
-	
+		if($selectedTimeSlot){
+		$endtimeslot=$this->business_profile_model->getendtimeslot($selectedTimeSlot,$appdate,$businessid);
+		//echo $endtimeslot; exit;
+		}
+		
 		
 		$total_slotlist = array();
 		$start = strtotime($slots->start_time);
@@ -35,14 +39,15 @@
 				echo "Not Availble Slots".$single_total;
 					
 			}else{ 
-			     if($selectedTimeSlot!='' && $selectedTimeSlot == $single_total){
-				  $selected='selected';
-				 }elseif($selectedTimeSlot!='' && $selectedTimeSlot != $single_total && strtotime($single_total)>strtotime($selectedTimeSlot) && $show=='' ){
-				  $option .= "<option id=".$i." value=".$selectedTimeSlot." selected>".$selectedTimeSlot."</option>";
+			     if($selectedTimeSlot!='' && $endtimeslot != $single_total && strtotime($single_total)> strtotime($endtimeslot) && $show=='' ){
+				  $option .= "<option id=".$i." value=".$endtimeslot." selected>".$endtimeslot."</option>";
 				  $show='1';
+				 }elseif($selectedTimeSlot!='' && $selectedTimeSlot == $single_total && $show!=''){
+				  $selected='selected';
 				 }else{
 				  $selected='';
 				 }
+				 
 				$option .= "<option id=".$i." value=".$single_total." ".$selected.">".$single_total."</option>"; 
 			}
 			$last_slots = $single_total; 

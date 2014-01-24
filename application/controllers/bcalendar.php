@@ -464,6 +464,8 @@ function getfreeslots(){
 			 }
 			 
 			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
+			 $this->data['businessid']=$this->input->post('business_id');
+			 $this->data['appdate']= $this->input->post('date');
 			 $this->load->view("options",$this->data);
 			
 		}else{
@@ -512,6 +514,9 @@ function getfreeslotsbydate(){
 			 //print_r($this->data['booked_slots']);
 			 //exit;	
 			 //print_r($this->data['slots']);
+     	     $this->data['businessid']=$this->input->post('business_id');
+			 $this->data['appdate']= $this->input->post('date');
+			 
 			 $this->load->view("options",$this->data);
 			}else{ 
 		     echo -2;
@@ -703,7 +708,8 @@ function deletebusytime(){
 function createappointment(){ 
 	if($this->input->post('submit') && $this->input->post('user_id')!=""){
 		$start_time = date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('time');	
-		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');	
+		$endtime =   date("Y-m-d",strtotime($this->input->post('date'))).' '.$this->input->post('end_time');
+        $end_time=$this->input->post('end_time');		
 		$date=date("Y-m-d h:m:s");
 		if($this->input->post('eventId')){
 		$id=$this->input->post('eventId');
@@ -715,7 +721,26 @@ function createappointment(){
 		}else{
 		 $booked_by='manager';
 		}
-		$input = array("users_id"=>$this->input->post('user_id'),"booked_by"=>$booked_by,"start_time"=>$start_time,"end_time"=>$endtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
+					$serviceid=explode(',',$this->input->post('services'));
+		            foreach($serviceid as $val){
+						if($val!=''){
+							$query1 = $this->db->query("select * from user_business_services where id='".$val."'"); 
+                            $res= $query1->result();							
+						if($res[0]->padding_time_type=="Before & After"){
+						  $twice=2;
+						}else{
+						  $twice=1;
+						}	
+						$total = $total + $res[0]->padding_time * $twice;
+                        //$Sname.=$res[0]->name.',';						
+						}   
+					  }
+					  $time = $this->convertToHoursMins($total,'%d:%d');						
+					  $end_time1 = $this->addTime($end_time,$time); 
+					  $paddingendtime= date('Y-m-d',strtotime($this->input->post('date')))." ".$end_time1;
+		
+		
+		$input = array("users_id"=>$this->input->post('user_id'),"booked_by"=>$booked_by,"start_time"=>$start_time,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"services_id"=>$this->input->post('services'),"employee_id"=>$this->input->post('staff'),"note"=>$this->input->post('note'),"status"=>"booked","appointment_date"=>$date,"type"=>'service',"user_business_details_id"=>$this->input->post('businessid'),"id"=>$id);
 		$where=" and users_id=".$this->input->post('user_id');
 		$fav =array("users_id"=>$this->input->post('user_id'),"user_business_details_id"=>$this->input->post('businessid'));
 		$checkClient=$this->common_model->getRow("business_clients_list","user_business_details_id",$this->input->post('businessid'),$where);

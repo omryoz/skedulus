@@ -543,8 +543,7 @@ function readURL(input) {
 				},
 				highlight: function(element, errorClass, validClass) {
 				$("#calendar").removeClass("error");
-				
-			  },
+			    },
                 submitHandler: function(form) {
                 form.submit();
                 }
@@ -715,33 +714,5 @@ if($("#tempimg").val()!=1){
   $("#status").val('0');
 })
 </script>
-<?php if($flag=='1'){
-?>
-	<script>
-		$(document).ready(function(){ 
-		    $(".alert").hide();
-			$("#key").val("");
-			$("#updatePhone").val("");
-			$('#verifyModal').modal('show');
-			$("#verifyP").show();
-			$("#getnumber").hide();
-            $("#phonenumber").html(<?php echo $phonenumber ?>);			
-		});
-	</script>
-<?php } ?>
-<?php if($flag=='0'){
-?>
-	<script>
-		$(document).ready(function(){
-		$(".alert").hide();
-		$("#key").val("");
-		$("#updatePhone").val("");
-		$('#verifyModal').modal('show');
-		$("#verifyP").hide();
-		$("#getnumber").show();
-			//$('#getnumberModal').modal('show');
-		});
-	</script>
-<?php } ?>
 <script src="<?php echo base_url(); ?>js/dates/core.js" type="text/javascript"></script>
 <?php include('include/popupmessages.php'); ?>

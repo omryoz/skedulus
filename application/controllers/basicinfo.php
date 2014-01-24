@@ -3,6 +3,7 @@
 class Basicinfo extends CI_Controller {
 	function __construct(){
 		parent::__construct();
+		if(isset($this->session->userdata['id']) && isset($this->session->userdata['business_id'])){ 
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->model('basicinfo_model');
@@ -12,6 +13,9 @@ class Basicinfo extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		}else{
+		header("Location:" . base_url());
+		}
     }
 	
 	

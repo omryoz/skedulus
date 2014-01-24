@@ -1388,5 +1388,18 @@ function editscheduledclass(){
 		}
 	}
 	
+	function checkduplicate($date,$business_id,$timeslot){
+	  $date1=$date."".$timeslot.":00";
+	  $start_time=date('Y-m-d H:i:s',strtotime($date1));
+	    $sql="Select * from view_client_appoinment_details where ('".$start_time."' between start_time and end_time) and user_business_details_id= '".$business_id."' and booked_by='client' and users_id=".$this->session->userdata('id');
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		if($data){
+	    return 1;	
+	    }else{
+			return 0;
+	    }
+	}
+	
 }
 ?>

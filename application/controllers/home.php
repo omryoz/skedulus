@@ -17,7 +17,28 @@ class Home extends CI_Controller {
 		$this->load->library('utilities');
 	    $this->utilities->language();
     }
-	
+	function businesslist(){
+	    $this->parser->parse('include/header',$this->data);
+		$where=" user_status='active' and business_status='active'";
+	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
+		if($config['total_rows']){
+		    $config['base_url'] = base_url().'home/page/';
+			$config['per_page'] = '12';
+			$config['uri_segment'] = 3; 
+			$this->pagination->initialize($config);
+			$this->data['pagination']=$this->pagination->create_links();
+			if($this->uri->segment(3)!=''){
+			$offset=$this->uri->segment(3);
+			}else{
+			$offset=0;
+			}
+			$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
+			
+            /* End Pagination Code  */
+		}
+	    $this->parser->parse('general/businesslist',$this->data);
+		$this->parser->parse('include/footer',$this->data);
+	}
 	public function index() {
 	   $this->page();
 	}

@@ -253,25 +253,6 @@ function Appdetails(eventid){
 	
 	
 </script>
-<?php if($flag=='1'){?>
-	<script>
-		$(document).ready(function(){ 
-			$('#verifyModal').modal('show');
-			$("#verifyP").show();
-			$("#getnumber").hide();
-            $("#phonenumber").html(<?php echo $phonenumber ?>);			
-		});
-	</script>
-<?php } ?>
-<?php if($flag=='0'){?>
-	<script>
-		$(document).ready(function(){
-		$('#verifyModal').modal('show');
-		$("#verifyP").hide();
-		$("#getnumber").show();
-			//$('#getnumberModal').modal('show');
-		});
-	</script>
-<?php } ?>
+
 <?php include('include/popupmessages.php'); ?>
 
