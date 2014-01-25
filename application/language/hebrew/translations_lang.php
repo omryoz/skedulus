@@ -10,7 +10,7 @@
 		$lang['Apps_hey'] = "מה שלומך";
 		/* subscription page start */
 		$lang['Apps_settings'] = "הגדרות";
-		$lang['Apps_subscription'] = "הרשמות";
+		$lang['Apps_subscription'] = "מסלולים";
 		$lang['Apps_user'] = "משתמש";
 		$lang['Apps_business'] = "עסק";
 		$lang['Apps_offer'] = "מבצעים";
@@ -267,8 +267,8 @@
 		/* classes page end */
 		
 		/* post class popup  start */
-		$lang['Apps_appdetails'] = "Appointment details";
-		$lang['Apps_bookedperclassbasis'] = "Booked on a per-class basis";
+		$lang['Apps_appdetails'] = "פרטי תור";
+		$lang['Apps_bookedperclassbasis'] = "רישום לשיעור יחיד";
 		$lang['Apps_viewdetails'] = "הצג פרטים";
 		$lang['Apps_postclass'] = "פרסם שיעור";
 		$lang['Apps_editclass'] = "ערוך שיעור";
@@ -321,7 +321,7 @@
 		$lang['Apps_assignstafftothisservice'] = "צוות עובד לשירות זה";
 		$lang['Apps_removeimg'] = "הסר תמונה";
 		$lang['Apps_changeprofileimg'] = "שנה תמונת פרופיל";
-		$lang['Apps_meetinghistory'] = "היסטוריית פגישות";
+		$lang['Apps_meetinghistory'] = "היסטוריית מפגשים";
 	
 	/*Admin section start */
 	    $lang['Apps_admindash'] = "פנל ניהול";
@@ -379,9 +379,9 @@
 	   $lang['Apps_comment'] = "הערה";	
 	   $lang['Apps_reschedule'] = "שנה מועד";
        $lang['Apps_cancel'] = "ביטול";
-	   $lang['Apps_cancelapp'] = "Cancel Appointment";
-	   $lang['Apps_appointmentsavedsuccess'] = "Appointment booked successfully";
-	   $lang['Apps_appointmentcancelledsuccess'] = "Appointment cancelled Successfully";
+	   $lang['Apps_cancelapp'] = "בטל תור";
+	   $lang['Apps_appointmentsavedsuccess'] = "תור נקבע בהצלחה";
+	   $lang['Apps_appointmentcancelledsuccess'] = "התור בוטל";
 	   
 	   /*Calendar*/
 	  $lang['Apps_businesscalendar'] = "יומן העסק";
@@ -453,18 +453,18 @@
 		/*Reset password*/
 		$lang['Apps_sendlinktoresetpassword']='הודעת דוא"ל נשלחה, אנא בדוק את תיבת הדואר הנכנס והקלק על הקישור לאיפוס הסיסמא';
 		$lang['Apps_emailnotexist']="כתובת הדואר האלקטרוני אינה קיימת במערכת";
-		$lang['Apps_noclassScheduled']="No classes scheduled";
+		$lang['Apps_noclassScheduled']="לא נקבעו שיעורים";
 		/*Busy time */
-		$lang['Apps_enddatelessthanstartdate']="End date less than start date.";
-		$lang['Apps_deletebusytime']="Are you sure you want to delete busy time?";
-		$lang['Apps_endtimelessthanstarttime']="End time less than the Start time";
-		$lang['Apps_startendtimesame']="starttime same as endtime";
-		$lang['Apps_repeatbusytime']="This busy time is the part of the repeat series";
-		$lang['Apps_allfuturebusytime']="All future busy time";
-		$lang['Apps_onlythisbusytime']="Only this busy time";
+		$lang['Apps_enddatelessthanstartdate']="תאריך סיום מתרחש לפני תאריך התחלה";
+		$lang['Apps_deletebusytime']="בטוח לבטל זמן 'לא פנוי' ? ";
+		$lang['Apps_endtimelessthanstarttime']="זמן ";
+		$lang['Apps_startendtimesame']="זמן סיום מתרחש לפני זמן התחלה";
+		$lang['Apps_repeatbusytime']="זמן 'לא פנוי' זה הוא חלק מסדרה חוזרת";
+		$lang['Apps_allfuturebusytime']="כל מופעי 'לא פנוי' העתידיים";
+		$lang['Apps_onlythisbusytime']="רק מופע זה";
 		
-		$lang['Apps_addbusytime']="Add Busy Time";
-		$lang['Apps_close']="Close";
+		$lang['Apps_addbusytime']="הוסף זמן 'לא פנוי'";
+		$lang['Apps_close']="סגור";
 		
 		/*Week days*/ 
 		$lang['Apps_sun']="א";
@@ -476,18 +476,18 @@
 		$lang['Apps_sat']="ש";
 		
 		/*Months*/
-		$lang['Apps_jan']="ינו";
-		$lang['Apps_feb']="פבר";
+		$lang['Apps_jan']="ינואר";
+		$lang['Apps_feb']="פברואר";
 		$lang['Apps_mar']="מרץ";
-		$lang['Apps_apr']="אפר";
+		$lang['Apps_apr']="אפריל";
 		$lang['Apps_may']="מאי";
-		$lang['Apps_jun']="יונ";
-		$lang['Apps_jul']="יול";
-		$lang['Apps_aug']="אוג";
-		$lang['Apps_sep']="ספט";
-		$lang['Apps_oct']="אוק";
-		$lang['Apps_nov']="נוב";
-		$lang['Apps_dec']="דצמ";
+		$lang['Apps_jun']="יוני";
+		$lang['Apps_jul']="יולי";
+		$lang['Apps_aug']="אוגוסט";
+		$lang['Apps_sep']="ספטמבר";
+		$lang['Apps_oct']="אוקטובר";
+		$lang['Apps_nov']="נובמבר";
+		$lang['Apps_dec']="דצמבר";
 		
 		/*Week days*/ 
 		$lang['Apps_Sunday']="ראשון";
