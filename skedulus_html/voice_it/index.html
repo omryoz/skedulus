@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Voiceit</title>
+		<link rel="stylesheet" href="themes/voiceit_theme.min.css" />
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile.structure-1.3.1.min.css" />
+		<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+		<script src="js/function.js"></script>
+		<script src="js/moment.js"></script>
+        <script src="js/livestamp.js"></script>
+		<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" /> 
+		<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.min.js"></script>
+
+	</head>
+	<body>
+		 <div data-role="page" id="signup" />
+            <div data-role="header">
+                <h1>Voiceit</h1>
+            </div>
+            <div data-role="content">
+			   <form class="ajax-form-handler" data-callback="show" action="http://dev.eulogik.com/voiceit_server/info.php" id="form2" method="GET">
+               
+					<div data-role="fieldcontain">
+					<h1>Sign up</h1>
+                        Email<input type="text" id="sign_email" name="email">     
+                        Password<input type="password" id="sign_password" name="password">
+						<input type="hidden" name="signup" value="signup">
+					    <input type="submit" name="Join" value="Join" class="ui-btn-active">
+                </form>
+				 Already a member? <a href="/voice_it/index.html#login">Login here</a>
+                </div>    
+          </div>
+		</div>
+		<div data-role="page" id="login">
+            <div data-role="header">
+                <h1>Voiceit</h1>
+            </div>
+            <div data-role="content">
+                <form class="ajax-form-handler" data-callback="post_login" action="http://dev.eulogik.com/voiceit_server/info.php" id="form1" method="GET">
+					<div class="div-widget">
+                        <h1>Login</h1>
+                            <input type="text" id="email" name="email" placeholder="email" />
+                            <input type="password" id="password" name="password" placeholder="password" />
+			
+                        <input type="hidden" name="login" value="login"  />
+						<input type="submit" name="login" value="login" class="ui-btn-active" />
+						Not a member?<a href="/voice_it/index.html">Join now</a>
+                    </div>
+                   </form>
+            </div>
+        </div>
+        <div data-role="page" id="home">
+            <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+						<a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content" id="recordlist"></div>
+        </div>
+		 <div data-role="page" id="myrecords">
+            <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+						<a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            
+			<div data-role="content" id="myrecordlist"></div>
+        </div>
+		<div data-role="page" id="friends">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                            <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+			    <form class="ajax-form-handler" data-callback="addFriends" action="http://dev.eulogik.com/voiceit_server/info.php" id="form3" method="GET">
+					Invite a friend 
+					<input type="text" name="searchVal" id="search" placeholder="email" data-mini="true">
+				    <input type="hidden" name="addfriends" value="addfriends">
+					<input type="submit" name="add_friend" value="Add Friend" class="ui-btn-active" />
+				</form>
+					<div data-role="collapsible"  data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h4>Friends</h4>
+						<div id="showdivs"></div>
+				   </div>
+				   <div data-role="collapsible"  data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
+						<h4>Pending requests</h4>
+						<div id="showPendingdivs"></div>
+				   </div>               
+            </div>
+        </div>
+		<div data-role="page" id="record">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                           <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+			 <form class="ajax-form-handler" data-callback="postRecords" action="http://dev.eulogik.com/voiceit_server/info.php" id="form4" method="GET">
+			 <!---<img src="themes/images/playbars.jpeg">--->
+				    <img src="themes/images/play.jpg">
+					<input type="text" name="title" id="title" placeholder="title"/>
+					<textarea  cols="40" rows="8" name="description" placeholder="description" id="description"></textarea>
+					<input type="text" name="tags" id="tags" value="" placeholder="tags"/>
+					<div data-role="fieldcontain">
+					Share with
+					<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain"> 
+						<input type="radio" name="shared_with" id="radio-choice-1" value="3"/>
+						<label for="radio-choice-1">All</label>
+
+						<input type="radio" name="shared_with" id="radio-choice-2" value="2"  />
+						<label for="radio-choice-2">Friends</label>
+
+						<input type="radio" name="shared_with" id="radio-choice-3" value="1"  />
+						<label for="radio-choice-3">None</label>
+					</fieldset>
+					<input type="hidden" name="postRec" value="postRec" />
+					</div>
+					<input type="submit" name="postrec" value="Post" class="ui-btn-active">
+                </form>
+            </div>
+        </div>
+		<div data-role="page" id="myrecord">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                            <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+				 <h3>My record</h3>
+				    <img src="themes/images/play.jpg">
+					<input type="hidden" name="recordId" value="" id="recordId">
+				<h4>Comments</h4>	 
+				<div id="commentList"></div>
+				 <form class="ajax-form-handler" data-callback="postcomment" action="http://dev.eulogik.com/voiceit_server/info.php"  method="GET">
+					<input type="hidden" name="postComment" value="postComment" />
+					<input type="text" name="description" placeholder="comment" id="comment">
+					<!--<textarea cols="40" rows="8" name="description" placeholder="comment" id="comment"></textarea>--->
+					<input type="submit" name="Comment" value="Comment" class="ui-btn-active"/>
+                </form>
+            </div>
+        </div>
+		<div data-role="page" id="myprofile">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                            <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+			
+			 <form class="ajax-form-handler" data-callback="myprofile" action="http://dev.eulogik.com/voiceit_server/info.php" id="profileform" method="GET">
+					First Name<input type="text" name="first_name" id="first_name" placeholder="first name"/>
+					Last Name<input type="text" name="last_name" id="last_name" placeholder="last name"/>
+					About me<textarea name="about_me" placeholder="about me" id="about_me"></textarea>
+					Gender
+					<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain"> 
+						<input type="radio" name="gender" id="male" class="gender" value="m"/>
+						<label for="male">Male</label>
+						<input type="radio" name="gender" id="female"  class="gender" value="f"  />
+						<label for="female">Female</label>
+					</fieldset>
+					Date of birth<input name="date" id="date" type="date" data-role="datebox" data-options='{"mode": "calbox", "calUsePickers": true, "calNoHeader": true}'>
+					I am here for?</br>
+					My primary purpose
+					<select name="primary_purpose" id="primary">
+						<option value="fun">Fun</option>
+						<option value="joke">Joke</option>
+						<option value="political">Political</option>
+						<option value="dictate">Dictate</option>
+						<option value="talk">Talk</option>
+						<option value="speech">Speech</option>
+						<option value="quotes">Quotes</option>
+						<option value="event">Event</option>
+					</select>
+					Secondary purpose
+					<select name="secondary_purpose" id="secondary">
+						<option value="fun">Fun</option>
+						<option value="joke">Joke</option>
+						<option value="political">Political</option>
+						<option value="dictate">Dictate</option>
+						<option value="talk">Talk</option>
+						<option value="speech">Speech</option>
+						<option value="quotes">Quotes</option>
+						<option value="event">Event</option>
+					</select>
+					
+					<input type="hidden" name="profile" value="profile" />
+					
+					<input type="submit" name="save" value="Save" id="save" class="ui-btn-active">
+                </form>
+            </div>
+        </div>
+	<div data-role="page" id="friendProfile">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                           <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+			 <form>
+			       <!---<img class="ui-li-thumb" src="themes/images/default.gif">--->
+					First Name<input type="text" disabled="disabled" name="first_name" id="f_first_name" placeholder="first name"/>
+					Last Name<input type="text" disabled="disabled" name="last_name" id="f_last_name" placeholder="last name"/>
+					About me<textarea name="about_me" disabled="disabled" placeholder="about me" id="f_about_me"></textarea>
+					Gender
+					<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain" disabled="disabled"> 
+						<input type="radio" name="gender" id="f_male" value="m" class="f_gender" disabled="disabled"/>
+						<label for="f_male">Male</label>
+
+						<input type="radio" name="gender" id="f_female" value="f" class="f_gender" disabled="disabled" />
+						<label for="f_female">Female</label>
+
+					</fieldset>
+					Date of birth<input name="date" disabled="disabled" id="f_date" type="date" data-role="datebox" data-options='{"mode": "calbox", "calUsePickers": true, "calNoHeader": true}'>
+					My primary purpose
+					<select name="primary_purpose" id="f_primary" disabled="disabled">
+						<option value="fun">Fun</option>
+						<option value="joke">Joke</option>
+						<option value="political">Political</option>
+						<option value="dictate">Dictate</option>
+						<option value="talk">Talk</option>
+						<option value="speech">Speech</option>
+						<option value="quotes">Quotes</option>
+						<option value="event">Event</option>
+					</select>
+					Secondary purpose
+					<select name="secondary_purpose" id="f_secondary" disabled="disabled">
+						<option value="fun">Fun</option>
+						<option value="joke">Joke</option>
+						<option value="political">Political</option>
+						<option value="dictate">Dictate</option>
+						<option value="talk">Talk</option>
+						<option value="speech">Speech</option>
+						<option value="quotes">Quotes</option>
+						<option value="event">Event</option>
+					</select>
+					
+                </form>
+            </div>
+    </div>
+		<div data-role="page" id="changePassword">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                            <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+				 <h3>Change Password</h3> 
+				 <form class="ajax-form-handler" data-callback="savepassword" action="http://dev.eulogik.com/voiceit_server/info.php"  method="GET">
+					<input type="password" name="new_password" id="new_password" placeholder="new password"/>
+					<input type="password" name="confirm_password" id="confirm_password" placeholder="confirm password"/>
+					<input type="hidden" name="savepassword" value="savepassword" />
+					<input type="submit" name="Save" value="Save" class="ui-btn-active"/>
+                </form>
+            </div>
+        </div>
+		<div data-role="page" id="changeImage">
+		 <div data-role="header" data-position="fixed">
+				<a href="#home" data-icon="home">home</a>
+			   <h1>Voiceit</h1>
+			   <a onClick="logout()" data-icon="delete">Logout</a>
+            </div>
+			<div data-role="navbar">
+                    <ul>
+                        <li>
+                            <a data-role="button" href="#record" data-transition="reverse slide" data-icon="plus">Record</a>
+                        </li>
+                        <li>
+                            <a data-role="button" href="#friends" data-transition="slidedown" data-icon="grid">Friends</a>
+                        </li>
+                        <li>
+                            <a href="#" id="opendialog" data-role="button" data-icon="gear">Profile</a>
+                        </li>
+                    </ul>
+             </div>
+            <div data-role="content">
+				 <h4>Upload new image</h4> 
+				 <form enctype="multipart/form-data"  data-callback="changeimage" action="http://dev.eulogik.com/voiceit_server/info.php"  method="GET">
+					<input type="file" name="image" value="image">
+					<input type="hidden" name="Changeimage" value="Changeimage" />
+					<input type="submit" name="Save" value="Save" class="ui-btn-active"/>
+                 </form>
+            </div>
+        </div>
+	</body>
+</html>
