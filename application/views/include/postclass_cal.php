@@ -1,6 +1,5 @@
 <link href='<?php echo base_url() ?>calendar/calendar.css' rel='stylesheet' />
 <link href='<?php echo base_url() ?>calendar/agendalist.css' rel='stylesheet' />
-<link href='<?php echo base_url() ?>calendar/calendar.print.css' rel='stylesheet' media='print' />
 <script src='<?php echo base_url() ?>calendar/lib/jquery-ui.custom.min.js'></script>
 <script src='<?php echo base_url() ?>calendar/calendar_class.js'></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>calendar/qtip/jquery.qtip.css">

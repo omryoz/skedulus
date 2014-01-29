@@ -50,7 +50,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'eulogik#123';
+$db['default']['password'] = '';
 $db['default']['database'] = 'skedulus';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

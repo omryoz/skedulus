@@ -7,8 +7,8 @@
 
 
 //Global variable 
-var base_url = "http://dev.eulogik.com/skedulus_dev/";
-//var base_url = "http://localhost/skedulus/";
+//var base_url = "http://dev.eulogik.com/skedulus_dev/";
+var base_url = "http://localhost/skedulus/";
 	
 $('.tool').tooltip('hide')
 
