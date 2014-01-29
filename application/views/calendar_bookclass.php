@@ -25,7 +25,7 @@ $url=$buisness_details[0]->id;
   <li class="pull-right">
   <?php 
   $options=array();
-  $options["-1"]="Business Calendar";
+  //$options["-1"]="Business Calendar";
   foreach($staffs as $val){
   $options[$val->users_id]=$val->first_name." ".$val->last_name;
   }

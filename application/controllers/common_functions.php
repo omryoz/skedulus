@@ -143,15 +143,25 @@ class Common_functions extends CI_Controller {
 				 $this->session->set_userdata($sessionVal);	
 				 header($redirectUrl);
 			   }else{
+			        $id=$this->session->userdata['business_id'];
+					 $staffid=$this->common_model->getRow('employee_services','users_id',$this->session->userdata['id']);
+					 if($staffid==''){
+					   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
+					 } 
+					 $url='bcalendar/staffSchedule/';
+					 $staffid=$staffid->users_id;
 			        if($this->session->userdata['business_type']=="service"){
-						$id=$this->session->userdata['business_id'];
-						$link = 'cal/'.$id;		
+						//$id=$this->session->userdata['business_id'];
+						//$link = 'cal/'.$id;
+						$link = $url.$staffid.'/Services';								
 					}else{
-					     $id=$this->session->userdata['business_id'];
-						 $link = 'calendar_business/'.$id;	
+					    // $id=$this->session->userdata['business_id'];
+						// $link = 'calendar_business/'.$id;	
+						$link = $url.$staffid.'/Classes';	
 					}
 					//redirect('overview');
-					redirect('bcalendar/'.$link);
+					//redirect('bcalendar/'.$link);
+					redirect($link);
 				}			 
 			 }else{
 			 redirect('basicinfo');
@@ -261,15 +271,26 @@ class Common_functions extends CI_Controller {
 		    );
 		 $this->session->set_userdata($sessionVal);	
 		  //redirect('overview');
+		 $id=$this->session->userdata['business_id'];
+		 $staffid=$this->common_model->getRow('employee_services','users_id',$this->session->userdata['id']);
+		 if($staffid==''){
+		   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
+		 } 
+		 $url='bcalendar/staffSchedule/';
+		 $staffid=$staffid->users_id;
+		  
 		         if($this->session->userdata['business_type']=="service"){
-						$id=$this->session->userdata['business_id'];
-						$link = 'cal/'.$id;		
+				    $link = $url.$staffid.'/Services';
+						//$id=$this->session->userdata['business_id'];
+						//$link = 'cal/'.$id;		
 					}else{
-					     $id=$this->session->userdata['business_id'];
-						 $link = 'calendar_business/'.$id;	
+					$link = $url.$staffid.'/Classes';
+					     //$id=$this->session->userdata['business_id'];
+						 //$link = 'calendar_business/'.$id;	
 					}
 					//redirect('overview');
-					redirect('bcalendar/'.$link);
+					//redirect('bcalendar/'.$link);
+					redirect($link);
 		 }
 	 }
 	 

@@ -19,8 +19,10 @@ class BusinessProfile extends CI_Controller {
 	if($this->session->userdata('role')=='admin'){
 	 $business_id=$_GET['id'];
      $details=$this->common_model->getRow("view_user_subscription","business_id",$business_id);
+	 $business_type=$this->common_model->getRow('user_business_details','id',$business_id);
+	 
 	 $users_id=$details->users_id;
-	 $sessionVal=array('subscription'=>$details->subscription_id,'users_id'=>$users_id,'business_id'=>$business_id,'role'=> 'manager','admin'=>'admin');
+	 $sessionVal=array('business_type'=>$business_type->business_type,'subscription'=>$details->subscription_id,'users_id'=>$users_id,'business_id'=>$business_id,'role'=> 'manager','admin'=>'admin');
 	 $this->session->set_userdata($sessionVal);
 	 //$this->viewPage();
 	}
@@ -63,7 +65,12 @@ class BusinessProfile extends CI_Controller {
 	 }
 	 $this->parser->parse('include/modal_popup',$this->data);
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
-	
+	//print_r($this->data['content']->users_id); exit;
+	 $staffid=$this->common_model->getRow('employee_services','users_id',$this->data['content']->users_id);
+	 if($staffid==''){
+	   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
+	 } 
+	 $this->data['staffid']=$staffid->users_id;
 	 $where=" AND type='business'";
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){

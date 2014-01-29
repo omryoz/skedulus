@@ -117,7 +117,14 @@
               </div>
 			  <br/><br/>
 			  <div class="row-fluid">
-			  <a  href="#" role="button"  data-toggle="modal" class="btn btn-success span3 managerSignup" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
+			  <?php if(isset($this->session->userdata['id'])) {
+			     $url=base_url().'basicinfo';
+				 $class='';
+			  }else{
+			     $url='';
+			     $class='managerSignup';
+			  } ?>
+			  <a  href="<?=$url; ?>" role="button"  data-toggle="modal" class="btn btn-success span3 <?=$class ?>" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 			  <!-- basic info start -->
 			  </div>
       

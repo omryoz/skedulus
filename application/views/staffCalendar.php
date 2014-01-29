@@ -28,7 +28,7 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
   <?php 
   $options=array();
   foreach($staffs as $val){
-  $options["-1"]="Business calendar";
+ // $options["-1"]="Business calendar";
   $options[$val->users_id]=$val->first_name." ".$val->last_name;
   } ?>
    <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>						

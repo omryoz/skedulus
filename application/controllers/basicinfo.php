@@ -1,9 +1,10 @@
 <?php
 /* Manage Business registration Controller */
 class Basicinfo extends CI_Controller {
-	function __construct(){
+	function __construct(){ 
 		parent::__construct();
-		if(isset($this->session->userdata['id']) && isset($this->session->userdata['business_id'])){ 
+		//if(isset($this->session->userdata['id']) && isset($this->session->userdata['business_id'])){ 
+		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('parser');
 		$this->load->model('basicinfo_model');
@@ -39,7 +40,6 @@ class Basicinfo extends CI_Controller {
 		
 		$this->data['weekdays']=$this->common_model->getDDArray('weekdays','id','name');
 		$this->data['action']="add";
-		
 		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id);
 		if(isset($isExist) && $isExist!=""){
 		$this->data['name']=$isExist->name;
@@ -123,11 +123,13 @@ class Basicinfo extends CI_Controller {
 		$this->data['image']=$isExist->image;
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		
-		if(isset($_GET['checkinfo'])){
+		if(isset($_GET['checkinfo']) && isset($this->session->userdata['business_id'])){
 		$id=$this->basicinfo_model->insertBasicInfo($users_id);
 		redirect('businessProfile/?id='.$this->session->userdata['business_id']);
 		//header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
 		//redirect(businessProfile);
+		}else{
+		header("Location:" . base_url());
 		}
 		//$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/dash_navbar',$this->data);

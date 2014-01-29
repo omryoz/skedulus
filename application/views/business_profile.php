@@ -68,11 +68,16 @@ include('include/modal_classes.php');
 						</span>
 						<div class="row-fluid rating-div">
 							<div class="span6">
-							   <?php if($content->business_type=="class") {
-								 $url='bcalendar/calendar_business/'; ?>
-								 <a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+							   <?php 
+							   $url='bcalendar/staffSchedule/';
+							   if($content->business_type=="class") {
+								// $url='bcalendar/calendar_business/'; 
+								 ?>
+								 <!---<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>--->
+								<?php if($staffid) ?>		
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Classes'?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
 								<?php }else if($content->business_type=="service") {
-								 $url='bcalendar/cal/';
+								// $url='bcalendar/cal/';
 								?>
 								<div class="btn-group pull-left">
 								<?php if(isset($this->session->userdata['id'])){
@@ -84,7 +89,9 @@ include('include/modal_classes.php');
 								 $url1=base_url().'businessProfile/redirectUrl/?url='.$v;
 								} ?>
 								<a href="<?php echo $url1 ?>"  class="btn btn-success left <?php echo $class ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
-								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
+								<!---<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>----->
+								<?php if($staffid) ?>
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Services'?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
 							</div>
 							<?php }		?>
 							<p id="profileid" class="hide"><?php print_r($_GET['id']) ?></p>
