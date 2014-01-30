@@ -8,6 +8,9 @@ class basicinfo_model extends CI_Model {
 	}else{
 	  $user_id=$this->session->userdata['id'];
 	}
+	
+	$userStatus=$this->checkifclient($user_id);
+	
 	    $data=$this->common_model->uploadFile("business_logo");
 		$insertArray=array();
 		$available=array();
@@ -51,6 +54,14 @@ class basicinfo_model extends CI_Model {
 			}
 		
 		return $id;
+	}
+	
+	function checkifclient($user_id){
+		$userdetails=$this->common_model->getRow('users','id',$user_id);
+		$insertSub['user_role']='manager';
+		if($userdetails->user_role=='client'){
+			$this->db->update('users',$insertSub,array('id'=>$user_id));
+		}
 	}
 	
 	function getAvailability(){

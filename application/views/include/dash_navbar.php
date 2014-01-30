@@ -41,12 +41,25 @@ $(document).ready(function(){
 						<a href="<?php echo base_url() ?>overview"><center><i class="icon-bar-chart"></i><p><?=(lang('Apps_overview')) ?></p></center></a>
 					</li>
 					<?php 
-					if($this->session->userdata['business_type']=="service"){
-						$id=$this->session->userdata['business_id'];
-						$link = 'cal/'.$id;		
+					if(isset($this->session->userdata['users_id'])){
+					$id=$this->session->userdata['users_id'];
 					}else{
-					     $id=$this->session->userdata['business_id'];
-						 $link = 'calendar_business/'.$id;	
+					$id=$this->session->userdata['id'];
+					}
+					 $staffid=$this->common_model->getRow('employee_services','users_id',$id);
+					 if($staffid==''){
+					   $staffid=$this->common_model->getRow("employee_services","business_id",$this->session->userdata['business_id']);
+					 } 
+					 $staffid=$staffid->users_id;
+					 $url='staffSchedule/';
+					if($this->session->userdata['business_type']=="service"){
+						//$id=$this->session->userdata['business_id'];
+						//$link = 'cal/'.$id;
+						$link = $url.$staffid.'/Services';						
+					}else{
+					    // $id=$this->session->userdata['business_id'];
+						 //$link = 'calendar_business/'.$id;
+                        $link = $url.$staffid.'/Classes';						 
 					}
 					?>
 					<li class="">

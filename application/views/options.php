@@ -15,7 +15,11 @@
 		}
 		
 		if($selectedTimeSlot){
+		if($type=='service'){
 		$endtimeslot=$this->business_profile_model->getendtimeslot($selectedTimeSlot,$appdate,$businessid);
+		}else{
+		$endtimeslot=$this->business_profile_model->getclassendtimeslot($selectedTimeSlot,$appdate,$businessid);
+		}
 		//echo $endtimeslot; exit;
 		}
 		

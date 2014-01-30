@@ -383,5 +383,18 @@ public function mail($emailTo,$subject,$message){
 			//echo 'Sent message to ' . $to;
 	}   
 	
+	
+	function getstaffid($business_id,$userid){
+	$where=' and business_id='.$business_id;
+	     $staffid=$this->getRow('employee_services','users_id',$userid,$where);
+	      if($staffid==''){
+	       $staffid=$this->getRow("employee_services","business_id",$business_id);
+	       }  
+		 //  print_r($staffid); exit;
+		   if($staffid!=''){
+            return $staffid->users_id;	
+		  }
+		  
+	}
 }
 ?>

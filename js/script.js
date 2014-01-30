@@ -223,7 +223,7 @@ function getserviceStaffs(checked,selected,business_id,starttime){
 	$.post(url,{service_id:checked,date:$(".st_date").val(),businessid:business_id,starttime:starttime}, function(data){ 
 	if(data){
 		$(".staff").html("");
-       var append_option = "<option id='-1' >Select staff</option>";
+       var append_option = "<option id='-1' value>Select staff</option>";
 		$(".staff").append(append_option);		
 		$.each(eval(data), function( key, value ) { 
 		var select="";
@@ -524,8 +524,11 @@ $(".delete_app").live("click",function(){
 		}else{
 		var url2=base_url+"bcalendar/deleteapp"; 
 		//ajaxObj.call("action=deleteevent"+str, function(ev){ical.deleteEvent(ev);ical.hidePreview();});
-		$.post(url2,{type:$("#type").html(),postedclassid:$("#services_id").html(),eventId:$("#eventId").val()},function(data){
-		window.location.href=base_url+'bcalendar/cal/'+$(".business_id").val()+'/?deletesuccess';
+		$.post(url2,{type:$("#type").html(),postedclassid:$("#services_id").html(),eventId:$("#eventId").val()},function(data){ 
+		var str=data;
+        var data=str.trim();			
+		//window.location.href=base_url+'bcalendar/cal/'+$(".business_id").val()+'/?deletesuccess';
+		window.location.href=base_url+'bcalendar/staffSchedule/'+data+'/Servcies?deletesuccess';
 		})
 		$("#book").modal('hide');
 		$("#postclass").modal('hide');
@@ -847,7 +850,7 @@ $("#reschedulebtn").live("click",function(){
 $(".bookmultiServices").live("click",function(){ 
 $(".time").attr('booking','multi');
 $(".staff").html(""); 
-		var append_option = "<option id='-1' >Select staff</option>";
+		var append_option = "<option id='-1' value>Select staff</option>";
 		$(".staff").append(append_option);
 $(".time").attr('action','schedule');
 $(".message").removeClass("alert").html(" ");
@@ -890,7 +893,7 @@ function getStaffs(serviceid,business_id){
 	var url = base_url+"bcalendar/getstaffnameByfilter";
 	$.post(url,{service_id:$(this).val()}, function(data){ 
 		$(".staff").html("");
-var append_option = "<option id='-1' >Select staff</option>";
+var append_option = "<option id='-1' value>Select staff</option>";
 		$(".staff").append(append_option);		
 		$.each(eval(data), function( key, value ) { 
 			var append_option = "<option id="+key+" value="+value.users_id+">"+value.first_name+" "+value.last_name+"</option>";
@@ -1242,7 +1245,7 @@ $("#bookclass").live("click",function(){
 	 $("#eventId").val(" ");
 	   // $("#book").modal('show');
 	$("#note").val('');
-	var append_option = "<option id='-1' >Select staff</option>";
+	var append_option = "<option id='-1' value>Select staff</option>";
 	$(".staff").html(append_option); 
 	 $(".time").attr('booking','multi');
      $(".time").attr('action','schedule');
@@ -1421,7 +1424,7 @@ function showbookpopup1(date,business_id,service_id){
     $(".message").removeClass("alert").html(" ");
 	
 	$(".services").html("");
-    var append_option = "<option id='-1' >Select staff</option>";
+    var append_option = "<option id='-1' value>Select staff</option>";
 	$(".staff").html(append_option);	
 	var serviceid=" ";
 	$("#selectedService").val("");
@@ -1439,7 +1442,7 @@ function showbookpopup(date,timeslot,businessid){
 	 $("#eventId").val(" ");
 	    $("#book").modal('show');
 	$("#note").val('');
-	var append_option = "<option id='-1' >Select staff</option>";
+	var append_option = "<option id='-1' value>Select staff</option>";
 	$(".staff").html(append_option);
 	 $(".time").attr('booking','multi');
      $(".time").attr('action','schedule');

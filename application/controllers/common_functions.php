@@ -144,20 +144,25 @@ class Common_functions extends CI_Controller {
 				 header($redirectUrl);
 			   }else{
 			        $id=$this->session->userdata['business_id'];
-					 $staffid=$this->common_model->getRow('employee_services','users_id',$this->session->userdata['id']);
-					 if($staffid==''){
-					   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
-					 } 
+					 
 					 $url='bcalendar/staffSchedule/';
-					 $staffid=$staffid->users_id;
+					 $staffid=$this->common_model->getstaffid($id,$this->session->userdata['id']);
+					// $staffid=$staffid->users_id;
 			        if($this->session->userdata['business_type']=="service"){
 						//$id=$this->session->userdata['business_id'];
 						//$link = 'cal/'.$id;
-						$link = $url.$staffid.'/Services';								
+						if($staffid!=''){
+						$link = $url.$staffid.'/Services'; }else{
+						$link = 'bcalendar/cal/'.$id;
+						}								
 					}else{
 					    // $id=$this->session->userdata['business_id'];
-						// $link = 'calendar_business/'.$id;	
+						// $link = 'calendar_business/'.$id;
+						if($staffid!=''){						
 						$link = $url.$staffid.'/Classes';	
+						}else{
+						$link = 'bcalendar/calendar_business/'.$id;
+						}
 					}
 					//redirect('overview');
 					//redirect('bcalendar/'.$link);
@@ -252,7 +257,7 @@ class Common_functions extends CI_Controller {
 		 $this->session->set_userdata($sessionVal);	
 		 redirect('cprofile');
 		 }else if($type=='business'){
-		 if($this->session->userdata['empid']){
+		 if(isset($this->session->userdata['empid'])){
 		  $id=$this->session->userdata['managerid'];
 		   $this->session->unset_userdata('id');
 		   $sessionVal=array(
@@ -272,21 +277,18 @@ class Common_functions extends CI_Controller {
 		 $this->session->set_userdata($sessionVal);	
 		  //redirect('overview');
 		 $id=$this->session->userdata['business_id'];
-		 $staffid=$this->common_model->getRow('employee_services','users_id',$this->session->userdata['id']);
-		 if($staffid==''){
-		   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
-		 } 
 		 $url='bcalendar/staffSchedule/';
-		 $staffid=$staffid->users_id;
-		  
+		 $staffid=$this->common_model->getstaffid($id,$this->session->userdata['id']); 
 		         if($this->session->userdata['business_type']=="service"){
-				    $link = $url.$staffid.'/Services';
-						//$id=$this->session->userdata['business_id'];
-						//$link = 'cal/'.$id;		
+				    if($staffid!=''){
+				    $link = $url.$staffid.'/Services';}else{
+						$id=$this->session->userdata['business_id'];
+						$link = 'bcalendar/cal/'.$id;		}
 					}else{
-					$link = $url.$staffid.'/Classes';
-					     //$id=$this->session->userdata['business_id'];
-						 //$link = 'calendar_business/'.$id;	
+					if($staffid!=''){
+					$link = $url.$staffid.'/Classes';}else{
+					     $id=$this->session->userdata['business_id'];
+						 $link = 'bcalendar/calendar_business/'.$id; }	
 					}
 					//redirect('overview');
 					//redirect('bcalendar/'.$link);

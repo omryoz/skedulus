@@ -65,12 +65,15 @@ class BusinessProfile extends CI_Controller {
 	 }
 	 $this->parser->parse('include/modal_popup',$this->data);
 	 $this->data['content']=$this->common_model->getRow("view_business_details","business_id",$id);
-	//print_r($this->data['content']->users_id); exit;
-	 $staffid=$this->common_model->getRow('employee_services','users_id',$this->data['content']->users_id);
-	 if($staffid==''){
-	   $staffid=$this->common_model->getRow("employee_services","business_id",$id);
-	 } 
-	 $this->data['staffid']=$staffid->users_id;
+	 // $staffid=$this->common_model->getRow('employee_services','users_id',$this->data['content']->users_id);
+	 // if($staffid==''){
+	   // $staffid=$this->common_model->getRow("employee_services","business_id",$id);
+	 // } 
+	 
+	// $this->data['staffid']=$staffid->users_id;
+	 
+	 $this->data['staffid']=$this->common_model->getstaffid($id,$this->data['content']->users_id);
+	 
 	 $where=" AND type='business'";
 	 $this->data['availability']=$this->common_model->getAllRows("view_service_availablity","user_business_details_id",$id,$where);
      if($this->data['content']->business_type=='class'){

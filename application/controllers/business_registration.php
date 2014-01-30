@@ -29,7 +29,19 @@ class Business_registration extends CI_Controller {
 		//$this->parser->parse('include/registration_navbar',$this->data);
 		$this->data['details']=$this->common_model->getAlldatas("view_subscription_plans",0,10000,1);
 		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";
+		
+		if(isset($this->session->userdata['id'])){
+		$Cstatus=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+		if($Cstatus->verify_phone=='active'){
+		 $this->data['status']='1';
+		}else{
+		$this->data['status']='0';
+		
+        }		
+		}
+		
 		$this->parser->parse('include/modal_signup',$this->data);	
+		$this->parser->parse('include/modal_verifyphone',$this->data);
 		$this->parser->parse('business_registration',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}

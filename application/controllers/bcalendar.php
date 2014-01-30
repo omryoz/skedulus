@@ -414,17 +414,19 @@ function getstaffnamesByfilter(){
 	$results = $this->bprofile_model->getserviceByfilter1($this->input->post('service_id'));	
 	$vals='[';
 	$day = $this->checkweekendDayName($this->input->post('date'));
+	$starttime='';
+	if($this->input->post('starttime')!=''){
 	$starttime=date('H:i', strtotime($this->input->post('starttime'))).':00';
-	
+	}
 	foreach($results as $res){ 
 		 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$res)){
 		 $where1=' AND users_id="'.$res.'" and name="'.$day.'" and type="employee"';
 		 $getEndtime=$this->common_model->getRow('view_service_availablity','name',$day,$where1); 
 		 $res1=$this->common_model->getRow('view_employee_services','users_id',$res);
-		 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time)){
+		 if($starttime!='' && strtotime($starttime)>=strtotime($getEndtime->start_time) && strtotime($starttime)<=strtotime($getEndtime->end_time)){
 			//$results1[]=$res;
 			$vals.='{"users_id":"'.$res1->users_id.'","first_name":"'.$res1->first_name.'","last_name":"'.$res1->last_name.'"},';
-		 }else{
+		 }elseif($starttime==''){
 		   //$results1[]=$res;
 		   $vals.='{"users_id":"'.$res1->users_id.'","first_name":"'.$res1->first_name.'","last_name":"'.$res1->last_name.'"},';
 		 }
@@ -466,6 +468,7 @@ function getfreeslots(){
 			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
 			 $this->data['businessid']=$this->input->post('business_id');
 			 $this->data['appdate']= $this->input->post('date');
+			 $this->data['type']= 'service';
 			 $this->load->view("options",$this->data);
 			
 		}else{
@@ -516,7 +519,7 @@ function getfreeslotsbydate(){
 			 //print_r($this->data['slots']);
      	     $this->data['businessid']=$this->input->post('business_id');
 			 $this->data['appdate']= $this->input->post('date');
-			 
+			 $this->data['type']= 'service';
 			 $this->load->view("options",$this->data);
 			}else{ 
 		     echo -2;
@@ -758,7 +761,9 @@ function createappointment(){
 		}
 		if($val){
 		   if($this->session->userdata['role']=='manager'){
-		    redirect("/bcalendar/cal/".$this->input->post('businessid')."/?success");
+		    $staffid=$this->common_model->getstaffid($this->input->post('businessid'),$this->input->post('user_id'));
+		    //redirect("/bcalendar/cal/".$this->input->post('businessid')."/?success");
+			 redirect("/bcalendar/staffSchedule/".$staffid."/Services?success");
 		   }else{
 			redirect("bcalendar/mycalender/?success");
 			}
@@ -779,6 +784,8 @@ function createappointment(){
 
 function deleteapp(){
   $this->business_profile_model->deleteapp();
+  $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
+  echo $staffid;
 }
 
 
@@ -1312,6 +1319,9 @@ function referal_url($url){
 			 //print_r($this->data['booked_slots']);
 			 //exit;	
 			 //print_r($this->data['slots']);
+			 $this->data['businessid']=$this->input->post('business_id');
+			 $this->data['appdate']= $this->input->post('date');
+			 $this->data['type']= 'class';
 			 $this->load->view("options",$this->data);
 			 
 		}else{
@@ -1530,7 +1540,13 @@ function checkIfblocked(){
 		  $classes[""]=" Select";
 		  $this->data['classes']=$classes; 
 		 $this->parser->parse('include/modal_classpopup',$this->data);
+		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		 if($status->status=='active'){
 		 $this->parser->parse('staffClassCalendar',$this->data);
+		 }else{
+		  $this->parser->parse('deactivated',$this->data);
+		 }
+		// $this->parser->parse('staffClassCalendar',$this->data);
 		 }else{
 		 $this->data['businessId']=$staffdetails[0]->user_business_details_id;
 		 $this->data['type'] ='staffscalendar';
@@ -1553,7 +1569,13 @@ function checkIfblocked(){
 		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('include/modal_busytime',$this->data);
+		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		 if($status->status=='active'){
 		 $this->parser->parse('staffCalendar',$this->data);
+		 }else{
+		  $this->parser->parse('deactivated',$this->data);
+		 }
+		// $this->parser->parse('staffCalendar',$this->data);
 		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}
@@ -1660,14 +1682,20 @@ function checkIfblocked(){
 	
 	function insertPostedClass(){
 	  $this->bprofile_model->insertscheduledclass();
+	  $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
+      echo $staffid;
 	}
 	
 	function editPostedClass(){
 	 $this->bprofile_model->editscheduledclass();
+	 $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
+      echo $staffid;
 	}
 	
 	function deletePostedClass(){
 	  $this->bprofile_model->deletePostedClass();
+	  $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
+      echo $staffid;
 	}
 	
 	// function showdiv(){ 

@@ -117,13 +117,27 @@
               </div>
 			  <br/><br/>
 			  <div class="row-fluid">
-			  <?php if(isset($this->session->userdata['id'])) {
-			     $url=base_url().'basicinfo';
-				 $class='';
+			  <?php 
+			  if(isset($status)){
+				if($status==1){
+				  $url=base_url().'basicinfo';
+				  $class='';
+				}else{
+				  $url='';
+			      $class='verifyphone';
+				}
 			  }else{
 			     $url='';
 			     $class='managerSignup';
-			  } ?>
+			  }
+			  // if(isset($this->session->userdata['id'])) {
+			     // $url=base_url().'basicinfo';
+				 // $class='';
+			  // }else{
+			     // $url='';
+			     // $class='managerSignup';
+			  // } 
+			  ?>
 			  <a  href="<?=$url; ?>" role="button"  data-toggle="modal" class="btn btn-success span3 <?=$class ?>" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 			  <!-- basic info start -->
 			  </div>
@@ -240,6 +254,27 @@ function passwordStrength(password)
 		$("#sign_up")[0].reset();$("#form2")[0].reset();
 		$('#sign_up').show();$('#form2').hide();
 	})
+	
+$(".verifyphone").click(function(){ 
+     $('#verifyModal').modal('show');
+	 $(".alert").hide();
+		$("#key").val("");
+		$("#updatePhone").val("");
+		$("#verifyP").show();
+		$("#getnumber").hide();
+})
+
+
+$("#closeVerify").click(function(){
+var action=$(this).attr('data-val');
+var url=base_url+'bcalendar/chckStatus';
+var data='';
+$.post(url,data,function(data){ 
+ if(data==1){ 
+       window.location.href=base_url+'basicinfo';
+	 }
+ })
+})	
 </script>
 
 </div><!--row-fluid-->
@@ -261,3 +296,4 @@ function passwordStrength(password)
 		});
 	</script>
 <?php } ?>
+<?php include('include/popupmessages.php'); ?>

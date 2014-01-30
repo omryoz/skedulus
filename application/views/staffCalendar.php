@@ -28,7 +28,7 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
   <?php 
   $options=array();
   foreach($staffs as $val){
- // $options["-1"]="Business calendar";
+  //$options["-1"]="Business calendar";
   $options[$val->users_id]=$val->first_name." ".$val->last_name;
   } ?>
    <?php echo form_dropdown('staff',$options,$staff_details[0]->users_id,' id="staffCal" ')  ?>						
@@ -53,6 +53,17 @@ $crumb=(!empty($staff_details))?($staff_details[0]->first_name." ".$staff_detail
 </div>
 
 <script>
+$(document).ready(function(){
+  <?php 
+   if(isset($_GET['success'])){
+  ?>
+  $(".alertMessage").html(bookedsuccess);
+   $("#alertpopup").modal('show');
+  <?php }elseif(isset($_GET['deletesuccess'])){ ?>
+  $(".alertMessage").html(cancelledsuccess);
+   $("#alertpopup").modal('show');
+  <?php }?>
+})
 $("#staffCal").change(function(){
 if($(this).val()!="-1"){
 window.location.href = base_url+'bcalendar/staffSchedule/'+$(this).val()+'/Services';
@@ -63,3 +74,11 @@ window.location.href = base_url+'bcalendar/cal/<?php print_r($staff_details[0]->
 </script>
 <script src="<?php echo base_url() ?>functions/script.js">  </script> 
 <?php include('include/popupmessages.php'); ?>
+
+<!-- Modal -->
+<div id="alertpopup" class="modal hide fade popup-alert-box" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    <center><h4 class="alertMessage"></h4></center>
+	<center><a href="javascript:;" class="btn btn-success confirmbutton">Ok</a></center>
+  </div>
+</div>

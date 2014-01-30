@@ -69,13 +69,23 @@ include('include/modal_classes.php');
 						<div class="row-fluid rating-div">
 							<div class="span6">
 							   <?php 
-							   $url='bcalendar/staffSchedule/';
+
 							   if($content->business_type=="class") {
 								// $url='bcalendar/calendar_business/'; 
 								 ?>
-								 <!---<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>--->
-								<?php if($staffid) ?>		
-								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Classes'?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+								 <?php if($staffid!=''){
+								   $url='bcalendar/staffSchedule/';
+								 ?>
+								 <a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Classes'?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))
+								?></a>
+								<?php }else{
+                                 $url='bcalendar/calendar_business/'; 
+								?>
+								 <a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+								<?php }?>		
+								
+								
+								
 								<?php }else if($content->business_type=="service") {
 								// $url='bcalendar/cal/';
 								?>
@@ -89,9 +99,21 @@ include('include/modal_classes.php');
 								 $url1=base_url().'businessProfile/redirectUrl/?url='.$v;
 								} ?>
 								<a href="<?php echo $url1 ?>"  class="btn btn-success left <?php echo $class ?>" role="button"  data-toggle="modal"> <?=(lang('Apps_bookme'))?></a>
-								<!---<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>----->
-								<?php if($staffid) ?>
-								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Services'?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>		
+								
+								<?php if($staffid!=''){ 
+								 $url='bcalendar/staffSchedule/';
+								?>
+								
+								
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$staffid.'/Services'?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+								 <?php }else{
+								 $url='bcalendar/cal/';
+								 ?>
+								
+								<a href="<?php echo base_url(); ?><?php echo $url; ?><?=$content->business_id?>" class="btn btn-success right " role="button" data-toggle="modal"> <?=(lang('Apps_viewschedule'))?></a>
+								<?php } ?>
+								
+										
 							</div>
 							<?php }		?>
 							<p id="profileid" class="hide"><?php print_r($_GET['id']) ?></p>
@@ -260,7 +282,9 @@ include('include/modal_classes.php');
 					  <div class="accordion-inner">
 						<table class="table table-striped">
 							<tbody>
-							<?php foreach($staffs as $staff) { ?>
+							<?php 
+							if($staffs!=''){
+							foreach($staffs as $staff) { ?>
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
@@ -271,7 +295,10 @@ include('include/modal_classes.php');
 							  <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $staff->users_id; ?>&delete=delete&page=page"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 							  </td><?php } ?>
 							</tr>
-							<?php } ?>
+							<?php }
+								}else{
+								print_r(lang('Apps_nostaffaddedyet'));
+								}?>
 								
 								
 							</tbody>
