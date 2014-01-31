@@ -57,7 +57,8 @@ class Settings extends CI_Controller {
 	 }
     // $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
     $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
-	if($status->status=='active'){	
+	if($status->status=='active'){
+    $this->parser->parse('include/modal_deactivatebusiness',$this->data);	
 	$this->parser->parse('business_settings',$this->data);
 	}else{
 	$this->parser->parse('deactivated',$this->data);
@@ -65,7 +66,9 @@ class Settings extends CI_Controller {
 	 $this->parser->parse('include/footer',$this->data);
 	}
 	
-	
+	function chckpassword(){
+	 $this->bprofile_model->checkpassword();
+	}
 
 		
 }

@@ -47,6 +47,35 @@
 })(jQuery, window, document);
 
 
+function deactivatebusiness(){
+ $(".alert").hide();
+ $("#user_password").val("");
+ $("#deactivatebusiness").modal('show');
+}
+
+$("#cancel_deactivation").click(function(){
+	$("#deactivatebusiness").modal('hide');
+})
+
+$("#deactivate_business").click(function(){
+   var url=base_url+'settings/chckpassword';
+   $.ajax({
+     data:{userpassword:$("#user_password").val()},
+	 type:'POST',
+	 url:url,
+	 success:function(data){ 
+	    var str=data.trim();
+		if(str==0){
+		  $(".alert").html("password does not match");
+		  $(".alert").show();
+		}else{
+		  //alert("Your business has been deactivated succefully");
+		    apprise('Your business has been deactivated succefully', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=base_url+'cprofile';}else{ return false; } });
+		}
+	 }
+   })
+})
+
 </script>
 <br/>
 			<div class="span8 offset2">
@@ -228,6 +257,9 @@
 						<?=(lang('Apps_off'))?>
 						<div id="messageErrorContainer"></div>
 					  </p>
+					  <p class="lead-nice muted">Deactivate business :
+				         <a href="jabascript:;" onclick="deactivatebusiness()">deactivate now!</a>
+				     </p>
 				<br/><br/>
 				<input type="hidden" name="insert" value="insert<?=(lang('Apps_insert'))?>">
 					<input type="submit" name="save" value="<?=(lang('Apps_save'))?>" class=" btn btn-success pull-right">

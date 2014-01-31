@@ -14,6 +14,7 @@ class Search extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		$this->output->cache(60);
     }
 	
 	public function index() {

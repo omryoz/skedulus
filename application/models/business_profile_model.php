@@ -615,6 +615,21 @@ function getClasses($id){
 		}
 	}
 	
+	function getclassendtimeslot($selectedTimeSlot,$appdate,$businessid){
+	   $appdate=date("Y-m-d",strtotime($appdate));
+	    $sql="Select * from view_classes_posted_business where (Date(start_date)= '".$appdate."') && (TIME(start_time) < '".$selectedTimeSlot.':00'."' < TIME(paddingendtime)) && ('".$selectedTimeSlot.':00'."' between TIME(start_time) and TIME(paddingendtime))&& user_business_details_id='".$businessid."' ORDER BY id DESC LIMIT 1"; 
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		foreach($data as $dataP){
+		   $val = date("H:i",strtotime($dataP->paddingendtime));
+		}
+		if($val){
+		return $val;
+		}else{
+		return false;
+		}
+	}
+	
 	function addTime($a, $b)
 		{
 		   $sec=$min=$hr=0;

@@ -41,19 +41,39 @@ function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
 	function updateUserStatus(){
 		if(trim($_POST['status'])=='active'){
 		 $insertArray['status']= 'inactive';
+		 $insertArray1['user_role']= 'client';
+	     $insertArray2['user_role']= 'client';
 		}elseif(trim($_POST['status'])=='inactive'){
 		$insertArray['status']= 'active';
+		$insertArray1['user_role']= 'manager';
+		$insertArray2['user_role']= 'employee';
 		} 
 		if($_POST['type']=='user'){
 		$this->db->update('users',$insertArray,array('id' => $_POST['id']));
 		}elseif($_POST['type']=='business'){
 		$this->db->update('user_business_details',$insertArray,array('id' => $_POST['id']));
+		$val=$this->common_model->getRow('user_business_details','id',$_POST['id']);
+		$this->db->update('users',$insertArray1,array('id' => $val->users_id));
+		$this->update_employee($_POST['id'],$insertArray2,$val->users_id);
 		}
 		if($this->db->affected_rows()>0){
          print_r(trim($insertArray['status']));	
 		}else{
 	     echo 0;
 		}
+	}
+	
+	function update_employee($business_id,$array,$business_manager){
+	    $sql="Select DISTINCT (users_id), business_id from employee_services where business_id='".$business_id."' and users_id!=".$business_manager;
+		//echo $sql; exit;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		if($data!=''){
+		foreach($data as $datav){
+		 $this->db->update('users',$array,array('id' => $datav->users_id));
+		}
+		}
+		return true;
 	}
 	
 	function insertUser($table=false,$filter=false,$id=false){

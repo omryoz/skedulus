@@ -396,5 +396,45 @@ public function mail($emailTo,$subject,$message){
 		  }
 		  
 	}
+	
+	function addTime($a, $b)
+	{
+	   $sec=$min=$hr=0;
+	   $a = explode(':',$a);
+	   $b = explode(':',$b);
+
+	   if(($a[2]+$b[2])>= 60)
+	   {
+		 $sec=($a[2]+$b[2]) % 60;
+		 $min+=1;
+
+	   }
+	   else
+	   $sec=($a[2]+$b[2]);
+	   
+
+	   if(($a[1]+$b[1]+$min)>= 60)
+	   {
+		  $min=($a[1]+$b[1]+$min) % 60;
+		 $hr+=1;
+	   }
+	   else
+		$min=$a[1]+$b[1]+$min;
+		$hr=$a[0]+$b[0]+$hr;
+
+	   $added_time=$hr.":".$min.":".$sec;
+	   return $added_time;
+	}
+	
+	function convertToHoursMins($time, $format = '%d:%d') {
+		settype($time, 'integer');
+		if ($time < 1) {
+			return;
+		}
+		
+		$hours = floor($time/60);
+		$minutes = $time%60;
+		return sprintf($format, $hours, $minutes);
+	}
 }
 ?>

@@ -50,16 +50,29 @@ class Common_functions extends CI_Controller {
 		 if($manager_id && $mstatus=='active'){
 		       $sessionVal=array('id'=>$manager_id->users_id,'managerid'=>$manager_id->users_id,'subscription'=>$subscription->subscription_id,'business_id'=>$status->business_id,'business_type'=> $manager_id->business_type,'type'=>'dual');
 			   $this->session->set_userdata($sessionVal);
-			
+			       
+				    $url='bcalendar/staffSchedule/';
+					$staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['managerid']);
+				   
 			        if($this->session->userdata['business_type']=="service"){
-						$id=$this->session->userdata['business_id'];
-						$link = 'cal/'.$id;		
+						//$id=$this->session->userdata['business_id'];
+						//$link = 'cal/'.$id;	
+                        if($staffid!=''){
+						$link = $url.$staffid.'/Services'; }else{
+						$link = 'bcalendar/cal/'.$id;
+						}							
 					}else{
-					     $id=$this->session->userdata['business_id'];
-						 $link = 'calendar_business/'.$id;	
+					     //$id=$this->session->userdata['business_id'];
+						 //$link = 'calendar_business/'.$id;
+                        if($staffid!=''){						
+						$link = $url.$staffid.'/Classes';	
+						}else{
+						$link = 'bcalendar/calendar_business/'.$id;
+						}						 
 					}
 					//redirect('overview');
-					redirect('bcalendar/'.$link);
+					//redirect('bcalendar/'.$link);
+					redirect($link);
 		 }else{ 
 		     $this->data['userRole']="clientlogin";
 		     $this->data['signUp']="clientSignUp";

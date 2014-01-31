@@ -1051,6 +1051,27 @@ class bprofile_model extends CI_Model {
 	}
 	
 	
+	function getpaddingendtime($classid,$end_time){ 
+		    //$serviceid=explode(',',$this->input->post('services'));
+			//foreach($serviceid as $val){
+				if($classid!=''){
+					$query1 = $this->db->query("select * from user_business_classes where id='".$classid."'"); 
+					$res= $query1->result();							
+				if($res[0]->padding_time_type=="Before & After"){
+				  $twice=2;
+				}else{
+				  $twice=1;
+				}	
+				$total = $total + $res[0]->padding_time * $twice; 
+				//$Sname.=$res[0]->name.',';						
+				}   
+			 // }
+			  $time = $this->common_model->convertToHoursMins($total,'%d:%d');						
+			  $end_time1 = $this->common_model->addTime($end_time,$time); 
+			  $paddingendtime= date('Y-m-d',strtotime($this->input->post('date')))." ".$end_time1;
+			  return $paddingendtime;
+	}
+	
 	/*schedule class*/
 	function insertscheduledclass(){
 	  //print_r($_POST); exit;
@@ -1062,12 +1083,12 @@ class bprofile_model extends CI_Model {
 	  $info=array("business_id"=>$this->session->userdata['business_id'],"date_added"=>$date);
 	  $query = $this->db->insert("posted_class_series",$info);
 	  $seriesid= mysql_insert_id();
-		  
+	  $paddingendtime=$this->getpaddingendtime($this->input->post('classid'),$this->input->post('endtime'));  
 	   if($_POST['repeatstatus']=='Add Repeat'){
 		$startdate = date("Y-m-d",strtotime($this->input->post('startdate')));	
 		$enddate =   date("Y-m-d",strtotime($this->input->post('startdate')));
 	   
-	   $input= array("user_business_classes_id"=>$this->input->post('classid'),"start_date"=>$startdate,"end_date"=>$enddate,"start_time"=>$this->input->post('starttime'),"end_time"=>$this->input->post('endtime'),"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$this->input->post('class_size'),"availability"=>$this->input->post('class_size'),"seriesid"=>$seriesid);
+	   $input= array("user_business_classes_id"=>$this->input->post('classid'),"start_date"=>$startdate,"end_date"=>$enddate,"start_time"=>$this->input->post('starttime'),"end_time"=>$this->input->post('endtime'),"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$this->input->post('class_size'),"availability"=>$this->input->post('class_size'),"seriesid"=>$seriesid);
 	   
 	     
 		
@@ -1080,13 +1101,13 @@ class bprofile_model extends CI_Model {
 				return false;
 			}
 	   }else{
-				$this->insertmultiScheduleClass($seriesid,$this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('repeat_type'),$staffid,$this->input->post('checked'),$this->input->post('starttime'),$this->input->post('endtime'),$this->input->post('classid'),$this->input->post('class_size'));
+				$this->insertmultiScheduleClass($seriesid,$this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('repeat_type'),$staffid,$this->input->post('checked'),$this->input->post('starttime'),$this->input->post('endtime'),$paddingendtime,$this->input->post('classid'),$this->input->post('class_size'));
 	        }
 	  
 	}
 	
 	
-	function insertmultiScheduleClass($seriesid=false,$startdate=false,$enddate=false,$repeat_type=false,$staff_id=false,$checked=false,$starttime=false,$endtime=false,$classid=false,$class_size=false,$startdatearray=false){ 
+	function insertmultiScheduleClass($seriesid=false,$startdate=false,$enddate=false,$repeat_type=false,$staff_id=false,$checked=false,$starttime=false,$endtime=false,$paddingendtime=false,$classid=false,$class_size=false,$startdatearray=false){ 
 			$date=date("Y-m-d h:m:s"); 
 		    $start_date=date("Y-m-d",strtotime($startdate));
 			$end_date=date("Y-m-d",strtotime($enddate));
@@ -1107,7 +1128,7 @@ class bprofile_model extends CI_Model {
 						}
 						
 						if($this->getworkingday($date3,$staffid)){  
- 						 $input= array("user_business_classes_id"=>$classid,"start_date"=>$check_date,"end_date"=>$check_date,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid);
+ 						 $input= array("user_business_classes_id"=>$classid,"start_date"=>$check_date,"end_date"=>$check_date,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid);
 						 if(isset($startdatearray)){
 						   if(!in_array($check_date,$startdatearray)){
 						   $query = $this->db->insert("user_business_posted_class",$input);
@@ -1138,7 +1159,7 @@ class bprofile_model extends CI_Model {
 						   $staffid='';
 						}
 						if($this->getworkingday($date3,$staffid)){
-						 $input= array("user_business_classes_id"=>$classid,"start_date"=>$check_date,"end_date"=>$check_date,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid,"repeat_type"=>$repeat_type,"repeat_week_days"=>$checked,"repeat_all_day"=>'');
+						 $input= array("user_business_classes_id"=>$classid,"start_date"=>$check_date,"end_date"=>$check_date,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid,"repeat_type"=>$repeat_type,"repeat_week_days"=>$checked,"repeat_all_day"=>'');
 						  if(isset($startdatearray)){
 						   if(!in_array($check_date,$startdatearray)){
 						   $query = $this->db->insert("user_business_posted_class",$input);
@@ -1176,7 +1197,7 @@ class bprofile_model extends CI_Model {
 						}
 						if($this->getworkingday($date3,$staffid)){
 						
-						$input= array("user_business_classes_id"=>$classid,"start_date"=>date("Y-m-d",strtotime($monthdate)),"end_date"=>date("Y-m-d",strtotime($monthdate)),"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid,"repeat_type"=>$repeat_type,"repeat_months"=>$checked,"repeat_all_day"=>'');
+						$input= array("user_business_classes_id"=>$classid,"start_date"=>date("Y-m-d",strtotime($monthdate)),"end_date"=>date("Y-m-d",strtotime($monthdate)),"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"repeat_all_day"=>'1',"class_size"=>$class_size,"availability"=>$class_size,"seriesid"=>$seriesid,"repeat_type"=>$repeat_type,"repeat_months"=>$checked,"repeat_all_day"=>'');
 						 if(isset($startdatearray)){
 						   if(!in_array($check_date,$startdatearray)){
 						   $query = $this->db->insert("user_business_posted_class",$input);
@@ -1214,21 +1235,21 @@ function editscheduledclass(){
 	  $repeat_all_day='1';
 		$startdate = date("Y-m-d",strtotime($this->input->post('startdate')));	
 		$enddate =   date("Y-m-d",strtotime($this->input->post('startdate')));
-	  
+	    $paddingendtime=$this->getpaddingendtime($this->input->post('classid'),$this->input->post('endtime'));  
 	  
     if($this->input->post('presentStatus')=='single' && $_POST['repeatstatus']=='Add Repeat'){
-		$this->singleTosingle($this->input->post('classid'),$startdate,$enddate,$this->input->post('starttime'),$this->input->post('endtime'),$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
+		$this->singleTosingle($this->input->post('classid'),$startdate,$enddate,$this->input->post('starttime'),$this->input->post('endtime'),$paddingendtime,$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
 	}elseif($this->input->post('presentStatus')=='single' && $_POST['repeatstatus']=='Remove Repeat') { 
-	    $this->singleTomulti($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
+	    $this->singleTomulti($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$paddingendtime,$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
 	}elseif($this->input->post('presentStatus')=='multi' && $_POST['repeatstatus']=='Remove Repeat') { 
-	    $this->multiTomulti($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'),$this->input->post('oldstdate'),$this->input->post('oldeddate'));
+	    $this->multiTomulti($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$paddingendtime,$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'),$this->input->post('oldstdate'),$this->input->post('oldeddate'));
 	}elseif($this->input->post('presentStatus')=='multi' && $_POST['repeatstatus']=='Add Repeat') { 
-	    $this->multiTosingle($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
+	    $this->multiTosingle($this->input->post('classid'),$startdate,date("d-m-Y",strtotime($this->input->post('enddate'))),$this->input->post('starttime'),$this->input->post('endtime'),$paddingendtime,$staffid,$repeat_all_day,$this->input->post('class_size'),$this->input->post('class_size'),$this->input->post('seriesid'),$newseriesid,$_POST['repeatstatus'],$this->input->post('repeat_type'),$this->input->post('checked'),$this->input->post('eventid'));
 	}
 
 }
 	
-	function singleTosingle($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
+	function singleTosingle($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$paddingendtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
 	
 	
 	    $query1=$this->common_model->getRow("user_business_posted_class","id",$eventid);
@@ -1238,12 +1259,12 @@ function editscheduledclass(){
 		}else{
 		$available=$class_size-$diff;
 		}
-	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$enddate,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"repeat_all_day"=>$repeat_all_day,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'1');
+	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$enddate,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"repeat_all_day"=>$repeat_all_day,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'1');
 		   $this->db->where('id', $eventid);
 		   $this->db->update('user_business_posted_class', $input); 
 	}
 	
-	function singleTomulti($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
+	function singleTomulti($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$paddingendtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
 	
 	
 	    $query1=$this->common_model->getRow("user_business_posted_class","id",$eventid);
@@ -1264,14 +1285,14 @@ function editscheduledclass(){
 		}
 		
 		
-	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$startdate,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$newseriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
+	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$startdate,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$newseriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
 		   $this->db->where('id', $eventid);
 		   $this->db->update('user_business_posted_class', $input);
 		   $start_date = date('d-m-Y',strtotime($startdate . "+1 day"));
-		   $this->insertmultiScheduleClass($newseriesid,$start_date,$enddate,$repeat_type,$staffid,$checked,$starttime,$endtime,$classid,$class_size);
+		   $this->insertmultiScheduleClass($newseriesid,$start_date,$enddate,$repeat_type,$staffid,$checked,$starttime,$endtime,$paddingendtime,$classid,$class_size);
 	}
 	
-	function multiTomulti($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false,$oldstdate=false,$oldeddate=false){
+	function multiTomulti($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$paddingendtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false,$oldstdate=false,$oldeddate=false){
 	         
 			if($repeat_type=='weekly'){
 			$repeatall="repeat_week_days";
@@ -1294,7 +1315,7 @@ function editscheduledclass(){
 				$i++;
 			   }
 			   
-			   $this->insertmultiScheduleClass($seriesid,$startdate,$enddate,$repeat_type,$staffid,$checked,$starttime,$endtime,$classid,$class_size,$startdatearray);
+			   $this->insertmultiScheduleClass($seriesid,$startdate,$enddate,$repeat_type,$staffid,$checked,$starttime,$endtime,$paddingendtime,$classid,$class_size,$startdatearray);
 			 }else{
 			 $sql="Select * from user_business_posted_class where seriesid='".$seriesid."' and modifiedStatus='0' and start_date between '".date("Y-m-d",strtotime($startdate))."' AND '".date("Y-m-d",strtotime($enddate))."'";
 		     $query=$this->db->query($sql);
@@ -1310,7 +1331,7 @@ function editscheduledclass(){
 				}
 			  
 			  
-			      $input= array("user_business_classes_id"=>$classid,"start_date"=>$dataP->start_date,"end_date"=>$dataP->end_date,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
+			      $input= array("user_business_classes_id"=>$classid,"start_date"=>$dataP->start_date,"end_date"=>$dataP->end_date,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
 				   $this->db->where('id', $dataP->id);
 				  $this->db->update('user_business_posted_class', $input); 
 			}
@@ -1319,7 +1340,7 @@ function editscheduledclass(){
 	    
 	}
 	
-	function multiTosingle($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
+	function multiTosingle($classid=false,$startdate=false,$enddate=false,$starttime=false,$endtime=false,$paddingendtime=false,$staffid=false,$repeat_all_day=false,$class_size=false,$class_size=false,$seriesid=false,$newseriesid=false,$repeatstatus=false,$repeat_type=false,$checked=false,$eventid=false){
 	
 	
 	    $query1=$this->common_model->getRow("user_business_posted_class","id",$eventid);
@@ -1340,7 +1361,7 @@ function editscheduledclass(){
 		}
 		
 		
-	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$startdate,"start_time"=>$starttime,"end_time"=>$endtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
+	       $input= array("user_business_classes_id"=>$classid,"start_date"=>$startdate,"end_date"=>$startdate,"start_time"=>$starttime,"end_time"=>$endtime,"paddingendtime"=>$paddingendtime,"instructor"=>$staffid,"class_size"=>$class_size,"availability"=>$available,"seriesid"=>$seriesid,"modifiedStatus"=>'0',"repeat_type"=>$repeat_type,$repeatall=>$checked);
 		   $this->db->where('id', $eventid);
 		   $this->db->update('user_business_posted_class', $input);
 		   $start_date = date('d-m-Y',strtotime($startdate . "+1 day"));
@@ -1399,6 +1420,33 @@ function editscheduledclass(){
 	    }else{
 			return 0;
 	    }
+	}
+	
+	function checkpassword(){
+	  $userdetails=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+	  if(MD5($_POST['userpassword']) == $userdetails->password){
+	     $insertArray['status']= 'inactive';
+	     $this->db->update('user_business_details',$insertArray,array('users_id' => $this->session->userdata['id']));
+		 $insertArray1['user_role']= 'client';
+	     $this->db->update('users',$insertArray1,array('id' => $this->session->userdata['id']));
+		 $this->update_employee($this->session->userdata['business_id'],$insertArray1);
+	        echo 1;
+	  }else{
+			echo 0;
+	  }
+	}
+	
+	function update_employee($business_id,$array){
+	    $sql="Select DISTINCT (users_id), business_id from employee_services where business_id=".$business_id;
+		//echo $sql; exit;
+		$query=$this->db->query($sql);
+		$data= $query->result();
+		if($data!=''){
+		foreach($data as $datav){
+		 $this->db->update('users',$array,array('id' => $datav->users_id));
+		}
+		}
+		return true;
 	}
 	
 }

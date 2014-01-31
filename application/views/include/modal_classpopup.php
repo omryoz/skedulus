@@ -25,7 +25,7 @@
   <a href="#edit_class" id="addclass" ><?=(lang('Apps_postclass'))?></a>
   <a href="#edit_class" id="updateclass" style="display:none"><?=(lang('Apps_editclass'))?></a></li>
   <li><a href="#add_client" id="addclient" ><?=(lang('Apps_clientlist'))?></a></li>
-  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button>
+  <button type="button" class="close closeclassbtn" data-dismiss="modal" aria-hidden="true" style="padding: 5px 6px 0px;">&times;</button>
 </ul>
  <hr/>
  <p class="message"></p>	
@@ -289,4 +289,8 @@ function autosuggest(){
 	 $("#users_id").val(ui.item.id);
      }
   }
+  
+  $(".closeclassbtn").click(function(){ 
+    $("#apptype").attr('showonce','0');
+  })
 	</script>

@@ -643,74 +643,72 @@ function showappDetails(){
 }
 
 //classPop-up
-$('#postclass').on('show', function () {  
-    if($("#schedule").val()=="1"){
-	  $("#bookClass").hide();
-	  $("#details").hide();
-	   $.ajax({
-	   url:base_url+'bcalendar/getAppDetails',
-	   data:{eventID:$("#updateid").val()},
-	   type:'POST',
-	   success:function(data){ 
-	       $.each(eval(data),function( key, v ) {
-		   $(".messageNote").attr('disabled',true);
-		   $("#type").html('class');
-		   $(".business_id").val(v.business_details_id); 
-		   $("#eventId").val($("#updateid").val());
-		   var d=new Date(v.date);
-			var curr_date = d.getDate();
-			var curr_month = d.getMonth() + 1; 
-			var curr_year = d.getFullYear();
-			var date = curr_date+"-"+curr_month+"-"+curr_year;
-			$(".st_date").val(date);
+// $('#postclass').on('show', function () {  
+    // if($("#schedule").val()=="1"){
+	  // $("#bookClass").hide();
+	  // $("#details").hide();
+	   // $.ajax({
+	   // url:base_url+'bcalendar/getAppDetails',
+	   // data:{eventID:$("#updateid").val()},
+	   // type:'POST',
+	   // success:function(data){ 
+	       // $.each(eval(data),function( key, v ) {
+		   // $(".messageNote").attr('disabled',true);
+		   // $("#type").html('class');
+		   // $(".business_id").val(v.business_details_id); 
+		   // $("#eventId").val($("#updateid").val());
+		   // var d=new Date(v.date);
+			// var curr_date = d.getDate();
+			// var curr_month = d.getMonth() + 1; 
+			// var curr_year = d.getFullYear();
+			// var date = curr_date+"-"+curr_month+"-"+curr_year;
+			// $(".st_date").val(date);
 		   
 		   
-			 $("#className").html(v.services);
-			if(v.e_first_name!="" || v.e_last_name!=""){
-			$("#trainers").html(v.e_first_name+" "+v.e_last_name);
-			}else{
-			$("#trainers").css("display",'none');
-			}
-			$("#StartDate").html(v.date);
-			$("#StartTime").html(v.time);
-			$(".messageNote").val(v.note);
-			if(v.status=='active'){
-			    var url = base_url+"bcalendar/checkfordelete";
-					$.ajax({
-					type: "POST",
-					url: url,
-					data: { date : v.date,business_id:v.business_details_id,starttime:v.time,action:'reschedule'},
-					success: function(data) {
-					  if(data==0){ 
-						$(".cancelClass").hide();
-                        $(".closeclassapp").show();	//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
-						}else if(data==1){
-						$(".cancelClass").show();
-						$(".closeclassapp").show();
-						}
-					}
-				})
-			}else{
-			$(".cancelClass").hide();
-			$(".closeclassapp").show();
-			//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
-			}
-		  })
-	   }
-	   })
-	}else{
-	$(".messageNote").attr('disabled',false);
-	 $("#details").show();
-	$("#type").html('class');
-	$(".cancelClass").hide();
-	$(".closeclassapp").hide();
-	$("#bookClass").show();
-	$(".business_id").val(" "); 
-    $("#eventId").val(" ");
-	//$("#updateid").val(" ");
-	$(".st_date").val(" ");
-	}
-})
+			 // $("#className").html(v.services);
+			// if(v.e_first_name!="" || v.e_last_name!=""){
+			// $("#trainers").html(v.e_first_name+" "+v.e_last_name);
+			// }else{
+			// $("#trainers").css("display",'none');
+			// }
+			// $("#StartDate").html(v.date);
+			// $("#StartTime").html(v.time);
+			// $(".messageNote").val(v.note);
+			// if(v.status=='active'){
+			    // var url = base_url+"bcalendar/checkfordelete";
+					// $.ajax({
+					// type: "POST",
+					// url: url,
+					// data: { date : v.date,business_id:v.business_details_id,starttime:v.time,action:'reschedule'},
+					// success: function(data) {
+					  // if(data==0){ 
+						// $(".cancelClass").hide();
+                        // $(".closeclassapp").show();	
+						// }else if(data==1){
+						// $(".cancelClass").show();
+						// $(".closeclassapp").show();
+						// }
+					// }
+				// })
+			// }else{
+			// $(".cancelClass").hide();
+			// $(".closeclassapp").show();
+			// }
+		  // })
+	   // }
+	   // })
+	// }else{
+	// $(".messageNote").attr('disabled',false);
+	 // $("#details").show();
+	// $("#type").html('class');
+	// $(".cancelClass").hide();
+	// $(".closeclassapp").hide();
+	// $("#bookClass").show();
+	// $(".business_id").val(" "); 
+    // $("#eventId").val(" ");
+	// $(".st_date").val(" ");
+	// }
+// })
 
 $('#book').on('show', function () { 
 // if($("#apptype").val()=='booknewapp'){ alert("s");
@@ -1477,13 +1475,68 @@ function staffClassSchedule(staffid,staffname){
 
 
 $('#postclass').on('show', function () { 
-  if($("#apptype").val()=='postnewclass' && $("#apptype").attr('data-val')=='1'){
+  if($("#apptype").val()=='postnewclass' && $("#apptype").attr('data-val')=='1' && $("#apptype").attr('showonce')==0){
      schedulenewclass();
-  }
+  }else if($("#schedule").val()=="1"){
+	  $("#bookClass").hide();
+	  $("#details").hide();
+	   $.ajax({
+	   url:base_url+'bcalendar/getAppDetails',
+	   data:{eventID:$("#updateid").val()},
+	   type:'POST',
+	   success:function(data){ 
+	       $.each(eval(data),function( key, v ) {
+		   $(".messageNote").attr('disabled',true);
+		   $("#type").html('class');
+		   $(".business_id").val(v.business_details_id); 
+		   $("#eventId").val($("#updateid").val());
+		   var d=new Date(v.date);
+			var curr_date = d.getDate();
+			var curr_month = d.getMonth() + 1; 
+			var curr_year = d.getFullYear();
+			var date = curr_date+"-"+curr_month+"-"+curr_year;
+			$(".st_date").val(date);
+		   
+		   
+			 $("#className").html(v.services);
+			if(v.e_first_name!="" || v.e_last_name!=""){
+			$("#trainers").html(v.e_first_name+" "+v.e_last_name);
+			}else{
+			$("#trainers").css("display",'none');
+			}
+			$("#StartDate").html(v.date);
+			$("#StartTime").html(v.time);
+			$(".messageNote").val(v.note);
+			if(v.status=='active'){
+			    var url = base_url+"bcalendar/checkfordelete";
+					$.ajax({
+					type: "POST",
+					url: url,
+					data: { date : v.date,business_id:v.business_details_id,starttime:v.time,action:'reschedule'},
+					success: function(data) {
+					  if(data==0){ 
+						$(".cancelClass").hide();
+                        $(".closeclassapp").show();	//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
+						}else if(data==1){
+						$(".cancelClass").show();
+						$(".closeclassapp").show();
+						}
+					}
+				})
+			}else{
+			$(".cancelClass").hide();
+			$(".closeclassapp").show();
+			//$(".cancelClass").attr('value',appsclose).removeClass('btn-danger').attr('data-val','Close');
+			}
+		  })
+	   }
+	   })
+	}
 })
 
 function schedulenewclass(){
-   $("#postclass").removeAttr("seriesid")
+$("#apptype").attr('showonce','1');
+$("#postclass").removeAttr("seriesid")
 $("#addclass").removeAttr('data-toggle').removeClass('tab');
 $("#addclient").removeAttr('data-toggle').removeClass('tab'); 
 $(".demo").html(" ");
