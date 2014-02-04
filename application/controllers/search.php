@@ -14,7 +14,6 @@ class Search extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
-		$this->output->cache(60);
     }
 	
 	public function index() {
@@ -44,7 +43,7 @@ class Search extends CI_Controller {
 		$query = "";
 		if(isset($_POST['manager_name']) && $_POST['manager_name']!=""){
 			$this->data['manager_name']=$_POST['manager_name'];
-            $where.= " AND business_name LIKE '%" .$_POST['manager_name']. "%'";
+            $where.= " AND business_name LIKE '%" .mysql_real_escape_string($_POST['manager_name']). "%'";
 			//$where.= " AND (manager_firstname LIKE '%" .$_POST['manager_name']. "%' OR manager_lastname LIKE '%" .$_POST['manager_name']. "%')";
 			$filter['manager_name'] = $_POST['manager_name']; 
 		}else{
@@ -52,7 +51,7 @@ class Search extends CI_Controller {
 			if(!empty($keyword)){
 			$this->data['manager_name']=$keyword;
 			//$where.= " AND (manager_firstname LIKE '%" .$keyword. "%' OR manager_lastname LIKE '%" .$keyword. "%')";
-			$where.= " AND business_name LIKE '%" .$_POST['manager_name']. "%'";
+			$where.= " AND business_name LIKE '%" .mysql_real_escape_string($_POST['manager_name']). "%'";
 			}
 			
 		}

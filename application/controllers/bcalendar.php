@@ -1570,14 +1570,15 @@ function checkIfblocked(){
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('include/modal_busytime',$this->data);
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
-		 
-		// if($status->status=='active'){
+		// print_r($status->status); exit;
+		if($this->session->userdata['role']=="manager"){
+		if($status->status=='active'){
 		 $this->parser->parse('staffCalendar',$this->data);
-		 //}
-		 // else{
-		  // $this->parser->parse('deactivated',$this->data);
-		 // }
-		// $this->parser->parse('staffCalendar',$this->data);
+		 }else{
+		   $this->parser->parse('deactivated',$this->data);
+		 }
+		 }else{
+		  $this->parser->parse('staffCalendar',$this->data); }
 		 }
 		 $this->parser->parse('include/footer',$this->data);
 	}

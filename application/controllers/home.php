@@ -36,6 +36,9 @@ class Home extends CI_Controller {
 			
             /* End Pagination Code  */
 		}
+		$this->parser->parse('include/modal_signup',$this->data);
+		$this->data['details']=$this->common_model->getAlldatas("view_subscription_plans",0,10000,1);
+		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";
 	    $this->parser->parse('general/businesslist',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
@@ -58,6 +61,8 @@ class Home extends CI_Controller {
              $this->data['msg']=lang('Apps_activeuserforlogin');		  
 		  } else if($msg=='deactivated'){
              $this->data['msg']=lang('Apps_deactivateduserforlogin');		  
+		  } else if($msg=='notactivatedyet'){
+             $this->data['msg']=lang('Apps_notactivatedyet');		  
 		  }
 		}
 		
@@ -619,7 +624,13 @@ public function clientSignUp(){
 		$information=$this->facebook_twitter_Auth();
 		#print_r($information);exit;
 		$data['user_profile'] = $information;
-					
+		
+		if(!empty($_GET['provider']) && $_GET['provider']=="Twitter"){
+				$filter=array('email'=>$information->email,'profile_id' =>$information->identifier);
+			}else{
+				$filter=array('username'=>$information->displayName,'profile_id' =>$information->identifier);
+			} 
+		
 		#print_r($data['user_profile']);
 
 		$social_account = array('identifier' => $data['user_profile']->identifier,
@@ -634,6 +645,10 @@ public function clientSignUp(){
 							'birthMonth'	=>	$data['user_profile']->birthMonth,
 							'birthYear'	=>	$data['user_profile']->birthYear
 							);
+							
+		$this->load->model("home_model");	
+		$user_data = $this->home_model->check_user_exist_signup($filter,$social_account);					
+		
 		//$this->load->view('hauth/done',$data);
 		$this->session->set_userdata('social_account',$social_account);
 		
@@ -642,11 +657,41 @@ public function clientSignUp(){
 		else 	
 			redirect('profile/add_social_network');*/
 		#print_r($_GET['Signup_business']);exit;	
-		if(!empty($_GET['Signup_business']) && $_GET['Signup_business']==1){
-			redirect('home/?Signup_business=1');
-		}else{
-			redirect('home/clientSignUp');
-		}	
+		
+		if($user_data){ 
+			 if($user_data=='-2'){
+			   $this->page('notactivatedyet');
+			  }elseif($user_data=='-1'){
+			   //$row = $this->home_model->check_login_facebook($filter);
+			   $val=$this->common_model->getRow('users','id',$user_data);
+				$sessionVal=array(
+					'id'=>$val->id,
+					'username'=>$val->first_name,	
+					'email'=>$val->email,
+					'role'=>$val->user_role
+				);
+				$this->session->set_userdata($sessionVal); 
+				redirect('common_functions/businesslogin');
+			  }else{ 
+				//$row = $this->home_model->check_login_facebook($filter);
+				$val=$this->common_model->getRow('users','id',$user_data);
+				$sessionVal=array(
+					'id'=>$val->id,
+					'username'=>$val->first_name,	
+					'email'=>$val->email,
+					'role'=>$val->user_role
+				);
+				$this->session->set_userdata($sessionVal); 
+				redirect('cprofile');
+				}
+			}else{
+		
+				if(!empty($_GET['Signup_business']) && $_GET['Signup_business']==1){
+					redirect('home/?Signup_business=1');
+				}else{
+					redirect('home/clientSignUp');
+				}
+            }				
 		
 	}	
 	
@@ -717,7 +762,8 @@ public function clientSignUp(){
 				$filter=array('username'=>$user_profile->displayName,'profile_id' =>$user_profile->identifier);
 			} 
 				#print_r($filter);
-			
+		   $this->load->model("home_model");
+		   $rand=$this->home_model->random_password(5);
 			//print_r($filter);
 			if(!empty($user_profile)){
 			$social_account = array('profile_id' => $user_profile->identifier,
@@ -728,22 +774,39 @@ public function clientSignUp(){
 											'gender'=>$user_profile->gender,
 											'date_of_birth'=>$user_profile->birthYear."-".$user_profile->birthMonth."-".$user_profile->birthDay,
 											'profile_image' => $user_profile->photoURL,
-											'user_role' => 'client',
+											'random_key' => $rand,
+											'first_name' => $user_profile->firstName,
 											'username'=>(!empty($user_profile->displayName))?$user_profile->displayName:"");
             #print_r($social_account);exit;
-			$this->load->model("home_model");	
+				
 			$user_data = $this->home_model->check_user_exist($filter,$social_account);
-			#print_r($user_data);
+			//print_r($user_data);exit;
 			if($user_data){
-				$row = $this->home_model->check_login_facebook($filter);
+			  if($user_data=='-2'){
+			   $this->page('notactivatedyet');
+			  }elseif($user_data=='-1'){
+			  $val=$this->common_model->getRow('users','id',$user_data);
+			   //$row = $this->home_model->check_login_facebook($filter);
 				$sessionVal=array(
-					'id'=>$row[0]->id,
-					'username'=>$row[0]->first_name,	
-					'email'=>$row[0]->email,
-					'role'=>$row[0]->user_role
+					'id'=>$val->id,
+					'username'=>$val->first_name,	
+					'email'=>$val->email,
+					'role'=>$val->user_role
+				);
+				$this->session->set_userdata($sessionVal); 
+				redirect('common_functions/businesslogin');
+			  }else{
+				//$row = $this->home_model->check_login_facebook($filter);
+				 $val=$this->common_model->getRow('users','id',$user_data);
+				$sessionVal=array(
+					'id'=>$val->id,
+					'username'=>$val->first_name,	
+					'email'=>$val->email,
+					'role'=>$val->user_role
 				);
 				$this->session->set_userdata($sessionVal); 
 				redirect('cprofile');
+				}
 			}else{
 				
 			}

@@ -53,8 +53,9 @@ function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
 		}elseif($_POST['type']=='business'){
 		$this->db->update('user_business_details',$insertArray,array('id' => $_POST['id']));
 		$val=$this->common_model->getRow('user_business_details','id',$_POST['id']);
+		$vals=$this->update_employee($_POST['id'],$insertArray2,$val->users_id);
 		$this->db->update('users',$insertArray1,array('id' => $val->users_id));
-		$this->update_employee($_POST['id'],$insertArray2,$val->users_id);
+		
 		}
 		if($this->db->affected_rows()>0){
          print_r(trim($insertArray['status']));	
@@ -72,8 +73,11 @@ function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
 		foreach($data as $datav){
 		 $this->db->update('users',$array,array('id' => $datav->users_id));
 		}
-		}
 		return true;
+		}else{
+		return false;
+		}
+		
 	}
 	
 	function insertUser($table=false,$filter=false,$id=false){

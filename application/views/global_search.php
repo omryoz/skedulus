@@ -118,7 +118,7 @@
 					</div>
 					<?php 
 					}?>
-					<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
+					<center><span class="pagination pagination-right"><ul><?php //echo $pagination;?></ul></span></center>
 <?php					}else{ ?>
 					 <p class="alert"><?=(lang('Apps_noresultfound'))?></p>
 					<?php } ?>

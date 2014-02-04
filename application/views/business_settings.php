@@ -66,11 +66,10 @@ $("#deactivate_business").click(function(){
 	 success:function(data){ 
 	    var str=data.trim();
 		if(str==0){
-		  $(".alert").html("password does not match");
+		  $(".alert").html(passwordnotmatch);
 		  $(".alert").show();
 		}else{
-		  //alert("Your business has been deactivated succefully");
-		    apprise('Your business has been deactivated succefully', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=base_url+'cprofile';}else{ return false; } });
+		    apprise(businessdeactivatedsuccess, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=base_url+'cprofile';}else{ return false; } });
 		}
 	 }
    })

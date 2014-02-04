@@ -167,7 +167,7 @@ class Clients extends CI_Controller {
 	   }
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
-		$where=" users_id =".$this->session->userdata['id'];
+		$where=" users_id =".$this->session->userdata['id']." and status='active'";
 	    $config['total_rows'] = $this->common_model->getCount('view_favourite_businesses','favourite_id',$where);
 		if($config['total_rows']){
 		    $config['base_url'] = base_url().'clients/favourite/';

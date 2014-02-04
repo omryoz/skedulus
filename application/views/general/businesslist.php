@@ -124,7 +124,7 @@
 		  		</div>
 				
 	
-	
+	<input type="text" name="count" value="10" class='count hide'/> 
 	
 	
 </div>
@@ -133,4 +133,79 @@
   e.preventDefault();
   $(this).tab('show');
 })
+
+    $(window).scroll(function(){ 
+		 var $this = $(this);
+		 if($(this).scrollTop() > 0){
+		var height = $(window).height();
+           // var height = this.scrollHeight - $this.height(); // Get the height of the div
+            var scroll = $this.scrollTop(); // Get the vertical scroll position
+           //alert(height); alert(scroll);
+           // var isScrolledToEnd = (scroll >= height);
+
+            $(".scroll-pos").text(scroll);
+            $(".scroll-height").text(height);
+
+            if($(window).scrollTop() + $(window).height() == $(document).height()) {
+
+var count=$(".count").val(); 
+ var count=count++;
+// var Nextcount=parseInt(count)+parseInt(1);
+ $(".count").val(count); alert(count);
+ var data = {'showmore':showmore,'count':count};			
+            // showmore();	
+			 $.ajax({
+			   url:base_url+'home/businesslist',
+					 type:'POST',
+					 data:data,
+					 success:function(data){ 
+					 alert(data);
+					 }
+			  })			
+			  
+            }
+		}
+			
+    })
+ 
+ 
+ 
+ 
+	// $(window).scroll(function () {
+               // $('#more').hide();
+                //$('#no-more').hide();
+
+                // if($(window).scrollTop() + $(window).height() > $(document).height() - 20) {
+                   //$('#more').show();
+                // }
+                // if($(window).scrollTop() + $(window).height() == $(document).height()) {
+                  // $('#more').hide();
+                   // $('#no-more').hide();
+                  
+					// showmore(); alert("ss");
+                  
+                // }
+
+
+            // });
+ 
+ 
+ 
+ function showmore(){
+ var count=$(".count").val(); 
+ var count=count++;
+// var Nextcount=parseInt(count)+parseInt(1);
+ $(".count").val(count); alert(count);
+ var data = {'showmore':showmore,'count':count};
+  $.ajax({
+   url:base_url+'home/businesslist',
+		 type:'POST',
+		 data:data,
+		 success:function(data){ 
+		 alert(data);
+		 }
+  })
+ }
+ 
 </script>
+

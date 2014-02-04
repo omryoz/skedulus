@@ -122,13 +122,16 @@
 				if($status==1){
 				  $url=base_url().'basicinfo';
 				  $class='';
+				  $phonenum='';
 				}else{
 				  $url='';
 			      $class='verifyphone';
+				  $phonenum=$phonenumber;
 				}
 			  }else{
 			     $url='';
 			     $class='managerSignup';
+				 $phonenum='';
 			  }
 			  // if(isset($this->session->userdata['id'])) {
 			     // $url=base_url().'basicinfo';
@@ -138,7 +141,7 @@
 			     // $class='managerSignup';
 			  // } 
 			  ?>
-			  <a  href="<?=$url; ?>" role="button"  data-toggle="modal" class="btn btn-success span3 <?=$class ?>" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
+			  <a  href="<?=$url; ?>" role="button"  data-toggle="modal" phone="<?php echo $phonenum ?>" class="btn btn-success span3 <?=$class ?>" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 			  <!-- basic info start -->
 			  </div>
       
@@ -260,8 +263,14 @@ $(".verifyphone").click(function(){
 	 $(".alert").hide();
 		$("#key").val("");
 		$("#updatePhone").val("");
+		if($(".verifyphone").attr('phone')!=''){
 		$("#verifyP").show();
 		$("#getnumber").hide();
+		}else{
+		$("#verifyP").hide();
+		$("#getnumber").show();
+		}
+		
 })
 
 

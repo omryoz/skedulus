@@ -128,15 +128,67 @@ function getBusiness($offset=false,$limit=false){
 		}
     }
 	
+	function checklogin($val,$social_account){
+	   if($val->profile_id==0){
+	   //$array=array('password'=>'');
+	   //array_push($social_account,$array);
+	   $this->db->update('users',$social_account,array('id' => $val->id));
+	   //echo "here";echo $this->db->last_query(); exit;
+	   } 
+	   if($val->user_role=='client'){
+		  return '1'; 
+		}elseif($val->user_role=='manager' && $val->status=='inactive'){ 
+		    return '-2';
+		   }else{
+			return '-1';
+			}
+	}
+	
 	function check_user_exist($filter=false,$social_account=false){ 
+	  $val=$this->common_model->getRow('users','email',$social_account['email']);
 	  $query = $this->db->get_where("users",$filter);
-		//echo $this->db->last_query();
-		if($query->num_rows()>0){
-			return true;
-		}else {
+		//echo "here";echo $this->db->last_query(); exit;
+		if($query->num_rows()>0){ 
+		if($val->user_role=='client'){
+		  return '1'; 
+		}elseif($val->user_role=='manager' && $val->status=='inactive'){ 
+		    return '-2';
+		   }else{
+			return '-1';
+			}
+		}else{
+		
+		if($val==''){
 			$this->db->insert('users',$social_account);
 			$id = $this->db->insert_id();
 			return $id;
+		 }else{  
+		   $stat =$this->checklogin($val,$social_account);
+		   return $stat;
+		  }
+		}
+	}
+	
+	function check_user_exist_signup($filter=false,$social_account=false){ 
+	  $val=$this->common_model->getRow('users','email',$social_account['email']);
+	  $query = $this->db->get_where("users",$filter);
+		//echo $this->db->last_query();
+		if($query->num_rows()>0){
+			if($val->user_role=='client'){
+		    return '1'; 
+		    }elseif($val->user_role=='manager' && $val->status=='inactive'){ 
+		    return '-2';
+		    }else{
+			return '-1';
+			}
+		}else {
+			if($val==''){
+			return false;
+		  }else{  
+		   $stat =$this->checklogin($val,$social_account);
+		   return $stat;
+		  }
+			
 		}
 		
 	}

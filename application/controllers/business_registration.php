@@ -36,7 +36,7 @@ class Business_registration extends CI_Controller {
 		 $this->data['status']='1';
 		}else{
 		$this->data['status']='0';
-		
+		$this->data['phonenumber']=$Cstatus->phone_number;
         }		
 		}
 		

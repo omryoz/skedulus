@@ -497,5 +497,12 @@
 		$lang['Apps_Thursday']="חמישי";
 		$lang['Apps_Friday']="שישי";
 		$lang['Apps_Saturday']="שבת";
+		
+		/*deactivate business*/
+		$lang['Apps_deactivate']="Deactivate business";
+		$lang['Apps_enterpassword']="Enter your password to proceed further";
+		$lang['Apps_passwordnotmatch']="Password does not match";
+		$lang['Apps_businessdeactivatedsuccess']="Your business has been deactivated succefully";
+		$lang['Apps_businesses']="Businesses";
 ?>
 
