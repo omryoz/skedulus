@@ -80,6 +80,57 @@
 })(jQuery, window, document);
 </script>
 
+
+ 
+<!-- Modal -->
+<div id="termsconditions" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Terms & Conditions</h3>
+  </div>
+  <div class="modal-body">
+    <p>
+	In using the Website/Services you agree not to:
+
+1. use the Services to send junk email, spam, chain letters, pyramid schemes or any other unsolicited messages, commercial or otherwise;
+
+2. post, publish, distribute or disseminate material or information that is defamatory, infringing, obscene, indecent, threatening, abusive, harassing or unlawful;
+
+3. post, publish, distribute or disseminate material or information that incites discrimination, hate or violence towards any person or group on account of their race, religion, disability, nationality or otherwise;
+
+4. threaten, abuse, disrupt, stalk or otherwise violate the legal rights (including rights of privacy and publicity) of others;
+
+5. use any information or material in any manner that infringes any copyright, trademark, patent or other proprietary right of any party;
+
+6. make available or upload files that contain a virus, worm, trojan or corrupt data that may damage the operation of the computer or property of another;
+
+7. collect or store personal information about others, including email addresses;
+
+8. advertise or offer to buy or sell goods or services for any commercial purpose, unless such communication facility specifically allows such messages;
+
+9. impersonate any person or entity for the purpose of misleading others;
+
+10. violate any applicable laws or regulations;
+
+11. use the Website/Services in any manner that could damage, disable, overburden or impair the Website/Services or interfere with any other party´s use and enjoyment of the Website/Services;
+
+12. post, publish, distribute or disseminate material or information that you do not have a right to transmit under any law or under contractual or fiduciary relationships (such as inside information or confidential information disclosed in the course of employment or under a confidentiality agreement);
+
+13. attempt to gain unauthorised access to any of the Services, other accounts, computer systems or networks connected to the Website/Services through hacking, password mining or any other means.
+
+3. We have no obligation to monitor the Services but shall be entitled to review materials posted to a communications facility and, at our sole discretion, to remove any material that breaches these Terms and Conditions or is otherwise objectionable.
+
+7. TERMINATION
+
+1. We have the right to terminate your access to any or all of the Services at any time, without notice, for any reason, including without limitation, breach of these Terms and Conditions. We may also at any time, at our sole discretion, discontinue the Website/Services or any part thereof without prior notice and you agree that we shall not be liable to you or any third party for any termination of your access to the Website/Services
+	</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
 <div class="content container login_page">
 <?php if(isset($success)){ ?>
 	<p class="alert"><?=(lang('Apps_verificationlink'))?></p>
@@ -203,6 +254,7 @@
 		 <div id="passwordDescription"></div>
 		 <div id="passwordStrength" class="strength0"></div>
 		 <br/>
+		 <p>By clicking "Create an account", you accept Skedulus<a href="#termsconditions" role="button" class="btn" data-toggle="modal"> Term of Service agreement</a></p>
 		  <input type="submit" name="Create Account" value="<?=(lang('Apps_createacc'))?>" class="btn span8 btn-success">
 		  <!--<a href="business_overview.php" type="submit" class="btn span12 btn-success">Create Account</a>--->
 		  <input type="hidden" name="usertype" value="<?php echo $userRole; ?>" />  
@@ -243,6 +295,8 @@ function passwordStrength(password)
 	 document.getElementById("passwordDescription").innerHTML = desc[score];
 	 document.getElementById("passwordStrength").className = "strength" + score;
 }
+
+
 </script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/modernizr-custom.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/polyfills/polyfiller.js"></script>

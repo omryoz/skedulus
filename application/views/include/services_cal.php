@@ -1,5 +1,6 @@
 <link href='<?php echo base_url() ?>calendar/calendar.css' rel='stylesheet' />
 <link href='<?php echo base_url() ?>calendar/agendalist.css' rel='stylesheet' />
+<link href='<?php echo base_url() ?>calendar/calendar.print.css' rel='stylesheet' media='print' />
 <script src='<?php echo base_url() ?>calendar/lib/jquery-ui.custom.min.js'></script>
 <script src='<?php echo base_url() ?>calendar/calendar.js'></script>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>calendar/qtip/jquery.qtip.css">
@@ -179,6 +180,9 @@
     $.post(url,{date:date,business_id:businessid,staffid:staffid,timeslot:$("#eventStartTime").val()},function(data){
 	 if(data==-1){
 	 apprise(nonworkingday, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	 // alert("Its a non working day.Kindly book on another day");
+	 }else if(data==-4){
+	 apprise(pasttime, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	 // alert("Its a non working day.Kindly book on another day");
 	 }else if(data==0){
 	 apprise(pastdates, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });

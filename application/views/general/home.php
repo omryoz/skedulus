@@ -11,7 +11,7 @@
 	<p class="alert"><?=$msg ?></p>
 	<?php } ?>
 	
-		<div class="container">
+		<div class="container home-searchbox">
 			<div class="row-fluid ">
 				<div class="span12">
 					<div class="sp-slideshow">
@@ -33,24 +33,22 @@
 						<div class="sp-content">
 							<div class="sp-parallax-bg"></div>
 							<ul class="sp-slider clearfix">
-								<!--<li><img src="images/banner_left.png" alt="image01" class="banner_l" /> <img src="images/banner_right.png" alt="image02" class="banner_l" /></li>
-								<li><img src="images/second_layer.png" alt="image03" /></li>-->
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text1.png"><img src="<?php echo base_url(); ?>img/calendar1.png">
-									<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>
+									<!--<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>-->
 								</li>
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text2.png"><img src="<?php echo base_url(); ?>img/calendar2.png">
-								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
-								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"><a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<!--<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>--></li>
+								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text3.png"><img src="<?php echo base_url(); ?>img/calendar3.png"><!--<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>--></li>
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text4.png"><img src="<?php echo base_url(); ?>img/calendar4.png">
-								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<!--<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>--></li>
 								<li class="slider-first"><img src="<?php echo base_url(); ?>img/text5.png"><img src="<?php echo base_url(); ?>img/calendar5.png">
-								<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a></li>
+								<!--<a  class="btn btn-primary span4 managerSignup" href="#" role="button"  data-toggle="modal" ><?=(lang('Apps_startyourfreetrial'))?></a>--></li>
 							</ul>
-						</div><!-- sp-content -->
-					</div><!-- sp-slideshow -->
+						</div>
+					</div>
 				</div>
 		
-			</div><!--row-fluid ends here-->
+			</div>
 		
 			<div class="row-fluid" >
 			<!--code for left nav start from here-->
@@ -85,45 +83,7 @@
 				</div>
 			</div>
 		</div>
-					<div class="row-fluid static-info">
-								<div class="span4">
-									<div class="row-fluid">
-										<div class="span2 magic">
-											<i class="icon-magic"></i>
-										</div>
-										<div class="span10">
-											<h3>SIMPLIFY YOUR LIFE</h3>
-												<p>Skeduler provides a blend of simplicity and speed to help you book your appointments from anywhere, anytime.</p>
-										</div>
-									</div>
-								</div>
-								<div class="span4">
-									<div class="row-fluid">
-										<div class="span2 normal">
-											<i class="icon-mobile-phone"></i>
-										</div>
-										<div class="span10">
-											<h3>WE'LL REMIND YOU</h3>
-												<p>Get notifications straight to your phone if your appointment is canceled or re-scheduled by text or email.</p>
-										</div>
-									</div>
-
-								
-								
-								</div>
-								<div class="span4">
-									<div class="row-fluid">
-										<div class="span2 normal">
-										<i class="icon-time"></i>
-										</div>
-										<div class="span10">
-											<h3>INSTANT BOOKINGS</h3>
-											<p>Appointments booked, or canceled, are always guaranteed. There is no waiting, no call backs. Simply select, book and done.</p>
-										</div>
-									</div>
-
-					</div>
-				</div>
+					
 					<!---<div class="row-fluid Wrap">
 					 <div class="wrap_inner">
 					 <?php if(!empty($contentList)){ $i=1; ?>
@@ -232,6 +192,47 @@
 			</div><!--row  fluid ends here-->
 		</div>	
 	</div><!--code for content  end  here-->
+	
+	<div class="row-fluid static-info">
+		<div class="container">
+								<div class="span4">
+									<div class="row-fluid">
+										<div class="span2 magic">
+											<i class="icon-magic"></i>
+										</div>
+										<div class="span10">
+											<h3>SIMPLIFY YOUR LIFE</h3>
+												<p>Skeduler provides a blend of simplicity and speed to help you book your appointments from anywhere, anytime.</p>
+										</div>
+									</div>
+								</div>
+								<div class="span4">
+									<div class="row-fluid">
+										<div class="span2 normal">
+											<i class="icon-mobile-phone"></i>
+										</div>
+										<div class="span10">
+											<h3>WE'LL REMIND YOU</h3>
+												<p>Get notifications straight to your phone if your appointment is canceled or re-scheduled by text or email.</p>
+										</div>
+									</div>
+
+								
+								
+								</div>
+								<div class="span4">
+									<div class="row-fluid">
+										<div class="span2 normal">
+										<i class="icon-time"></i>
+										</div>
+										<div class="span10">
+											<h3>INSTANT BOOKINGS</h3>
+											<p>Appointments booked, or canceled, are always guaranteed. There is no waiting, no call backs. Simply select, book and done.</p>
+										</div>
+									</div>
+						</div>
+					</div>
+				</div>
  
 
 <script>

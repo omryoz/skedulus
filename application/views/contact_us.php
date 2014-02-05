@@ -1,10 +1,36 @@
             <div class="content container">
-			
+			<h3> Contact Us </h3>
+			<hr/>
 			<div class="row-fluid">
-				<div class="span12">
-						<h3> Contact Us </h3>
+			
+				<div class="span6">
+				
+					<form class="form-horizontal">
+					  <div class="control-group">
+						<label class="control-label" for="inputEmail">Email</label>
+						<div class="controls">
+						  <input type="text" id="inputEmail" placeholder="Email">
+						</div>
+					  </div>
+					  <div class="control-group">
+						<label class="control-label" for="inputPassword">Password</label>
+						<div class="controls">
+						  <input type="password" id="inputPassword" placeholder="Password">
+						</div>
+					  </div>
+					  <div class="control-group">
+						<div class="controls">
+						  <label class="checkbox">
+							<input type="checkbox"> Remember me
+						  </label>
+						  <button type="submit" class="btn">Sign in</button>
+						</div>
+					  </div>
+					</form>
 						
-							<strong class="text">Founders:</strong>
+				</div>
+				<div class="span6">
+						<strong class="text">Founders:</strong>
 							<p class="text">Lorem ipsum</p>
 
 							<strong class="text">You can write us here:</strong>
@@ -15,11 +41,7 @@
 							<strong class="text">Imprint:</strong>
 							
 							<p class="text">lorem ipsum lorem ipsum <br clear="left"/> lorem ipsum lorem ipsum <br clear="left"/> lorem ipsum lorem ipsum  <br clear="left"/>lorem ipsum lorem ipsum lorem ipsum</p>
-
-
-							
-						
-						
+				
 				</div>
 				
 			</div>

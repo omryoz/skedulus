@@ -730,7 +730,7 @@ function removebValue(list, value) {
   return list.replace(new RegExp(value + ',?'), '')
 }
 
-function getAllStaffs(business_id,staffid,date,starttime){
+function getAllStaffs(business_id,staffid,date,starttime){ 
  var url = base_url+"bcalendar/getstaffnameByfilter";
   $.post(url,{business_id:business_id,date:date,starttime:starttime}, function(data){ 
 		$(".bstaff").html(""); 
@@ -793,6 +793,10 @@ function checkforbusytime(employeeid,date,starttime,endtime,eventId){
 	     $(".alltrue").val("0");
 	     $("#book_busytime").attr("onsubmit","return false;");
 		$(".message").addClass("alert").html(startendtimesame).css({"display":"block","margin":"0px"});
+	 }else if(data==-5){
+	     $(".alltrue").val("0");
+	     $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html(pastbusytime).css({"display":"block","margin":"0px"});
 	 }else if(data==-2){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
@@ -836,6 +840,10 @@ var d=new Date($(".StartDate").val());
 	   $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
 		$(".message").addClass("alert").html(endtimelessthanstarttime).css({"display":"block","margin":"0px"});
+	 }else if(data==-4){
+	   $(".alltrue").val("0");
+	    $("#book_busytime").attr("onsubmit","return false;");
+		$(".message").addClass("alert").html(pastbusytime).css({"display":"block","margin":"0px"});
 	 }else if(data==-2){
 	    $(".alltrue").val("0");
 	    $("#book_busytime").attr("onsubmit","return false;");
@@ -1016,10 +1024,12 @@ var d=new Date($("#eventStartDate").val());
 	  var staffid=$("#staffsid").val();
 	}
 	 var url1 = base_url+"bcalendar/checkbusyfordate";
-$.post(url1,{date:date,business_id:businessid,staffid:staffid},function(data){
+$.post(url1,{date:date,business_id:businessid,staffid:staffid,timeslot:timeslot},function(data){
 var str=data; var data=str.trim();
    if(data==0){
        apprise(pastdates, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } }); 
+   }else if(data==-2){
+      apprise(pastbusytime, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
    }else if(data==-1){
       apprise(nonworkingday, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
    }else{

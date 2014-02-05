@@ -39,8 +39,15 @@
 							<?php }else{
 							  ?>
 							  <li> 
-								<a href="<?php echo base_url(); ?>business_registration"><center>
-								<i class="icon-flag icon-white icon-large"></i></center><span><?=(lang('Apps_f&p'))?></span></a>
+								<a href="<?php echo base_url(); ?>home/businesslist"><center>
+								<i class="icon-flag icon-white icon-large"></i></center><span>
+								<?=(lang('Apps_businesses'))?>
+								<? // echo(lang('Apps_f&p'))?>
+								</span></a>
+								<!---<a href="<?php echo base_url(); ?>business_registration"><center>
+								<i class="icon-flag icon-white icon-large"></i></center><span>
+								<? // echo(lang('Apps_f&p'))?>
+								</span></a>--->
 							</li> 
 							  <?php 
 							} ?>

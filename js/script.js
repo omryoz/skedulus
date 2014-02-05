@@ -972,6 +972,9 @@ $(".time").live("change",function(){
 				}else if(data==-5){
 				    $(".message").addClass("alert").html(duplicatedate);
 					$(".book_appointment").attr("onsubmit","return false;");
+				}else if(data==-6){
+				    $(".message").addClass("alert").html(pasttime);
+					$(".book_appointment").attr("onsubmit","return false;");
 				}else{
 					console.log(data);
 					$(".end_time").val(data);
@@ -1047,6 +1050,9 @@ $(".message").removeClass("alert").html(" ");
 				 }else if(data==-3){
 				   $(".book_appointment").attr("onsubmit","return false;");
 					$(".message").addClass("alert").html(duplicatedate).css({"display":"block","margin":"0px"});
+				 }else if(data==-4){
+				   $(".book_appointment").attr("onsubmit","return false;");
+					$(".message").addClass("alert").html(pasttime).css({"display":"block","margin":"0px"});
 				 }else{
 				    $(".end_time").val(data);
 					$(".book_appointment").attr("onsubmit","return true;");

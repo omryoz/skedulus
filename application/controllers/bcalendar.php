@@ -230,7 +230,9 @@ class Bcalendar extends CI_Controller {
 	 }
 	if($status=='1'){
 	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -4;
+	}elseif($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 		//print_r($this->input->post());
 		$time = "";
 		$timeActual = "";
@@ -546,6 +548,8 @@ function checkfordate(){
 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
 		  echo 0;
+		}else if(strtotime($this->input->post('date')." ".$this->input->post('timeslot'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -4;
 		}else{
 		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		  if(isset($this->session->userdata['id'])){
@@ -657,7 +661,9 @@ function bussytime(){ //print_r($_POST); exit;
 
 function checkbusyfordate(){ 
 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
+		if(strtotime($this->input->post('date')." ".$this->input->post('timeslot'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -2;
+	    }elseif(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
 		  echo 0;
 		}else{
 	      echo 1;
@@ -811,7 +817,9 @@ function referal_url($url){
 	 }
 	if($status=='1'){
 	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-	if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -6;
+	}elseif($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
 	   if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		
 		$time = "";
@@ -915,7 +923,9 @@ function referal_url($url){
 		if($this->input->post('employeeid')!='Select Staff'){
 		$staffid=$this->input->post('employeeid');
 		}
-         if(strtotime($this->input->post('date'))<=strtotime(date("d-m-Y"))){
+		if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -4;
+		 }elseif(strtotime($this->input->post('date')) < strtotime(date("d-m-Y"))){
 		  echo -1;
 		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
 		  echo 0;
@@ -936,7 +946,9 @@ function referal_url($url){
 		if($this->input->post('employeeid')!='Select Staff'){
 		$staffid=$this->input->post('employeeid');
 		}
-	     if(strtotime($this->input->post('date'))<=strtotime(date("d-m-Y"))){
+		if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
+		  echo -5;
+	    }elseif(strtotime($this->input->post('date')) < strtotime(date("d-m-Y"))){
 		  echo -1;
 		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
 		  echo 0;
