@@ -470,6 +470,7 @@ function getfreeslots(){
 			 $this->data['booked_slots'] = $this->common_model->getBookedslotsByDate(date("Y-m-d",strtotime($this->input->post('date'))),$where);
 			 $this->data['businessid']=$this->input->post('business_id');
 			 $this->data['appdate']= $this->input->post('date');
+			 $this->data['eventId']= $this->input->post('eventId');
 			 $this->data['type']= 'service';
 			 $this->load->view("options",$this->data);
 			
@@ -506,6 +507,7 @@ function getfreeslotsbydate(){
 			 }else{
 			  $this->data['selectedTimeSlot']='';
 			 }
+			 
 			 if($this->input->post('eventId')!=''){ 
 			 $this->data['selectedTimeSlot']=date('H:i', strtotime($this->input->post('timeslot')));
 			  $where.=' AND id!='.$this->input->post('eventId');
@@ -520,7 +522,8 @@ function getfreeslotsbydate(){
 			 //exit;	
 			 //print_r($this->data['slots']);
      	     $this->data['businessid']=$this->input->post('business_id');
-			 $this->data['appdate']= $this->input->post('date');
+			 $this->data['appdate']= $this->input->post('date'); 
+			 $this->data['eventId']= $this->input->post('eventId');
 			 $this->data['type']= 'service';
 			 $this->load->view("options",$this->data);
 			}else{ 
@@ -655,15 +658,15 @@ function bussytime(){ //print_r($_POST); exit;
  }else{
     $this->bprofile_model->insertbusytime();
  }
-     redirect("/bcalendar/cal/".$this->session->userdata['business_id']);
+ // $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
+  redirect("/bcalendar/staffSchedule/".$this->input->post('staff')."/Services");
+    // redirect("/bcalendar/cal/".$this->session->userdata['business_id']);
  }
 }
 
 function checkbusyfordate(){ 
 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
-		if(strtotime($this->input->post('date')." ".$this->input->post('timeslot'))<strtotime(date("d-m-Y H:i"))){ 
-		  echo -2;
-	    }elseif(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
+		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
 		  echo 0;
 		}else{
 	      echo 1;
@@ -925,7 +928,7 @@ function referal_url($url){
 		}
 		if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
 		  echo -4;
-		 }elseif(strtotime($this->input->post('date')) < strtotime(date("d-m-Y"))){
+		 }elseif(strtotime($this->input->post('date'))< strtotime(date("d-m-Y"))){
 		  echo -1;
 		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
 		  echo 0;
@@ -946,9 +949,7 @@ function referal_url($url){
 		if($this->input->post('employeeid')!='Select Staff'){
 		$staffid=$this->input->post('employeeid');
 		}
-		if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
-		  echo -5;
-	    }elseif(strtotime($this->input->post('date')) < strtotime(date("d-m-Y"))){
+	     if(strtotime($this->input->post('date'))< strtotime(date("d-m-Y"))){
 		  echo -1;
 		 }elseif(strtotime($this->input->post('starttime'))==strtotime($this->input->post('endtime'))){
 		  echo 0;
@@ -1334,6 +1335,7 @@ function referal_url($url){
 			 $this->data['businessid']=$this->input->post('business_id');
 			 $this->data['appdate']= $this->input->post('date');
 			 $this->data['type']= 'class';
+			 $this->data['eventId']= $this->input->post('eventId');
 			 $this->load->view("options",$this->data);
 			 
 		}else{

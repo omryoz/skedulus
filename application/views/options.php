@@ -14,13 +14,12 @@
 			//$end_booked[] = strtotime($booked->end_time);
 		}
 		
-		if($selectedTimeSlot){
+		if($selectedTimeSlot && $eventId==''){
 		if($type=='service'){
 		$endtimeslot=$this->business_profile_model->getendtimeslot($selectedTimeSlot,$appdate,$businessid);
 		}else{
 		$endtimeslot=$this->business_profile_model->getclassendtimeslot($selectedTimeSlot,$appdate,$businessid);
 		}
-		//echo $endtimeslot; exit;
 		}
 		
 		

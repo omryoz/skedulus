@@ -912,10 +912,11 @@ $("#singlebusytime").click(function(){
 })
 
 $(".deletebusytime").click(function(){
-	  apprise(deletebusytime, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deletebussytime(); }else{ return false; } });
+var staffid=$('.bstaff').val();
+	  apprise(deletebusytime, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ deletebussytime(staffid); }else{ return false; } });
 })
 
-function deletebussytime(){
+function deletebussytime(staffid){
   var url = base_url+"bcalendar/deletebusytime";
   if($('.busytype').attr('type-name')=='multi'){
     var val=$('.seriesid').val();
@@ -925,7 +926,8 @@ function deletebussytime(){
 	var vals='id';
   }
   $.post(url,{id:val,type:vals,startdate:$(".StartDate").val(),enddate:$(".endDate").val()},function(data){
-    window.location.href=base_url+'bcalendar/cal/'+$("#profileid").html();
+    window.location.href=base_url+'/bcalendar/staffSchedule/'+staffid+'/Services';
+	//window.location.href=base_url+'bcalendar/cal/'+$("#profileid").html();
   })
 }
 

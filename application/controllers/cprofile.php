@@ -3,7 +3,7 @@
 class Cprofile extends CI_Controller {
 
 	function __construct(){
-		parent::__construct();
+		parent::__construct(); 
 		if(isset($this->session->userdata['id'])){ 
 		$this->load->helper('form');
 		$this->load->library('parser');
@@ -91,6 +91,15 @@ class Cprofile extends CI_Controller {
 		 }else{
 		 echo 0;
 		 }
+	}
+	
+	function checkStatus(){
+	   $val=$this->common_model->getRow('users','id',$this->session->userdata('id'));
+	   if($val->phone_number!=''){
+	     echo 1;
+	   }else{
+	     echo 0;
+	   }
 	}
 	
 	public function updateStatus(){

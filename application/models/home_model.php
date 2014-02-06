@@ -136,7 +136,7 @@ function getBusiness($offset=false,$limit=false){
 	   //echo "here";echo $this->db->last_query(); exit;
 	   } 
 	   if($val->user_role=='client'){
-		  return '1'; 
+		  return $val->id; 
 		}elseif($val->user_role=='manager' && $val->status=='inactive'){ 
 		    return '-2';
 		   }else{
@@ -150,7 +150,7 @@ function getBusiness($offset=false,$limit=false){
 		//echo "here";echo $this->db->last_query(); exit;
 		if($query->num_rows()>0){ 
 		if($val->user_role=='client'){
-		  return '1'; 
+		  return $val->id; 
 		}elseif($val->user_role=='manager' && $val->status=='inactive'){ 
 		    return '-2';
 		   }else{
@@ -175,7 +175,7 @@ function getBusiness($offset=false,$limit=false){
 		//echo $this->db->last_query();
 		if($query->num_rows()>0){
 			if($val->user_role=='client'){
-		    return '1'; 
+		    return $val->id; 
 		    }elseif($val->user_role=='manager' && $val->status=='inactive'){ 
 		    return '-2';
 		    }else{
@@ -192,7 +192,7 @@ function getBusiness($offset=false,$limit=false){
 		}
 		
 	}
-	
+		
 	function random_password( $length = 5 ) {
     $chars = "0123456789";
     $password = substr( str_shuffle( $chars ), 0, $length );
