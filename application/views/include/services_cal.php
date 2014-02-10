@@ -159,7 +159,7 @@
 		}
 	}
 	
-	function showdiv(){
+	function showdiv(){ 
 	$("#selectedService").val("");
     $(".viewSchedule").hide();
 	$(".titleAppointment").html(bookappointment);
@@ -189,6 +189,10 @@
 	  //alert("Cannot book for past days");
 	 }else if(data==-2){
 	 apprise(cannotbookfutureappointment, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	  //alert("Cannot book for past days");
+	 }else if(data==-5){
+	 showsettings(businessid);
+	 // apprise(cannotbookfutureappointment, {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
 	  //alert("Cannot book for past days");
 	 }else if(data==-3){
 	 window.location.href=base_url+'businessProfile/redirectUrl/?url='+$("#redirecturl").val();
@@ -225,6 +229,19 @@
 	   
 	 }
 	})
+	}
+	
+	function showsettings(businessid){
+	var url=baseUrl+'bcalendar/getbsettings';
+	var data={'businessid':businessid,'action':'schedule'};
+	  $.post(url,data,function(data){ 
+	  if(data==1){
+	  var data=data+' hour';
+	  }else{
+	  var data=data+' hours';
+	  }
+	     apprise('you can only book'+data+' before the current time', {'confirm':false, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){  }else{ return false; } });
+	  })
 	}
 </script>
 <input type="hidden" name="count" value="0" id="count">

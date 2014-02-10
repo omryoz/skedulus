@@ -51,7 +51,7 @@ class Search extends CI_Controller {
 			if(!empty($keyword)){
 			$this->data['manager_name']=$keyword;
 			//$where.= " AND (manager_firstname LIKE '%" .$keyword. "%' OR manager_lastname LIKE '%" .$keyword. "%')";
-			$where.= " AND business_name LIKE '%" .mysql_real_escape_string($_POST['manager_name']). "%'";
+			$where.= " AND business_name LIKE '%" .mysql_real_escape_string($keyword). "%'";
 			}
 			
 		}
@@ -93,21 +93,27 @@ class Search extends CI_Controller {
 		}
 		//echo $query;
 		$where.=" AND user_status='active' and business_status='active'";
-	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
-		if($config['total_rows']){
+	   // $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
+		//if($config['total_rows']){
 			
-		    $config['base_url'] = base_url().'search/global_search/'.$query;
-			$config['per_page'] = '3';
-			$config['uri_segment'] = 6; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(6)!=''){
-				$offset=$this->uri->segment(6);
+		   // $config['base_url'] = base_url().'search/global_search/'.$query;
+			//$config['per_page'] = '100';
+			//$config['uri_segment'] = 6; 
+			//$this->pagination->initialize($config);
+			//$this->data['pagination']=$this->pagination->create_links();
+			//if($this->uri->segment(6)!=''){
+			//	$offset=$this->uri->segment(6);
+			//}else{
+			//	$offset=0;
+			//}
+			//$this->data['searchResult']=$this->common_model->searchResult('view_business_details',$where,$offset,$config['per_page']);
+			if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
 			}else{
-				$offset=0;
+			$offset =0;
 			}
-			#echo $offset;
-			$this->data['searchResult']=$this->common_model->searchResult('view_business_details',$where,$offset,$config['per_page']);
+			$limit=3;
+			$this->data['searchResult']=$this->search_model->searchResult('view_business_details',$where,$offset,$limit);
 			//$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
 			
             /* End Pagination Code  */
@@ -126,14 +132,13 @@ class Search extends CI_Controller {
 					endforeach;
 				}
 			}
-			#
-			#$this->data['fav'] = $fav['favorite'];
-			#print_r($this->data['fav']);
-			//$this->data['checkFavouritecounts'] = $this->bprofile_model->checkFavourite(array("details_id"=>$this->data['id'])); 
 			
-		}
+			
+		//}
 		
-		
+		if(isset($_POST['page_num'])){
+		$this->parser->parse('search_res',$this->data);
+		}else{
 		$this->parser->parse('include/header',$this->data);
 		if(isset($this->session->userdata['id']) && $this->session->userdata['role']=='client'){
 		$this->data['favList']=$this->search_model->getFavBusiness();
@@ -143,7 +148,8 @@ class Search extends CI_Controller {
 		 $this->parser->parse('include/dash_navbar',$this->data);
 		}
 		$this->parser->parse('global_search',$this->data);
-		$this->parser->parse('include/footer',$this->data);  
+		$this->parser->parse('include/footer',$this->data); 
+       }		
 	}
 	
 	function addtoFav(){
@@ -155,6 +161,7 @@ class Search extends CI_Controller {
 	  echo "false";
 	  }
 	}
+	
 	
 	
 }

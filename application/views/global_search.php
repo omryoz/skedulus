@@ -13,7 +13,7 @@
 				<div class="row-fluid strip">
 					<form action="<?php echo base_url(); ?>search/global_search" method="post" name="search">
 					<div class="span4">
-						<input type="text" class="span12 " name="manager_name" value="<?php echo $manager_name; ?>" placeholder="<?=(lang('Apps_businessfor'))?>">
+						<input type="text" class="span12 manager_name" name="manager_name" value="<?php echo $manager_name; ?>" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
 					  <!---<input id="searchTextField" type="text" name="location" class="span12 " size="50" placeholder="Enter a location" autocomplete="on" runat="server" value="<?php echo $location ?>" />  --->
@@ -54,7 +54,7 @@
 		</div> */?>
 		<div class="row-fluid global-block">
 		
-			<div class="span12 ">
+			<div class="span12 moreresult ">
 				
 					<!--<ul class="inline unstyled g-search">
 						<li>Sort By:</li>
@@ -66,7 +66,8 @@
 					<hr/>
 					<?php //print_r($searchResult); 
 					if(isset($searchResult) && $searchResult!="") {
-					foreach($searchResult as $result){ 
+					foreach($searchResult as $result){
+					$lastid=$result->business_id;					
 					?>
 					<div class=" global-div">
 						<div class="row-fluid ">
@@ -116,9 +117,10 @@
 								
 						</div>
 					</div>
+					
 					<?php 
 					}?>
-					<center><span class="pagination pagination-right"><ul><?php //echo $pagination;?></ul></span></center>
+					
 <?php					}else{ ?>
 					 <p class="alert"><?=(lang('Apps_noresultfound'))?></p>
 					<?php } ?>
@@ -181,7 +183,36 @@
 				</div>--->
 				
 		
-	
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){
+		  page= parseInt(page)+parseInt(3);
+		   var data = {'page_num':page,'manager_name':$(".manager_name").val(),'location':$('.postcode').val(),'category':$("#category").val()};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"search/global_search",
+				data:data,
+				success: function(data) { 
+				$(".moreresult").append(data);
+
+				}
+			});
+	  }
+	  
+	 
+
+</script>
 
 <script src="<?php echo base_url(); ?>js/jquery.raty.js" type="text/javascript"></script>
 <?php include('include/popupmessages.php'); ?>
+

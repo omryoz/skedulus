@@ -184,7 +184,8 @@ class Bcalendar extends CI_Controller {
 	}
 	
 	function checkreschedule(){
-	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	$starttime=date('H:i',strtotime($this->input->post('starttime')));
+	  if($this->checkdateTime(date('d-m-Y',strtotime($this->input->post('date'))),$this->input->post('business_id'),$starttime,$this->input->post('action'))){
 	  echo 1;
 	  }else{ 
 	  echo 0;
@@ -204,10 +205,9 @@ class Bcalendar extends CI_Controller {
 		} 
 		$diff1=strtotime($startTime)-strtotime($currentTime); 
 		$diff=date ('H:i',$diff1);
-		// print_r($currentTime);
-		// print_r($startTime);
-		// print_r($diff); exit;
-		if((strtotime($startTime) < strtotime($currentTime) || strtotime($date) < strtotime(date("d-m-Y"))) || ((strtotime($startTime) >= strtotime($currentTime)) && ($diff <= date ('H:i',strtotime($bookbefore)))) ){
+		//print_r(($startTime)); print_r($diff); print_r(($currentTime)); print_r($bookbefore);exit;
+		//if((strtotime($startTime) < strtotime($currentTime) || strtotime($date) < strtotime(date("d-m-Y"))) || ((strtotime($startTime) >= strtotime($currentTime)) && ($diff <= date ('H:i',strtotime($bookbefore)))) ){
+		if(( (strtotime($startTime) < strtotime($currentTime)) || ((strtotime($startTime) >= strtotime($currentTime)) && ($diff <= date ('H:i',strtotime($bookbefore)))) ) ){
 		   return false;
 			//echo "less time";
  		}else{	
@@ -232,7 +232,8 @@ class Bcalendar extends CI_Controller {
 	if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 	if(strtotime($this->input->post('date')." ".$this->input->post('starttime'))<strtotime(date("d-m-Y H:i"))){ 
 		  echo -4;
-	}elseif($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){
+	}
+	if($this->checkdateTime(date("d-m-Y",strtotime($this->input->post('date'))),$this->input->post('business_id'),$this->input->post('starttime'),$this->input->post('action'))){ 
 		//print_r($this->input->post());
 		$time = "";
 		$timeActual = "";
@@ -282,7 +283,7 @@ class Bcalendar extends CI_Controller {
 			// echo 1;
 		// }
 	}else{
-	    echo -1;
+	    echo -5;
 	}
 	}else{
 			echo 1;
@@ -547,6 +548,18 @@ function chckStatus(){
   }
 }
 
+
+function getbsettings(){
+		 $value=$this->common_model->getRow('business_notification_settings','user_business_details_id',$this->input->post('businessid'));
+		if($this->input->post('action')=='schedule'){
+		  $bookbefore=$value->book_before; 
+		}else{
+		  $bookbefore=$value->cancel_reschedule_before;
+		} 
+		echo $bookbefore;
+	}
+		
+		
 function checkfordate(){ 
 if($this->checkday($this->input->post('date'),$this->input->post('business_id'),$this->input->post('staffid'))){
 		if(strtotime($this->input->post('date'))<strtotime(date("d-m-Y"))){ 
@@ -554,6 +567,7 @@ if($this->checkday($this->input->post('date'),$this->input->post('business_id'),
 		}else if(strtotime($this->input->post('date')." ".$this->input->post('timeslot'))<strtotime(date("d-m-Y H:i"))){ 
 		  echo -4;
 		}else{
+		if($this->checkdateTime($this->input->post('date'),$this->input->post('business_id'),$this->input->post('timeslot'),'schedule')){
 		if($this->checkFutureDay($this->input->post('date'),$this->input->post('business_id'))){
 		  if(isset($this->session->userdata['id'])){
 		  if($this->session->userdata['role']=='client'){
@@ -576,7 +590,10 @@ if($this->checkday($this->input->post('date'),$this->input->post('business_id'),
 		  }else{
 		  echo -2;
 		  }
-		}
+		}else{
+		   echo -5;
+		  }
+		  }
 	}else{
 	   echo -1;
 	}	
@@ -903,7 +920,7 @@ function referal_url($url){
 		  echo -3;
 		  }
 		}else{ 
-		  echo -1;
+		  echo -7;
 		}
 		}else{
 		  echo -4;

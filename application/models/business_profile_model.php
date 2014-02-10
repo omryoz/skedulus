@@ -203,7 +203,9 @@ function getClasses($id){
 						$endTime=$dataP->paddingendtime;
 						if($this->session->userdata['role']=='manager'){
 						$serviceName=rtrim($Sname,','); 
+						if($dataP->booked_by=='client'){
 						$clientname=$dataP->clients_first_name." ".$dataP->clients_last_name;
+						}
 						$showServicename=$serviceName;
 					    if($dataP->employee_id!=0){
 						   $serviceProvider=$dataP->employee_first_name." ".$dataP->employee_last_name;

@@ -22,5 +22,14 @@ if($action=='add'){
   echo $id;
  }
  
+ function searchResult($tablename="",$where="",$offset="",$limit=""){
+			$query=$this->db->query("select * from `$tablename` where $where ORDER BY business_id ASC LIMIT $offset,$limit");
+			if($query->num_rows()>0){
+				return $query->result();
+			}else{
+				return false;
+			}
+  }
+ 
 }
 ?>

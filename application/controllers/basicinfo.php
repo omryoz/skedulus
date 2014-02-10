@@ -87,7 +87,7 @@ class Basicinfo extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
-	public function editinfo(){
+	public function editinfo(){ 
 	if(isset($this->session->userdata['admin'])){
 		  $users_id=$this->session->userdata['users_id'];
 		  $this->data['switch']='switchbtn';
@@ -106,7 +106,7 @@ class Basicinfo extends CI_Controller {
 		$calendar[""]=" Select Calendar";
 		$this->data['getCalendar']=$calendar;
 		
-		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id);
+		$isExist=$this->common_model->getRow("user_business_details","users_id",$users_id); 
 		$this->data['action']="edit";
 		$this->data['disabled']="disabled";
 		$this->data['name']=$isExist->name;
@@ -123,13 +123,15 @@ class Basicinfo extends CI_Controller {
 		$this->data['image']=$isExist->image;
 		$this->data['isExistAvailability']=$this->basicinfo_model->getAvailability();
 		
-		if(isset($_GET['checkinfo']) && isset($this->session->userdata['business_id'])){
+		if(isset($_GET['checkinfo'])){
 		$id=$this->basicinfo_model->insertBasicInfo($users_id);
-		redirect('businessProfile/?id='.$this->session->userdata['business_id']);
-		//header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
-		//redirect(businessProfile);
+		if(isset($this->session->userdata['business_id'])){
+		redirect('businessProfile/?id='.$this->session->userdata['business_id']); 
 		}else{
 		header("Location:" . base_url());
+		}
+		//header('Location: '.base_url().'businessProfile/?id='.$this->session->userdata['business_id']);
+		//redirect(businessProfile);
 		}
 		//$this->parser->parse('include/header',$this->data);
 		$this->parser->parse('include/dash_navbar',$this->data);
