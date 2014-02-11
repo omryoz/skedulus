@@ -86,7 +86,7 @@
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_businessfor'))?>">
+							<input type="text" class="span12 keyword" value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_businessfor'))?>">
 							
 						</div>
 						
@@ -106,6 +106,7 @@
 										  <th><h4><?=(lang('Apps_action'))?></h4></th>
 										</tr>
 									  </thead>
+									  <tbody class="moreresult">
 									  <?php
 									 $i=1;	
 									 foreach($tableList as $content){  ?>
@@ -121,8 +122,8 @@
 										  </td>
 										</tr>
 									<?php $i++; } ?>
+									</tbody>	
 									</table>
-									<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 									<?php }else{
 									if(isset($_GET['keyword'])){
 									$msg=lang('Apps_noresultfound');
@@ -133,7 +134,7 @@
 									 <p class="alert"><?=$msg?></p>
 									<?php } ?>
 								 	
-										
+									
 									
 						
 						 
@@ -186,7 +187,6 @@
 			  <input type="hidden" name="id" id="id" value="" />
 			  <input type="submit" name="save" class="btn btn-success" value="<?=(lang('Apps_update'))?>" />
 			   <a href="" onclick=submit(); name="save" class="btn btn-success" value="Cancel" /><?=(lang('Apps_cancel'))?></a>
-			  <!---<a href="" onclick=submit(); name="save" class="btn btn-success pull-right" value="Cancel" /><?=(lang('Apps_cancel'))?></a>--->
 		</div> 			
 	  </form>
 	  </div>
@@ -201,3 +201,36 @@
 </style>
 <?php include('include/popupmessages.php'); ?>
 
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){
+		  page= parseInt(page)+parseInt(3);
+		   var data = {'page_num':page,'keyword':$(".keyword").val()};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"clients/list_clients",
+				data:data,
+				success: function(data) { 
+				$(".moreresult").append(data);
+
+				}
+			});
+	  }
+	 
+     function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }	 
+	  
+ 
+
+</script>

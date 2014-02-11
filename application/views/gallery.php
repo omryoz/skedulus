@@ -53,15 +53,15 @@
 				<?php 
 				$i=0;
 				if(isset($tableList)) { ?>
-				<ul class="unstyled photo_gallery thumbnails">
+				<ul class="unstyled photo_gallery thumbnails ">
 				<?php 	
 				foreach($tableList as $content){
 				if($i%4==0){
-				echo '</ul><ul class="unstyled photo_gallery thumbnails">';
+				echo '</ul><ul class="unstyled photo_gallery thumbnails moreresult">';
 				}
 				?>
 				
-					<li class="span3  thumb-image">
+					<li class="span3  thumb-image ">
 						<div class="thumbnail">
 							<div class="inblock">
 						 <ul class="inline unstyled icon">
@@ -92,11 +92,11 @@
 					</li>
 				<?php $i++; } ?>
 				</ul>
-				
+				<!---<ul class="moreresult"></ul>-->
 				<?php }else{ ?>
 				<p class="alert"><?=(lang('Apps_noimagesaddedyet'))?></p>
 				<?php } ?>
-				<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
+				
 				</div>
 		</div>
 	
@@ -167,3 +167,34 @@ display:inline;
 }
 </style>
 <?php include('include/popupmessages.php'); ?>
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(4);
+		   var data = {'page_num':page};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"gallery/list_gallery",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				$(".moreresult").append(data);
+				}
+			});
+	  }
+	  
+	 function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }
+</script>

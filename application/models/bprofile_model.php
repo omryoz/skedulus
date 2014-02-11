@@ -39,7 +39,7 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getServices($offset,$limit){
-		$sql="Select * from user_business_services where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
+		$sql="Select * from user_business_services where user_business_details_id = '".$this->session->userdata['business_id']."' ORDER BY id asc LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -201,7 +201,7 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getStaffsList($offset,$limit){
-		$sql="Select * from view_business_employees where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
+		$sql="Select * from view_business_employees where user_business_details_id = '".$this->session->userdata['business_id']."' ORDER BY users_id ASC LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -369,7 +369,7 @@ class bprofile_model extends CI_Model {
 	function getImages($offset,$limit){
 		// $sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER by 'order' ASC" ;
 		
-		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." LIMIT $offset,$limit" ;
+		$sql="Select * from user_business_photogallery where user_business_details_id =".$this->session->userdata['business_id']." ORDER By id asc LIMIT $offset,$limit" ;
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -419,7 +419,7 @@ class bprofile_model extends CI_Model {
 	$where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
 	}
 	
-		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and $where LIMIT $offset,$limit";
+		$sql="Select * from view_business_clients where user_business_details_id = '".$this->session->userdata['business_id']."' and $where ORDER BY users_id ASC LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -489,7 +489,7 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getClasses($offset,$limit){
-	    $sql="Select * from user_business_classes where user_business_details_id = '".$this->session->userdata['business_id']."' LIMIT $offset,$limit";
+	    $sql="Select * from user_business_classes where user_business_details_id = '".$this->session->userdata['business_id']."' ORDER BY id asc LIMIT $offset,$limit";
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;

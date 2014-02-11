@@ -19,10 +19,8 @@
 						<input type="text" class="span12 " name="manager_name" value="<?php ?>" placeholder="<?=(lang('Apps_businessfor'))?>">
 					</div>
 					<div class="span3">
-					<!---<input id="searchTextField" type="text"  class="span12 " size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
-                    <input type="hidden" id="city2" name="location" />--->
+					
 					<input  type="text"  class="postcode" id="Postcode" name="location" size="50" placeholder="<?=(lang('Apps_enterlocation'))?>" autocomplete="on" runat="server" />  
-                   <!--- <input type="hidden" id="city2" name="location" />--->
 					<div id="geomap" style="display:none" style="width:100%; height:400px;">
 					<p><?=(lang('Apps_loadingwait'))?>...</p>
 					
@@ -54,9 +52,7 @@
 					 
 							<ul class="thumbnails business_logo">
 							<?php foreach($contentList as $content) {
-							// if($i%4==0){
-								// echo '</ul><ul class="thumbnails business_logo">';
-							// }
+							
 							?>
 								<li class="thumbnail span3 trans">
 								<div class="inblock-logo">
@@ -74,13 +70,10 @@
 								
 							<?php 
 							if($i%4==0){
-								echo '</ul><ul class="thumbnails business_logo">';
+								echo '</ul><ul class="thumbnails business_logo moreresult">';
 							}
 							$i++; } ?>
-								</ul>
-							<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
-							
-							
+								</ul>	
 					</div>
 		  		</div>
 				</div>
@@ -251,6 +244,30 @@ function Appdetails(eventid){
 	   $("#book").modal('show');
 	}
 	
+	var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(4);
+		   var data = {'page_num':page};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"cprofile/page",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				$(".moreresult").append(data);
+				}
+			});
+	  }
 	
 </script>
 

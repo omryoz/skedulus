@@ -32,6 +32,7 @@
 										  <th><h4><?=(lang('Apps_action'))?> </h4></th>
 										</tr>
 									  </thead>
+									   <tbody class="moreresult">
 									 <?php
 									 $i=1;	
 									 foreach($tableList as $content){ ?>
@@ -49,6 +50,7 @@
 										  </td>
 										</tr>
 									<?php $i++; } ?>
+									</tbody>
 									</table>
 									<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 									<?php }else{ ?>
@@ -90,3 +92,37 @@ color: #FB3A3A;
 }
 </style>
 <?php include('include/popupmessages.php'); ?>
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){
+		  page= parseInt(page)+parseInt(3);
+		   var data = {'page_num':page};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"staffs/list_staffs",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				$(".moreresult").append(data);
+
+				}
+			});
+	  }
+	  
+	 function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }
+ 
+
+</script>

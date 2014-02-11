@@ -137,7 +137,9 @@ class Search extends CI_Controller {
 		//}
 		
 		if(isset($_POST['page_num'])){
+		//$this->data['admin']='1';
 		$this->parser->parse('search_res',$this->data);
+		//$this->parser->parse('include/footer',$this->data);
 		}else{
 		$this->parser->parse('include/header',$this->data);
 		if(isset($this->session->userdata['id']) && $this->session->userdata['role']=='client'){

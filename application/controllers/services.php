@@ -26,6 +26,17 @@ class Services extends CI_Controller {
     }
 	
 	public function list_services(){
+	 if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=3;
+			
+	if(isset($_POST['page_num'])){
+	        $this->data['tableList']=$this->bprofile_model->getServices($offset,$limit);
+		    $this->parser->parse('services_list',$this->data);
+   }else{
 	 if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
@@ -43,24 +54,9 @@ class Services extends CI_Controller {
 	 
 	 
 	  $where=" user_business_details_id =".$this->session->userdata['business_id'];
-	 $config['total_rows'] = $this->common_model->getCount('user_business_services','id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'services/list_services/';
-			$config['per_page'] = '10';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
-			}else{
-			$offset=0;
-			}
-			$this->data['tableList']=$this->bprofile_model->getServices($offset,$config['per_page']);
+			$this->data['tableList']=$this->bprofile_model->getServices($offset,$limit);
             /* End Pagination Code  */
-		}
-	 
-	 
-	 
+
      $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
  	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
@@ -69,6 +65,7 @@ class Services extends CI_Controller {
 	 $this->parser->parse('deactivated',$this->data);
 	 }
 	 $this->parser->parse('include/footer',$this->data);
+	 }
 	}
 	
 	public function manage_services(){
@@ -111,6 +108,17 @@ class Services extends CI_Controller {
 	
 	
 	function list_classes(){
+	if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=3;
+			
+	if(isset($_POST['page_num'])){
+	        $this->data['tableList']=$this->bprofile_model->getClasses($offset,$limit);
+		    $this->parser->parse('classes_list',$this->data);
+   }else{
 	if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
@@ -127,22 +135,8 @@ class Services extends CI_Controller {
 		}
 		
 		 $where=" user_business_details_id =".$this->session->userdata['business_id'];
-	    $config['total_rows'] = $this->common_model->getCount('user_business_classes','id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'services/list_classes/';
-			$config['per_page'] = '10';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
-			}else{
-			$offset=0;
-			}
-			$this->data['tableList']=$this->bprofile_model->getClasses($offset,$config['per_page']);
+		 $this->data['tableList']=$this->bprofile_model->getClasses($offset,$limit);
             /* End Pagination Code  */
-		}
-
 		$this->data['staffs'] = $this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
 		
 		 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
@@ -154,6 +148,7 @@ class Services extends CI_Controller {
 	 
 		
 		$this->parser->parse('include/footer',$this->data);	
+		}
 	}
 	
 	public function manage_classes(){ 

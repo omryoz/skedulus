@@ -22,7 +22,30 @@ class Clients extends CI_Controller {
 	
 	public function list_clients($keyword=false){
 	if(isset($this->session->userdata['id']) && isset($this->session->userdata['business_id'])){ 
-	if(isset($this->session->userdata['admin'])){
+	
+	
+	
+	$filter = array();
+		$query = "";
+		$where=" user_business_details_id =".$this->session->userdata['business_id'];
+		if(!empty($_REQUEST['keyword']) && $_REQUEST['keyword']){
+			$keyword = $_REQUEST['keyword'];
+			$this->data['search']=$keyword;
+			$where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
+		}
+		
+		
+			if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=3;
+			if(isset($_POST['page_num'])){
+			$this->data['tableList'] = $this->bprofile_model->getclientsList($keyword,$offset,$limit);
+		    $this->parser->parse('clients_list',$this->data);
+		}else{
+		if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';
 	  $this->parser->parse('include/admin_header',$this->data);
@@ -30,60 +53,24 @@ class Clients extends CI_Controller {
 	  $users_id=$this->session->userdata['id'];
 	  $this->parser->parse('include/header',$this->data);
 	}
-	// $this->parser->parse('include/header',$this->data);
-	 $this->parser->parse('include/dash_navbar',$this->data);
 	
-	
-	$filter = array();
-		$query = "";
-		$where=" user_business_details_id =".$this->session->userdata['business_id'];
-		if(!empty($_GET['keyword']) && $_GET['keyword']){
-			$keyword = $_GET['keyword'];
-			$this->data['search']=$keyword;
-			$where.= " AND (first_name LIKE '%" .$keyword. "%' OR last_name LIKE '%" .$keyword. "%')";
-		}
-		
-		$inf = $_REQUEST; 
-		if(!empty($inf)){
-			$index=0;
-			foreach($inf as $f){
-				if($index==0){
-					$concat = '?';
-				}else{
-					$concat = '&';
-				}
-				if($index==0)
-					if(isset($_GET['keyword']))
-					$query .= $concat.'keyword='.$_GET['keyword'];
-				
-				$index++;	
-			}
-		}
-	
-	
-		    $config['page_query_string'] = TRUE;
-			$config['per_page'] = '10';
+	$this->parser->parse('include/dash_navbar',$this->data);
+	$this->data['tableList'] = $this->bprofile_model->getclientsList($keyword,$offset,$limit);
 			
-			$this->data['tableList'] = $this->bprofile_model->getclientsList($keyword,(!empty($_GET['per_page']))?$_GET['per_page']:0,$config['per_page']);
-		    $config['total_rows'] = $this->common_model->getCount('view_business_clients','users_id',$where);
-		    $config['base_url'] = base_url().'clients/list_clients/'.$query;
-		    $this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			
-	  $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
+	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
 	 $this->parser->parse('clients',$this->data);
 	 }else{
 	  $this->parser->parse('deactivated',$this->data);
 	 }
 	 $this->parser->parse('include/footer',$this->data);
+	 }
 	 }else{
 		header("Location:" . base_url());
 		}
 	}
 	
 	function profile($id=false){
-	
 	 if(isset($this->session->userdata['admin'])){
 	  $users_id=$this->session->userdata['users_id'];
 	  $this->data['switch']='switchbtn';

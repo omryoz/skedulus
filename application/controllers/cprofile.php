@@ -27,7 +27,17 @@ class Cprofile extends CI_Controller {
 		 $this->page();
 	}
 	public function page(){
-	  
+	  if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=4;
+			
+	if(isset($_POST['page_num'])){
+	        $this->data['contentList']=$this->home_model->getBusiness($offset,$limit);
+		    $this->parser->parse('business_list',$this->data);
+   }else{
 	   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
 	   $this->data['flag']='';
 	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
@@ -42,22 +52,22 @@ class Cprofile extends CI_Controller {
 		// $this->data['contentList']=$this->home_model->getBusiness();
 		
 		$where=" user_status='active' and business_status='active'";
-	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'cprofile/page/';
-			$config['per_page'] = '12';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
-			}else{
-			$offset=0;
-			}
-			$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
+	   // $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
+		//if($config['total_rows']){
+		  //  $config['base_url'] = base_url().'cprofile/page/';
+			//$config['per_page'] = '12';
+			//$config['uri_segment'] = 3; 
+			//$this->pagination->initialize($config);
+			//$this->data['pagination']=$this->pagination->create_links();
+			//if($this->uri->segment(3)!=''){
+			//$offset=$this->uri->segment(3);
+			//}else{
+			//$offset=0;
+			//}
+			$this->data['contentList']=$this->home_model->getBusiness($offset,$limit);
 			
             /* End Pagination Code  */
-		}
+		//}
 		
 		
 		
@@ -79,6 +89,7 @@ class Cprofile extends CI_Controller {
 		 $this->parser->parse('include/footer',$this->data);
 		 }else{
 		  redirect('home/deactivated');
+		 }
 		 }
 	}
 	
