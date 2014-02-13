@@ -25,9 +25,8 @@ class Gallery extends CI_Controller {
 			}else{
 			$offset =0;
 			}
-			$limit=4;
-			
-	if(isset($_POST['page_num'])){
+			$limit=8;
+	 if(isset($_POST['page_num'])){
 	        $this->data['tableList']=$this->bprofile_model->getImages($offset,$limit);
 		    $this->parser->parse('gallery_list',$this->data);
    }else{
@@ -40,28 +39,8 @@ class Gallery extends CI_Controller {
 	  $this->parser->parse('include/header',$this->data);
 	}
 	 $this->parser->parse('include/dash_navbar',$this->data);
-	 $where ="1 and user_business_details_id=".$this->session->userdata['business_id'];
-	
-	// $config['total_rows'] = $this->common_model->getCount('user_business_photogallery','id',$where);
-		//if($config['total_rows']){
-		    // $config['base_url'] = base_url().'gallery/list_gallery/';
-			// $config['per_page'] = '12';
-			// $config['uri_segment'] = 3; 
-			// $this->pagination->initialize($config);
-			// $this->data['pagination']=$this->pagination->create_links(); 
-			// if($this->uri->segment(3)!=''){
-			// $offset=$this->uri->segment(3);
-			// }else{
-			// $offset=0;
-			// }
-			
-			$this->data['tableList']=$this->bprofile_model->getImages($offset,$limit);
-			
-            /* End Pagination Code  */
-		//}
-	 
-	 
-	 
+	 $where ="1 and user_business_details_id=".$this->session->userdata['business_id'];		
+	 $this->data['tableList']=$this->bprofile_model->getImages($offset,$limit);
 	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
 	 $this->parser->parse('gallery',$this->data);

@@ -22,9 +22,6 @@ class Clients extends CI_Controller {
 	
 	public function list_clients($keyword=false){
 	if(isset($this->session->userdata['id']) && isset($this->session->userdata['business_id'])){ 
-	
-	
-	
 	$filter = array();
 		$query = "";
 		$where=" user_business_details_id =".$this->session->userdata['business_id'];

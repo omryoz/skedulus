@@ -46,22 +46,22 @@
 })(jQuery, window, document);
 </script>
 
-		<div class="row-fluid">
+		<div class="row-fluid moreresult">
 			<h3><?=(lang('Apps_photolist'))?>
 				<a href="javascript:;"  class="btn pull-right btn-success gallery_add" data-toggle="modal">+<?=(lang('Apps_add'))?></a>
 			</h3>
 				<?php 
 				$i=0;
 				if(isset($tableList)) { ?>
-				<ul class="unstyled photo_gallery thumbnails ">
+				<ul class="unstyled photo_gallery thumbnails">
 				<?php 	
 				foreach($tableList as $content){
 				if($i%4==0){
-				echo '</ul><ul class="unstyled photo_gallery thumbnails moreresult">';
+				echo '</ul><ul class="unstyled photo_gallery thumbnails ">';
 				}
 				?>
 				
-					<li class="span3  thumb-image ">
+					<li class="span3  thumb-image">
 						<div class="thumbnail">
 							<div class="inblock">
 						 <ul class="inline unstyled icon">
@@ -92,14 +92,14 @@
 					</li>
 				<?php $i++; } ?>
 				</ul>
-				<!---<ul class="moreresult"></ul>-->
+				<!---<div class="moreresult"></div>-->
 				<?php }else{ ?>
 				<p class="alert"><?=(lang('Apps_noimagesaddedyet'))?></p>
 				<?php } ?>
 				
 				</div>
 		</div>
-	
+	 <p class="nomore hide"></p>
 		<div id="gallery" class="modal hide fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	  <div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -180,7 +180,7 @@ display:inline;
       })
 	  
 	  function showmore(){ 
-		  page= parseInt(page)+parseInt(4);
+		  page= parseInt(page)+parseInt(8);
 		   var data = {'page_num':page};
 		   $.ajax({
 				type: "POST",
@@ -189,7 +189,11 @@ display:inline;
 				success: function(data) { 
 				var str=data;
                 var data=str.trim();
+				if(data!=0){
 				$(".moreresult").append(data);
+				}else{
+				$(".nomore").html(data);
+				}
 				}
 			});
 	  }

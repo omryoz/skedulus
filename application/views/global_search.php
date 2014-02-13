@@ -178,11 +178,7 @@
 </div>
 </div></div>
 </div>
-				<!--<div class="well">
-					<img src="img/map.png">
-				</div>--->
-				
-		
+
 <script>
 
         var page = 0;
@@ -196,6 +192,7 @@
       })
 	  
 	  function showmore(){
+	  
 		  page= parseInt(page)+parseInt(3);
 		   var data = {'page_num':page,'manager_name':$(".manager_name").val(),'location':$('.postcode').val(),'category':$("#category").val()};
 		   $.ajax({
@@ -208,6 +205,7 @@
 				}
 			});
 	  }
+	
 	  
 	  
 function favourite(id,action){

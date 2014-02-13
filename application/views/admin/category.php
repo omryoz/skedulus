@@ -65,7 +65,7 @@ $('.error').html('');
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder=" <?=(lang('Apps_searchcategory'))?>">
+							<input type="text" class="span12 keyword" value="<?php echo $search;?>" name="keyword" placeholder=" <?=(lang('Apps_searchcategory'))?>">
 							
 						</div>
 						
@@ -78,7 +78,7 @@ $('.error').html('');
 		</div><br/>
 		<div class="row-fluid">
 					<div class="">
-						<?php if(isset($category) && $category!=''){ ?>
+						<?php if(isset($category) && !empty($category)){ ?>
 						<table class="table  table-striped table-staff table-hover" >
 						  <thead>
 							<tr >
@@ -86,6 +86,7 @@ $('.error').html('');
 							  <th><h4> <?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
+						  <tbody class="moreresult">
 						  <?php foreach($category as $list){ ?>
 							<tr >
 							  <td><?php echo $list->name; ?>
@@ -102,12 +103,12 @@ $('.error').html('');
 							
 						<?php }?>
 							
+						</tbody>
 						</table>
-						<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
 				       <?php }else{ ?>
 						<p class="alert"> <?=(lang('Apps_norecordsfound'))?></p>
 						<?php } ?>
-				  </div>
+				  </div><p class="nomore hide"></p>
           </div>
 		
 		<!--start add category Modal -->
@@ -147,3 +148,48 @@ $('.error').html('');
 
 </script>
 <?php //include('include/popupmessages.php'); ?>
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(5);
+		   var data = {'page_num':page,keyword:$(".keyword").val()};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"admin/dash/category",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				if(data!=0){ 
+				$(".moreresult").append(data);
+				}else{
+				$(".nomore").html(data);
+				}
+
+				}
+			});
+	  }
+	
+      function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }
+	  
+	  function editCategory(name,id){
+		 $(".title").html('Edit Category');
+		 $(".category_name").val(name);
+		 $(".category_id").val(id);
+		 $("#category_add").modal("show");
+	  }
+
+
+</script>

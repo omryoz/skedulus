@@ -80,14 +80,14 @@ $("#admin_add").modal('show');
 			<!-- 	<h4>Search Users</h4> -->
 					<br/>
 				<div class="row-fluid strip">
-					<form action="<?php echo base_url() ?>admin/dash/users/" method="POST">
+					<form action="<?php echo base_url() ?>admin/dash/admin_users/" method="POST">
 						<div class="span10">
 						<?php if(isset($search)){
 						 $search=$search;
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span12 " value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_searchbyuser'))?>">
+							<input type="text" class="span12 keyword" value="<?php echo $search;?>" name="keyword" placeholder="<?=(lang('Apps_searchbyuser'))?>">
 							
 						</div>
 						
@@ -113,6 +113,7 @@ $("#admin_add").modal('show');
 							  <th><h4><?=(lang('Apps_email'))?></h4></th>
 							</tr>
 						  </thead>
+						   <tbody class="moreresult">
 						 <?php foreach($contentList as $list){ ?>
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
@@ -127,12 +128,9 @@ $("#admin_add").modal('show');
 							  
 							</tr>
 						<?php } ?>
-							 
+						</tbody>		 
 						</table>
 						
-								
-						<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
-							
 						<?php }else{ ?>
 						<p class="alert"> <?=(lang('Apps_norecordsfound'))?></p>
 						<?php } ?>
@@ -189,5 +187,39 @@ $("#admin_add").modal('show');
 		
 	</div>
 </div>
+<script>
 
-<?php //include('footer.php')?>
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(5);
+		   var data = {'page_num':page,'keyword':$(".keyword").val()};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"admin/dash/admin_users",
+				data:data,
+				success: function(data) { 
+				if(data!=""){ 
+				$(".moreresult").append(data);
+				}else{ 
+				data=0;
+				$(".nomore").html(data);
+				}
+
+				}
+			});
+	  }
+	  
+	   function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }
+
+</script>

@@ -47,7 +47,7 @@
 				
 					
 					<div class="row-fluid Wrap">
-					 <div class="wrap_inner">
+					 <div class="wrap_inner moreresult">
 						 <?php $i=1; ?>
 					 
 							<ul class="thumbnails business_logo">
@@ -70,11 +70,11 @@
 								
 							<?php 
 							if($i%4==0){
-								echo '</ul><ul class="thumbnails business_logo moreresult">';
+								echo '</ul><ul class="thumbnails business_logo">';
 							}
 							$i++; } ?>
 								</ul>	
-					</div>
+					</div><p class="nomore hide"></p>
 		  		</div>
 				</div>
 				<!--code for left nav end  here-->
@@ -189,6 +189,35 @@
 
 </div></div>
 <script>
+var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){ 
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(8); 
+		   var data = {'page_num':page};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"cprofile/page",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				if(data!=0){
+				$(".moreresult").append(data);
+				}else{
+				$(".nomore").html(data);
+				}
+				}
+			});
+	  }
+	  
 function Appdetails(eventid){
 	   $(".message").removeClass("alert").html(" ");
 	   $("#eventid").html(eventid);
@@ -244,30 +273,7 @@ function Appdetails(eventid){
 	   $("#book").modal('show');
 	}
 	
-	var page = 0;
-		$(window).scroll(function(){ 
-		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
-		if($(".nomore").html()!='0'){
-		showmore();
-		}
-		}
-		 
-      })
-	  
-	  function showmore(){ 
-		  page= parseInt(page)+parseInt(4);
-		   var data = {'page_num':page};
-		   $.ajax({
-				type: "POST",
-				url: base_url+"cprofile/page",
-				data:data,
-				success: function(data) { 
-				var str=data;
-                var data=str.trim();
-				$(".moreresult").append(data);
-				}
-			});
-	  }
+	 
 	
 </script>
 

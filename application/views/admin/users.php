@@ -14,14 +14,14 @@
 						}else{
 						$search='';
 						}?>
-							<input type="text" class="span4" value="<?php echo (!empty($_GET['keyword']))?$_GET['keyword']:"";?>" name="keyword" placeholder="<?=(lang('Apps_searchbyuser'))?>" />
-							<select name="role" class="span4">
+							<input type="text" class="span4 keyword" value="<?php echo (!empty($_GET['keyword']))?$_GET['keyword']:"";?>" name="keyword" placeholder="<?=(lang('Apps_searchbyuser'))?>" />
+							<select name="role" class="span4 role">
 								<option value="">Select Role</option>
 								<option value="manager" <?=(!empty($_GET['role']) && $_GET['role']=="manager")?"selected='selected'":""?>>Manager</option>
 								<option value="employee" <?=(!empty($_GET['role']) && $_GET['role']=="employee")?"selected='selected'":""?>>Employee</option>
 								<option value="client" <?=(!empty($_GET['role']) && $_GET['role']=="client")?"selected='selected'":""?>>Client</option>
 							</select>
-							<select name="status" class="span4">
+							<select name="status" class="span4 status">
 								<option value="">Select Status</option>
 								<option value="active" <?=(!empty($_GET['status']) && $_GET['status']=="active")?"selected='selected'":""?>>Active</option>
 								<option value="inactive" <?=(!empty($_GET['status']) && $_GET['status']=="inactive")?"selected='selected'":""?>>Inactive</option>
@@ -50,6 +50,7 @@
 							  <th><h4><?=(lang('Apps_action'))?></h4></th>
 							</tr>
 						  </thead>
+						  <tbody class="moreresult">
 						 <?php foreach($contentList as $list){ if($list->id!=0){ ?>
 							<tr>
 							  <td><?php print_r($list->first_name.' '.$list->last_name) ?></td>
@@ -71,11 +72,9 @@
 							  
 							</tr>
 						<?php } } ?>
-							 
+						</tbody>	 
 						</table>
-						
-								
-						<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
+					
 							
 						<?php }else{ ?>
 						<p class="alert"> <?=(lang('Apps_norecordsfound'))?></p>
@@ -95,3 +94,57 @@
 </div>
 
 <?php //include('footer.php')?>
+<script>
+
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){ 
+		  page= parseInt(page)+parseInt(10);
+		   var data = {'page_num':page,'status':$(".status").val(),'role':$(".role").val(),keyword:$(".keyword").val()};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"admin/dash/users",
+				data:data,
+				success: function(data) { 
+				$(".moreresult").append(data);
+
+				}
+			});
+	  }
+	
+	function changeStatus(type,id,preStatus){ 
+	var url=baseUrl+'admin/dash/updateStatus';
+ $.ajax({
+ url:url,
+ data:{'id': id,'type':type,'status':preStatus},
+ type:'POST',
+ success:function(data){
+ var str=data;
+ var data=str.trim();
+ if(data!=0){
+	$("#"+type+id).attr('data-status',data);
+	$("#"+type+'Status'+id).html(data);
+	$("#"+type+id).attr('value',preStatus);
+	$("#"+type+id).attr("onclick","changeStatus('"+type+"','"+id+"','"+data+"');");
+	if(data=='active'){
+	$("#"+type+id).attr('title','inactivate now');
+	}else if(data=='inactive'){
+	$("#"+type+id).attr('title','activate now');
+	}
+	}
+ }
+ 
+ })
+
+	}
+
+
+</script>

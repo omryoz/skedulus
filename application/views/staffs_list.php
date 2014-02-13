@@ -17,7 +17,6 @@ $i=$_POST['page_num']+1;
 	</tr>
 <?php $i++; } ?>
 <?php }else{
-		
 		?>
-		 <p class="alert nomore hide"></p>
-		<?php } ?>
+		
+		<?php echo '0';} ?>

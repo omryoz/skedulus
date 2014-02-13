@@ -1,5 +1,5 @@
- <?php $i=1; 
- if(isset($tableList)) { ?>		 
+ <?php $i=$_POST['page_num']+1;
+ if(isset($contentList)) { ?>		 
 	<ul class="thumbnails business_logo">
 	<?php foreach($contentList as $content) {
 	
@@ -23,6 +23,6 @@
 		echo '</ul><ul class="thumbnails business_logo moreresult">';
 	}$i++; } ?>
 		</ul>
-		<?php }else{ ?>
-                <p class="alert nomore hide"></p>
+		<?php }else{ echo 0;?>
+               
         <?php } ?>

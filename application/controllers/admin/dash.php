@@ -78,34 +78,65 @@ class Dash extends CI_Controller {
 		 $message=$this->load->view('admin/account_activation',$this->data,TRUE);
 		 $this->common_model->mail($email,$subject,$message);
 	}
-	    $this->parser->parse('include/admin_header',$this->data);
-		$this->parser->parse('include/admin_navbar',$this->data);
-		
-		$where=" user_role='admin'";
-		if(isset($_POST['keyword']) && $_POST['keyword']!=''){
-		$this->data['search']=$_POST['keyword'];
-		$where.= " AND first_name LIKE '%" .$_POST['keyword']. "%' OR last_name LIKE '%" .$_POST['keyword']. "%'";
-		}
-		$config['total_rows'] = $this->common_model->getCount('users','id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'admin/dash/users/';
-			$config['per_page'] = '15';
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(4)!=''){
-			$offset=$this->uri->segment(4);
+	    $where=" 1";
+           if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
 			}else{
-			$offset=0;
+			$offset =0;
 			}
-			//print_r($this->uri->segment(5));exit;
-			$this->data['contentList']=$this->admin_model->getdetails('users',$offset,$config['per_page'],$where);
-            /* End Pagination Code  */
+			$limit=5;
+			$filter = array();
+		$query = "";
+	   $where.=" AND user_role='admin'";
+	   if(isset($_POST['keyword']) && $_POST['keyword']!=''){
+	    $this->data['search']=$_POST['keyword'];
+		$where.= " AND (first_name LIKE '%" .$_POST['keyword']. "%' OR last_name LIKE '%" .$_POST['keyword']. "%')";
 		}
-		$this->parser->parse('admin/admin_users',$this->data);
-		$this->parser->parse('include/footer',$this->data);
+		if(isset($_POST['page_num'])){
+		    $where.=" order by id asc";
+			$this->data['contentList'] = $this->admin_model->getdetails("users",$offset,$limit,$where);
+		    $this->parser->parse('admin/admin_users_list',$this->data);
+	     }else{
+		  $this->parser->parse('include/admin_header',$this->data);
+		  $this->parser->parse('include/admin_navbar',$this->data);
+		 
+		 $where.=" order by id asc";
+		 $this->data['contentList']=$this->admin_model->getdetails('users',$offset,$limit,$where);
+		 $this->parser->parse('include/popupmessages',$this->data);
+		 $this->parser->parse('admin/admin_users',$this->data);
+		 $this->parser->parse('include/footer',$this->data);
+		 }
+            
+		
 	}
 	
 	public function users($keyword=false,$role=false,$status=false){ 
+	$where=" 1";
+           if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=10;
+			$filter = array();
+		$query = "";
+		if(!empty($_REQUEST['keyword']) && $_REQUEST['keyword']){
+			//$keyword = $_REQUEST['keyword'];
+			$where.= " AND (first_name LIKE '%" .$_REQUEST['keyword']. "%' OR last_name LIKE '%" .$_REQUEST['keyword']. "%')";
+		}
+		if(!empty($_REQUEST['role']) && $_REQUEST['role']){
+			//$filter['user_role'] = $_REQUEST['role'];
+			$where.=' AND user_role="'.$_REQUEST['role'].'"';
+		}
+		if(!empty($_REQUEST['status']) && $_REQUEST['status']){
+			//$filter['status'] = $_REQUEST['status'];
+			$where.=' AND status="'.$_REQUEST['status'].'"';
+		}
+		$where.=" order by id asc";
+		if(isset($_POST['page_num'])){
+			$this->data['contentList'] = $this->admin_model->getdetails("users",$offset,$limit,$where);
+		    $this->parser->parse('admin/users_list',$this->data);
+	  }else{
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
 		$filter = array();
@@ -119,37 +150,10 @@ class Dash extends CI_Controller {
 		if(!empty($_GET['status']) && $_GET['status']){
 			$filter['status'] = $_GET['status'];
 		}
-		$inf = $_REQUEST; 
-		if(!empty($inf)){
-			$index=0;
-			foreach($inf as $f){
-				if($index==0){
-					$concat = '?';
-				}else{
-					$concat = '&';
-				}
-				if($index==0)
-					if(isset($_GET['keyword']))
-					$query .= $concat.'keyword='.$_GET['keyword'];
-				if($index==1)
-					$query .= $concat.'role='.$_GET['role'];
-				if($index==2)
-					$query .= $concat.'status='.$_GET['status'];
-				$index++;	
-			}
-		}
-		$config['page_query_string'] = TRUE;
-		$config['per_page'] = '15';
-		$this->data['contentList'] = $this->common_model->getUsers("users",$keyword,$filter,$config['per_page'],(!empty($_GET['per_page']))?$_GET['per_page']:false);
-		$config['total_rows'] = count($this->common_model->getUsers("users",$keyword,$filter,false));
-		$config['base_url'] = base_url().'admin/dash/users/'.$query;
-		
-		$this->pagination->initialize($config);
-		$this->data['pagination']=$this->pagination->create_links();
-		
-		//$this->data['contentList']=$this->admin_model->getdetails('users',$offset,$config['per_page'],false);
+		$this->data['contentList'] = $this->admin_model->getdetails("users",$offset,$limit,$where);
 		$this->parser->parse('admin/users',$this->data);
 		$this->parser->parse('include/footer',$this->data);
+		}
 	}
 	
 	public function userDetails($id=false){
@@ -178,9 +182,15 @@ class Dash extends CI_Controller {
 	
 	}
 	
-	public function category(){  
-	    $this->parser->parse('include/admin_header',$this->data);
-		$this->parser->parse('include/admin_navbar',$this->data);
+	public function category(){ 
+           $where=" 1";
+           if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=5;	
+	    
 		$where=' 1';
 		if(isset($_POST['insert']) && $_POST['insert']!=''){
 		$filter=array('name'=>$this->input->post('category_name'));
@@ -190,23 +200,18 @@ class Dash extends CI_Controller {
 		$this->data['search']=$_POST['keyword'];
 		$where.= " AND name LIKE '%" .$_POST['keyword']. "%'";
 		}
-		$config['total_rows'] = $this->common_model->getCount('category','id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'admin/dash/category/';
-			$config['per_page'] = '15';
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(4)!=''){
-			$offset=$this->uri->segment(4);
-			}else{
-			$offset=0;
-			}
-			//print_r($this->uri->segment(5));exit;
-			$this->data['category']=$this->admin_model->getdetails('category',$offset,$config['per_page'],$where);
-            /* End Pagination Code  */
+		$where.=" order by id asc";
+		if(isset($_POST['page_num'])){
+			$this->data['category'] = $this->admin_model->getdetails("category",$offset,$limit,$where);
+		    $this->parser->parse('admin/category_list',$this->data);
+	     }else{
+            $this->parser->parse('include/admin_header',$this->data);
+		    $this->parser->parse('include/admin_navbar',$this->data);		 
+			$this->data['category'] = $this->admin_model->getdetails("category",$offset,$limit,$where);
+			$this->parser->parse('include/popupmessages',$this->data);
+		    $this->parser->parse('admin/category',$this->data);
+		    $this->parser->parse('include/footer',$this->data);
 		}
-		$this->parser->parse('admin/category',$this->data);
-		$this->parser->parse('include/footer',$this->data);
 	}
 	
 	public function holidays(){ //print_r($_REQUEST); exit;  
@@ -323,72 +328,48 @@ class Dash extends CI_Controller {
 		$this->session->set_userdata($sessionVal);
 	} 
 	
-	public function businesses($keyword=false){
+	public function businesses($keyword=false){ 
+	$where=" 1";
+           if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=5;
+			$filter = array();
+		$query = "";
+		if(!empty($_REQUEST['keyword']) && $_REQUEST['keyword']){
+			$where.= " AND (business_name LIKE '%" .$_REQUEST['keyword']. "%')";
+		}
+		if(!empty($_REQUEST['status']) && $_REQUEST['status']){
+			$where.=' AND status="'.$_REQUEST['status'].'"';
+		}
+		if(!empty($_REQUEST['plans']) && $_REQUEST['plans']){
+			$where.=' AND subscription_id="'.$_REQUEST['plans'].'"';
+		}
+		$this->data['list']=$this->admin_model->getdetails('subscription',0,10000,1);
+		$where.=" order by business_id asc";
+		if(isset($_POST['page_num'])){
+			$this->data['contentList'] = $this->admin_model->getdetails("view_user_subscription",$offset,$limit,$where);  
+		    $this->parser->parse('admin/businesses_list',$this->data);
+	  }else{
 	    $this->parser->parse('include/admin_header',$this->data);
 		$this->parser->parse('include/admin_navbar',$this->data);
-		// $where=' 1';
-		// if(isset($_POST['keyword']) && $_POST['keyword']!=''){
-		// $this->data['search']=$_POST['keyword'];
-		// $where.= " AND business_name LIKE '%" .$_POST['keyword']. "%' ";
-		// }
-		// $config['total_rows'] = $this->common_model->getCount('view_user_subscription','subscription_id',$where);
-		// if($config['total_rows']){
-		    // $config['base_url'] = base_url().'admin/dash/businesses/';
-			// $config['per_page'] = '10';
-			// $this->pagination->initialize($config);
-			// $this->data['pagination']=$this->pagination->create_links();
-			// if($this->uri->segment(4)!=''){
-			// $offset=$this->uri->segment(4);
-			// }else{
-			// $offset=0;
-			// }
-			// //print_r($this->uri->segment(5));exit;
-			// $this->data['contentList']=$this->admin_model->getdetails('view_user_subscription',$offset,$config['per_page'],$where);
-            // /* End Pagination Code  */
-		// }
 		$this->load->model("admin_model");
-		$this->data['list']=$this->admin_model->getdetails('subscription',0,10000,1);
-		$filter = array();
-		$query = "";
-		if(!empty($_GET['keyword']) && $_GET['keyword']){
-			$keyword = $_GET['keyword'];
-		}
-		if(!empty($_GET['plans']) && $_GET['plans']){
-			$filter['subscription_id'] = $_GET['plans'];
-		}
-		if(!empty($_GET['status']) && $_GET['status']){
-			$filter['status'] = $_GET['status'];
-		}
-		$inf = $_REQUEST; 
-		if(!empty($inf)){
-			$index=0;
-			foreach($inf as $f){
-				if($index==0){
-					$concat = '?';
-				}else{
-					$concat = '&';
-				}
-				if($index==0)
-					if(isset($_GET['keyword']))
-					$query .= $concat.'keyword='.$_GET['keyword'];
-				if($index==1)
-					$query .= $concat.'plans='.$_GET['plans'];
-				if($index==2)
-					$query .= $concat.'status='.$_GET['status'];
-				$index++;	
-			}
-		}
-		$config['page_query_string'] = TRUE;
-		$config['per_page'] = '5';
-		$this->data['contentList'] = $this->common_model->getUsers("view_user_subscription",$keyword,$filter,$config['per_page'],(!empty($_GET['per_page']))?$_GET['per_page']:false,"business_name");
-		$config['total_rows'] = count($this->common_model->getUsers("view_user_subscription",$keyword,$filter,false));
-		$config['base_url'] = base_url().'admin/dash/businesses/'.$query;
 		
-		$this->pagination->initialize($config);
-		$this->data['pagination']=$this->pagination->create_links();
+		$this->data['contentList'] = $this->admin_model->getdetails("view_user_subscription",$offset,$limit,$where);
+		//$config['page_query_string'] = TRUE;
+		//$config['per_page'] = '5';
+		//$this->data['contentList'] = $this->common_model->getUsers("view_user_subscription",$keyword,$filter,$config['per_page'],(!empty($_GET['per_page']))?$_GET['per_page']:false,"business_name");
+		//$config['total_rows'] = count($this->common_model->getUsers("view_user_subscription",$keyword,$filter,false));
+		//$config['base_url'] = base_url().'admin/dash/businesses/'.$query;
+		
+		//$this->pagination->initialize($config);
+		//$this->data['pagination']=$this->pagination->create_links();
 		
 		$this->parser->parse('admin/businesses',$this->data);
 		$this->parser->parse('include/footer',$this->data);
+		}
 	}
 	
 	public function bDetails($id=false){

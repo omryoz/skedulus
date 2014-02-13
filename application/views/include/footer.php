@@ -44,42 +44,15 @@
 								<?=(lang('Apps_businesses'))?>
 								<? // echo(lang('Apps_f&p'))?>
 								</span></a>
-								<!---<a href="<?php echo base_url(); ?>business_registration"><center>
-								<i class="icon-flag icon-white icon-large"></i></center><span>
-								<? // echo(lang('Apps_f&p'))?>
-								</span></a>--->
+								
 							</li> 
 							  <?php 
 							} ?>
 							
-							<?php /*?><li>
-							<?php if(isset($this->session->userdata['business_id'])) {?>
-								<a href="<?php echo base_url(); ?>overview">
-								<center><i class="icon-user icon-white icon-large"></i></center>
-								<span>Business Owner</span></a>
-								<?php } else{?>
-								<a href="<?php echo base_url(); ?>home/businesslogin">
-								<center><i class="icon-user icon-white icon-large"></i></center>
-								<span>Business Owner</span></a>
-								<?php } ?>
-							</li><?php */?>
-							
-							<!--<li>
-								<a href="#"><center>
-								<i class="icon-twitter icon-white icon-large"></i></center><span>Twitter</span></a>
-							</li>
-							<li>
-								<a href="#"><center>
-								<i class="icon-facebook icon-white icon-large"></i></center><span>Facebook</span></a>
-							</li>-->
+						
 						</ul>
 						</div>
-				<!--<div class="span2">
-						<ul class="icon unstyled inline pull-right" >
-							<li class="twitter"><a href="#" title="Follow us on Twitter "  class="img"></a></li>
-							<li class="facebook"><a href="#" title="Find us on Facebook "  class="img"></a></li>
-						</ul>	
-				</div>-->
+			
 					<div class="span2 offset1 likebox">
 						<ul class=" unstyled inline pull-right right_foot" >
 							<li class=""><a href="#" title="Follow us on Twitter " ><i class="icon-twitter icon-white icon-large twitter"></i></a></li>
@@ -108,10 +81,7 @@
     <script src="<?php echo base_url(); ?>js/bootstrap-collapse.js"></script>
 	<script src="<?php echo base_url(); ?>js/bootstrap-timepicker.js"></script>
 	
-	<!-- <script src="<?php echo base_url(); ?>js/modernizr.js"></script> -->
-  <!--  <script src="js/bootstrap-carousel.js"></script>-->
-  <!--  <script src="js/bootstrap-typeahead.js"></script>-->
-<!--	<script src="js/modernizr.custom.88281.js"></script>.-->
+
 <?php if($this->session->userdata('language')=='hebrew'){ ?>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/bootstrap-datepicker.he.js"></script>
 <?php }else{?>
@@ -120,12 +90,7 @@
 <!--Mouse over image slider for business_profile scripts Start-->
 <script type="text/javascript" src="<?php echo base_url(); ?>js/simplyscroll/jquery.simplyscroll.js"></script>
 <script type="text/javascript" src="<?php echo base_url(); ?>js/script.js"></script>
-<!---<script type="text/javascript" src="<?php echo base_url(); ?>js/jquery.tn3lite.min.js"></script>--->
-<!--<script type="text/javascript" src="<?php echo base_url(); ?>PIE-1.0.0/PIE.js"></script>--->	
-<!--Mouse over image slider for business_profile scripts end-->
-<!---Script for google map--->
-<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>-->
-<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>--> 
+
 
 
 <?php if((lang('Apps_lang'))!=''): ?> 
@@ -140,12 +105,7 @@
 					  
 </script>
 <?php endif; ?>
-
-
-<!--<script>
-	/*$('.info').popover('hide')*/
-	$('.info').popover({html:true});
-</script>-->	
+	
 
 
 
