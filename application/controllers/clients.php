@@ -141,6 +141,18 @@ class Clients extends CI_Controller {
 	}
 	
 	function favourite(){
+	if(isset($_POST['page_num'])){
+			$offset = $_POST['page_num'];
+			}else{
+			$offset =0;
+			}
+			$limit=8;
+	   $where=" users_id =".$this->session->userdata['id']." and status='active'";	
+	   if(isset($_POST['page_num'])){
+			$this->data['contentList']=$this->bprofile_model->getAllRows($where,$offset,$limit);	
+		    $this->parser->parse('favourite_list',$this->data);
+		}else{
+			
 	   $val=$this->common_model->getRow("users","id",$this->session->userdata('id'));
 	   $this->data['flag']='';
 	   if(!empty($val->phone_number) && $val->verify_phone=='inactive'){
@@ -151,22 +163,7 @@ class Clients extends CI_Controller {
 	   }
 		$this->load->view('include/header',$this->data);
 		$this->load->view('include/navbar',$this->data);
-		$where=" users_id =".$this->session->userdata['id']." and status='active'";
-	    $config['total_rows'] = $this->common_model->getCount('view_favourite_businesses','favourite_id',$where);
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'clients/favourite/';
-			$config['per_page'] = '12';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
-			}else{
-			$offset=0;
-			}
-			$this->data['contentList']=$this->bprofile_model->getAllRows($where,$offset,$config['per_page']);	
-            /* End Pagination Code  */
-		}
+		$this->data['contentList']=$this->bprofile_model->getAllRows($where,$offset,$limit);
 		$this->load->view('include/modal_verifyphone',$this->data);	
 		$status=$this->common_model->getRow("users","id",$this->session->userdata['id']);
 		 if($status->status=='active'){
@@ -175,11 +172,11 @@ class Clients extends CI_Controller {
 		 redirect('home/deactivated');
 		}
 		$this->load->view('include/footer',$this->data);
+		}
 	}
 	
 	function deleteFav(){
 	 $val= $this->common_model->deleteRow("favourite_businesses",$_GET['id']);
-	 //echo $val;
 	 $this->session->set_flashdata('message_type', 'error');	
 	 $this->session->set_flashdata('message', lang('Apps_favouritedeleted'));
 	 redirect("clients/favourite");

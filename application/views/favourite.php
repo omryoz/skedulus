@@ -1,20 +1,16 @@
 
 
 	<?php error_reporting(0); ?>			
-			
-			
-			
-		
-			<br/>
+<br/>
 <div class="content container">
 	<div class="row-fluid business_profile">
 		<div class="row-fluid left-nav">
 			<?php if(!empty($contentList)) { ?>
 			<div class="Wrap">
-					 <div class="wrap_inner">
+					 <div class="wrap_inner ">
 					
 						<?php //$i=0; ?>
-							<ul class="thumbnails business_logo li-element"> 
+							<ul class="thumbnails business_logo li-element moreresult"> 
 							   <?php foreach($contentList as $content) {
 							 
 							  /* if($i%4==0){
@@ -41,13 +37,13 @@
 							<?php //$i++; 
 							} ?>
 								</ul>
-							<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>	
+							<!---<center><span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>	--->
 					</div>
 		  		</div>
 				<?php }else{?>
 				 <p class="displayalert"><?=(lang('Apps_nofavourite'))?></p>
 				<?php }?>
-		</div>
+		</div><p class="nomore hide"></p>
 			
 		</div>	
 </div>	
@@ -56,4 +52,40 @@
 $('.li-element li:nth-child(4n + 5)').addClass('no-margin');
 </script>
 <?php include('include/popupmessages.php'); ?>
+<script>
 
+        var page = 0;
+		$(window).scroll(function(){ 
+		if($(window).scrollTop() + $(window).height() == $(document).height()) { 
+		if($(".nomore").html()!='0'){
+		showmore();
+		}
+		}
+		 
+      })
+	  
+	  function showmore(){
+		  page= parseInt(page)+parseInt(8);
+		   var data = {'page_num':page};
+		   $.ajax({
+				type: "POST",
+				url: base_url+"clients/favourite",
+				data:data,
+				success: function(data) { 
+				var str=data;
+                var data=str.trim();
+				if(data!=0){
+				$(".moreresult").append(data);
+				}else{
+				$(".nomore").html(data);
+				}
+				}
+			});
+	  }
+	  
+	 function deletethis(url){
+	    apprise(confirmdelete, {'confirm':true, 'textYes':'Yes already!', 'textNo':'No, not yet'},function (r){ if(r){ window.location.href=url; }else{ return false; } });
+	  }
+ 
+
+</script>

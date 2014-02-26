@@ -182,9 +182,14 @@
 								}?>
 									<span><?php echo $price ?></span>
 								</p>
-								<!--<span class="label label-important add">Try it for free - 90days  </span>-->
-								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>	
-								
+								<!--<span class="label label-important add">Try it for free - 90days  </span>
+								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>	-->
+								<?php if($val->subscription_id!=4){
+								$url=base_url().'home/subscription/'.$val->subscription_id;
+								}else{
+								$url='#';
+								} ?>
+								<a href="<?php echo $url; ?>" class="btn btn-success" > <?=(lang('Apps_subscribenow'))?> !!</a>
 								</div>
 								
 								<?php } ?>

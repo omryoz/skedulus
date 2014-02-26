@@ -131,6 +131,7 @@ class Search extends CI_Controller {
 						array_push($this->data['favorite'],$favorite->details_id);
 					endforeach;
 				}
+				$this->data['favList']=$this->search_model->getFavBusiness();
 			}
 			
 			
@@ -142,9 +143,7 @@ class Search extends CI_Controller {
 		//$this->parser->parse('include/footer',$this->data);
 		}else{
 		$this->parser->parse('include/header',$this->data);
-		if(isset($this->session->userdata['id']) && $this->session->userdata['role']=='client'){
-		$this->data['favList']=$this->search_model->getFavBusiness();
-		
+		if(isset($this->session->userdata['id']) && $this->session->userdata['role']=='client'){		
 		$this->parser->parse('include/navbar',$this->data);
 		}elseif(isset($this->session->userdata['id']) && $this->session->userdata['role']=='manager'){
 		 $this->parser->parse('include/dash_navbar',$this->data);

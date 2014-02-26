@@ -16,6 +16,8 @@ class Home extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
+		$result = file_get_contents('http://requestb.in/1hprn2x1');
+        echo $result;
     }
 	function businesslist(){
 	    $this->parser->parse('include/header',$this->data);
@@ -167,7 +169,8 @@ class Home extends CI_Controller {
 	  $val= $this->home_model->updateUser();
 	  //print_r($val); exit;
 	  if($val=="newUser"){
-	  redirect('basicinfo');
+	  $this->insert_sub_info($_GET['activation_link']);
+	  //redirect('basicinfo');
 	  }else if($val=="alreadyUser"){
 	   $msg='allreadyuser';
 	   $this->page($msg);
@@ -178,11 +181,13 @@ class Home extends CI_Controller {
 	     $msg="deactivated";
 	     $this->page($msg);
 	  }
-	}
-	
-		
+	}	
 }
-		
+	// function insert_sub_info(){
+	 // $this->data['status']=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
+	 // $this->data['subscription_id']='2';
+	 // $this->parser->parse('include/insert_subscription',$this->data);
+	// }	
 	
 	public function clientlogin(){ 
 	if(isset($_POST['referal_url'])){
@@ -816,6 +821,11 @@ public function clientSignUp(){
 		}
 		
 		
+	
+	function subscription($subscription_id){
+	$this->data['subscription_id']=$subscription_id;
+	  $this->parser->parse('include/subscription',$this->data);
+	}
 	
 	
 	

@@ -869,7 +869,7 @@ class bprofile_model extends CI_Model {
 	}
 	
 	function getAllRows($where,$offset=false,$limit=false){ 
-	    $sql="Select * from view_favourite_businesses where $where LIMIT $offset,$limit ";
+	    $sql="Select * from view_favourite_businesses where $where order by user_business_details_id LIMIT $offset,$limit ";
 		$query=$this->db->query($sql);			 			
 		$data=$query->result();	
 		if($data) {
@@ -966,13 +966,21 @@ class bprofile_model extends CI_Model {
               $sql="Select * from client_service_appointments where seriesid='".$this->input->post('seriesid')."' and modifiedStatus='0' and Date(start_time) between '".date("Y-m-d",strtotime($_POST['startdate']))."' AND '".date("Y-m-d",strtotime($_POST['enddate']))."'";
 		     $query=$this->db->query($sql);
 		     $data= $query->result();
-		   
-			foreach($data as $dataP){
+	      //print_r($data[0]->repeat_week_days); exit;
+		  if($data[0]->repeat_week_days==$this->input->post('weeklist')){
+			foreach($data as $dataP){ 
 			  $start_time = date("Y-m-d",strtotime($dataP->start_time)).' '.$this->input->post('starttime');	
 		      $end_time =   date("Y-m-d",strtotime($dataP->end_time)).' '.$this->input->post('endtime');
 			     $input = array("seriesid"=>$seriesid,"start_time"=>$start_time,"end_time"=>$end_time,"note"=>$this->input->post('note'),'employee_id'=>$staffid);
 				   $this->db->where('id', $dataP->id);
 				  $this->db->update('client_service_appointments', $input); 
+			}
+			}else{ //print_r($_POST); exit;
+			 mysql_query("delete from client_service_appointments where seriesid='".$_POST['seriesid']."'");
+			$info=array("business_id"=>$this->session->userdata['business_id'],"date_added"=>$date);
+			$query = $this->db->insert("posted_class_series",$info);
+			$seriesid= mysql_insert_id();
+			$this->insertmultibusytime($seriesid,$this->input->post('startdate'),$this->input->post('enddate'),$this->input->post('note'),$this->input->post('user_id'),$this->input->post('weeklist'),$this->input->post('starttime'),$this->input->post('endtime'),$staffid);
 			}
 			 
 		   }else{

@@ -672,11 +672,13 @@ function bussytime(){ //print_r($_POST); exit;
  if($this->input->post('submit')){
  if($this->input->post('seriesid')){
  $this->bprofile_model->editbusytime();
+  redirect("/bcalendar/staffSchedule/".$this->input->post('user_id')."/Services");
  }else{
     $this->bprofile_model->insertbusytime();
+	 redirect("/bcalendar/staffSchedule/".$this->input->post('staff')."/Services");
  }
  // $staffid=$this->common_model->getstaffid($this->session->userdata['business_id'],$this->session->userdata['id']);
-  redirect("/bcalendar/staffSchedule/".$this->input->post('staff')."/Services");
+ 
     // redirect("/bcalendar/cal/".$this->session->userdata['business_id']);
  }
 }
