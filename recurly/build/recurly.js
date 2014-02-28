@@ -948,7 +948,7 @@ R.Subscription = {
     , billing_info: this.billingInfo.toJSON()
     , signature: options.signature
     };
-
+console.log(json);
     R.ajax({
       url: R.settings.baseURL+'subscribe',
       data: json,
@@ -1038,7 +1038,7 @@ R.Subscription.getCoupon = function(couponCode, successCallback, errorCallback) 
 R.Transaction = {
  // Note - No toJSON function for this object, all parameters must be signed.
  create: createObject
-, save: function(options) {
+, save: function(options) { alert(options);
     var json = {
       account: this.account ? this.account.toJSON() : undefined
     , billing_info: this.billingInfo.toJSON()

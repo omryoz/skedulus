@@ -16,8 +16,8 @@ class Home extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
-		$result = file_get_contents('http://requestb.in/1hprn2x1');
-        echo $result;
+		//$result = file_get_contents('http://requestb.in/1hprn2x1');
+       // echo $result;
     }
 	function businesslist(){
 	    $this->parser->parse('include/header',$this->data);
@@ -183,11 +183,11 @@ class Home extends CI_Controller {
 	  }
 	}	
 }
-	// function insert_sub_info(){
-	 // $this->data['status']=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
-	 // $this->data['subscription_id']='2';
-	 // $this->parser->parse('include/insert_subscription',$this->data);
-	// }	
+	function insert_sub_info(){
+	 $this->data['status']=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
+	 $this->data['subscription_id']='2';
+	 $this->load->view('include/insert_subscription',$this->data);
+	}	
 	
 	public function clientlogin(){ 
 	if(isset($_POST['referal_url'])){
