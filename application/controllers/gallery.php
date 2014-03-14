@@ -25,7 +25,8 @@ class Gallery extends CI_Controller {
 			}else{
 			$offset =0;
 			}
-			$limit=8;
+			$limit=8;			
+
 	 if(isset($_POST['page_num'])){
 	        $this->data['tableList']=$this->bprofile_model->getImages($offset,$limit);
 		    $this->parser->parse('gallery_list',$this->data);

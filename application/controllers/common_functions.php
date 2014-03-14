@@ -10,6 +10,7 @@ class Common_functions extends CI_Controller {
 		$this->load->library('email');
 		$this->load->model('home_model');
 		$this->load->model('common_model');
+		$this->load->model('admin/admin_model');
 		$this->data['bodyclass']='index';
 		$this->load->library('form_validation');
 		$this->load->library('session');
@@ -128,22 +129,40 @@ class Common_functions extends CI_Controller {
 	
 		
    }	
-	
-	public function businesslogin($redirectUrl){
-	//$this->data['userRole']="businesslogin";
-	//$this->data['signUp']="businessSignUp";
-	if(isset($_GET['activation_link'])){
-	  $val= $this->home_model->updateUser();
-	  if($val=="newUser"){
-	  redirect('basicinfo');
-	  }else if($val=="alreadyUser"){
-	    $this->data['alreadyUser']="alreadyUser";
-	  }
+   
+   function checkPlan($subscription,$status){ 
+   $end_date=date("d-m-Y",strtotime($subscription->end_date));
+   $diff=($end_date)-(date("d-m-Y"));
+    $this->data['name'] = $this->session->userdata['username'];
+	$this->data['enddate'] = date('l jS \of F Y ',strtotime($subscription->end_date));
+    if($diff=='2' || $diff=='1' || $diff=='0'){
+	$email = $this->session->userdata['email']; 
+	$subject ="Renewal Reminder";	
+	$message=$this->load->view('renewal_reminder',$this->data,TRUE);		
+	$this->common_model->mail($email,$subject,$message);
+	return 1;
+    }elseif($diff==-1){
+	$email = $this->session->userdata['email']; 
+	$subject ="Free Trial Subscription Expired";	
+	$message=$this->load->view('subscription_expired',$this->data,TRUE);		
+	$this->common_model->mail($email,$subject,$message);
+    return 0;
+    }else{
+	return 1;
 	}
-	
+  }
+ 
+	public function businesslogin($redirectUrl){  
+
 		 $status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 		 $subscription=$this->common_model->getRow("view_user_subscription","users_id",$this->session->userdata['id']);
-		 
+		 if($subscription->version_type=='free'){
+		    $returnVal=$this->checkPlan($subscription,$status);
+		 }else{
+		    $returnVal=1;
+		 }
+		
+		 if($returnVal==1){
 		 if($status){
 			 $sessionVal=array('subscription'=>$subscription->subscription_id,'business_id'=>$status->id,'business_type'=> $status->business_type,'type'=>'dual');
 			  $this->session->set_userdata($sessionVal);
@@ -184,6 +203,17 @@ class Common_functions extends CI_Controller {
 			 }else{
 			 redirect('basicinfo');
 			 }
+			}else{
+			  $this->admin_model->updateBusinessStatus('active',$status->id);
+			  $this->home_model->expireSubscription('expired',$this->session->userdata['id']);
+			  $this->session->unset_userdata('role');
+			    $sessionVal=array(
+				 'role'=>'client'
+				);
+		     $this->session->set_userdata($sessionVal);	
+		     redirect('cprofile');
+			}
+			
 		 }
 	
 	public function clientlogin(){  
@@ -349,51 +379,19 @@ class Common_functions extends CI_Controller {
  
 
 
-	public function clientSignUp(){
-	//$this->load->view('include/modal_verifyphone');
-	//$this->parser->parse('include/meta_tags',$this->data);
+	public function clientSignUp(){ 
+	
 	$this->data['userRole']="clientSignUp";
 	$this->data['signUp']="clientlogin";
 	if(isset($_GET['checkino'])){
-	// if(!empty($_POST['phone_number'])){
-	// $status=1;
-	// }else{
-	// $status=0;
-	// }
-		  $id=$this->home_model->insertinfo();
-		 // if($phone==1){
-		 // redirect('home/c1');
-		
-	     // }else{
-		 // redirect('cprofile/'.$status);
-		   redirect('cprofile');
-		 //}
-		 
+		$id=$this->home_model->insertinfo();
+		redirect('cprofile'); 
 	}
    
    //$this->load->view('general/signup',$this->data);
 }
 
 
-	// public function account_activation($id){
-	    // $this->load->library( 'email' );
-		// $config['mailtype'] = 'html';
-		// $config['protocol'] = 'sendmail';
-	    // $userdetails= $this->common_model->getRow("users","id",$id);
-	    // $this->data['name'] = $userdetails->first_name." ".$userdetails->last_name;
-		// $this->data['activation_key'] = $userdetails->activationkey;
-		// $this->data['email'] = $userdetails->email; 
-		//Get email 
-		// $this->email->initialize($config);
-		// $this->email->from('swathi.n@eulogik.com', 'swathi');
-		// $this->email->to($this->data['email']); 
-		// $this->email->subject('Account Activation');
-		// $message=$this->load->view('account_activation',$this->data,TRUE);
-        // $this->email->message($message);  		
-		// $this->email->send();
-		// $this->email->print_debugger();
-	// }
-	
 	
 	
 	public function checkEmail(){
@@ -406,9 +404,32 @@ class Common_functions extends CI_Controller {
 	}
 	
 	public function logout(){
+	if(isset($this->session->userdata['provider'])){
+	   $this->socialAccountlogout();
+	  }
 		$this->session->sess_destroy();
+		
 		redirect('home');
 	}
+	
+		function socialAccountlogout(){ 
+			$config = 'hybridauth/config.php';
+			require_once( "hybridauth/Hybrid/Auth.php" );
+			// create an instance for Hybridauth with the configuration file path as parameter
+					$hybridauth = new Hybrid_Auth( $config );
+					
+					// set selected provider name 
+					$provider = $this->session->userdata['provider'];//@ trim( strip_tags( $_GET["provider"] ) );
+
+					// try to authenticate the selected $provider
+					$adapter = $hybridauth->authenticate( $provider );
+					// if okey, we will redirect to user profile page 
+					#$hybridauth->redirect( "login?provider=$provider" );
+					$adapter = $hybridauth->getAdapter( $provider );
+					// grab the user profile
+					$adapter->logout();
+					return true;
+		}
 	
 	/* Function to  display image in requird dimensions*/
 		/*public function display_image($photo_id=false,$width = false,$height = false,$ratio=false,$file=false)

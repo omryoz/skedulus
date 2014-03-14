@@ -812,13 +812,23 @@ class bprofile_model extends CI_Model {
 	  }
 	}
 	
-	function getserviceByfilter1($string){ 
+	function getserviceByfilter1($string=false,$businessid=false){ 
+	$typenum=$this->common_model->getsubscription($businessid,'users');
+	if($typenum!=-1){
+	$limit=' limit 0,'.$typenum;
+	}else{
+	$limit='';
+	}
+	
+	
 	  $string=rtrim($string,',');
 	  $serviceArray=explode(',',$string); $i=0;
 	  $list=array();
 	 foreach($serviceArray as $s){ 
 	 if($s!=''){
 	 $filter = 'service_id  ='. $s;
+	 $filter.=' ORDER BY users_id ASC'.$limit;
+	
      $query = $this->db->query("SELECT distinct(users_id),first_name,last_name FROM `view_employee_services` where  ".$filter."");	 
 	 $data= $query->result();
 	 foreach($data as $dataP){

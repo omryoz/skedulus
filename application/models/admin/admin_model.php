@@ -64,6 +64,22 @@ function getdetails($tablename=false,$offset=false,$limit=false,$where=false){
 		}
 	}
 	
+	function updateBusinessStatus($status,$businessid){ //print_r($status); print_r($businessid); exit;
+	    if($status=='active'){
+		 $insertArray['status']= 'inactive';
+		 $insertArray1['user_role']= 'client';
+	     $insertArray2['user_role']= 'client';
+		}elseif($status=='inactive'){
+		$insertArray['status']= 'active';
+		$insertArray1['user_role']= 'manager';
+		$insertArray2['user_role']= 'employee';
+		} 
+		$this->db->update('user_business_details',$insertArray,array('id' => $businessid));
+		$val=$this->common_model->getRow('user_business_details','id',$businessid);
+		$vals=$this->update_employee($businessid,$insertArray2,$val->users_id);
+		$this->db->update('users',$insertArray1,array('id' => $val->users_id));
+	}
+	
 	function update_employee($business_id,$array,$business_manager){
 	    $sql="Select DISTINCT (users_id), business_id from employee_services where business_id='".$business_id."' and users_id!=".$business_manager;
 		//echo $sql; exit;

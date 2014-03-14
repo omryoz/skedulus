@@ -80,6 +80,76 @@
     {
         setupFormValidation: function()
         {
+            $("#sign_up").validate({
+                rules: {
+                    firstname: "required",
+					lastname: "required",
+					gender: "required",
+                    email: {
+                        required: true,
+                        email: true,
+						remote: {
+						  url: baseUrl+'home/checkEmail',
+						  type: "post",
+						  data: {
+							email: function(){ return $("#email").val(); }
+						  }
+                     }
+					},
+					phone: {
+						digits:true
+					},	
+					password:{ 
+					required: true,
+					minlength: "6",
+					}
+                    
+                },
+                messages: {
+                    firstname: "  required",
+					lastname: " required",
+					gender: " required",
+                    email: {
+					required: " required",
+					email: " invalid email address",
+					remote: " email already exist"
+					},	
+					phone:{
+					digits: " only numbers allowed",
+					},	
+					password: {
+					required:" required",	
+					minlength:" minimum 6 characters is required"
+					}				
+                },
+				
+				errorPlacement: function(error, element) {
+				 error.insertAfter( element ); 
+				 error.css('padding-left', '10px');
+				},
+
+                submitHandler: function(form) {
+                form.submit();
+                }
+            });
+        }
+		
+    }
+
+    //when the dom has loaded setup form validation rules
+    $(D).ready(function($) {
+        JQUERY4U.UTIL.setupFormValidation();
+    });
+
+})(jQuery, window, document);
+
+(function($,W,D)
+{
+    var JQUERY4U = {};
+    JQUERY4U.UTIL =
+    {
+        setupFormValidation: function()
+        {
             $("#form2").validate({
                 rules: {
 					toemail: {

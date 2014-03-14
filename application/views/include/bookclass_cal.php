@@ -23,7 +23,7 @@
 			},
 			minTime: <?php print_r($buisness_availability['start_time']) ?>,
 	        maxTime: <?php print_r($buisness_availability['end_time']) ?>,
-			
+			allDaySlot: false,
 			selectable: false,
 			selectHelper: true,
 			select: function(start, end, allDay) { 

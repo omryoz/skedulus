@@ -32,10 +32,12 @@
 										  <th><h4><?=(lang('Apps_action'))?> </h4></th>
 										</tr>
 									  </thead>
-									   <tbody class="moreresult">
+									     <tbody class="moreresult">
 									 <?php
 									 $i=1;	
-									 foreach($tableList as $content){ ?>
+									 foreach($tableList as $content){ 
+										if($i<=$num){
+									 ?>
 										<tr>
 										  <td><?php echo $i; ?></td>
 										  <td><?php echo $content['name']; ?></td>
@@ -49,13 +51,14 @@
 										 <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $content['id']; ?>&delete=delete&<?php echo $register ?>"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 										  </td>
 										</tr>
-									<?php $i++; } ?>
+									<?php $i++; } }?>
 									</tbody>
 									</table>
-									<center>	<span class="pagination pagination-right"><ul><?php echo $pagination;?></ul></span></center>
-									<?php }else{ ?>
+									
+									<?php  }else{ ?>
 									 <p class="alert"><?=(lang('Apps_nostaffaddedyet'))?> </p>
 									<?php } ?>
+									<p class="nomore hide"></p>
 								 <?php if(isset($_GET['register'])) {
 									if($_GET['register']=='Class'){
 									$url="services/list_classes/?register";
@@ -80,9 +83,7 @@
 	 
 			  
 	  </div>
-	  <!--<div class="modal-footer">
-		 <button class="btn btn-success">Save changes</button>
-	  </div>--->
+
 	</div>		
 	 </div>
 </div>
@@ -105,7 +106,7 @@ color: #FB3A3A;
       })
 	  
 	  function showmore(){
-		  page= parseInt(page)+parseInt(3);
+		  page= parseInt(page)+parseInt(10);
 		   var data = {'page_num':page};
 		   $.ajax({
 				type: "POST",
@@ -114,8 +115,11 @@ color: #FB3A3A;
 				success: function(data) { 
 				var str=data;
                 var data=str.trim();
+				if(data!=0){
 				$(".moreresult").append(data);
-
+				}else{
+				$(".nomore").html(data);
+				}
 				}
 			});
 	  }
@@ -126,3 +130,4 @@ color: #FB3A3A;
  
 
 </script>
+

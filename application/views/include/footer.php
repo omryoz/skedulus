@@ -32,11 +32,9 @@
 							$status=$this->common_model->getRow("user_business_details","users_id",$this->session->userdata['id']);
 							}
 							?>
-							<?php if($status!="") { ?>
-							 <li>
-								
-							</li> 
-							<?php }else{
+							<?php //if($status!="") { ?>
+							 
+							<?php //}else{
 							  ?>
 							  <li> 
 								<a href="<?php echo base_url(); ?>home/businesslist"><center>
@@ -47,7 +45,7 @@
 								
 							</li> 
 							  <?php 
-							} ?>
+							//} ?>
 							
 						
 						</ul>

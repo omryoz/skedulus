@@ -40,6 +40,8 @@ class basicinfo_model extends CI_Model {
 		$id=mysql_insert_id();
 		$business_type=$_POST['business_type'];
 		}
+		    //$sub=$this->common_model->getRow('user_business_subscription','users_id',$user_id);
+			//'subscription' => $sub->subscription_id,
 			$sessionVal=array('business_id' => $id,'role' => 'manager','business_type' => $business_type,'type'=>'dual');
 			$this->session->set_userdata($sessionVal);
 			for($i=1;$i<=7;$i++){
@@ -135,17 +137,18 @@ class basicinfo_model extends CI_Model {
 		}
 	}
 	
-	function insertsubscription($users_id=false){
+	function insertsubscription($users_id=false,$subscription_id=false,$version=false,$status=false){
 	$insertSub=array();
 	//if(isset($_GET['subscription'])) $insertSub['subscription_id']=$_GET['subscription'];
-	$insertSub['subscription_id']='2';
+	$insertSub['subscription_id']=$subscription_id;
 	$start_date= date("Y-m-d");
 	//to get end date
 	$end = strtotime(date('Y-m-d',strtotime($start_date)). "+1 month");
 	$insertSub['start_date']=$start_date;
 	$insertSub['end_date']=date('Y-m-d',$end);
-	$insertSub['version_type']='free';
-	$insertSub['status']='active';
+	$insertSub['version_type']=$version;
+	
+	$insertSub['status']=$status;
 	$insertSub['users_id']=$users_id;
 	$isExist=$this->common_model->getRow("user_business_subscription","users_id",$users_id);
 	if(isset($isExist) && $isExist!=""){

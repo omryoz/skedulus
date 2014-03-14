@@ -414,7 +414,7 @@ function getstaffnameByfilter(){
 
 function getstaffnamesByfilter(){
 	if($this->input->post('service_id')){
-	$results = $this->bprofile_model->getserviceByfilter1($this->input->post('service_id'));	
+	$results = $this->bprofile_model->getserviceByfilter1($this->input->post('service_id'),$this->input->post('businessid'));	
 	$vals='[';
 	$day = $this->checkweekendDayName($this->input->post('date'));
 	$starttime='';
@@ -1538,6 +1538,7 @@ function checkIfblocked(){
 	  $users_id=$this->session->userdata['id'];
 	  $this->parser->parse('include/header',$this->data);
 	}
+	//$orderby=" ORDER BY users_id";
 	$this->parser->parse('include/modal_verifyphone',$this->data);	
 	$this->data['role']="";
 		 if(isset($this->session->userdata['role']) && $this->session->userdata['role']=='manager'){
@@ -1553,13 +1554,24 @@ function checkIfblocked(){
 		  
 		  $filter=array('users_id'=>$id);
 		  $staffdetails = $this->business_profile_model->getstaffDetailsByfilter($filter);
+		  
+		  
+	     // $this->data['num']=$this->common_model->getsubscription($staffdetails[0]->user_business_details_id);
+		  $typenum=$this->common_model->getsubscription($staffdetails[0]->user_business_details_id,'users');
+	if($typenum!=-1){
+	$limit=' limit 0,'.$typenum;
+	}else{
+	$limit='';
+	}
+	 $orderby='ORDER BY users_id ASC'.$limit;
+	 
 		  $this->data['staff_details'] =$staffdetails;
 		  $buisness_availability = $this->business_profile_model->user_business_availability($id,'employee');
 		  $this->data['buisness_availability']=$buisness_availability;
 		  $caltype=$this->common_model->getRow('user_business_details','id',$staffdetails[0]->user_business_details_id);
 		}
 		if($type=='Classes'){
-		$this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
+		$this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id,$orderby);
 		  $this->data['trainerid'] =$staffdetails[0]->users_id;
 		  $this->data['firstname'] =$staffdetails[0]->first_name;
 		  $this->data['lastname'] =$staffdetails[0]->last_name;
@@ -1595,10 +1607,8 @@ function checkIfblocked(){
 		//$filter=array('id'=>$id);
 		//$buisness_details = $this->business_profile_model->getProfileDetailsByfilter($filter);
 		$this->data['appointments'] = $this->business_profile_model->getappointments($buisness_availability['start_time'],$buisness_availability['end_time'],$caltype->calendar_type,$filter1,'','','','','staff',$staffdetails[0]->user_business_details_id);
-		 
-		 
-		 
-		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id);
+		
+		 $this->data['staffs']=$this->common_model->getAllRows('view_business_employees','user_business_details_id',$staffdetails[0]->user_business_details_id,$orderby);
 		 $this->data['trainerid'] ='';
 		 $this->parser->parse('include/modal_popup',$this->data);
 		 $this->parser->parse('include/modal_busytime',$this->data);
@@ -1616,6 +1626,7 @@ function checkIfblocked(){
 		 $this->parser->parse('include/footer',$this->data);
 	}
 	
+		
 	function checkStatus(){
 	 $val=$this->common_model->getRow("user_business_posted_class","id",$_POST['classID']); 
 	// print_r($val); exit;

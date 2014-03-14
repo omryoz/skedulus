@@ -436,5 +436,22 @@ public function mail($emailTo,$subject,$message){
 		$minutes = $time%60;
 		return sprintf($format, $hours, $minutes);
 	}
+	
+	function getsubscription($businessid,$type){
+	      $businessdetails= $this->common_model->getRow("user_business_details",'id',$businessid);
+		  $subscriptionD= $this->common_model->getRow("user_business_subscription",'users_id',$businessdetails->users_id);
+		  $val= $this->common_model->getRow("view_subscription_plans",'subscription_id',$subscriptionD->subscription_id);
+		  if($type=='users'){
+		  $typenum= $val->users_type.','.$val->users_num;
+		  }elseif($type=='pics'){
+		  $typenum= $val->pictures_type.','.$val->picture_num;
+		  }
+		   $vals=explode(',',$typenum); 
+		   if($vals['0']=='upto'){
+		     return $vals['1'];
+		   }else{
+		    return -1;
+		   }
+	}
 }
 ?>

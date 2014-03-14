@@ -75,8 +75,8 @@ class Basicinfo extends CI_Controller {
 		}
 		
 		if(isset($_GET['checkinfo'])){
-		//print_r($_POST['businessType']); exit;
-		$this->basicinfo_model->insertsubscription($users_id);
+		$this->basicinfo_model->insertsubscription($this->session->userdata['id'],'2','free','active');
+		//$this->basicinfo_model->insertsubscription($users_id,'2','free');
 		$id=$this->basicinfo_model->insertBasicInfo($users_id);
 		redirect($_POST['businessType']);
 		}
@@ -87,8 +87,8 @@ class Basicinfo extends CI_Controller {
 		$this->parser->parse('include/footer',$this->data);
 	}
 	
-	public function editinfo(){ 
-	if(isset($this->session->userdata['admin'])){
+	public function editinfo(){
+    if(isset($this->session->userdata['admin'])){
 		  $users_id=$this->session->userdata['users_id'];
 		  $this->data['switch']='switchbtn';
 		  $this->parser->parse('include/admin_header',$this->data);

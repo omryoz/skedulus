@@ -16,34 +16,49 @@ class Home extends CI_Controller {
 		CI_Controller::get_instance()->load->helper('language');
 		$this->load->library('utilities');
 	    $this->utilities->language();
-		//$result = file_get_contents('http://requestb.in/1hprn2x1');
-       // echo $result;
     }
+	
 	function businesslist(){
 	    $this->parser->parse('include/header',$this->data);
-		$where=" user_status='active' and business_status='active'";
-	    $config['total_rows'] = $this->common_model->getCount('view_business_details','business_id',$where); 
-		if($config['total_rows']){
-		    $config['base_url'] = base_url().'home/page/';
-			$config['per_page'] = '12';
-			$config['uri_segment'] = 3; 
-			$this->pagination->initialize($config);
-			$this->data['pagination']=$this->pagination->create_links();
-			if($this->uri->segment(3)!=''){
-			$offset=$this->uri->segment(3);
+		$this->data['flag']='1';
+		if(isset($this->session->userdata['id'])){
+		$status=$this->common_model->getRow('user_business_details','users_id',$this->session->userdata['id']);
+		  if($status){ 
+		   $this->data['flag']='0';
+		   $subscription=$this->common_model->getRow("view_user_subscription","users_id",$this->session->userdata['id']); 
+		   if( ($subscription->subscription_status=='expired') || ($subscription->subscription_status=='active' && $subscription->version_type=='free')){
+		      $this->data['exp']='1';
+		   }else{
+		      $this->data['exp']='0'; 
+		   }
+		  }else{
+			$Cstatus=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+			if($Cstatus->verify_phone=='active'){
+			 $this->data['status']='1';
 			}else{
-			$offset=0;
-			}
-			$this->data['contentList']=$this->home_model->getBusiness($offset,$config['per_page']);
-			
-            /* End Pagination Code  */
+			$this->data['status']='0';
+			$this->data['phonenumber']=$Cstatus->phone_number;
+			}	
+         }	
+		// $Cstatus=$this->common_model->getRow('users','id',$this->session->userdata['id']);
+		// if($Cstatus->verify_phone=='active'){
+		 // $this->data['status']='1';
+		// }else{
+		// $this->data['status']='0';
+		// $this->data['phonenumber']=$Cstatus->phone_number;
+        // }		
 		}
+		$this->parser->parse('include/modal_showoptions',$this->data);
 		$this->parser->parse('include/modal_signup',$this->data);
+		$this->parser->parse('include/popupmessages',$this->data);
+		$this->parser->parse('include/modal_verifyphone',$this->data);
 		$this->data['details']=$this->common_model->getAlldatas("view_subscription_plans",0,10000,1);
 		$this->data['Signup_business'] = (!empty($_GET['Signup_business']))?$_GET['Signup_business']:"";
 	    $this->parser->parse('general/businesslist',$this->data);
 		$this->parser->parse('include/footer',$this->data);
 	}
+	
+	
 	public function index() {
 	   $this->page();
 	}
@@ -169,8 +184,9 @@ class Home extends CI_Controller {
 	  $val= $this->home_model->updateUser();
 	  //print_r($val); exit;
 	  if($val=="newUser"){
-	  $this->insert_sub_info($_GET['activation_link']);
-	  //redirect('basicinfo');
+	 // $this->basicinfo_model->insertsubscription($this->session->userdata['id'],'2','free','active');
+	  // $this->insert_sub_info($_GET['activation_link']);
+	  redirect('basicinfo');
 	  }else if($val=="alreadyUser"){
 	   $msg='allreadyuser';
 	   $this->page($msg);
@@ -181,13 +197,21 @@ class Home extends CI_Controller {
 	     $msg="deactivated";
 	     $this->page($msg);
 	  }
-	}	
+	}
+	
+		
 }
-	function insert_sub_info(){
-	 $this->data['status']=$this->common_model->getRow("users","activationkey",$_GET['activation_link']);
+	function updateuser(){
+         $sql=mysql_query("update users set status='active', statusflag='1' where id=".$this->session->userdata['id']);
+		 $this->basicinfo_model->insertsubscription($this->session->userdata['id'],'2');
+		 redirect('basicinfo');
+	}
+	
+	function insert_sub_info(){ 
+	 $this->data['status']=$this->common_model->getRow("users","id",$this->session->userdata['id']);
 	 $this->data['subscription_id']='2';
 	 $this->load->view('include/insert_subscription',$this->data);
-	}	
+	}
 	
 	public function clientlogin(){ 
 	if(isset($_POST['referal_url'])){
@@ -629,7 +653,11 @@ public function clientSignUp(){
 		$information=$this->facebook_twitter_Auth();
 		#print_r($information);exit;
 		$data['user_profile'] = $information;
-		
+		$sessionprovider=array(
+					'provider'=>$_GET['provider']
+				);
+				$this->session->set_userdata($sessionprovider);
+				
 		if(!empty($_GET['provider']) && $_GET['provider']=="Twitter"){
 				$filter=array('email'=>$information->email,'profile_id' =>$information->identifier);
 			}else{
@@ -687,7 +715,10 @@ public function clientSignUp(){
 					'role'=>$val->user_role
 				);
 				$this->session->set_userdata($sessionVal); 
-				redirect('cprofile');
+				if($val->verify_phone=='active'){
+				redirect('basicinfo');
+				}else{
+				redirect('cprofile/?notify');}
 				}
 			}else{
 		
@@ -726,7 +757,7 @@ public function clientSignUp(){
 
 					// grab the user profile
 					$user_data = $adapter->getUserProfile();
-					#print_r($user_data);
+					//print_r($user_data);exit;
 					return $user_data;
 				}
 				catch( Exception $e ){
@@ -759,8 +790,14 @@ public function clientSignUp(){
 		
 		function loginAuth(){
 			$user_profile = $this->facebook_twitter_Auth();
+			$sessionprovider=array(
+					'provider'=>$_GET['provider']
+				);
+				$this->session->set_userdata($sessionprovider);
+				
 			#print_r($user_profile);
 			#print_r($user_profile->email);
+			
 			if(!empty($_GET['provider']) && $_GET['provider']=="Twitter"){
 				$filter=array('email'=>$user_profile->email,'profile_id' =>$user_profile->identifier);
 			}else{
@@ -782,8 +819,8 @@ public function clientSignUp(){
 											'random_key' => $rand,
 											'first_name' => $user_profile->firstName,
 											'username'=>(!empty($user_profile->displayName))?$user_profile->displayName:"");
-            #print_r($social_account);exit;
-				
+            
+			//print_r($social_account); exit;	
 			$user_data = $this->home_model->check_user_exist($filter,$social_account);
 			//print_r($user_data);exit;
 			if($user_data){
@@ -819,15 +856,97 @@ public function clientSignUp(){
 			 redirect('home/clientlogin');
 			}
 		}
-		
-		
-	
 	function subscription($subscription_id){
-	$this->data['subscription_id']=$subscription_id;
-	  $this->parser->parse('include/subscription',$this->data);
+	 $this->data['status']=$this->common_model->getRow("users","id",$this->session->userdata['id']);
+	 $this->data['subscription_id']=$subscription_id;
+	 $this->load->view('include/insert_subscription',$this->data);
+	}	
+		
+	function notifications()
+	{
+		$file = realpath($_SERVER['DOCUMENT_ROOT']).'/skedulus/xmloutput.txt';
+		$file1 = realpath($_SERVER['DOCUMENT_ROOT']).'/skedulus/outputarray.txt';
+		$post_xml = file_get_contents ("php://input"); 
+		$xml_msg_in = fopen($file,"a");
+		fwrite($xml_msg_in,$post_xml); 
+		fclose($xml_msg_in);
+	
+    $post_xml='<?xml version="1.0" encoding="UTF-8"?>
+<updated_subscription_notification>
+  <account>
+    <account_code>129</account_code>
+    <username nil="true"></username>
+    <email>swathi.n@eulogik.com</email>
+    <first_name>Swathi</first_name>
+    <last_name>N</last_name>
+    <company_name nil="true"></company_name>
+  </account>
+  <subscription>
+    <plan>
+      <plan_code>1</plan_code>
+      <name>Basic</name>
+    </plan>
+    <uuid>260b53ae9dbf7ea6885b4b492585cc53</uuid>
+    <state>active</state>
+    <quantity type="integer">1</quantity>
+    <total_amount_in_cents type="integer">1500</total_amount_in_cents>
+    <subscription_add_ons type="array"/>
+    <activated_at type="datetime">2014-03-07T12:33:10Z</activated_at>
+    <canceled_at type="datetime" nil="true"></canceled_at>
+    <expires_at type="datetime" nil="true"></expires_at>
+    <current_period_started_at type="datetime">2014-03-07T12:33:10Z</current_period_started_at>
+    <current_period_ends_at type="datetime">2014-03-08T12:33:10Z</current_period_ends_at>
+    <trial_started_at type="datetime" nil="true"></trial_started_at>
+    <trial_ends_at type="datetime" nil="true"></trial_ends_at>
+    <collection_method>automatic</collection_method>
+  </subscription>
+</updated_subscription_notification>';
+	
+		$xml = new SimpleXMLElement ($post_xml);
+        $type = $xml->getName();
+         
+	
+      switch ($type)
+      {
+        case 'canceled_subscription_notification':
+          $this->cancelsubscription();
+          break;
+        case 'subscription':
+          $this->subscription = $child_node;
+          break;
+        case 'updated_subscription_notification':
+          $this->checkforupdate($xml);
+          break;
+      }
+		 
+		 
+        //$array = simplexml_load_string($post_xml);
+		// $xml_msg_in = fopen($file1,"a");
+		// fwrite($xml_msg_in,$type); 
+		// fclose($xml_msg_in);
+		//echo "<pre>";
+		//print_r($array);		 
 	}
 	
 	
+	function checkforupdate($xml){
+	   $json = json_encode($xml);
+       $array = json_decode($json,TRUE);
+	   
+	    $id=$array['account']['account_code'];
+	    $plancode=$array['subscription']['plan']['plan_code'];
+		$version='paid';
+		//print_r($id); print_r($plancode);
+		$this->load->model('basicinfo_model');
+		$this->basicinfo_model->insertsubscription($id,$plancode,$version);
+	    
+	}
+
+	
+	function updatesubscribe(){
+	   $this->load->view('include/subscription',$this->data);
+	}
+
 	
 }
 

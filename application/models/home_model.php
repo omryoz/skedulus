@@ -3,7 +3,6 @@ class Home_model extends CI_Model {
 
 function getBusiness($offset=false,$limit=false){
 		$sql="Select * from view_business_details where user_status='active' and business_status='active' ORDER BY business_id asc LIMIT $offset,$limit ";
-		
 		$query=$this->db->query($sql);
 		$data= $query->result();
 		$i=0;
@@ -74,6 +73,11 @@ function getBusiness($offset=false,$limit=false){
 		 $this->session->set_userdata($sessionVal);
 		 return true;
 		}
+	}
+	
+	function expireSubscription($status,$userid){
+	  $insertArray['status']= $status;
+	  $this->db->update('user_business_subscription',$insertArray,array('users_id' => $userid));
 	}
 	
 	function updateUser(){

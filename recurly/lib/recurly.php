@@ -40,3 +40,20 @@ require_once(dirname(__FILE__) . '/recurly/transaction_list.php');
 require_once(dirname(__FILE__) . '/recurly/push_notification.php');
 require_once(dirname(__FILE__) . '/recurly/recurly_js.php');
 require_once(dirname(__FILE__) . '/recurly/util/hmac_hash.php');
+?>
+<html>
+  <head>
+    <link rel="stylesheet" href="<?php echo base_url(); ?>recurly/themes/default/examples.css" type="text/css" />
+    <link href="<?php echo base_url(); ?>recurly/themes/default/recurly.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="<?php echo base_url(); ?>recurly/build/recurly.js"></script>
+	<script>
+	//var base_url='http://dev.eulogik.com/skedulus';
+	var base_url='http://localhost/skedulus/';
+	</script>
+	<?php 
+	Recurly_Client::$subdomain = 'skedulus';
+    Recurly_Client::$apiKey = '82327807620f4794b94ec1150f399f45';
+    Recurly_js::$privateKey = '0f368d389ff444e58d4bdf33f06c461d';
+ 
+	?>

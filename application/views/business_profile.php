@@ -284,7 +284,9 @@ include('include/modal_classes.php');
 							<tbody>
 							<?php 
 							if($staffs!=''){
-							foreach($staffs as $staff) { ?>
+							$i=1;
+							foreach($staffs as $staff) {
+							?>
 							 <tr>
 								<th><img src="<?php  echo base_url();?>uploads/photo/<?=(!empty($staff->image)?$staff->image:'default.jpg');?>"></th>
 								<td ><h5><?php echo $staff->first_name." ".$staff->last_name ?></h5></td>
@@ -295,8 +297,8 @@ include('include/modal_classes.php');
 							  <a href="<?=base_url()?>staffs/manage_staffs?id=<?php echo $staff->users_id; ?>&delete=delete&page=page"  data-toggle="tooltip" class="tool confirm" data-original-title="Delete"><i class="icon-trash icon-large"></i></a>
 							  </td><?php } ?>
 							</tr>
-							<?php }
-								}else{
+							<?php 
+								$i++; } }else{
 								print_r(lang('Apps_nostaffaddedyet'));
 								}?>
 								
@@ -366,179 +368,7 @@ include('include/modal_classes.php');
 		         </div>
 			</div>
 		</div>
-		
 
-	
-
-	
-<!----Book for a class -------->
-<!----------book popup start------------>
-
-
-<div id="bookClass" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   <form class="form-horizontal" name="book_appointment" action="<?php echo base_url();?>bcalendar/createappointment" method="post" id="book_appointment">	
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 id="myModalLabel"> <?=(lang('Apps_bookforclass'))?></h3>
-	<br/><div id="booksuccess" class="alert" style="display:none"></div>
-  </div>
-  <div class="modal-body">
-		   <p class="message"></p>	
-		  
-		   <!-- <div class="control-group">
-			<label class="control-label" >Class</label>
-			<div class="controls">
-		
-			  <input type="text" class="span6" id="classname"  readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Price</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="price" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Start Date</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="startdate" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >End Date</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="enddate" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Start Time</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="starttime" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >End Time</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="endtime" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Repeated</label>
-			<div class="controls">
-			 
-			 <input type="text" class="span6 class" id="repeated" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group" id="repeatedDiv">
-			<label class="control-label" >Repeated On</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="repeatedon" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group" id="instructor_name">
-			<label class="control-label" >Instructor</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="instructor" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Last date to enroll</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="lastdate" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Capacity</label>
-			<div class="controls">
-			 
-			 <input type="text" class="span6 class" id="capacity" readonly="">
-			</div>
-		  </div>
-		  <div class="control-group">
-			<label class="control-label" >Available</label>
-			<div class="controls">
-			  
-			 <input type="text" class="span6 class" id="available" readonly="">
-			</div>
-		  </div> -->
-		  
-		  
-		  <table class="table table-striped">
-            
-              <tbody>
-                <tr>
-                  <td> <?=(lang('Apps_class'))?></td>
-				  
-                  <td id="classname"></td>
-                  
-                </tr>
-                <tr>
-                  <td> <?=(lang('Apps_price'))?></td>
-                  <td id="price" ></td>
-                </tr>
-                <tr>
-                  <td><?=(lang('Apps_startdate'))?></td>
-                  <td id="startdate" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_enddate'))?></td>
-                  <td id="enddate" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_starttime'))?></td>
-                  <td id="starttime" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_endtime'))?></td>
-                  <td id="endtime" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_repeated'))?></td>
-                  <td id="repeated" ></td>
-                </tr>
-				<tr id="repeatedDiv">
-                  <td><?=(lang('Apps_repeatedon'))?></td>
-                  <td id="repeatedon" ></td>
-                </tr>
-				<tr id="instructor_name">
-                  <td> <?=(lang('Apps_instructor'))?></td>
-                  <td id="instructor" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_lastdatetoenroll'))?></td>
-                  <td id="lastdate" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_capacity'))?></td>
-                  <td id="capacity" ></td>
-                </tr>
-				<tr>
-                  <td> <?=(lang('Apps_available'))?></td>
-                  <td id="available" ></td>
-                </tr>
-              </tbody>
-            </table>
-		  
-	
-  </div>
- 
-    <div class="modal-footer">
-    <!--<a href="#" class="btn btn-success span3 offset5" >Book</a>-->
-	<input type="hidden" name="classid" value="" id="classid" />
-	<input type="button" name="submit" value="<?=(lang('Apps_book'))?>" id="bookclass" class="btn btn-success span3 offset5"/>
-  </div>
-  </form>
-</div>
-
-<!--------book popup end------------->
 
 <!-----Theater view modal start------>
 <div id="theater_view" class="modal hide fade th3-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

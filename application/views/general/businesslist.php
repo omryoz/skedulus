@@ -185,12 +185,25 @@
 								<!--<span class="label label-important add">Try it for free - 90days  </span>
 								<a href="javascript:;" class="btn btn-success disabled" disabled="disabled"> <?=(lang('Apps_subscribenow'))?> !!</a>	-->
 								<?php 
-								//if($val->subscription_id!=4){
-								//$url=base_url().'home/subscription/'.$val->subscription_id;
-								//}else{
+								$class='';
+								if($flag==0){ 
+									$disabled='';
+									if($val->subscription_id!=4){
+									if($exp==1){
+									$url=base_url().'home/subscription/'.$val->subscription_id;
+									 }else{
+									$url='#';
+									$class='showoptions';
+									 }
+									}else{
+									$url='#';
+									}
+								}else{
+								$disabled='disabled';
 								$url='#';
-								//} ?>
-								<a href="<?php echo $url; ?>" class="btn btn-success disabled" > <?=(lang('Apps_subscribenow'))?> !!</a>
+								}
+								?>
+								<a href="<?php echo $url; ?>" planid="<?php echo $val->subscription_id ?>" planname="<?php echo $val->title; ?>" data-toggle="modal" class="btn btn-success <?php echo $disabled?> <?php echo $class?> " > <?=(lang('Apps_subscribenow'))?> !!</a>
 								</div>
 								
 								<?php } ?>
@@ -202,10 +215,16 @@
 	        <?php 
 			  if(isset($status)){
 				if($status==1){
+				 // $url=base_url().'basicinfo';
+				 $chck=$this->common_model->getRow('user_business_subscription','users_id',$this->session->userdata['id']);
+				 if($chck){
 				  $url=base_url().'basicinfo';
+				  }else{
+				  $url=base_url().'home/insert_sub_info';
+				  }
 				  $class='';
 				  $phonenum='';
-				}else{
+				}else{ //echo "dfsd"; exit;
 				  $url='';
 			      $class='verifyphone';
 				  $phonenum=$phonenumber;
@@ -224,52 +243,14 @@
 			  // } 
 			  ?>
 			  <br/>
+			  <?php
+				if($flag!=0){
+			  ?>
 	 <a  href="<?=$url; ?>" role="button"  data-toggle="modal" phone="<?php echo $phonenum ?>" class="btn btn-success  <?=$class ?>" ><i class="icon-ok icon-white"></i><?=(lang('Apps_startyourfreetrial'))?> </a>
 	
 	<br/><br/>
-				
-					 <!---<h3 class="remove-margin">Businesses List</h3>--->
-					<!--<div class="row-fluid box-outline left-nav">
-					 <div class="box-inline">-->
-					<!---<div class="row-fluid left-nav">
-					 <div >
-					 <?php if(!empty($contentList)){ $i=1; ?>
+				<?php } ?>
 					 
-							<ul class="thumbnails business_logo remove-margin">
-							<?php
-							
-							foreach($contentList as $content) {
-							
-							?>
-								<li class="thumbnail span3 trans">
-									<div class="inblock"><a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>">
-										
-										
-										<img src="<?php echo base_url(); ?>common_functions/display_image/<?=(!empty($content['image'])?$content['image']:'default.png'); ?>/280/1/1/business_logo">
-										
-										
-										
-									</a>
-									</div>
-									<div class="caption">
-											<a href="<?php echo base_url(); ?>businessProfile/?id=<?php echo $content['business_id'] ?>"><p class="text-left"><strong><?php echo $content['business_name']; ?></strong></p>
-											<small> <?php echo $content['category_name']; ?> </small>
-											</a>
-										</div>
-									
-								</li>
-								
-							<?php if($i%4==0){
-								echo '</ul><ul class="thumbnails business_logo">';
-							}
-							$i++; }  ?>
-								</ul>
-							
-						<?php }else{ ?>
-						<p class="alert"><? echo "No businesses yet";?></p>
-						<?php }?>
-					</div>
-		  		</div>--->
 				
 	
 	
@@ -297,7 +278,7 @@ $(".verifyphone").click(function(){
 		if($(".verifyphone").attr('phone')!=''){
 		$("#verifyP").show();
 		$("#getnumber").hide();
-		}else{
+		}else{  
 		$("#verifyP").hide();
 		$("#getnumber").show();
 		}
@@ -311,8 +292,18 @@ var url=base_url+'bcalendar/chckStatus';
 var data='';
 $.post(url,data,function(data){ 
  if(data==1){ 
-       window.location.href=base_url+'basicinfo';
+       window.location.href=base_url+'home/subscription';
 	 }
  })
 })
+
+$(".showoptions").click(function(){ 
+  $(".plan_name").html($(this).attr('planname'));
+  $(".plan_id").html($(this).attr('planid'));
+  $('#showoptions').modal('show');
+  
+})
+
+
+
 </script>

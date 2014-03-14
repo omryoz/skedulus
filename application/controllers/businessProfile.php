@@ -85,8 +85,26 @@ class BusinessProfile extends CI_Controller {
      $this->data['services1']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);	 
 	 $this->data['services']=$this->common_model->getAllRows("user_business_services","user_business_details_id",$id);
 	 }
-	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id);
+	// $this->data['num']=$this->common_model->getsubscription($id,'users');
+	$typenum=$this->common_model->getsubscription($id,'users');
+	if($typenum!=-1){
+	$limit=' limit 0,'.$typenum;
+	}else{
+	$limit='';
+	}
+	
+	 $orderby='ORDER BY users_id ASC'.$limit;
+	 $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$id,$orderby);
+	 
+	$picnum=$this->common_model->getsubscription($id,'pics');
+	if($picnum!=-1){
+	$limitpic=' limit 0,'.$picnum;
+	}else{
+	$limitpic='';
+	}
+	 
 	 $where1=" order by  orderNum ASC";
+	 $where1.=$limitpic; 
 	 $this->data['photoGallery']=$this->common_model->getAllRows("user_business_photogallery","user_business_details_id",$id,$where1);
 	 $filter = array("users_id"=> $this->data['user_id'],"details_id"=>$this->data['id']);
      $this->load->model("bprofile_model");
