@@ -948,6 +948,16 @@ public function clientSignUp(){
 	}
 
 	
+	function sendmessage(){
+		$to = 'swathi.n@eulogik.com';
+		$subject = $_POST['subject'];
+		$message = "Dear admin,\r\n\n".$_POST[message]."\n\r\n Regards, \r\n".$_POST[name]."";
+		$from = $_POST['email'];
+		$headers = "From:" . $from;
+		mail($to,$subject,$message,$headers); 
+		redirect('content/contact_us/?messg');
+	}
+	
 }
 
 ?>

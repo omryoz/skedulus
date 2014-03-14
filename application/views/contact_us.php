@@ -1,46 +1,42 @@
-            <div class="content container">
-			<h3> Contact Us </h3>
+<?php if(isset($_GET['messg'])){ ?>
+	<p class="alert"><?=(lang('mailsuccess'))?></p>
+	<?php } ?>
+			<div class="content container contact-attr">
+			<h3> Contact us </h3>
 			<hr/>
 			<div class="row-fluid">
 			
 				<div class="span6">
 				
-					<form class="form-horizontal">
-					  <div class="control-group">
-						<label class="control-label" for="inputEmail">Email</label>
-						<div class="controls">
-						  <input type="text" id="inputEmail" placeholder="Email">
+					<form class="form-horizontal contactus" name="sendEmail" action="<?php echo base_url() ?>home/sendmessage/" method="POST" >
+						<div class="row-fluid">
+							<input type="text"  placeholder="Name" name="name" value="" class="span6">
 						</div>
-					  </div>
-					  <div class="control-group">
-						<label class="control-label" for="inputPassword">Password</label>
-						<div class="controls">
-						  <input type="password" id="inputPassword" placeholder="Password">
+						<br/>
+						<div class="row-fluid">
+							<input type="text" id="email" placeholder="Email" name="email" class="span6">
 						</div>
-					  </div>
-					  <div class="control-group">
-						<div class="controls">
-						  <label class="checkbox">
-							<input type="checkbox"> Remember me
-						  </label>
-						  <button type="submit" class="btn">Sign in</button>
+						<br/>
+						<div class="row-fluid">
+							<input type="subject" id="Subject" name="subject" placeholder="Subject" class="span6">
 						</div>
-					  </div>
+						<br/>
+						<div class="row-fluid">
+							<textarea rows="4" placeholder="Message" name="message" class="span6"></textarea>
+						</div>
+						<br/>
+						<div class="row-fluid">
+							<button type="submit" class="btn btn-success span4">Send</button>
+						</div>
 					</form>
 						
 				</div>
 				<div class="span6">
-						<strong class="text">Founders:</strong>
-							<p class="text">Lorem ipsum</p>
-
-							<strong class="text">You can write us here:</strong>
-							<p class="text">info@skedulus.in</p>
-							
-							
-
-							<strong class="text">Imprint:</strong>
-							
-							<p class="text">lorem ipsum lorem ipsum <br clear="left"/> lorem ipsum lorem ipsum <br clear="left"/> lorem ipsum lorem ipsum  <br clear="left"/>lorem ipsum lorem ipsum lorem ipsum</p>
+						<h4><span class="text">Founders<b>:</b> </span> Name of the founder</h4>
+						<h4><span class="text">Address<b>:</b> </span> lorem ipsum lorem ipsum </h4>
+						<h4><span class="text">You can write us here<b>:</b> </span>info@skedulus.in</h4>
+						<h4><span class="text">Web<b>:</b> </span>www.skedulus.com</h4>
+						
 				
 				</div>
 				
@@ -51,6 +47,7 @@
             </div>
 
 
+
 <script>
 (function($,W,D)
 {
@@ -59,47 +56,24 @@
     {
         setupFormValidation: function()
         {
-            $("#sign_up").validate({
+            $(".contactus").validate({
                 rules: {
-                    firstname: "required",
-					lastname: "required",
-					gender: "required",
+                    name: "required",
+					subject: "required",
                     email: {
                         required: true,
                         email: true,
-						remote: {
-						  url: baseUrl+'home/checkEmail',
-						  type: "post",
-						  data: {
-							email: function(){ return $("#email").val(); }
-						  }
-                     }
 					},
-					phone: {
-						digits:true
-					},	
-					password:{ 
-					required: true,
-					minlength: "6",
-					}
-                    
+					message: "required",
                 },
                 messages: {
-                    firstname: "Please Fill in your first name",
-					lastname: "Please Fill in your last name",
-					gender: "Please Fill in your gender",
+                    name: "required",
+					subject: "required",
                     email: {
-					required: "Please Fill in your email",
-					email: "Please enter a valid email address",
-					remote: "Email already exist"
-					},	
-					phone:{
-					digits: "Only numbers allowed",
-					},	
-					password: {
-					required:"Please Fill in your password",	
-					minlength:"Minimum 6 characters is required"
-					}				
+					required: "required",
+					email: "invalid email",
+					},
+					message: "required",	
                 },
 				
 				errorPlacement: function(error, element) {
@@ -114,41 +88,13 @@
         }
 		
     }
-
     //when the dom has loaded setup form validation rules
     $(D).ready(function($) {
         JQUERY4U.UTIL.setupFormValidation();
     });
-
 })(jQuery, window, document);
 
-function passwordStrength(password)
-{
-	var desc = new Array();
-	desc[0] = "Very Weak";
-	desc[1] = "Weak";
-	desc[2] = "Good";
-	desc[3] = "Strong";
-	
-	if (password.length > 0 && password.length<=6) {
-	var score=0;
-	}
-	if (password.length > 6 && password.length<=8) {
-	var score=1;
-	}
-	if (password.length > 8 && password.length<=12) {
-	var score=2;
-	}
-	if (password.length > 12 && password.length<=20) {
-	var score=3;
-	}
-	if(password.length==0){
-	var score=0;
-	}
-	
-	 document.getElementById("passwordDescription").innerHTML = desc[score];
-	 document.getElementById("passwordStrength").className = "strength" + score;
-}
+
 </script>
 
 </div><!--row-fluid-->

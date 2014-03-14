@@ -510,5 +510,6 @@
 		/*Alert for booking past time*/
 		$lang['Apps_bookbefore1']="You can book";
 		$lang['Apps_bookbefore2']="before the current time";
+		$lang['mailsuccess']="Mail sent successfully";
 ?>
 
