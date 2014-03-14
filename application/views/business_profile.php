@@ -8,6 +8,9 @@
 <script src="<?php echo base_url(); ?>js/googlemap.js">
 
 </script>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>calendar/qtip/jquery.qtip.css">
+<script type="text/javascript" src="<?php echo base_url() ?>calendar/qtip/jquery.qtip.js"></script>
+
 <?php include('include/modal_staffs.php'); ?>
 <?php if($type=='Services'){
 include('include/modal_services.php');
@@ -570,5 +573,14 @@ $(document).ready(function(){
       starOn   : '../img/star-off-big.png'
      })
 });	
+
+$('#geomap').qtip({
+   content: {
+   text:'<table cellpadding="5px" border="1" style="margin-top:12px; margin-bottom:12px; color:#fff; font-size:.7em;"><tr><?php echo  $content->address; ?></tr></table>',
+   },
+   show: 'mouseover',
+   hide: 'mouseout',
+   position: { target: 'mouse' }
+})
 </script>
 <?php include('include/popupmessages.php'); ?>
