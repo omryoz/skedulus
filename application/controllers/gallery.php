@@ -26,8 +26,15 @@ class Gallery extends CI_Controller {
 			$offset =0;
 			}
 			$limit=8;			
-
-	 if(isset($_POST['page_num'])){
+	
+	$val= $this->common_model->getRow("view_subscription_plans",'subscription_id',$this->session->userdata('subscription')); 
+	if($val->pictures_type=='upto'){
+	 $this->data['num']=$val->picture_num;
+	}else{
+	 $this->data['num']=10000;
+	}
+	
+	if(isset($_POST['page_num'])){
 	        $this->data['tableList']=$this->bprofile_model->getImages($offset,$limit);
 		    $this->parser->parse('gallery_list',$this->data);
    }else{

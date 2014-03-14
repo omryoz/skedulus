@@ -505,5 +505,9 @@
 		$lang['Apps_businesses']="Businesses";
 		$lang['Apps_past']="Cannot book for the past time";
 		$lang['Apps_pastbusytime']="Cannot schedule busytime for the past time";
+		
+		/*Alert for booking past time*/
+		$lang['Apps_bookbefore1']="You can book";
+		$lang['Apps_bookbefore2']="before the current time";
 ?> 
 	   

@@ -984,7 +984,7 @@ $(".message").removeClass("alert").html(" ");
 		  }else{
 		  var data=data+' hours';
 		  }
-	   $(".message").addClass("alert").html('you can only book'+data+' before the current time').css({"display":"block","margin":"0px"});	
+	   $(".message").addClass("alert").html(bookbefore1+''+data+''+bookbefore2).css({"display":"block","margin":"0px"});	
 	  })
 	}
 	
