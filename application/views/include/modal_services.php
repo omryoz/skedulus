@@ -159,12 +159,12 @@ function showSelected(){
 				
 				<div class="row-fluid">
 				<div class="span6 offset2">
-				<?php foreach($staffs as $staffname){  ?>
+				<?php $i=1; foreach($staffs as $staffname){ if($i<=$num){  ?>
 							 <label class="checkbox">
 							 <input type="checkbox" name="staffs[]" class=' assign staffs' value="<?php echo $staffname->users_id; ?>" id="<?php echo $staffname->users_id; ?>" />
 								<?php  echo $staffname->first_name." ".$staffname->last_name;?>
 							</label>
-					<?php } ?>		
+					<?php $i++; }} ?>		
 						 </div>
 						 </div>
 				<?php }else{?>

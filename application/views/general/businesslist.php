@@ -217,10 +217,12 @@
 				if($status==1){
 				 // $url=base_url().'basicinfo';
 				 $chck=$this->common_model->getRow('user_business_subscription','users_id',$this->session->userdata['id']);
+				// print_r($chck); exit;
 				 if($chck){
-				  $url=base_url().'basicinfo';
+				 $url=base_url().'home/insert_sub_info';
 				  }else{
-				  $url=base_url().'home/insert_sub_info';
+				   $url=base_url().'basicinfo';
+				  
 				  }
 				  $class='';
 				  $phonenum='';

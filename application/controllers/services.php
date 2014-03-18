@@ -31,7 +31,7 @@ class Services extends CI_Controller {
 			}else{
 			$offset =0;
 			}
-			$limit=3;
+			$limit=10;
 			
 	if(isset($_POST['page_num'])){
 	        $this->data['tableList']=$this->bprofile_model->getServices($offset,$limit);
@@ -57,7 +57,16 @@ class Services extends CI_Controller {
 			$this->data['tableList']=$this->bprofile_model->getServices($offset,$limit);
             /* End Pagination Code  */
 
-     $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id']);
+    $val= $this->common_model->getRow("view_subscription_plans",'subscription_id',$this->session->userdata('subscription'));
+	 
+	if($val->users_type=='upto'){
+	 $this->data['num']=$val->users_num;
+	}else{
+	 $this->data['num']=10000;
+	}	
+	$orderby=' ORDER BY users_id ASC';
+			
+     $this->data['staffs']=$this->common_model->getAllRows("view_business_employees","user_business_details_id",$this->session->userdata['business_id'],$orderby);
  	 $status=$this->common_model->getRow("user_business_details","users_id",$users_id);
      if($status->status=='active'){
      $this->parser->parse('services',$this->data);

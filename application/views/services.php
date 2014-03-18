@@ -78,7 +78,7 @@
       })
 	  
 	  function showmore(){
-		  page= parseInt(page)+parseInt(3);
+		  page= parseInt(page)+parseInt(10);
 		   var data = {'page_num':page};
 		   $.ajax({
 				type: "POST",

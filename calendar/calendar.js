@@ -3893,8 +3893,7 @@ function AgendaEventRenderer() {
 		}
 
 		slotSegmentContainer[0].innerHTML = html; // faster than html()
-		eventElements = slotSegmentContainer.children();
-		
+		eventElements = slotSegmentContainer.children(); console.log(eventElements);
 		// retrieve elements, run through eventRender callback, bind event handlers
 		for (i=0; i<segCnt; i++) {
 			seg = segs[i];
@@ -3946,11 +3945,12 @@ function AgendaEventRenderer() {
 				eventElement[0].style.width = Math.max(0, seg.outerWidth - seg.hsides) + 'px';
 				height = Math.max(0, seg.outerHeight - seg.vsides);
 				eventElement[0].style.height = height + 'px';
-				event = seg.event;
+				event = seg.event; 
 				if (seg.contentTop !== undefined && height - seg.contentTop < 10) {
 					// not enough room for title, put it in the time (TODO: maybe make both display:inline instead)
 					eventElement.find('div.fc-event-time')
-						.text(formatDate(event.start, opt('timeFormat')) + ' - ' + event.title);
+						//.text(formatDate(event.start, opt('timeFormat')) + ' - ' + event.title);
+						.text(formatDate(event.start, opt('timeFormat')) + ' - ' + formatDate(event.end, opt('timeFormat')));
 					eventElement.find('div.fc-event-title')
 						.remove();
 				}

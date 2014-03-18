@@ -88,8 +88,10 @@ class BusinessProfile extends CI_Controller {
 	// $this->data['num']=$this->common_model->getsubscription($id,'users');
 	$typenum=$this->common_model->getsubscription($id,'users');
 	if($typenum!=-1){
+	$this->data['num']=$typenum;
 	$limit=' limit 0,'.$typenum;
 	}else{
+	$this->data['num']=10000;
 	$limit='';
 	}
 	
